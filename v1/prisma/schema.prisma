@@ -1,0 +1,118 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id       String @id @default(uuid())
+  name     String
+  img      String @default("https://cdn.landesa.org/wp-content/uploads/default-user-image.png")
+  username String @unique
+  password String
+
+  role UserRole @default(student)
+
+  parkingSpot ParkingSpot?
+
+  student    Student?
+  teacher    Teacher?
+  controller Controller?
+  security   Security?
+  admin      Admin?
+}
+
+enum UserRole {
+  student
+  teacher
+  controller
+  security
+  admin
+}
+
+model Student {
+  id     String @id @default(uuid())
+  userId String @unique
+
+  courses CourseProfile[]
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Teacher {
+  id     String @id @default(uuid())
+  userId String @unique
+
+  courses Course[]
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Controller {
+  id       String           @id @default(uuid())
+  userId   String           @unique
+  location String?
+  controls ControlElement[]
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Security {
+  id     String @id @default(uuid())
+  userId String @unique
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Admin {
+  id     String @id @default(uuid())
+  userId String @unique
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Course {
+  id       String          @id @default(uuid())
+  students CourseProfile[]
+
+  teachers Teacher[]
+  lectures Lecture[]
+}
+
+model CourseProfile {
+  id         String    @id @default(uuid())
+  studentId  String
+  courseId   String
+  semester   String
+  attendance Lecture[]
+
+  student Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  course  Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+}
+
+model Lecture {
+  id        String          @id @default(uuid())
+  courseId  String
+  time      DateTime
+  attendees CourseProfile[]
+
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+}
+
+model ParkingSpot {
+  id       String  @id @default(uuid())
+  location String
+  isEmpty  Boolean @default(true)
+  userId   String? @unique
+
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum ControlElement {
+  attendance
+  gate
+  parking
+}

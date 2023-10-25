@@ -140,7 +140,10 @@ class UserStore {
 		}
 	}
 
-	async authenticateUser(username: string, password: string): Promise<User> {
+	async authenticateUser(
+		username: string,
+		password: string
+	): Promise<Omit<User, "password">> {
 		try {
 			const user = await prisma.user.findUnique({
 				where: {
@@ -149,7 +152,7 @@ class UserStore {
 			});
 
 			if (!user) {
-				throw new Error("Invalid Credentials");
+				throw new Error();
 			}
 
 			const isPasswordValid = await comparePassword(
@@ -157,8 +160,11 @@ class UserStore {
 				user.password
 			);
 			if (!isPasswordValid) {
-				throw new Error("Invalid Credentials");
+				throw new Error();
 			}
+
+			//@ts-ignore
+			delete user.password;
 
 			return user;
 		} catch (err) {
@@ -168,7 +174,27 @@ class UserStore {
 				longMessage: errCodesToMessages[401],
 				originalError: err,
 			} as PrismaError;
-			// throw parsePrismaError(err as PrismaClientError);
+		}
+	}
+
+	async getUserById(id: string): Promise<Partial<User>> {
+		try {
+			const user = await prisma.user.findUniqueOrThrow({
+				where: {
+					id,
+				},
+				select: {
+					id: true,
+					username: true,
+					name: true,
+					role: true,
+					img: true,
+				},
+			});
+
+			return user;
+		} catch (err) {
+			throw parsePrismaError(err as PrismaClientError);
 		}
 	}
 }

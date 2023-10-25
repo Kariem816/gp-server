@@ -16,7 +16,8 @@ model User {
 
   role UserRole @default(student)
 
-  parkingSpot ParkingSpot?
+  parkingSpot   ParkingSpot?
+  liscencePlate String?
 
   student    Student?
   teacher    Teacher?
@@ -61,8 +62,10 @@ model Controller {
 }
 
 model Security {
-  id     String @id @default(uuid())
-  userId String @unique
+  id     String   @id @default(uuid())
+  userId String   @unique
+  shifts String[]
+  area   String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

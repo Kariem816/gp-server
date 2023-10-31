@@ -1,8 +1,11 @@
 import express from "express";
+// import cors from "cors";
+import cookieParser from "cookie-parser";
+
 import { env } from "@/config/env.js";
+
 // @ts-ignore
 import partials from "express-partials";
-import cookieParser from "cookie-parser";
 
 import appRouter from "@/routers/index.router.js";
 import { getUser } from "@/middlewares";
@@ -10,6 +13,7 @@ import { getUser } from "@/middlewares";
 const app = express();
 const port = env.PORT || 3000;
 
+// app.use(cors());
 app.use(express.json());
 //@ts-ignore
 app.use((error, _req, res, next) => {

@@ -1,6 +1,8 @@
 import { Router } from "express";
 import userStore from "@/models/users.model";
+import sessionStore from "@/models/sessions.model";
 import { signJWT, verifyJWT } from "@/utils/jwt.js";
+import type { User } from "@prisma/client";
 
 const router = Router();
 
@@ -14,7 +16,7 @@ router.post("/register", async (_req, res) => {
 
 router.post("/register/:accountType", async (req, res) => {
 	const accountType = req.params.accountType;
-	const accountTypeToStore: Record<string, (data: any) => void> = {
+	const accountTypeToStore: Record<string, (data: any) => Promise<User>> = {
 		student: userStore.createStudent,
 		teacher: userStore.createTeacher,
 		controller: userStore.createController,
@@ -62,8 +64,10 @@ router.post("/login", async (req, res) => {
 			req.body.password
 		);
 
-		const accessToken = signJWT({ user }, "5m");
-		const refreshToken = signJWT({ userId: user.id }, "30d");
+		const session = await sessionStore.create(user.id);
+
+		const accessToken = signJWT({ userId: user.id }, "5m");
+		const refreshToken = signJWT({ sessionId: session.id }, "30d");
 		res.cookie("refreshToken", refreshToken, {
 			maxAge: 2592000000, // 30 days
 			httpOnly: true,
@@ -71,7 +75,7 @@ router.post("/login", async (req, res) => {
 			secure: process.env.NODE_ENV === "production",
 		});
 
-		res.json({ accessToken });
+		res.json({ accessToken, user });
 	} catch (err: any) {
 		if (err.httpStatus)
 			res.status(err.httpStatus).json({
@@ -86,14 +90,24 @@ router.post("/login", async (req, res) => {
 	}
 });
 
-router.post("/logout", async (_req, res) => {
+router.post("/logout", async (req, res) => {
+	const { refreshToken } = req.cookies;
 	res.clearCookie("refreshToken");
+
+	try {
+		// invalidate session if possible
+		const { payload } = verifyJWT(refreshToken);
+		await sessionStore.invalidate(payload?.sessionId);
+	} catch {
+		// ignore
+	}
+
 	res.sendStatus(200);
 });
 
 router.get("/refresh-token", async (req, res) => {
 	try {
-		const refreshToken = req.cookies.refreshToken;
+		const { refreshToken } = req.cookies;
 		if (!refreshToken) {
 			return res.status(400).json({
 				error: "BAD_REQUEST",
@@ -109,14 +123,21 @@ router.get("/refresh-token", async (req, res) => {
 			});
 		}
 
-		if (!payload?.userId) {
+		if (!payload?.sessionId) {
 			return res.status(400).json({
 				error: "BAD_REQUEST",
 				message: "Invalid refresh token",
 			});
 		}
 
-		const user = await userStore.getUserById(payload.userId);
+		const session = await sessionStore.get(payload.sessionId);
+		if (!session || !session.valid) {
+			return res
+				.status(401)
+				.json({ error: "UNAUTHORIZED", message: "Login expired" });
+		}
+
+		const user = await userStore.getUserById(session.userId);
 
 		const accessToken = signJWT({ user }, "5m");
 

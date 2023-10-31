@@ -24,6 +24,15 @@ model User {
   controller Controller?
   security   Security?
   admin      Admin?
+  Session    Session[]
+}
+
+model Session {
+  id     String  @id @default(uuid())
+  userId String
+  active Boolean @default(true)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum UserRole {

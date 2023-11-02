@@ -131,7 +131,7 @@ router.get("/refresh-token", async (req, res) => {
 		}
 
 		const session = await sessionStore.get(payload.sessionId);
-		if (!session || !session.valid) {
+		if (!session || !session.active) {
 			return res
 				.status(401)
 				.json({ error: "UNAUTHORIZED", message: "Login expired" });

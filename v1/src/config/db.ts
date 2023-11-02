@@ -155,6 +155,8 @@ export function parsePrismaError(
 				simpleMessage = "Transaction error";
 		}
 
+		longMessage = errCodesToMessages[httpStatus];
+
 		return { httpStatus, simpleMessage, longMessage, originalError };
 	}
 

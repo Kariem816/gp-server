@@ -3,6 +3,7 @@ import userStore from "@/models/users.model";
 import sessionStore from "@/models/sessions.model";
 import { signJWT, verifyJWT } from "@/utils/jwt.js";
 import type { User } from "@prisma/client";
+import { mustLogin } from "@/middlewares";
 
 const router = Router();
 
@@ -137,9 +138,7 @@ router.get("/refresh-token", async (req, res) => {
 				.json({ error: "UNAUTHORIZED", message: "Login expired" });
 		}
 
-		const user = await userStore.getUserById(session.userId);
-
-		const accessToken = signJWT({ user }, "5m");
+		const accessToken = signJWT({ userId: session.userId }, "5m");
 
 		res.json({ accessToken });
 	} catch {
@@ -148,6 +147,10 @@ router.get("/refresh-token", async (req, res) => {
 			message: "Invalid refresh token",
 		});
 	}
+});
+
+router.get("/me", mustLogin, (_req, res) => {
+	res.json(res.locals.user);
 });
 
 // for debugging purposes only

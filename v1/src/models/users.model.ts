@@ -107,8 +107,11 @@ class UserStore {
 	}
 
 	async createAdmin(userData: User): Promise<User> {
-		const userCount = await prisma.user.count();
-		if (userCount > 0) {
+		const adminCount = await prisma.user.count({
+			where: { role: "admin" },
+		});
+
+		if (adminCount > 0) {
 			throw new Error("Admin already exists");
 		}
 
@@ -135,7 +138,15 @@ class UserStore {
 
 			//@ts-ignore
 			return { ...user, admin: admin };
-		} catch (err) {
+		} catch (err: any) {
+			if (err.message === "Admin already exists") {
+				throw {
+					httpStatus: 400,
+					simpleMessage: "Admin already exists",
+					longMessage: errCodesToMessages[400],
+					originalError: err,
+				} as PrismaError;
+			}
 			throw parsePrismaError(err as PrismaClientError);
 		}
 	}
@@ -193,6 +204,39 @@ class UserStore {
 			});
 
 			return user;
+		} catch (err) {
+			throw parsePrismaError(err as PrismaClientError);
+		}
+	}
+
+	async index({
+		page,
+		count,
+		filters,
+	}: {
+		page: number;
+		count: number;
+		filters: any;
+	}): Promise<Omit<User, "password">[]> {
+		try {
+			console.log(filters);
+			const users = await prisma.user.findMany({
+				where: {
+					...filters,
+				},
+				skip: (page - 1) * count,
+				take: count,
+				select: {
+					id: true,
+					username: true,
+					name: true,
+					role: true,
+					img: true,
+					liscencePlate: true,
+				},
+			});
+
+			return users;
 		} catch (err) {
 			throw parsePrismaError(err as PrismaClientError);
 		}

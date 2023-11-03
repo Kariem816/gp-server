@@ -3,7 +3,8 @@ import userStore from "@/models/users.model";
 import sessionStore from "@/models/sessions.model";
 import { signJWT, verifyJWT } from "@/utils/jwt.js";
 import type { User } from "@prisma/client";
-import { mustLogin } from "@/middlewares";
+import { mustBeAdmin, mustLogin } from "@/middlewares";
+import { collectFileters } from "@/helpers";
 
 const router = Router();
 
@@ -85,7 +86,7 @@ router.post("/login", async (req, res) => {
 			});
 		else
 			res.status(500).json({
-				error: "Internal server error",
+				error: "INTERNAL_SERVER_ERROR",
 				message: err.message,
 			});
 	}
@@ -151,6 +152,30 @@ router.get("/refresh-token", async (req, res) => {
 
 router.get("/me", mustLogin, (_req, res) => {
 	res.json(res.locals.user);
+});
+
+router.get("/", mustBeAdmin, async (req, res) => {
+	try {
+		const limit = Number(req.query.limit) || 50;
+		const page = Number(req.query.page) || 1;
+
+		const filters = collectFileters(req.query);
+
+		const users = await userStore.index({ count: limit, page, filters });
+
+		res.json(users);
+	} catch (err: any) {
+		if (err.httpStatus)
+			res.status(err.httpStatus).json({
+				error: err.longMessage,
+				message: err.simpleMessage,
+			});
+		else
+			res.status(500).json({
+				error: "INTERNAL_SERVER_ERROR",
+				message: err.message,
+			});
+	}
 });
 
 // for debugging purposes only

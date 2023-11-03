@@ -52,7 +52,7 @@ export function parsePrismaError(
 	if (!originalError.code) {
 		if (originalError.name === "PrismaClientValidationError") {
 			httpStatus = 400;
-			simpleMessage = "missing required input";
+			simpleMessage = "there was an error validating your input";
 			longMessage = "BAD_REQUEST";
 		}
 

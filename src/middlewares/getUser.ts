@@ -18,9 +18,8 @@ export default async function getUser(
 
 		// if the access token is expired, just continue
 		// if the access token is valid, set the user in the locals
-		if (payload?.userId) {
-			const user = await userStore.getUserById(payload.userId);
-			res.locals.user = user;
+		if (payload?.user) {
+			res.locals.user = payload.user;
 			return next();
 		}
 

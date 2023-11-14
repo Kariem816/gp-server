@@ -117,4 +117,7 @@ class SessionStore {
 	}
 }
 
+/**
+ * @deprecated don't use this, until implemented correctly
+ */
 export default new SessionStore();

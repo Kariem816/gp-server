@@ -82,6 +82,9 @@ class UserStore {
 
 	async createSecurity(userData: User): Promise<User> {
 		try {
+			const hashedPassword = await hashPassword(userData.password);
+			userData.password = hashedPassword;
+
 			const user = await prisma.user.create({
 				data: {
 					...userData,

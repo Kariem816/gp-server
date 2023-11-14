@@ -10,6 +10,7 @@ type Env = {
 	PEPPER: string;
 	JWT_PRIVATE_KEY: string;
 	JWT_PUBLIC_KEY: string;
+	CURR_SEMESTER: string;
 };
 
 export const env: Env = {
@@ -20,4 +21,5 @@ export const env: Env = {
 	PEPPER: process.env.PEPPER!,
 	JWT_PRIVATE_KEY: process.env.JWT_PRIVATE_KEY!,
 	JWT_PUBLIC_KEY: process.env.JWT_PUBLIC_KEY!,
+	CURR_SEMESTER: process.env.CURR_SEMESTER!,
 };

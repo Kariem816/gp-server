@@ -11,6 +11,8 @@ import mustLogin, {
 	mustBeSecurity,
 	mustBeAdminOrSecurity,
 } from "./roles";
+import { parseFilters } from "./filters";
+import { getCourseProfile } from "./courses";
 
 export {
 	getUser,
@@ -25,4 +27,6 @@ export {
 	mustBeAdminOrController,
 	mustBeSecurity,
 	mustBeAdminOrSecurity,
+	parseFilters,
+	getCourseProfile,
 };

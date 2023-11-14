@@ -1,6 +1,10 @@
 import { Router } from "express";
 
 import usersRouter from "./users.router";
+import coursesRouter from "./courses.router";
+import lecturesRouter from "./lectures.router";
+
+import { getCourseProfile } from "@/middlewares";
 
 const router = Router();
 
@@ -11,6 +15,8 @@ router.get("/", (_req, res) => {
 });
 
 router.use("/users", usersRouter);
+router.use("/courses", getCourseProfile, coursesRouter);
+router.use("/lectures", lecturesRouter);
 
 router.use((_req, res) => {
 	res.status(404).json({

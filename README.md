@@ -31,14 +31,16 @@ The image processing part is responsible for processing the images received from
 
 ### Embedded Team
 
-- [Kareem Youssry](#)
-- [Salah](#)
-- [Raghda](#)
+- [Mohamed Sayed Farouk](#)
+- [Mostafa Sabry](#)
+- [Raghda Agmed Ahmed](#)
+- [Salah Adel Mohamed](#)
 
 ### Image Processing Team
 
-- [Omar](#)
-- [Eslam](#)
+- [Eslam Mohamed Hekal](#)
+- [Kareem Youssry Abdelaziz](#)
+- [Omar Gamal Abdelghaffar](#)
 
 ## Supervisor
 

@@ -165,18 +165,4 @@ router.get("/", mustBeAdmin, async (req, res) => {
 	}
 });
 
-// for debugging purposes only
-router.get("/server-status", async (req, res) => {
-	try {
-		res.json({
-			status: "OK",
-			uptime: process.uptime(),
-		});
-	} catch (err: any) {
-		res.json({
-			status: "ERROR",
-		});
-	}
-});
-
 export default router;

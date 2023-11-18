@@ -5,15 +5,25 @@
 ### Accounts
 
 - [x] Add ability to add accounts of different types.
+- [ ] Add ability to edit accounts of different types.
+- [ ] Handle uploads.
 
 ### Authentication
 
 - [x] Create middleware to check if user is authenticated.
+- [ ] (Optional) Deal with sessions.
 
-## Web App
+### Courses
 
-- [ ] Create web app.
+- [ ] Validate requests.
+- [ ] Integrate Lectures with Courses.
+- [ ] Add ability to post/view/edit attendance.
 
-## Mobile App
+### Parking
 
-- [ ] Start making authentication wrappers for mobile app.
+- [ ] Make parking router.
+
+### Overall
+
+- [ ] Ask for extra features.
+- [ ] Determine the overall design of server applications.

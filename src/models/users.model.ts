@@ -222,7 +222,6 @@ class UserStore {
 		filters: any;
 	}): Promise<Omit<User, "password">[]> {
 		try {
-			console.log(filters);
 			const users = await prisma.user.findMany({
 				where: {
 					...filters,

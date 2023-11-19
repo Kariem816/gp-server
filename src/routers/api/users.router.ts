@@ -165,4 +165,22 @@ router.get("/", mustBeAdmin, async (req, res) => {
 	}
 });
 
+router.get("/:id", mustLogin, async (req, res) => {
+	try {
+		const user = await userStore.getUserById(req.params.id);
+		res.json(user);
+	} catch (err: any) {
+		if (err.httpStatus)
+			res.status(err.httpStatus).json({
+				error: err.longMessage,
+				message: err.simpleMessage,
+			});
+		else
+			res.status(500).json({
+				error: "INTERNAL_SERVER_ERROR",
+				message: err.message,
+			});
+	}
+});
+
 export default router;

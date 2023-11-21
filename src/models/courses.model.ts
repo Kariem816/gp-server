@@ -44,7 +44,7 @@ class CoursesStore {
 		}
 	}
 
-	async create(courseData: Partial<Course>) {
+	async create(courseData: Course) {
 		try {
 			return await prisma.course.create({
 				data: courseData,

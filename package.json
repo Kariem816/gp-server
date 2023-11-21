@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsx watch ./src/index.ts",
+    "prebuild": "yarn db:up",
     "build": "tsc && tsc-alias",
     "start": "node dist/index.js",
     "db:up": "prisma migrate dev",

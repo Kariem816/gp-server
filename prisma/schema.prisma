@@ -87,7 +87,10 @@ model Admin {
 }
 
 model Course {
-  id       String          @id @default(uuid())
+  id   String @id @default(uuid())
+  name String
+  code String @unique
+
   students CourseProfile[]
 
   teachers Teacher[]

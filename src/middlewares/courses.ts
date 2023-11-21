@@ -27,7 +27,7 @@ export async function getCourseProfile(
 				});
 
 				if (!student)
-					res.status(403).json({
+					return res.status(403).json({
 						error: "FORBIDDEN",
 						message: "You are not allowed to access this resource",
 					});
@@ -46,7 +46,7 @@ export async function getCourseProfile(
 				});
 
 				if (!teacher)
-					res.status(403).json({
+					return res.status(403).json({
 						error: "FORBIDDEN",
 						message: "You are not allowed to access this resource",
 					});
@@ -55,9 +55,10 @@ export async function getCourseProfile(
 				break;
 			}
 			case "admin": {
+				break;
 			}
 			default: {
-				res.status(403).json({
+				return res.status(403).json({
 					error: "FORBIDDEN",
 					message: "You are not allowed to access this resource",
 				});

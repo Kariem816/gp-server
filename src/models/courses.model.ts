@@ -245,6 +245,28 @@ class CoursesStore {
 		}
 	}
 
+	async isTeacher(id: Course["id"], teacherId: string) {
+		try {
+			// TODO: Refactor this query
+			const teacher = await prisma.course.findUnique({
+				where: {
+					id,
+				},
+				select: {
+					teachers: {
+						where: {
+							id: teacherId,
+						},
+					},
+				},
+			});
+
+			return !!teacher;
+		} catch (err) {
+			throw parsePrismaError(err as PrismaClientError);
+		}
+	}
+
 	async getLectures(
 		id: Course["id"],
 		{

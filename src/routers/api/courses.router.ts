@@ -2,6 +2,7 @@ import { Router } from "express";
 import courseStore from "@/models/courses.model";
 import {
 	mustBeAdmin,
+	mustBeAdminOrTeacher,
 	parseFilters,
 	validateBody,
 	validateQuery,
@@ -19,11 +20,11 @@ const router = Router();
 
 router.get("/", validateQuery(querySchema), parseFilters, async (req, res) => {
 	try {
-		const count = Number(req.query.count) || 50;
+		const limit = Number(req.query.limit) || 50;
 		const page = Number(req.query.page) || 1;
 
 		const courses = await courseStore.index({
-			limit: count,
+			limit,
 			page,
 			filters: res.locals.filters,
 		});
@@ -145,6 +146,39 @@ router.put(
 				removedTeachers
 			);
 			res.json(course);
+		} catch (err: any) {
+			routerError(err, res);
+		}
+	}
+);
+
+router.get("/:id/teachers", async (req, res) => {
+	try {
+		const teachers = await courseStore.getTeachers(req.params.id);
+
+		res.json(teachers);
+	} catch (err: any) {
+		routerError(err, res);
+	}
+});
+
+router.get(
+	"/:id/students",
+	mustBeAdminOrTeacher,
+	validateQuery(querySchema),
+	async (req, res) => {
+		try {
+			const limit = Number(req.query.limit) || 50;
+			const page = Number(req.query.page) || 1;
+			const filters = res.locals.filters;
+
+			const students = await courseStore.getStudents(req.params.id, {
+				limit,
+				page,
+				filters,
+			});
+
+			res.json(students);
 		} catch (err: any) {
 			routerError(err, res);
 		}

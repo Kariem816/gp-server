@@ -160,7 +160,7 @@ router.get("/", mustBeAdmin, validateQuery(querySchema), async (req, res) => {
 
 		const filters = collectFileters(req.query);
 
-		const users = await userStore.index({ count: limit, page, filters });
+		const users = await userStore.index({ limit, page, filters });
 
 		res.json(users);
 	} catch (err: any) {

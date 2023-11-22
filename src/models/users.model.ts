@@ -214,11 +214,11 @@ class UserStore {
 
 	async index({
 		page,
-		count,
+		limit,
 		filters,
 	}: {
 		page: number;
-		count: number;
+		limit: number;
 		filters: any;
 	}): Promise<Omit<User, "password">[]> {
 		try {
@@ -226,8 +226,8 @@ class UserStore {
 				where: {
 					...filters,
 				},
-				skip: (page - 1) * count,
-				take: count,
+				skip: (page - 1) * limit,
+				take: limit,
 				select: {
 					id: true,
 					username: true,

@@ -20,6 +20,11 @@ class CoursesStore {
 				take: limit,
 				include: {
 					teachers: true,
+					_count: {
+						select: {
+							students: true,
+						},
+					},
 				},
 			});
 		} catch (err) {
@@ -99,12 +104,19 @@ class CoursesStore {
 			return await prisma.courseProfile.findMany({
 				where: {
 					courseId: id,
-					...filters,
+					student: {
+						...filters,
+					},
 				},
 				skip: (page - 1) * limit,
 				take: limit,
 				include: {
-					student: true,
+					student: {
+						select: {
+							user: true,
+							courses: true,
+						},
+					},
 				},
 			});
 		} catch (err) {

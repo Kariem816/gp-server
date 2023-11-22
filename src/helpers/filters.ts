@@ -2,6 +2,7 @@ import type { Request } from "express";
 
 export function collectFileters(query: Request["query"]) {
 	const filters: Record<string, any> = {};
+	const extended = "extended_filters" in query;
 
 	for (const key in query) {
 		if (key.startsWith("filter_")) {
@@ -13,9 +14,20 @@ export function collectFileters(query: Request["query"]) {
 			}
 			const field = key.replace("filter_", "");
 
-			filters[field] = value;
+			if (extended && extendedFilters[field]) {
+				filters[field] = extendedFilters[field](value);
+			} else {
+				filters[field] = value;
+			}
 		}
 	}
 
 	return filters;
 }
+
+const extendedFilters: Record<string, any> = {
+	name: (nameVlaue: any) => ({
+		contains: nameVlaue,
+		mode: "insensitive",
+	}),
+};

@@ -2,8 +2,15 @@ import { Router } from "express";
 import userStore from "@/models/users.model";
 import { signJWT, verifyJWT } from "@/utils/jwt.js";
 import type { User } from "@prisma/client";
-import { mustBeAdmin, mustLogin } from "@/middlewares";
+import {
+	mustBeAdmin,
+	mustLogin,
+	validateBody,
+	validateQuery,
+} from "@/middlewares";
 import { collectFileters } from "@/helpers";
+import { loginSchema, newUserSchema } from "@/schemas/users.schema";
+import { querySchema } from "@/schemas/query.schema";
 
 const router = Router();
 
@@ -15,43 +22,48 @@ router.post("/register", async (_req, res) => {
 	});
 });
 
-router.post("/register/:accountType", async (req, res) => {
-	const accountType = req.params.accountType;
-	const accountTypeToStore: Record<string, (data: any) => Promise<User>> = {
-		student: userStore.createStudent,
-		teacher: userStore.createTeacher,
-		controller: userStore.createController,
-		security: userStore.createSecurity,
-		admin: userStore.createAdmin,
-	};
+router.post(
+	"/register/:accountType",
+	validateBody(newUserSchema),
+	async (req, res) => {
+		const accountType = req.params.accountType;
+		const accountTypeToStore: Record<string, (data: any) => Promise<User>> =
+			{
+				student: userStore.createStudent,
+				teacher: userStore.createTeacher,
+				controller: userStore.createController,
+				security: userStore.createSecurity,
+				admin: userStore.createAdmin,
+			};
 
-	try {
-		if (!Object.keys(accountTypeToStore).includes(accountType)) {
-			res.status(400).json({
-				error: "BAD_REQUEST",
-				message: "Invalid account type",
-			});
-			return;
+		try {
+			if (!Object.keys(accountTypeToStore).includes(accountType)) {
+				res.status(400).json({
+					error: "BAD_REQUEST",
+					message: "Invalid account type",
+				});
+				return;
+			}
+
+			const user = await accountTypeToStore[accountType](req.body);
+			res.status(201).json(user);
+		} catch (err: any) {
+			// console.error(err.httpStatus ? err.originalError : err);
+			if (err.httpStatus)
+				res.status(err.httpStatus).json({
+					error: err.longMessage,
+					message: err.simpleMessage,
+				});
+			else
+				res.status(500).json({
+					error: "INTERNAL_SERVER_ERROR",
+					message: err.message,
+				});
 		}
-
-		const user = await accountTypeToStore[accountType](req.body);
-		res.status(201).json(user);
-	} catch (err: any) {
-		// console.error(err.httpStatus ? err.originalError : err);
-		if (err.httpStatus)
-			res.status(err.httpStatus).json({
-				error: err.longMessage,
-				message: err.simpleMessage,
-			});
-		else
-			res.status(500).json({
-				error: "INTERNAL_SERVER_ERROR",
-				message: err.message,
-			});
 	}
-});
+);
 
-router.post("/login", async (req, res) => {
+router.post("/login", validateBody(loginSchema), async (req, res) => {
 	try {
 		if (!req.body.username || !req.body.password) {
 			res.status(400).json({
@@ -141,7 +153,7 @@ router.get("/me", mustLogin, (_req, res) => {
 	res.json(res.locals.user);
 });
 
-router.get("/", mustBeAdmin, async (req, res) => {
+router.get("/", mustBeAdmin, validateQuery(querySchema), async (req, res) => {
 	try {
 		const limit = Number(req.query.limit) || 50;
 		const page = Number(req.query.page) || 1;

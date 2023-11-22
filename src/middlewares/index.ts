@@ -13,6 +13,7 @@ import mustLogin, {
 } from "./roles";
 import { parseFilters } from "./filters";
 import { getCourseProfile } from "./courses";
+export { validateBody, validateQuery } from "./validate";
 
 export {
 	getUser,

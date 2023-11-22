@@ -87,10 +87,11 @@ model Admin {
 }
 
 model Course {
-  id          String @id @default(uuid())
+  id          String  @id @default(uuid())
   name        String
-  code        String @unique
+  code        String  @unique
   creditHours Int
+  content     String?
 
   students CourseProfile[]
 

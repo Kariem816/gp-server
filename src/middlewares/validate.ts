@@ -7,10 +7,9 @@ export function validateBody<T = any>(schema: ZodSchema<T>) {
 			await schema.parseAsync(req.body);
 			next();
 		} catch (err: any) {
-			console.log(err.errors);
 			res.status(400).json({
 				error: "BAD_REQUEST",
-				message: err.errors,
+				messages: err.errors,
 			});
 		}
 	};
@@ -22,10 +21,9 @@ export function validateQuery<T = any>(schema: ZodSchema<T>) {
 			await schema.parseAsync(req.query);
 			next();
 		} catch (err: any) {
-			console.log(err.errors);
 			res.status(400).json({
 				error: "BAD_REQUEST",
-				message: err.errors,
+				messages: err.errors,
 			});
 		}
 	};

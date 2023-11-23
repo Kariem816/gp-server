@@ -1,14 +1,16 @@
 import { z } from "zod";
-import { UserRole } from "@prisma/client";
 
 export const usernameSchema = z
 	.string({
 		invalid_type_error: "Username must be a string",
 		required_error: "Username is required",
 	})
-	.min(3)
-	.max(10)
-	.regex(/^[A-Za-z0-9_]+$/i);
+	.min(3, "Username must be at least 3 characters long")
+	.max(10, "Username must be at most 10 characters long")
+	.regex(
+		/^[A-Za-z0-9_]+$/i,
+		"Username can only contain letters, numbers and underscores"
+	);
 
 export const imgSchema = z.string().url().optional();
 
@@ -17,9 +19,12 @@ export const nameSchema = z
 		invalid_type_error: "You must provide first and last name",
 		required_error: "Name is required",
 	})
-	.min(5)
-	.max(25)
-	.regex(/^[A-Z][a-zA-Z]+ [A-Z][a-zA-Z]+$/);
+	.min(5, "Name must be at least 5 characters long")
+	.max(25, "Name must be at most 25 characters long")
+	.regex(
+		/^[A-Z][a-zA-Z]+ [A-Z][a-zA-Z]+$/,
+		"Name must be in the format: First Last"
+	);
 
 export const passwordSchema = z
 	.string({
@@ -53,13 +58,12 @@ export const newUserSchema = z.object({
 	img: imgSchema,
 	username: usernameSchema,
 	password: passwordSchema,
-	role: z.nativeEnum(UserRole),
 	liscencePlate: liscencePlateSchema,
 });
 
 export const loginSchema = z.object({
-	username: z.string(),
-	password: z.string(),
+	username: z.string({ required_error: "Username is required" }),
+	password: z.string({ required_error: "Password is required" }),
 });
 
 export const updatePasswordSchema = z

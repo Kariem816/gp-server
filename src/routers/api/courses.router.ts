@@ -37,13 +37,7 @@ router.get("/", validateQuery(querySchema), parseFilters, async (req, res) => {
 
 router.get("/:id", async (req, res) => {
 	try {
-		const isAllowed =
-			res.locals.user.role === "student"
-				? await courseStore.isStudent(req.params.id, res.locals.user.id)
-				: true;
-
-		const course = await courseStore.show(req.params.id, isAllowed);
-
+		const course = await courseStore.show(req.params.id);
 		res.json(course);
 	} catch (err: any) {
 		routerError(err, res);

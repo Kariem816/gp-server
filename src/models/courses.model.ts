@@ -18,7 +18,11 @@ class CoursesStore {
 				where: filters,
 				skip: (page - 1) * limit,
 				take: limit,
-				include: {
+				select: {
+					id: true,
+					name: true,
+					code: true,
+					creditHours: true,
 					teachers: true,
 					_count: {
 						select: {
@@ -32,16 +36,24 @@ class CoursesStore {
 		}
 	}
 
-	async show(id: Course["id"], showAll = false) {
+	async show(id: Course["id"]) {
 		try {
 			return await prisma.course.findUniqueOrThrow({
 				where: {
 					id,
 				},
-				include: {
+				select: {
+					id: true,
+					name: true,
+					code: true,
+					content: true,
+					creditHours: true,
 					teachers: true,
-					students: showAll ? true : undefined,
-					lectures: showAll ? true : undefined,
+					_count: {
+						select: {
+							students: true,
+						},
+					},
 				},
 			});
 		} catch (err) {

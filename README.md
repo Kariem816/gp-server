@@ -32,7 +32,7 @@ The image processing part is responsible for processing the images received from
 ### Embedded Team
 
 - [Mohamed Sayed Farouk](#)
-- [Mostafa Sabry](#)
+- [Mostafa Sabry Sayed](#)
 - [Raghda Agmed Ahmed](#)
 - [Salah Adel Mohamed](#)
 

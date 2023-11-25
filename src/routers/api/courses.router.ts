@@ -179,6 +179,26 @@ router.get(
 	}
 );
 
+router.get("/:id/mystatus", async (req, res) => {
+	if (!res.locals.student) {
+		res.status(401).json({
+			error: "Unauthorized",
+			message:
+				"You must be logged in as a student to register for a course",
+		});
+		return;
+	}
+	try {
+		const status = await courseStore.isStudent(
+			req.params.id,
+			res.locals.student.id
+		);
+		res.json({ status });
+	} catch (err: any) {
+		routerError(err, res);
+	}
+});
+
 router.post("/:id/register", async (req, res) => {
 	if (!res.locals.student) {
 		res.status(401).json({

@@ -1,55 +1,32 @@
 import type { Request, Response, NextFunction } from "express";
 import type { Course } from "@prisma/client";
+import lectureStore from "@/models/lectures.model";
 
-export function saveCourseId(req: Request, res: Response, next: NextFunction) {
-	const { courseId } = req.params;
-	if (courseId === undefined) {
-		res.status(400).json({
-			error: "BAD_REQUEST",
-			message: "Course ID is required",
-		});
-		return;
-	}
-
-	res.locals.courseId = courseId;
-	next();
-}
-
-export async function mustBeCourseTeacher(
+export async function canModifyLecture(
 	req: Request,
 	res: Response,
 	next: NextFunction
 ) {
-	const { courseId } = res.locals;
-	if (courseId === undefined) {
-		res.status(500).json({
+	const lectureId = req.params.id;
+	if (!lectureId) {
+		return res.status(500).json({
 			error: "INTERNAL_SERVER_ERROR",
 			message: "Something went wrong. Please try again later",
 		});
-		return;
 	}
 
-	if (res.locals.user.role === "admin") return next();
+	const courseId = await lectureStore.getLectureCourseId(lectureId);
 
-	const { teacher } = res.locals;
-	if (teacher === undefined) {
-		res.status(403).json({
-			error: "FORBIDDEN",
-			message: "You are not allowed to access this resource",
-		});
-		return;
-	}
+	if (res.locals.user.role !== "admin") {
+		const isCourseTeacher = res.locals.teacher.courses.some(
+			(course: Course) => course.id === courseId
+		);
 
-	const isCourseTeacher = teacher.courses.some(
-		(course: Course) => course.id === courseId
-	);
-
-	if (!isCourseTeacher) {
-		res.status(403).json({
-			error: "FORBIDDEN",
-			message: "You are not allowed to access this resource",
-		});
-		return;
+		if (!isCourseTeacher)
+			return res.status(403).json({
+				error: "FORBIDDEN",
+				message: "You are not allowed to access this resource",
+			});
 	}
 
 	next();

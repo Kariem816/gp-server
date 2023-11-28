@@ -6,8 +6,11 @@ import lecturesRouter from "./lectures.router";
 import studentRouter from "./student.router";
 import teachersRouter from "./teachers.router";
 
-import { getCourseProfile, mustLogin } from "@/middlewares";
-import { mustBeCourseTeacher, saveCourseId } from "@/middlewares/lectures";
+import {
+	getCourseProfile,
+	mustBeAdminOrTeacher,
+	mustLogin,
+} from "@/middlewares";
 
 const router = Router();
 
@@ -19,13 +22,7 @@ router.get("/", (_req, res) => {
 
 router.use("/users", usersRouter);
 router.use("/courses", getCourseProfile, coursesRouter);
-router.use(
-	"/courses/:courseId/lectures",
-	saveCourseId,
-	getCourseProfile,
-	mustBeCourseTeacher,
-	lecturesRouter
-);
+router.use("/lectures", mustBeAdminOrTeacher, getCourseProfile, lecturesRouter);
 router.use("/students", getCourseProfile, studentRouter);
 router.use("/teachers", mustLogin, teachersRouter);
 

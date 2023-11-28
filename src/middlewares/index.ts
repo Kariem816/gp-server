@@ -12,7 +12,8 @@ import mustLogin, {
 	mustBeAdminOrSecurity,
 } from "./roles";
 import { parseFilters } from "./filters";
-import { getCourseProfile } from "./courses";
+import { getCourseProfile, mustBeCourseTeacher } from "./courses";
+export { canModifyLecture } from "./lectures";
 export { validateBody, validateQuery } from "./validate";
 
 export {
@@ -30,4 +31,5 @@ export {
 	mustBeAdminOrSecurity,
 	parseFilters,
 	getCourseProfile,
+	mustBeCourseTeacher,
 };

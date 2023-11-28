@@ -3,6 +3,7 @@ import courseStore from "@/models/courses.model";
 import {
 	mustBeAdmin,
 	mustBeAdminOrTeacher,
+	mustBeCourseTeacher,
 	parseFilters,
 	validateBody,
 	validateQuery,
@@ -15,6 +16,7 @@ import {
 	editTeachersSchema,
 	updateCourseSchema,
 } from "@/schemas/courses.schema";
+import { createLectureSchema } from "@/schemas/lectures.schema";
 
 const router = Router();
 
@@ -272,6 +274,22 @@ router.get(
 			});
 
 			res.json(lectures);
+		} catch (err: any) {
+			routerError(err, res);
+		}
+	}
+);
+
+router.post(
+	"/:id/lectures",
+	mustBeCourseTeacher,
+	validateBody(createLectureSchema),
+	async (req, res) => {
+		try {
+			const { time } = req.body;
+			const courseId = req.params.id;
+			const lecture = await courseStore.addLecture(courseId, time);
+			res.json({ lectures: lecture });
 		} catch (err: any) {
 			routerError(err, res);
 		}

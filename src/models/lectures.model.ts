@@ -4,6 +4,18 @@ import type { PrismaClientError } from "@/config/db";
 import type { Lecture, CourseProfile, Course } from "@prisma/client";
 
 class LecturesStore {
+	async getLectureCourseId(lectureId: Lecture["id"]) {
+		try {
+			const lecture = await prisma.lecture.findUniqueOrThrow({
+				where: { id: lectureId },
+				select: { courseId: true },
+			});
+			return lecture.courseId;
+		} catch (err) {
+			throw parsePrismaError(err as PrismaClientError);
+		}
+	}
+
 	async getLecture(
 		id: Lecture["id"],
 		options: {
@@ -40,24 +52,6 @@ class LecturesStore {
 					_count: {
 						select: {
 							attendees: true,
-						},
-					},
-				},
-			});
-			return lecture;
-		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
-		}
-	}
-
-	async addLecture(courseId: Course["id"], LectureTime: Lecture["time"]) {
-		try {
-			const lecture = await prisma.lecture.create({
-				data: {
-					time: LectureTime,
-					course: {
-						connect: {
-							id: courseId,
 						},
 					},
 				},

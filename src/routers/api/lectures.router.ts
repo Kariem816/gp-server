@@ -1,10 +1,14 @@
 import { Router } from "express";
 import lectureStore from "@/models/lectures.model";
-import { parseFilters, validateBody, validateQuery } from "@/middlewares";
+import {
+	canModifyLecture,
+	parseFilters,
+	validateBody,
+	validateQuery,
+} from "@/middlewares";
 import { routerError } from "@/helpers";
 import {
 	addLectureAttendeesSchema,
-	createLectureSchema,
 	removeLectureAttendeesSchema,
 } from "@/schemas/lectures.schema";
 import { updateCourseSchema } from "@/schemas/courses.schema";
@@ -12,30 +16,24 @@ import { querySchema } from "@/schemas/query.schema";
 
 const router = Router();
 
-router.post("/", validateBody(createLectureSchema), async (req, res) => {
-	try {
-		const { time } = req.body;
-		const { courseId } = res.locals;
-		const lecture = await lectureStore.addLecture(courseId, new Date(time));
-		res.json({ lectures: lecture });
-	} catch (err: any) {
-		routerError(err, res);
+router.put(
+	"/:id",
+	canModifyLecture,
+	validateBody(updateCourseSchema),
+	async (req, res) => {
+		try {
+			const lecture = await lectureStore.updateLecture(
+				req.params.id,
+				req.body
+			);
+			res.json({ lecture });
+		} catch (err: any) {
+			routerError(err, res);
+		}
 	}
-});
+);
 
-router.put("/:id", validateBody(updateCourseSchema), async (req, res) => {
-	try {
-		const lecture = await lectureStore.updateLecture(
-			req.params.id,
-			req.body
-		);
-		res.json({ lecture });
-	} catch (err: any) {
-		routerError(err, res);
-	}
-});
-
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", canModifyLecture, async (req, res) => {
 	try {
 		await lectureStore.deleteLecture(req.params.id);
 		res.sendStatus(204);
@@ -46,6 +44,7 @@ router.delete("/:id", async (req, res) => {
 
 router.get(
 	"/:id",
+	canModifyLecture,
 	validateQuery(querySchema),
 	parseFilters,
 	async (req, res) => {
@@ -69,6 +68,7 @@ router.get(
 
 router.post(
 	"/:id/attendees",
+	canModifyLecture,
 	validateBody(addLectureAttendeesSchema),
 	async (req, res) => {
 		try {
@@ -85,6 +85,7 @@ router.post(
 
 router.delete(
 	"/:id/attendees",
+	canModifyLecture,
 	validateBody(removeLectureAttendeesSchema),
 	async (req, res) => {
 		try {

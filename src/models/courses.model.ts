@@ -322,6 +322,26 @@ class CoursesStore {
 				},
 				skip: (page - 1) * limit,
 				take: limit,
+				orderBy: {
+					time: "asc",
+				},
+			});
+		} catch (err) {
+			throw parsePrismaError(err as PrismaClientError);
+		}
+	}
+
+	async addLecture(courseId: Course["id"], lectureTime: string) {
+		try {
+			return await prisma.lecture.create({
+				data: {
+					time: new Date(lectureTime),
+					course: {
+						connect: {
+							id: courseId,
+						},
+					},
+				},
 			});
 		} catch (err) {
 			throw parsePrismaError(err as PrismaClientError);

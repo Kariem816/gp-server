@@ -11,6 +11,7 @@ import {
 import { collectFileters } from "@/helpers";
 import { loginSchema, newUserSchema } from "@/schemas/users.schema";
 import { querySchema } from "@/schemas/query.schema";
+import { env } from "@/config/env";
 
 const router = Router();
 
@@ -77,13 +78,16 @@ router.post("/login", validateBody(loginSchema), async (req, res) => {
 			req.body.password
 		);
 
-		const accessToken = signJWT({ user }, "5m");
+		const accessToken = signJWT(
+			{ user },
+			env.NODE_ENV === "production" ? "5m" : "1h"
+		);
 		const refreshToken = signJWT({ userId: user.id }, "30d");
 		res.cookie("refreshToken", refreshToken, {
 			maxAge: 2592000000, // 30 days
 			httpOnly: true,
-			sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-			secure: process.env.NODE_ENV === "production",
+			sameSite: env.NODE_ENV === "production" ? "none" : "lax",
+			secure: env.NODE_ENV === "production",
 		});
 
 		res.json({ accessToken, user });
@@ -138,7 +142,10 @@ router.get("/refresh-token", async (req, res) => {
 				.json({ error: "UNAUTHORIZED", message: "Login expired" });
 		}
 
-		const accessToken = signJWT({ user }, "5m");
+		const accessToken = signJWT(
+			{ user },
+			env.NODE_ENV === "production" ? "5m" : "1h"
+		);
 
 		res.json({ accessToken });
 	} catch {

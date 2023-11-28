@@ -6,19 +6,26 @@ import lecturesRouter from "./lectures.router";
 import studentRouter from "./student.router";
 
 import { getCourseProfile } from "@/middlewares";
+import { mustBeCourseTeacher, saveCourseId } from "@/middlewares/lectures";
 
 const router = Router();
 
 router.get("/", (_req, res) => {
 	res.json({
-		data: { message: "Hello World!" },
+		data: { message: "You Shouldn't Be HERE!!" },
 	});
 });
 
 router.use("/users", usersRouter);
 router.use("/courses", getCourseProfile, coursesRouter);
+router.use(
+	"/courses/:courseId/lectures",
+	saveCourseId,
+	getCourseProfile,
+	mustBeCourseTeacher,
+	lecturesRouter
+);
 router.use("/students", getCourseProfile, studentRouter);
-router.use("/lectures", lecturesRouter);
 
 router.use((_req, res) => {
 	res.status(404).json({

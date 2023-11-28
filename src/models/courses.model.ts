@@ -125,8 +125,23 @@ class CoursesStore {
 				include: {
 					student: {
 						select: {
-							user: true,
-							courses: true,
+							user: {
+								select: {
+									id: true,
+									name: true,
+								},
+							},
+							courses: {
+								select: {
+									id: true,
+									course: {
+										select: {
+											id: true,
+											name: true,
+										},
+									},
+								},
+							},
 						},
 					},
 				},

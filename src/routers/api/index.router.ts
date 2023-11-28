@@ -4,8 +4,9 @@ import usersRouter from "./users.router";
 import coursesRouter from "./courses.router";
 import lecturesRouter from "./lectures.router";
 import studentRouter from "./student.router";
+import teachersRouter from "./teachers.router";
 
-import { getCourseProfile } from "@/middlewares";
+import { getCourseProfile, mustLogin } from "@/middlewares";
 import { mustBeCourseTeacher, saveCourseId } from "@/middlewares/lectures";
 
 const router = Router();
@@ -26,6 +27,7 @@ router.use(
 	lecturesRouter
 );
 router.use("/students", getCourseProfile, studentRouter);
+router.use("/teachers", mustLogin, teachersRouter);
 
 router.use((_req, res) => {
 	res.status(404).json({

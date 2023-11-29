@@ -52,18 +52,79 @@ class TeacherStore {
 						select: {
 							id: true,
 							name: true,
+							img: true,
 						},
 					},
 					courses: {
 						select: {
 							id: true,
 							name: true,
+							code: true,
 						},
 					},
 				},
 			});
 
 			return teacher;
+		} catch (err) {
+			throw parsePrismaError(err as PrismaClientError);
+		}
+	}
+
+	async getTeacherCourses(id: Teacher["id"]) {
+		try {
+			const courses = await prisma.course.findMany({
+				where: {
+					teachers: {
+						some: {
+							id,
+						},
+					},
+				},
+				select: {
+					id: true,
+					name: true,
+					code: true,
+				},
+			});
+
+			return courses;
+		} catch (err) {
+			throw parsePrismaError(err as PrismaClientError);
+		}
+	}
+
+	async getTeacherLectures(id: Teacher["id"]) {
+		try {
+			const lectures = await prisma.lecture.findMany({
+				where: {
+					course: {
+						teachers: {
+							some: {
+								id,
+							},
+						},
+					},
+				},
+				select: {
+					id: true,
+					time: true,
+					course: {
+						select: {
+							id: true,
+							name: true,
+							code: true,
+						},
+					},
+					_count: {
+						select: {
+							attendees: true,
+						},
+					},
+				},
+			});
+
+			return lectures;
 		} catch (err) {
 			throw parsePrismaError(err as PrismaClientError);
 		}

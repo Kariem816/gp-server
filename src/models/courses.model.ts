@@ -48,7 +48,17 @@ class CoursesStore {
 					code: true,
 					content: true,
 					creditHours: true,
-					teachers: true,
+					teachers: {
+						select: {
+							id: true,
+							user: {
+								select: {
+									id: true,
+									name: true,
+								},
+							},
+						},
+					},
 					_count: {
 						select: {
 							students: true,
@@ -211,12 +221,22 @@ class CoursesStore {
 
 	async getTeachers(id: Course["id"]) {
 		try {
-			return await prisma.course.findMany({
+			return await prisma.teacher.findMany({
 				where: {
-					id,
+					courses: {
+						some: {
+							id,
+						},
+					},
 				},
-				include: {
-					teachers: true,
+				select: {
+					id: true,
+					user: {
+						select: {
+							id: true,
+							name: true,
+						},
+					},
 				},
 			});
 		} catch (err) {

@@ -26,7 +26,7 @@ router.put(
 				req.params.id,
 				req.body
 			);
-			res.json({ lecture });
+			res.json(lecture);
 		} catch (err: any) {
 			routerError(err, res);
 		}
@@ -59,12 +59,21 @@ router.get(
 				filters,
 			});
 
-			res.json({ lecture });
+			res.json(lecture);
 		} catch (err: any) {
 			routerError(err, res);
 		}
 	}
 );
+
+router.get("/:id/attendees", canModifyLecture, async (req, res) => {
+	try {
+		const lecture = await lectureStore.getLectureAttendees(req.params.id);
+		res.json(lecture);
+	} catch (err: any) {
+		routerError(err, res);
+	}
+});
 
 router.post(
 	"/:id/attendees",
@@ -76,7 +85,7 @@ router.post(
 				req.params.id,
 				req.body
 			);
-			res.json({ lecture });
+			res.json(lecture);
 		} catch (err: any) {
 			routerError(err, res);
 		}
@@ -93,7 +102,7 @@ router.delete(
 				req.params.id,
 				req.body
 			);
-			res.json({ lecture });
+			res.json(lecture);
 		} catch (err: any) {
 			routerError(err, res);
 		}

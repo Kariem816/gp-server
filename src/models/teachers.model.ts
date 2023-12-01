@@ -122,6 +122,9 @@ class TeacherStore {
 						},
 					},
 				},
+				orderBy: {
+					time: "asc",
+				},
 			});
 
 			return lectures;

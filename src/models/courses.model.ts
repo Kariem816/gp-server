@@ -345,6 +345,13 @@ class CoursesStore {
 				orderBy: {
 					time: "asc",
 				},
+				include: {
+					_count: {
+						select: {
+							attendees: true,
+						},
+					},
+				},
 			});
 		} catch (err) {
 			throw parsePrismaError(err as PrismaClientError);

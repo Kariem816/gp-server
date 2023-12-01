@@ -57,7 +57,6 @@ router.get("/my-schedule", mustBeStudent, async (req, res) => {
 		const studentId = res.locals.student.id;
 		if (!studentId) throw new Error("Student ID not found");
 
-		console.log(req.query.until);
 		const until = req.query.until
 			? new Date(req.query.until as string)
 			: undefined;

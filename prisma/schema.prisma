@@ -135,3 +135,9 @@ enum ControlElement {
   gate
   parking
 }
+
+model TrashCan {
+  id       String @id @default(uuid())
+  location String
+  level    Int    @default(0)
+}

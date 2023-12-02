@@ -6,6 +6,8 @@ import lecturesRouter from "./lectures.router";
 import studentRouter from "./student.router";
 import teachersRouter from "./teachers.router";
 
+import trashRouter from "./trash.router";
+
 import {
 	getCourseProfile,
 	mustBeAdminOrTeacher,
@@ -25,6 +27,8 @@ router.use("/courses", getCourseProfile, coursesRouter);
 router.use("/lectures", mustBeAdminOrTeacher, getCourseProfile, lecturesRouter);
 router.use("/students", getCourseProfile, studentRouter);
 router.use("/teachers", mustLogin, teachersRouter);
+
+router.use("/trash", trashRouter);
 
 router.use((_req, res) => {
 	res.status(404).json({

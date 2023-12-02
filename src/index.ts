@@ -14,6 +14,7 @@ const app = express();
 const port = env.PORT || 3000;
 
 app.use(async (req, res, next) => {
+	if (env.NODE_ENV === "production") return next();
 	console.log(
 		"============================== New Request ============================"
 	);

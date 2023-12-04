@@ -15,6 +15,7 @@ import { parseFilters } from "./filters";
 import { getCourseProfile, mustBeCourseTeacher } from "./courses";
 export { canModifyLecture } from "./lectures";
 export { validateBody, validateQuery } from "./validate";
+export { logger } from "./logger";
 
 export {
 	getUser,

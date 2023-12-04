@@ -8,25 +8,11 @@ import { env } from "@/config/env.js";
 import partials from "express-partials";
 
 import appRouter from "@/routers/index.router.js";
-import { getUser } from "@/middlewares";
+import { getUser, logger } from "@/middlewares";
 
 const app = express();
 const port = env.PORT || 3000;
 
-app.use(async (req, res, next) => {
-	if (env.NODE_ENV === "production") return next();
-	console.log(
-		"============================== New Request ============================"
-	);
-	console.log("Method:", req.method);
-	console.log("Url:", req.url);
-	console.log("User Agent:", req.headers["user-agent"]);
-	console.log(
-		"======================================================================="
-	);
-	//await new Promise(res => setTimeout(res, 3000));
-	next();
-});
 // app.use(cors());
 app.use(express.json());
 //@ts-ignore
@@ -47,6 +33,10 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.set("views", "src/views");
 app.use(partials());
+
+app.use(
+	logger({ debugOnly: true, fields: ["method", "path", "query", "body"] })
+);
 
 app.use(getUser);
 app.use(appRouter);

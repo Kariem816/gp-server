@@ -36,6 +36,7 @@
     "express": "^4.18.2",
     "express-partials": "^0.3.0",
     "jsonwebtoken": "^9.0.2",
+    "uploadthing": "^6.0.3",
     "zod": "^3.22.4"
   }
 }

@@ -141,3 +141,13 @@ model TrashCan {
   location String
   level    Int    @default(0)
 }
+
+model Upload {
+  key       String   @id
+  name      String
+  size      Int
+  url       String   @unique
+  metadata  Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

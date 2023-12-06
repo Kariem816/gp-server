@@ -243,6 +243,21 @@ class UserStore {
 			throw parsePrismaError(err as PrismaClientError);
 		}
 	}
+
+	async updateProfilePic(userId: string, img: string): Promise<void> {
+		try {
+			await prisma.user.update({
+				where: {
+					id: userId,
+				},
+				data: {
+					img,
+				},
+			});
+		} catch (err) {
+			throw parsePrismaError(err as PrismaClientError);
+		}
+	}
 }
 
 export default new UserStore();

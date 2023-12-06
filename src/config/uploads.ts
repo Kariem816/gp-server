@@ -1,7 +1,10 @@
 import { createUploadthing, type FileRouter } from "uploadthing/express";
 import userStore from "@/models/users.model";
+import uploadStore from "@/models/uploads.model";
+import { UTApi } from "uploadthing/server";
 
 const f = createUploadthing();
+export const utapi = new UTApi();
 
 export const uploadRouter = {
 	profilePics: f({
@@ -10,7 +13,7 @@ export const uploadRouter = {
 			maxFileCount: 1,
 		},
 	})
-		.middleware(({ req, res }) => {
+		.middleware(({ res }) => {
 			if (!res.locals.user) {
 				throw {
 					error: "UNAUTHORIZED",
@@ -21,7 +24,35 @@ export const uploadRouter = {
 			return { userId: res.locals.user.id };
 		})
 		.onUploadComplete(async ({ file, metadata }) => {
-			await userStore.updateProfilePic(metadata.userId, file.url);
+			// save upload data to database
+			// update user profile pic
+			// delete old profile pic
+			await uploadStore.create({
+				...file,
+				metadata,
+			});
+			const oldImg = await userStore.updateProfilePic(
+				metadata.userId,
+				file.url
+			);
+
+			try {
+				let oldImgKey: string | undefined;
+
+				if (oldImg) {
+					oldImgKey =
+						(await uploadStore.deleteByURL(oldImg))?.key ??
+						undefined;
+				}
+
+				if (oldImgKey) {
+					await utapi.deleteFiles(oldImgKey);
+				}
+			} catch (err) {
+				console.error(err);
+			}
+
+			return { img: file.url };
 		}),
 } satisfies FileRouter;
 

@@ -244,8 +244,16 @@ class UserStore {
 		}
 	}
 
-	async updateProfilePic(userId: string, img: string): Promise<void> {
+	async updateProfilePic(userId: string, img: string): Promise<User["img"]> {
 		try {
+			const { img: oldImg } = await prisma.user.findUniqueOrThrow({
+				where: {
+					id: userId,
+				},
+				select: {
+					img: true,
+				},
+			});
 			await prisma.user.update({
 				where: {
 					id: userId,
@@ -254,6 +262,7 @@ class UserStore {
 					img,
 				},
 			});
+			return oldImg;
 		} catch (err) {
 			throw parsePrismaError(err as PrismaClientError);
 		}

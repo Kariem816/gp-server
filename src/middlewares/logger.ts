@@ -7,6 +7,7 @@ const AVAILABLE_FIELDS = [
 	"body",
 	"cookies",
 	"fresh",
+	"headers",
 	"hostname",
 	"ip",
 	"ips",

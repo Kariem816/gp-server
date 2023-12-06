@@ -4,6 +4,7 @@ node_modules
 
 # lock file
 *.lock
+*.log
 
 dist
 temp

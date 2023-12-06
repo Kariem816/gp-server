@@ -32,7 +32,7 @@ router.use("/teachers", mustLogin, teachersRouter);
 
 router.use("/trash", trashRouter);
 
-router.use("/uploadthing", uploadsRouter);
+router.use("/uploads", uploadsRouter);
 
 router.use((_req, res) => {
 	res.status(404).json({

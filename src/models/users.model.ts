@@ -212,6 +212,23 @@ class UserStore {
 		}
 	}
 
+	async getUserPasswordById(id: string): Promise<User["password"]> {
+		try {
+			const user = await prisma.user.findUniqueOrThrow({
+				where: {
+					id,
+				},
+				select: {
+					password: true,
+				},
+			});
+
+			return user.password;
+		} catch (err) {
+			throw parsePrismaError(err as PrismaClientError);
+		}
+	}
+
 	async index({
 		page,
 		limit,
@@ -263,6 +280,22 @@ class UserStore {
 				},
 			});
 			return oldImg;
+		} catch (err) {
+			throw parsePrismaError(err as PrismaClientError);
+		}
+	}
+
+	async updatePassword(userId: string, newPassword: string): Promise<void> {
+		try {
+			const hashedPassword = await hashPassword(newPassword);
+			await prisma.user.update({
+				where: {
+					id: userId,
+				},
+				data: {
+					password: hashedPassword,
+				},
+			});
 		} catch (err) {
 			throw parsePrismaError(err as PrismaClientError);
 		}

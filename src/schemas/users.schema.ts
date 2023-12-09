@@ -71,7 +71,7 @@ export const updatePasswordSchema = z
 		oldPassword: passwordSchema,
 		newPassword: passwordSchema,
 	})
-	.refine(
-		(data) => data.oldPassword !== data.newPassword,
-		"New password must be different from old password"
-	);
+	.refine((data) => {
+		if (!data.oldPassword) return true;
+		return data.oldPassword !== data.newPassword;
+	}, "New password must be different from old password");

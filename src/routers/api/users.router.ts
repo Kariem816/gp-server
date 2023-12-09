@@ -9,9 +9,15 @@ import {
 	validateQuery,
 } from "@/middlewares";
 import { collectFileters } from "@/helpers";
-import { loginSchema, newUserSchema } from "@/schemas/users.schema";
+import {
+	loginSchema,
+	newUserSchema,
+	updatePasswordSchema,
+} from "@/schemas/users.schema";
 import { querySchema } from "@/schemas/query.schema";
 import { env } from "@/config/env";
+import { comparePassword } from "@/utils/hash";
+import sessionsModel from "@/models/sessions.model";
 
 const router = Router();
 
@@ -201,5 +207,55 @@ router.get("/:id", mustLogin, async (req, res) => {
 			});
 	}
 });
+
+router.put(
+	"/password",
+	mustLogin,
+	validateBody(updatePasswordSchema),
+	async (req, res) => {
+		try {
+			const oldPassword = await userStore.getUserPasswordById(
+				res.locals.user.id
+			);
+			const isMatch = await comparePassword(
+				req.body.oldPassword,
+				oldPassword
+			);
+
+			if (!isMatch) {
+				return res.status(401).json({
+					error: "UNAUTHORIZED",
+					message: "Old password is incorrect",
+				});
+			}
+
+			await userStore.updatePassword(
+				res.locals.user.id,
+				req.body.newPassword
+			);
+
+			// await sessionsModel.invalidateAllByUser(res.locals.user.id);
+			res.cookie("refreshToken", "", {
+				maxAge: 0,
+				httpOnly: true,
+				sameSite: env.NODE_ENV === "production" ? "none" : "lax",
+				secure: env.NODE_ENV === "production",
+			});
+
+			res.sendStatus(200);
+		} catch (err: any) {
+			if (err.httpStatus)
+				res.status(err.httpStatus).json({
+					error: err.longMessage,
+					message: err.simpleMessage,
+				});
+			else
+				res.status(500).json({
+					error: "INTERNAL_SERVER_ERROR",
+					message: err.message,
+				});
+		}
+	}
+);
 
 export default router;

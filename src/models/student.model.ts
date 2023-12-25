@@ -1,11 +1,85 @@
 import { prisma, parsePrismaError } from "@/config/db";
-
-import type { PrismaClientError } from "@/config/db";
 import { env } from "@/config/env";
+
+import type { Student } from "@prisma/client";
+import type { PrismaClientError } from "@/config/db";
 
 const ONE_WEEK_IN_MS = 7 * 24 * 60 * 60 * 1000;
 
 class StudentStore {
+	async index({
+		page,
+		limit,
+		filters,
+	}: {
+		page: number;
+		limit: number;
+		filters: any;
+	}) {
+		try {
+			const students = await prisma.student.findMany({
+				where: filters,
+				skip: (page - 1) * limit,
+				take: limit,
+				select: {
+					id: true,
+					user: {
+						select: {
+							id: true,
+							name: true,
+						},
+					},
+					_count: {
+						select: {
+							courses: true,
+						},
+					},
+				},
+			});
+
+			return students;
+		} catch (err) {
+			throw parsePrismaError(err as PrismaClientError);
+		}
+	}
+
+	async show(id: Student["id"]) {
+		try {
+			const student = await prisma.student.findUnique({
+				where: {
+					id,
+				},
+				select: {
+					id: true,
+					user: {
+						select: {
+							id: true,
+							name: true,
+							img: true,
+						},
+					},
+					courses: {
+						select: {
+							id: true,
+							course: {
+								select: {
+									id: true,
+									name: true,
+									code: true,
+								},
+							},
+							semester: true,
+						},
+					},
+				},
+			});
+
+			return student;
+		} catch (err) {
+			throw parsePrismaError(err as PrismaClientError);
+		}
+	}
+
 	async isStudent(studentId: string) {
 		try {
 			const student = await prisma.student.findUnique({

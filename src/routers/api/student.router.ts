@@ -122,4 +122,13 @@ router.get("/:id/attendance", async (req, res) => {
 	}
 });
 
+router.get("/:id", async (req, res) => {
+	try {
+		const student = await studentStore.show(req.params.id);
+		res.json(student);
+	} catch (err) {
+		routerError(err, res);
+	}
+});
+
 export default router;

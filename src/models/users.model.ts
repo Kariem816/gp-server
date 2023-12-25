@@ -203,6 +203,10 @@ class UserStore {
 					name: true,
 					role: true,
 					img: true,
+					teacher: true,
+					student: true,
+					security: true,
+					controller: true,
 				},
 			});
 

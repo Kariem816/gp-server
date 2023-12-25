@@ -18,6 +18,7 @@ import { querySchema } from "@/schemas/query.schema";
 import { env } from "@/config/env";
 import { comparePassword } from "@/utils/hash";
 import sessionsModel from "@/models/sessions.model";
+import { routerError } from "@/helpers";
 
 const router = Router();
 
@@ -55,17 +56,7 @@ router.post(
 			const user = await accountTypeToStore[accountType](req.body);
 			res.status(201).json(user);
 		} catch (err: any) {
-			// console.error(err.httpStatus ? err.originalError : err);
-			if (err.httpStatus)
-				res.status(err.httpStatus).json({
-					error: err.longMessage,
-					message: err.simpleMessage,
-				});
-			else
-				res.status(500).json({
-					error: "INTERNAL_SERVER_ERROR",
-					message: err.message,
-				});
+			routerError(err, res);
 		}
 	}
 );
@@ -98,16 +89,7 @@ router.post("/login", validateBody(loginSchema), async (req, res) => {
 
 		res.json({ accessToken, user });
 	} catch (err: any) {
-		if (err.httpStatus)
-			res.status(err.httpStatus).json({
-				error: err.longMessage,
-				message: err.simpleMessage,
-			});
-		else
-			res.status(500).json({
-				error: "INTERNAL_SERVER_ERROR",
-				message: err.message,
-			});
+		routerError(err, res);
 	}
 });
 
@@ -177,16 +159,7 @@ router.get("/", mustBeAdmin, validateQuery(querySchema), async (req, res) => {
 
 		res.json(users);
 	} catch (err: any) {
-		if (err.httpStatus)
-			res.status(err.httpStatus).json({
-				error: err.longMessage,
-				message: err.simpleMessage,
-			});
-		else
-			res.status(500).json({
-				error: "INTERNAL_SERVER_ERROR",
-				message: err.message,
-			});
+		routerError(err, res);
 	}
 });
 
@@ -195,16 +168,7 @@ router.get("/:id", mustLogin, async (req, res) => {
 		const user = await userStore.getUserById(req.params.id);
 		res.json(user);
 	} catch (err: any) {
-		if (err.httpStatus)
-			res.status(err.httpStatus).json({
-				error: err.longMessage,
-				message: err.simpleMessage,
-			});
-		else
-			res.status(500).json({
-				error: "INTERNAL_SERVER_ERROR",
-				message: err.message,
-			});
+		routerError(err, res);
 	}
 });
 
@@ -244,16 +208,7 @@ router.put(
 
 			res.sendStatus(200);
 		} catch (err: any) {
-			if (err.httpStatus)
-				res.status(err.httpStatus).json({
-					error: err.longMessage,
-					message: err.simpleMessage,
-				});
-			else
-				res.status(500).json({
-					error: "INTERNAL_SERVER_ERROR",
-					message: err.message,
-				});
+			routerError(err, res);
 		}
 	}
 );

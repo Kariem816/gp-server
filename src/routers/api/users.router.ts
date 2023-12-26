@@ -145,6 +145,7 @@ router.get("/refresh-token", async (req, res) => {
 });
 
 router.get("/me", mustLogin, (_req, res) => {
+	console.log(res.locals.user);
 	res.json(res.locals.user);
 });
 

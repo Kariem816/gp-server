@@ -157,11 +157,24 @@ class UserStore {
 	async authenticateUser(
 		username: string,
 		password: string
-	): Promise<Omit<User, "password">> {
+	): Promise<Partial<User>> {
 		try {
 			const user = await prisma.user.findUnique({
 				where: {
 					username,
+				},
+				select: {
+					id: true,
+					username: true,
+					name: true,
+					role: true,
+					img: true,
+					liscencePlate: true,
+					teacher: true,
+					student: true,
+					security: true,
+					controller: true,
+					password: true,
 				},
 			});
 
@@ -177,10 +190,20 @@ class UserStore {
 				throw new Error();
 			}
 
-			//@ts-ignore
-			delete user.password;
+			const clensedUser = {
+				id: user.id,
+				username: user.username,
+				name: user.name,
+				role: user.role,
+				img: user.img,
+				liscencePlate: user.liscencePlate,
+				teacher: user.teacher,
+				student: user.student,
+				security: user.security,
+				controller: user.controller,
+			};
 
-			return user;
+			return clensedUser;
 		} catch (err) {
 			throw {
 				httpStatus: 401,
@@ -203,6 +226,7 @@ class UserStore {
 					name: true,
 					role: true,
 					img: true,
+					liscencePlate: true,
 					teacher: true,
 					student: true,
 					security: true,

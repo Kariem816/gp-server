@@ -23,7 +23,7 @@ export async function getCourseProfile(
 						userId: res.locals.user.id,
 					},
 					include: {
-						courses: true,
+						registerations: true,
 					},
 				});
 

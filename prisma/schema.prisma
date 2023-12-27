@@ -47,7 +47,7 @@ model Student {
   id     String @id @default(uuid())
   userId String @unique
 
-  courses CourseProfile[]
+  registerations CourseProfile[]
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -121,25 +121,39 @@ model Lecture {
   course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 }
 
-model ParkingSpot {
-  id       String  @id @default(uuid())
-  location String
-  isEmpty  Boolean @default(true)
-  userId   String? @unique
-
-  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
 enum ControlElement {
   attendance
   gate
   parking
+  waste
+  irrigation
+  lighting
+}
+
+model ParkingSpot {
+  id      String  @id @default(uuid())
+  isEmpty Boolean @default(true)
+  userId  String? @unique
+
+  parker User? @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model TrashCan {
   id       String @id @default(uuid())
   location String
   level    Int    @default(0)
+}
+
+model Plant {
+  id          String   @id @default(uuid())
+  lastWatered DateTime
+  isWatering  Boolean
+  type        String
+}
+
+model Light {
+  id    String  @id @default(uuid())
+  state Boolean
 }
 
 model Upload {

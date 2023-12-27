@@ -15,7 +15,7 @@ class UserStore {
 					role: "student",
 					student: {
 						create: {
-							courses: {
+							registerations: {
 								create: undefined,
 							},
 						},

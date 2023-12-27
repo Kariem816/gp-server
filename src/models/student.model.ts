@@ -31,7 +31,7 @@ class StudentStore {
 					},
 					_count: {
 						select: {
-							courses: true,
+							registerations: true,
 						},
 					},
 				},
@@ -58,7 +58,7 @@ class StudentStore {
 							img: true,
 						},
 					},
-					courses: {
+					registerations: {
 						select: {
 							id: true,
 							course: {

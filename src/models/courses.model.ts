@@ -141,7 +141,7 @@ class CoursesStore {
 									name: true,
 								},
 							},
-							courses: {
+							registerations: {
 								select: {
 									id: true,
 									course: {

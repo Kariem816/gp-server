@@ -1,7 +1,6 @@
 import { Router } from "express";
 import userStore from "@/models/users.model";
 import { signJWT, verifyJWT } from "@/utils/jwt.js";
-import type { User } from "@prisma/client";
 import {
 	mustBeAdmin,
 	mustLogin,
@@ -19,6 +18,8 @@ import { env } from "@/config/env";
 import { comparePassword } from "@/utils/hash";
 import sessionsModel from "@/models/sessions.model";
 import { routerError } from "@/helpers";
+
+import type { User } from "@prisma/client";
 
 const router = Router();
 
@@ -167,6 +168,24 @@ router.get("/:id", mustLogin, async (req, res) => {
 	try {
 		const user = await userStore.getUserById(req.params.id);
 		res.json(user);
+	} catch (err: any) {
+		routerError(err, res);
+	}
+});
+
+router.delete("/:id", async (req, res) => {
+	try {
+		if (
+			req.params.id !== res.locals.user.id &&
+			res.locals.user.role !== "admin"
+		) {
+			return res.status(401).json({
+				error: "UNAUTHORIZED",
+				message: "You can only delete your own account",
+			});
+		}
+		await userStore.deleteUser(req.params.id);
+		res.sendStatus(200);
 	} catch (err: any) {
 		routerError(err, res);
 	}

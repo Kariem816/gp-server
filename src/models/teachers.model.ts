@@ -24,6 +24,7 @@ class TeacherStore {
 						select: {
 							id: true,
 							name: true,
+							img: true,
 						},
 					},
 					_count: {

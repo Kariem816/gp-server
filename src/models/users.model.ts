@@ -328,6 +328,18 @@ class UserStore {
 			throw parsePrismaError(err as PrismaClientError);
 		}
 	}
+
+	async deleteUser(userId: string): Promise<void> {
+		try {
+			await prisma.user.delete({
+				where: {
+					id: userId,
+				},
+			});
+		} catch (err) {
+			throw parsePrismaError(err as PrismaClientError);
+		}
+	}
 }
 
 export default new UserStore();

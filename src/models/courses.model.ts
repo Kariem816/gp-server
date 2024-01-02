@@ -235,6 +235,7 @@ class CoursesStore {
 						select: {
 							id: true,
 							name: true,
+							img: true,
 						},
 					},
 				},

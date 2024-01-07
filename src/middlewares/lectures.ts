@@ -1,8 +1,8 @@
 import type { Request, Response, NextFunction } from "express";
 import type { Course } from "@prisma/client";
-import lectureStore from "@/models/lectures.model";
-import { parsePrismaError } from "@/config/db";
-import { routerError } from "@/helpers";
+import lectureStore from "@/models/lectures.model.js";
+import { parsePrismaError } from "@/config/db.js";
+import { routerError } from "@/helpers/index.js";
 
 export async function canModifyLecture(
 	req: Request,

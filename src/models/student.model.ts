@@ -1,8 +1,8 @@
-import { prisma, parsePrismaError } from "@/config/db";
-import { env } from "@/config/env";
+import { prisma, parsePrismaError } from "@/config/db.js";
+import { env } from "@/config/env.js";
 
 import type { Student } from "@prisma/client";
-import type { PrismaClientError } from "@/config/db";
+import type { PrismaClientError } from "@/config/db.js";
 
 const ONE_WEEK_IN_MS = 7 * 24 * 60 * 60 * 1000;
 

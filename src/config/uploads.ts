@@ -1,6 +1,6 @@
 import { createUploadthing, type FileRouter } from "uploadthing/express";
-import userStore from "@/models/users.model";
-import uploadStore from "@/models/uploads.model";
+import userStore from "@/models/users.model.js";
+import uploadStore from "@/models/uploads.model.js";
 import { UTApi } from "uploadthing/server";
 
 const f = createUploadthing();

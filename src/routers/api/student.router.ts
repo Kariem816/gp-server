@@ -1,7 +1,7 @@
 import { Router } from "express";
-import studentStore from "@/models/student.model";
-import { mustBeStudent, parseFilters } from "@/middlewares";
-import { routerError } from "@/helpers/routerError";
+import studentStore from "@/models/student.model.js";
+import { mustBeStudent, parseFilters } from "@/middlewares/index.js";
+import { routerError } from "@/helpers/routerError.js";
 
 const router = Router();
 

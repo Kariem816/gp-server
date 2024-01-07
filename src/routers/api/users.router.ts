@@ -1,23 +1,23 @@
 import { Router } from "express";
-import userStore from "@/models/users.model";
+import userStore from "@/models/users.model.js";
 import { signJWT, verifyJWT } from "@/utils/jwt.js";
 import {
 	mustBeAdmin,
 	mustLogin,
 	validateBody,
 	validateQuery,
-} from "@/middlewares";
-import { collectFileters } from "@/helpers";
+} from "@/middlewares/index.js";
+import { collectFileters } from "@/helpers/index.js";
 import {
 	loginSchema,
 	newUserSchema,
 	updatePasswordSchema,
-} from "@/schemas/users.schema";
-import { querySchema } from "@/schemas/query.schema";
-import { env } from "@/config/env";
-import { comparePassword } from "@/utils/hash";
-import sessionsModel from "@/models/sessions.model";
-import { routerError } from "@/helpers";
+} from "@/schemas/users.schema.js";
+import { querySchema } from "@/schemas/query.schema.js";
+import { env } from "@/config/env.js";
+import { comparePassword } from "@/utils/hash.js";
+import sessionsModel from "@/models/sessions.model.js";
+import { routerError } from "@/helpers/index.js";
 
 import type { User } from "@prisma/client";
 

@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import { verifyJWT } from "@/utils/jwt";
+import { verifyJWT } from "@/utils/jwt.js";
 
 export default async function getUser(
 	req: Request,

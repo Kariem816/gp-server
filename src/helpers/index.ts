@@ -1,4 +1,4 @@
-import { collectFileters } from "./filters";
-export { routerError } from "./routerError";
+import { collectFileters } from "./filters.js";
+export { routerError } from "./routerError.js";
 
 export { collectFileters };

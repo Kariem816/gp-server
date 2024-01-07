@@ -1,6 +1,6 @@
-import { prisma, parsePrismaError } from "@/config/db";
+import { prisma, parsePrismaError } from "@/config/db.js";
 
-import type { PrismaClientError } from "@/config/db";
+import type { PrismaClientError } from "@/config/db.js";
 import { Teacher } from "@prisma/client";
 
 class TeacherStore {

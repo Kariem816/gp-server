@@ -1,20 +1,20 @@
 import { Router } from "express";
 
-import usersRouter from "./users.router";
-import coursesRouter from "./courses.router";
-import lecturesRouter from "./lectures.router";
-import studentRouter from "./student.router";
-import teachersRouter from "./teachers.router";
+import usersRouter from "./users.router.js";
+import coursesRouter from "./courses.router.js";
+import lecturesRouter from "./lectures.router.js";
+import studentRouter from "./student.router.js";
+import teachersRouter from "./teachers.router.js";
 
-import trashRouter from "./trash.router";
+import trashRouter from "./trash.router.js";
 
-import uploadsRouter from "./uploads.router";
+import uploadsRouter from "./uploads.router.js";
 
 import {
 	getCourseProfile,
 	mustBeAdminOrTeacher,
 	mustLogin,
-} from "@/middlewares";
+} from "@/middlewares/index.js";
 
 const router = Router();
 

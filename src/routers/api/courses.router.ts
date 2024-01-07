@@ -1,5 +1,5 @@
 import { Router } from "express";
-import courseStore from "@/models/courses.model";
+import courseStore from "@/models/courses.model.js";
 import {
 	mustBeAdmin,
 	mustBeAdminOrTeacher,
@@ -7,16 +7,16 @@ import {
 	parseFilters,
 	validateBody,
 	validateQuery,
-} from "@/middlewares";
-import { routerError } from "@/helpers";
-import { querySchema } from "@/schemas/query.schema";
+} from "@/middlewares/index.js";
+import { routerError } from "@/helpers/index.js";
+import { querySchema } from "@/schemas/query.schema.js";
 import {
 	addTeachersSchema,
 	createCourseSchema,
 	editTeachersSchema,
 	updateCourseSchema,
-} from "@/schemas/courses.schema";
-import { createLectureSchema } from "@/schemas/lectures.schema";
+} from "@/schemas/courses.schema.js";
+import { createLectureSchema } from "@/schemas/lectures.schema.js";
 
 const router = Router();
 

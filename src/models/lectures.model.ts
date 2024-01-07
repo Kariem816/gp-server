@@ -1,7 +1,7 @@
-import { parsePrismaError, prisma } from "@/config/db";
-import type { PrismaClientError } from "@/config/db";
+import { parsePrismaError, prisma } from "@/config/db.js";
+import type { PrismaClientError } from "@/config/db.js";
 
-import type { Lecture, CourseProfile, Course } from "@prisma/client";
+import type { Lecture, CourseProfile } from "@prisma/client";
 
 class LecturesStore {
 	async getLectureCourseId(lectureId: Lecture["id"]) {

@@ -1,4 +1,4 @@
-import getUser from "./getUser";
+import getUser from "./getUser.js";
 import mustLogin, {
 	isLoggedIn,
 	mustBeAdmin,
@@ -10,12 +10,12 @@ import mustLogin, {
 	mustBeAdminOrController,
 	mustBeSecurity,
 	mustBeAdminOrSecurity,
-} from "./roles";
-import { parseFilters } from "./filters";
-import { getCourseProfile, mustBeCourseTeacher } from "./courses";
-export { canModifyLecture } from "./lectures";
-export { validateBody, validateQuery } from "./validate";
-export { logger } from "./logger";
+} from "./roles.js";
+import { parseFilters } from "./filters.js";
+import { getCourseProfile, mustBeCourseTeacher } from "./courses.js";
+export { canModifyLecture } from "./lectures.js";
+export { validateBody, validateQuery } from "./validate.js";
+export { logger } from "./logger.js";
 
 export {
 	getUser,

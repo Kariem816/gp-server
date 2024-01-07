@@ -1,4 +1,4 @@
-import { env } from "@/config/env";
+import { env } from "@/config/env.js";
 
 import type { Request, Response, NextFunction } from "express";
 

@@ -2,7 +2,7 @@ import { Router, json } from "express";
 
 import { createUploadthingExpressHandler } from "uploadthing/express";
 
-import { uploadRouter } from "@/config/uploads";
+import { uploadRouter } from "@/config/uploads.js";
 
 const router = Router();
 

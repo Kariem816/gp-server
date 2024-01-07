@@ -4,10 +4,10 @@ import {
 	mustBeTeacher,
 	parseFilters,
 	validateQuery,
-} from "@/middlewares";
-import { querySchema } from "@/schemas/query.schema";
-import teacherStore from "@/models/teachers.model";
-import { routerError } from "@/helpers";
+} from "@/middlewares/index.js";
+import { querySchema } from "@/schemas/query.schema.js";
+import teacherStore from "@/models/teachers.model.js";
+import { routerError } from "@/helpers/index.js";
 
 const router = Router();
 

@@ -27,12 +27,12 @@ The image processing part is responsible for processing the images received from
 ### Server Team
 
 - [Kareem Mostafa ElSawah](https://github.com/Kariem816)
+- [Mostafa Sabry Sayed](#)
 - [Youssef Mohammed Ibrahim](#)
 
 ### Embedded Team
 
 - [Mohamed Sayed Farouk](#)
-- [Mostafa Sabry Sayed](#)
 - [Raghda Agmed Ahmed](#)
 - [Salah Adel Mohamed](#)
 

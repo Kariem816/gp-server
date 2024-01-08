@@ -20,7 +20,11 @@ const router = Router();
 
 router.get("/", (_req, res) => {
 	res.json({
-		data: { message: "You Shouldn't Be HERE!!" },
+		data: {
+			message: "I came from server",
+			status: "OK",
+			time: new Date().toLocaleTimeString(),
+		},
 	});
 });
 

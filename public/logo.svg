@@ -1,0 +1,32 @@
+<svg width="198" height="200" viewBox="0 0 198 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_5_523" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="20" y="37" width="157" height="126">
+<line x1="82.3845" y1="112.977" x2="82.3845" y2="163" stroke="white" stroke-width="2.85844"/>
+<line x1="83.8137" y1="161.571" x2="26.6449" y2="161.571" stroke="white" stroke-width="2.85844"/>
+<line x1="173.855" y1="161.571" x2="116.686" y2="161.571" stroke="white" stroke-width="2.85844"/>
+<line x1="26.645" y1="120.123" x2="26.645" y2="163" stroke="white" stroke-width="2.85844"/>
+<line x1="115.257" y1="137.274" x2="115.257" y2="163" stroke="white" stroke-width="2.85844"/>
+<line x1="138.124" y1="71.5299" x2="138.124" y2="100.114" stroke="white" stroke-width="2.85844"/>
+<line x1="26.645" y1="78.676" x2="26.645" y2="94.3975" stroke="white" stroke-width="2.85844"/>
+<line x1="175.284" y1="77.2468" x2="175.284" y2="163" stroke="white" stroke-width="2.85844"/>
+<line x1="60.3098" y1="98.4451" x2="26.0085" y2="121.313" stroke="white" stroke-width="2.85844"/>
+<line x1="134.386" y1="49.6944" x2="104.657" y2="69.5141" stroke="white" stroke-width="2.85844"/>
+<line x1="86.7317" y1="38.2268" x2="138.748" y2="72.7208" stroke="white" stroke-width="2.85844"/>
+<line x1="132.8" y1="49.6885" x2="175.908" y2="78.4271" stroke="white" stroke-width="2.85844"/>
+<line x1="88.3384" y1="38.1881" x2="26.0102" y2="79.8641" stroke="white" stroke-width="2.85844"/>
+<circle cx="63.09" cy="96.184" r="5.00227" stroke="white" stroke-width="2.85844"/>
+<circle cx="27.0023" cy="99.3997" r="5.00227" stroke="white" stroke-width="2.85844"/>
+<circle cx="115.257" cy="131.557" r="5.00227" stroke="white" stroke-width="2.85844"/>
+<circle cx="138.124" cy="104.759" r="5.00227" stroke="white" stroke-width="2.85844"/>
+<circle cx="100.607" cy="72.6019" r="5.00227" stroke="white" stroke-width="2.85844"/>
+<circle cx="82.3845" cy="109.404" r="5.00227" stroke="white" stroke-width="2.85844"/>
+</mask>
+<g mask="url(#mask0_5_523)">
+<rect x="20" y="21" width="158" height="158" fill="url(#paint0_linear_5_523)"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_5_523" x1="142" y1="60.5" x2="94.5" y2="164" gradientUnits="userSpaceOnUse">
+<stop stop-color="#2089DC"/>
+<stop offset="1" stop-color="#AD1457"/>
+</linearGradient>
+</defs>
+</svg>

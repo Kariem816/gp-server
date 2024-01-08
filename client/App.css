@@ -1,5 +1,6 @@
 .section {
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	height: 100vh;
@@ -8,17 +9,6 @@
 
 .section:nth-child(odd) {
 	background: #060606;
-}
-
-.section:nth-child(1) {
-	flex-direction: column;
-}
-
-.stack {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
 }
 
 h1,

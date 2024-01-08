@@ -25,22 +25,18 @@ function App() {
 			</div>
 
 			<div className="section">
-				<div className="stack">
-					<h2>Connection Demo</h2>
-					{loading && (
-						<div>
-							<div className="loader" />
-							<small>Delay is synthetic</small>
-						</div>
-					)}
-					{response && (
-						<code>
-							<pre>
-								<p>{JSON.stringify(response, null, 4)}</p>
-							</pre>
-						</code>
-					)}
-				</div>
+				<h2>Connection Demo</h2>
+				{loading && (
+					<>
+						<div className="loader" />
+						<small>Delay is synthetic</small>
+					</>
+				)}
+				{response && (
+					<code>
+						<pre>{JSON.stringify(response, null, 4)}</pre>
+					</code>
+				)}
 			</div>
 		</>
 	);

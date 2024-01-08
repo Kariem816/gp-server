@@ -10,10 +10,8 @@
 	background: #060606;
 }
 
-@media (max-width: 768px) {
-	.section:nth-child(1) {
-		flex-direction: column;
-	}
+.section:nth-child(1) {
+	flex-direction: column;
 }
 
 .stack {

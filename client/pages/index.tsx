@@ -1,9 +1,11 @@
-import React from "react"; // Find a way to remove this line (tsconfig.json)
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { FileRoute } from "@tanstack/react-router";
 
-import "./App.css";
+export const Route = new FileRoute('/').createRoute({
+	component: Page,
+});
 
-function App() {
+function Page() {
 	const [response, setResponse] = useState<object>();
 	const [loading, setLoading] = useState<boolean>(true);
 
@@ -41,5 +43,3 @@ function App() {
 		</>
 	);
 }
-
-export default App;

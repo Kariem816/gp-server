@@ -1,0 +1,6 @@
+{
+    "rootDirectory": "./client",
+    "routesDirectory": "./client/pages",
+    "generatedRouteTree": "./client/routeTree.gen.ts",
+    "qouteStyle": "double"
+}

@@ -1,4 +1,6 @@
-import fs from "fs/promises";
+import fs from "fs";
+import fsp from "fs/promises";
+import path from "path";
 import { Router } from "express";
 import { env } from "@/config/env.js";
 
@@ -10,57 +12,41 @@ const router = Router();
 
 // Cached production assets
 const templateHtml = isProduction
-	? await fs.readFile("./dist/frontend/client/index.html", "utf-8")
+	? await fsp.readFile("./dist/client/index.html", "utf-8")
 	: "";
-const ssrManifest = isProduction
-	? await fs.readFile(
-			"./dist/frontend/client/.vite/ssr-manifest.json",
-			"utf-8"
-	  )
-	: undefined;
 
 let vite: any;
 // Add Vite or respective production middlewares
-if (isProduction) {
-	const compression = (await import("compression")).default;
-	const sirv = (await import("sirv")).default;
-	router.use(compression());
-	router.use(base, sirv("./dist/frontend/client", { extensions: [] }));
-} else {
+if (!isProduction) {
 	const { createServer } = await import("vite");
 	vite = await createServer({
 		server: { middlewareMode: true },
-		appType: "custom",
+		appType: "spa",
 		base,
 	});
 	router.use(vite.middlewares);
 }
 
-router.use("*", async (req, res) => {
+router.get("*", async (req, res) => {
 	try {
-		const url = req.originalUrl.replace(base, "");
-
-		let template;
-		let render;
-		if (isProduction) {
-			template = templateHtml;
-			render = // @ts-ignore
-				(await import("../../frontend/server/entry-server.js")).render;
-		} else {
-			// Always read fresh template in development
-			template = await fs.readFile("./index.html", "utf-8");
-			template = await vite.transformIndexHtml(url, template);
-			render = (await vite.ssrLoadModule("client/entry-server.tsx"))
-				.render;
+		if (!isProduction) {
+			throw new Error("Unreachable");
 		}
 
-		const rendered = await render(url, ssrManifest);
+		const url = req.originalUrl;
+		const segments = url.split("/").filter(Boolean);
+		if (segments.length === 0) {
+			return res.set({ "Content-Type": "text/html" }).end(templateHtml);
+		}
 
-		const html = template
-			.replace(`<!--app-head-->`, rendered.head ?? "")
-			.replace(`<!--app-html-->`, rendered.html ?? "");
-
-		res.status(200).set({ "Content-Type": "text/html" }).end(html);
+		const filePath = path.join("./dist/client", ...segments);
+		if (fs.existsSync(filePath) && fs.lstatSync(filePath).isFile()) {
+			res.sendFile(path.resolve(process.cwd(), filePath));
+		} else {
+			res.status(404)
+				.set({ "Content-Type": "text/html" })
+				.end(templateHtml);
+		}
 	} catch (err: any) {
 		vite?.ssrFixStacktrace(err);
 		console.log(err.stack);

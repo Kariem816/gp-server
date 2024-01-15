@@ -20,6 +20,7 @@ let vite: any;
 if (!isProduction) {
 	const { createServer } = await import("vite");
 	vite = await createServer({
+		root: path.resolve(process.cwd(), "./client/"),
 		server: { middlewareMode: true },
 		appType: "spa",
 		base,

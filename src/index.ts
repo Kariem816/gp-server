@@ -23,7 +23,6 @@ app.use((error, _req, res, next) => {
 });
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(express.static("public"));
 
 app.use(
 	logger({ debugOnly: true, fields: ["method", "path", "query", "body"] })

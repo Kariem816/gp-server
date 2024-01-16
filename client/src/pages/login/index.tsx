@@ -13,11 +13,10 @@ import {
 } from "@mantine/core";
 import { useAuth } from "~/contexts/auth";
 import { useNavigate } from "@tanstack/react-router";
-
-import type { ChangeEvent, FormEvent } from "react";
+import { useSecurePage } from "~/hooks/useSecurePage";
+import { useForm } from "@mantine/form";
 
 import classes from "~/styles/login.module.css";
-import { useSecurePage } from "~/hooks/useSecurePage";
 
 export const Route = new FileRoute("/login/").createRoute({
 	component: LoginPage,
@@ -26,49 +25,40 @@ export const Route = new FileRoute("/login/").createRoute({
 export function LoginPage() {
 	const { login } = useAuth();
 
-	const [formData, setFormData] = useState({
-		username: "",
-		password: "",
-	});
+	const [isLoading, setIsLoading] = useState(false);
 	const [formError, setFormError] = useState("");
-	const [formErrors, setFormErrors] = useState({
-		username: "",
-		password: "",
+	const form = useForm({
+		initialValues: {
+			username: "",
+			password: "",
+		},
+		validate: {
+			username: (value) =>
+				value.trim().length === 0 ? "Username is missing" : null,
+			password: (value) =>
+				value.trim().length === 0 ? "Password is missing" : null,
+		},
 	});
 
 	const navigate = useNavigate();
 	useSecurePage("guest", "/");
 
-	function handleChange(e: ChangeEvent<HTMLInputElement>) {
-		const { name, value } = e.target;
-
-		setFormData((prev) => ({ ...prev, [name]: value }));
-		setFormErrors((prev) => ({ ...prev, [name]: "" }));
-		setFormError("");
-	}
-
-	async function handleSubmit(e: FormEvent<HTMLFormElement>) {
-		e.preventDefault();
-		const errors = {} as any;
-		const { username, password } = formData;
-		if (!username) errors.username = "username_missing";
-		if (!password) errors.password = "password_missing";
-
-		if (Object.keys(errors).length) {
-			setFormError(errors);
-			return;
-		}
-		setFormErrors({ username: "", password: "" });
-
+	async function handleSubmit(values: typeof form.values) {
 		try {
-			await login(username, password);
+			setIsLoading(true);
+			await login(values.username, values.password);
+			form.reset();
 			navigate({
 				to: "/",
 			});
 		} catch (err: any) {
 			if ("message" in err) setFormError(err.message);
 			else if ("messages" in err)
-				setFormError(err.messages.map((msg: any) => msg.message));
+				for (const message of err.messages) {
+					form.setFieldError(message.path, message.message);
+				}
+		} finally {
+			setIsLoading(false);
 		}
 	}
 
@@ -85,15 +75,13 @@ export function LoginPage() {
 			</Text>
 
 			<Paper withBorder shadow="md" p={30} mt={30} radius="md">
-				<form onSubmit={handleSubmit}>
+				<form onSubmit={form.onSubmit(handleSubmit)}>
 					<TextInput
 						label="Username"
 						name="username"
 						placeholder="Your username"
 						required
-						value={formData.username}
-						error={formErrors.username}
-						onChange={handleChange}
+						{...form.getInputProps("username")}
 					/>
 					<PasswordInput
 						label="Password"
@@ -101,9 +89,7 @@ export function LoginPage() {
 						placeholder="Your password"
 						required
 						mt="md"
-						value={formData.password}
-						error={formErrors.password}
-						onChange={handleChange}
+						{...form.getInputProps("password")}
 					/>
 					<Text c="red" mt="sm" fw="bold">
 						{formError}
@@ -113,7 +99,7 @@ export function LoginPage() {
 							Forgot password?
 						</Anchor>
 					</Group>
-					<Button fullWidth mt="xl" type="submit">
+					<Button fullWidth mt="xl" type="submit" loading={isLoading}>
 						Sign in
 					</Button>
 				</form>

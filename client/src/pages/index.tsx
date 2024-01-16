@@ -31,7 +31,7 @@ export function Page() {
 						size="sm"
 					/>
 					<Group justify="space-between" style={{ flex: 1 }}>
-						<Logo size={30} />
+						<Logo size={50} />
 						<Group ml="xl" gap={0} visibleFrom="sm">
 							<UnstyledButton className={classes.control}>
 								Home

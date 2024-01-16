@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { createRouter } from "./router";
 import { RouterProvider } from "@tanstack/react-router";
 import { createTheme, MantineProvider } from "@mantine/core";
+import AuthProvider from "./contexts/auth";
 
 import type { MantineColorsTuple } from "@mantine/core";
 
@@ -37,7 +38,9 @@ const root = ReactDOM.createRoot(
 root.render(
 	<React.StrictMode>
 		<MantineProvider theme={theme}>
-			<RouterProvider router={router} />
+			<AuthProvider>
+				<RouterProvider router={router} />
+			</AuthProvider>
 		</MantineProvider>
 	</React.StrictMode>
 );

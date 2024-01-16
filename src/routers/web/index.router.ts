@@ -1,7 +1,7 @@
 import fs from "fs";
 import fsp from "fs/promises";
 import path from "path";
-import { Router } from "express";
+import { Response, Router } from "express";
 import { env } from "@/config/env.js";
 
 // Constants
@@ -28,6 +28,10 @@ if (!isProduction) {
 	router.use(vite.middlewares);
 }
 
+function renderIndex(res: Response, status = 200) {
+	res.status(status).set({ "Content-Type": "text/html" }).end(templateHtml);
+}
+
 router.get("*", async (req, res) => {
 	try {
 		if (!isProduction) {
@@ -37,21 +41,21 @@ router.get("*", async (req, res) => {
 		const url = req.originalUrl;
 		const segments = url.split("/").filter(Boolean);
 		if (segments.length === 0) {
-			return res.set({ "Content-Type": "text/html" }).end(templateHtml);
+			return renderIndex(res);
 		}
 
 		const filePath = path.join("./dist/client", ...segments);
 		if (fs.existsSync(filePath) && fs.lstatSync(filePath).isFile()) {
 			res.sendFile(path.resolve(process.cwd(), filePath));
+		} else if (filePath.includes(".")) {
+			renderIndex(res, 404);
 		} else {
-			res.status(404)
-				.set({ "Content-Type": "text/html" })
-				.end(templateHtml);
+			renderIndex(res);
 		}
 	} catch (err: any) {
 		vite?.ssrFixStacktrace(err);
 		console.log(err.stack);
-		res.status(500).end(err.stack);
+		renderIndex(res, 500);
 	}
 });
 

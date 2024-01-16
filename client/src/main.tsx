@@ -7,12 +7,11 @@ import AuthProvider from "./contexts/auth";
 
 import type { MantineColorsTuple } from "@mantine/core";
 
-// import "./index.css";
 import "@mantine/core/styles.css";
 
 const router = createRouter();
 
-const myColor: MantineColorsTuple = [
+const primary: MantineColorsTuple = [
 	"#e4f8ff",
 	"#d2eafd",
 	"#a6d2f3",
@@ -27,8 +26,9 @@ const myColor: MantineColorsTuple = [
 
 const theme = createTheme({
 	colors: {
-		myColor,
+		primary,
 	},
+	primaryColor: "primary",
 });
 
 const root = ReactDOM.createRoot(

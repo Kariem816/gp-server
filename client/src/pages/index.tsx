@@ -8,7 +8,7 @@ export const Route = new FileRoute("/").createRoute({
 export function Page() {
 	return (
 		<>
-			<Title my="md" order={1}>
+			<Title my="md" order={1} c={"primary"}>
 				IoT Smart Campus
 			</Title>
 			<Text>
@@ -18,7 +18,7 @@ export function Page() {
 				<Code>ECE492 - Graduation Project II</Code> at Faculty of
 				Engineering, Ain Shams University.
 			</Text>
-			<Title my="md" order={2}>
+			<Title my="md" order={2} c={"primary"}>
 				Project Description
 			</Title>
 			<Text>
@@ -29,10 +29,10 @@ export function Page() {
 			</Text>
 			<List>
 				<List.Item>Embedded</List.Item>
-				<List.Item>Server</List.Item>
 				<List.Item>Image Processing</List.Item>
+				<List.Item>Server</List.Item>
 			</List>
-			<Title my="md" order={3}>
+			<Title my="md" order={3} c={"primary"}>
 				Embedded
 			</Title>
 			<Text>
@@ -40,16 +40,7 @@ export function Page() {
 				sensors and sending it to the server. The embedded part is built
 				using Arduino and ESP8266.
 			</Text>
-			<Title my="md" order={3}>
-				Server
-			</Title>
-			<Text>
-				The server is responsible for receiving data from the embedded
-				part and storing it in a database. The server is also
-				responsible for providing the data to the image processing part
-				and the web/mobile application.
-			</Text>
-			<Title my="md" order={3}>
+			<Title my="md" order={3} c={"primary"}>
 				Image Processing
 			</Title>
 			<Text>
@@ -58,45 +49,19 @@ export function Page() {
 				people in the image. The image processing part is built using
 				Python and OpenCV.
 			</Text>
-			<Title my="md" order={2}>
+			<Title my="md" order={3} c={"primary"}>
+				Server
+			</Title>
+			<Text>
+				The server is responsible for receiving data from the embedded
+				part and storing it in a database. The server is also
+				responsible for providing the data to the image processing part
+				and the web/mobile application.
+			</Text>
+			<Title my="md" order={2} c={"primary"}>
 				Contributors
 			</Title>
-			<Title my="md" order={3}>
-				Server Team
-			</Title>
-			<List>
-				<List.Item>
-					<UnstyledButton
-						component="a"
-						href="https://github.com/Kariem816"
-						target="__blank"
-						rel="noopener noreferer"
-					>
-						Kareem Mostafa ElSawah
-					</UnstyledButton>
-				</List.Item>
-				<List.Item>
-					<UnstyledButton
-						component="a"
-						href="#"
-						target="__blank"
-						rel="noopener noreferer"
-					>
-						Mostafa Sabry Sayed
-					</UnstyledButton>
-				</List.Item>
-				<List.Item>
-					<UnstyledButton
-						component="a"
-						href="#"
-						target="__blank"
-						rel="noopener noreferer"
-					>
-						Youssef Mohammed Ibrahim
-					</UnstyledButton>
-				</List.Item>
-			</List>
-			<Title my="md" order={3}>
+			<Title my="md" order={3} c={"primary"}>
 				Embedded Team
 			</Title>
 			<List>
@@ -131,7 +96,7 @@ export function Page() {
 					</UnstyledButton>
 				</List.Item>
 			</List>
-			<Title my="md" order={3}>
+			<Title my="md" order={3} c={"primary"}>
 				Image Processing Team
 			</Title>
 			<List>
@@ -166,7 +131,42 @@ export function Page() {
 					</UnstyledButton>
 				</List.Item>
 			</List>
-			<Title my="md" order={2}>
+			<Title my="md" order={3} c={"primary"}>
+				Server Team
+			</Title>
+			<List>
+				<List.Item>
+					<UnstyledButton
+						component="a"
+						href="https://github.com/Kariem816"
+						target="__blank"
+						rel="noopener noreferer"
+					>
+						Kareem Mostafa ElSawah
+					</UnstyledButton>
+				</List.Item>
+				<List.Item>
+					<UnstyledButton
+						component="a"
+						href="#"
+						target="__blank"
+						rel="noopener noreferer"
+					>
+						Mostafa Sabry Sayed
+					</UnstyledButton>
+				</List.Item>
+				<List.Item>
+					<UnstyledButton
+						component="a"
+						href="#"
+						target="__blank"
+						rel="noopener noreferer"
+					>
+						Youssef Mohammed Ibrahim
+					</UnstyledButton>
+				</List.Item>
+			</List>
+			<Title my="md" order={2} c={"primary"}>
 				Supervisor
 			</Title>
 			<UnstyledButton

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link, Outlet, rootRouteWithContext } from "@tanstack/react-router";
 import { RouterContext } from "../routerContext";
 import {
@@ -6,22 +7,34 @@ import {
 	Burger,
 	Button,
 	Group,
+	Stack,
+	Text,
 	UnstyledButton,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useAuth } from "~/contexts/auth";
 import Logo from "~/components/logo";
+import { SignedIn, SignedOut } from "~/components/auth";
+import { useRouter } from "@tanstack/react-router";
 
 import classes from "~/styles/index.module.css";
-import { SignedIn, SignedOut } from "~/components/auth";
 
 export const Route = rootRouteWithContext<RouterContext>()({
 	component: RootComponent,
 });
 
 function RootComponent() {
-	const [opened, { toggle }] = useDisclosure();
+	const [opened, { toggle, close }] = useDisclosure();
 	const { logout, user } = useAuth();
+	const router = useRouter();
+
+	useEffect(() => {
+		const unsubscribe = router.subscribe("onLoad", close);
+
+		return () => {
+			unsubscribe();
+		};
+	}, []);
 
 	return (
 		<AppShell
@@ -82,19 +95,45 @@ function RootComponent() {
 				</Group>
 			</AppShell.Header>
 
-			<AppShell.Navbar py="md" px={4}>
-				<UnstyledButton className={classes.control}>
-					Home
-				</UnstyledButton>
-				<UnstyledButton className={classes.control}>
-					Blog
-				</UnstyledButton>
-				<UnstyledButton className={classes.control}>
-					Contacts
-				</UnstyledButton>
-				<UnstyledButton className={classes.control}>
-					Support
-				</UnstyledButton>
+			<AppShell.Navbar py="md" px={8}>
+				<Stack gap={32} mb={8} flex={1}>
+					<SignedIn>
+						<UnstyledButton component={Link} to="/profile/me">
+							<Group>
+								<Avatar
+									// @ts-ignore
+									src={user?.img}
+									// @ts-ignore
+									alt={user?.username}
+								/>
+								{/* @ts-ignore */}
+								<Text fw={500}>{user?.username}</Text>
+							</Group>
+						</UnstyledButton>
+					</SignedIn>
+					<UnstyledButton component={Link} to="/">
+						Home
+					</UnstyledButton>
+					<SignedOut>
+						<Button
+							className={classes.control}
+							component={Link}
+							to="/login"
+						>
+							Login
+						</Button>
+					</SignedOut>
+					<SignedIn>
+						<Button
+							className={classes.control}
+							variant="outline"
+							onClick={logout}
+							style={{ marginBlockStart: "auto" }}
+						>
+							Logout
+						</Button>
+					</SignedIn>
+				</Stack>
 			</AppShell.Navbar>
 
 			<AppShell.Main>

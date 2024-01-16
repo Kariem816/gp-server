@@ -13,7 +13,6 @@ import {
 	getCurrentUser,
 } from "~/services/auth";
 import { removeAPIToken, setAPIToken } from "~/services/api";
-import { useLocalStorage } from "~/hooks/useStorage";
 
 import type { User, UserRole } from "~/types/users";
 
@@ -53,9 +52,10 @@ export default function AuthProvider({
 	children: React.ReactNode;
 }) {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
-	const [user, setUser] = useLocalStorage<User>("loggedUser", DEFAULT_USER);
+	const [user, setUser] = useState<User>(DEFAULT_USER);
 	const refreshTokenTimeout = useRef<NodeJS.Timeout>();
 	const refreshTokenLastRefreshed = useRef<Date>();
+	// TODO: handle refresh when the app comes back from background
 	// const loggedInRef = useRef(false);
 
 	// AppState
@@ -121,10 +121,15 @@ export default function AuthProvider({
 		startRefreshTokenTimer();
 	}
 
-	async function refreshUser(newUserData: Partial<Omit<User, "role">>) {
-		// Bad practice, but it's fine for now
-		// TODO: Fix useSyncStorage Hook
-		setUser({ ...user, ...newUserData });
+	async function refreshUser() {
+		stopRefreshTokenTimer();
+		refreshTokenInternal();
+		try {
+			const newUser = await getCurrentUser();
+			setUser(newUser);
+		} catch (err) {
+			logout();
+		}
 	}
 
 	async function logout() {

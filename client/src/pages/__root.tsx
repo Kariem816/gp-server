@@ -17,7 +17,7 @@ import Logo from "~/components/logo";
 import { SignedIn, SignedOut } from "~/components/auth";
 import { useRouter } from "@tanstack/react-router";
 
-import classes from "~/styles/index.module.css";
+import classes from "~/styles/root.module.css";
 
 export const Route = rootRouteWithContext<RouterContext>()({
 	component: RootComponent,

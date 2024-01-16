@@ -1,6 +1,8 @@
 import { FileRoute } from "@tanstack/react-router";
 import { UnstyledButton, Code, List, Title, Text, Space } from "@mantine/core";
 
+import styles from "~/styles/index.module.css";
+
 export const Route = new FileRoute("/").createRoute({
 	component: Page,
 });
@@ -8,8 +10,10 @@ export const Route = new FileRoute("/").createRoute({
 export function Page() {
 	return (
 		<>
-			<Title my="md" order={1} c={"primary"}>
-				IoT Smart Campus
+			<Title my="md" order={1}>
+				<Text variant="gradient" inherit>
+					IoT Smart Campus
+				</Text>
 			</Title>
 			<Text>
 				This is the website for the IoT Smart Campus project. The
@@ -71,6 +75,7 @@ export function Page() {
 						href="#"
 						target="__blank"
 						rel="noopener noreferer"
+						className={styles.teamButton}
 					>
 						Mohamed Sayed Farouk
 					</UnstyledButton>
@@ -81,6 +86,7 @@ export function Page() {
 						href="#"
 						target="__blank"
 						rel="noopener noreferer"
+						className={styles.teamButton}
 					>
 						Raghda Agmed Ahmed
 					</UnstyledButton>
@@ -91,6 +97,7 @@ export function Page() {
 						href="#"
 						target="__blank"
 						rel="noopener noreferer"
+						className={styles.teamButton}
 					>
 						Salah Adel Mohamed
 					</UnstyledButton>
@@ -106,6 +113,7 @@ export function Page() {
 						href="#"
 						target="__blank"
 						rel="noopener noreferer"
+						className={styles.teamButton}
 					>
 						Eslam Mohamed Hekal
 					</UnstyledButton>
@@ -116,6 +124,7 @@ export function Page() {
 						href="#"
 						target="__blank"
 						rel="noopener noreferer"
+						className={styles.teamButton}
 					>
 						Kareem Youssry Abdelaziz
 					</UnstyledButton>
@@ -126,6 +135,7 @@ export function Page() {
 						href="#"
 						target="__blank"
 						rel="noopener noreferer"
+						className={styles.teamButton}
 					>
 						Omar Gamal Abdelghaffar
 					</UnstyledButton>
@@ -141,6 +151,7 @@ export function Page() {
 						href="https://github.com/Kariem816"
 						target="__blank"
 						rel="noopener noreferer"
+						className={styles.teamButton}
 					>
 						Kareem Mostafa ElSawah
 					</UnstyledButton>
@@ -151,6 +162,7 @@ export function Page() {
 						href="#"
 						target="__blank"
 						rel="noopener noreferer"
+						className={styles.teamButton}
 					>
 						Mostafa Sabry Sayed
 					</UnstyledButton>
@@ -161,6 +173,7 @@ export function Page() {
 						href="#"
 						target="__blank"
 						rel="noopener noreferer"
+						className={styles.teamButton}
 					>
 						Youssef Mohammed Ibrahim
 					</UnstyledButton>
@@ -174,6 +187,7 @@ export function Page() {
 				href="https://eng.asu.edu.eg/staff/helsayed"
 				target="_blank"
 				rel="noopener noreferrer"
+				className={styles.teamButton}
 			>
 				Prof. Dr. Hussein A. Elsayed
 			</UnstyledButton>

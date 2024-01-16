@@ -29,6 +29,7 @@ const theme = createTheme({
 		primary,
 	},
 	primaryColor: "primary",
+	defaultRadius: 12,
 });
 
 const root = ReactDOM.createRoot(

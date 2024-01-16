@@ -64,13 +64,6 @@ router.post(
 
 router.post("/login", validateBody(loginSchema), async (req, res) => {
 	try {
-		if (!req.body.username || !req.body.password) {
-			res.status(400).json({
-				error: "Bad request",
-				message: "Missing username or password",
-			});
-			return;
-		}
 		const user = await userStore.authenticateUser(
 			req.body.username,
 			req.body.password

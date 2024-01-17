@@ -30,7 +30,7 @@ router.get("/", validateQuery(downloadAPKSchema), async (req, res) => {
 				});
 			}
 
-			return res.redirect(url);
+			return res.json({ url });
 		}
 
 		const appUpload = await uploadStore.showByName("mobile-apk");
@@ -39,7 +39,7 @@ router.get("/", validateQuery(downloadAPKSchema), async (req, res) => {
 			throw new Error("Downloading the app is currently unavailable");
 		}
 
-		res.redirect(appUpload.url);
+		res.json({ url: appUpload.url });
 	} catch (err) {
 		routerError(err, res);
 	}
@@ -135,15 +135,16 @@ router.post(
 		try {
 			const { url, version } = req.body;
 
+			let oldVersion = "0.0.0";
+			let oldVersionNumber = 0;
+
 			const oldUpload = await uploadStore.showByName("mobile-apk");
-			if (!oldUpload) {
-				throw new Error("Downloading the app is currently unavailable");
+			if (oldUpload) {
+				const oldVersion = uploadToVersion(oldUpload);
+				oldVersionNumber = parseVersion(oldVersion).number;
 			}
 
-			const oldVersion = uploadToVersion(oldUpload);
-
 			const { number: newVersionNumber } = parseVersion(version);
-			const { number: oldVersionNumber } = parseVersion(oldVersion);
 
 			if (newVersionNumber <= oldVersionNumber) {
 				return res.status(400).json({
@@ -170,6 +171,15 @@ router.post(
 			});
 
 			res.sendStatus(200);
+
+			if (resp?.data?.key) {
+				utapi.renameFile({
+					fileKey: resp?.data?.key,
+					newName: `smart-campus-app-${version}.apk`,
+				});
+			} else {
+				throw new Error("Unreachable");
+			}
 		} catch (err) {
 			routerError(err, res);
 		}

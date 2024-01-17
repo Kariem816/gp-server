@@ -64,6 +64,13 @@ function RootComponent() {
 							>
 								Home
 							</UnstyledButton>
+							<UnstyledButton
+								className={classes.control}
+								component={Link}
+								to="/mobile"
+							>
+								Our App
+							</UnstyledButton>
 							<SignedIn>
 								<Link to="/profile/me">
 									<Avatar
@@ -97,6 +104,9 @@ function RootComponent() {
 
 			<AppShell.Navbar py="md" px={8}>
 				<Stack gap={32} mb={8} flex={1}>
+					<Button component={Link} to="/mobile" variant="gradient">
+						Get The App
+					</Button>
 					<SignedIn>
 						<UnstyledButton component={Link} to="/profile/me">
 							<Group>

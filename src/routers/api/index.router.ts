@@ -9,6 +9,7 @@ import teachersRouter from "./teachers.router.js";
 import trashRouter from "./trash.router.js";
 
 import uploadsRouter from "./uploads.router.js";
+import mobileRouter from "./mobile.router.js";
 
 import {
 	getCourseProfile,
@@ -37,6 +38,7 @@ router.use("/teachers", mustLogin, teachersRouter);
 router.use("/trash", trashRouter);
 
 router.use("/uploads", uploadsRouter);
+router.use("/mobile", mobileRouter);
 
 router.use((_req, res) => {
 	res.status(404).json({

@@ -77,6 +77,21 @@ class UploadsStore {
 		}
 	}
 
+	async showByName(name: string): Promise<Upload | null> {
+		try {
+			return prisma.upload.findFirst({
+				where: {
+					name,
+				},
+				orderBy: {
+					createdAt: "desc",
+				},
+			});
+		} catch (err) {
+			throw parsePrismaError(err as PrismaClientError);
+		}
+	}
+
 	async deleteMany(keys: string[]): Promise<void> {
 		try {
 			await prisma.upload.deleteMany({
@@ -125,6 +140,47 @@ class UploadsStore {
 			});
 
 			return key;
+		} catch (err) {
+			throw parsePrismaError(err as PrismaClientError);
+		}
+	}
+
+	// Mobile App Specific
+	async getAllMetadataByName(
+		name: string
+	): Promise<{ metadata: Upload["metadata"] }[]> {
+		try {
+			return prisma.upload.findMany({
+				where: {
+					name,
+				},
+				select: {
+					metadata: true,
+				},
+				orderBy: {
+					createdAt: "desc",
+				},
+			});
+		} catch (err) {
+			throw parsePrismaError(err as PrismaClientError);
+		}
+	}
+
+	async getVersionURL(version: string): Promise<Upload["url"] | undefined> {
+		try {
+			const upload = await prisma.upload.findFirst({
+				where: {
+					name: "mobile-apk",
+					metadata: {
+						equals: { version },
+					},
+				},
+				select: {
+					url: true,
+				},
+			});
+
+			return upload?.url;
 		} catch (err) {
 			throw parsePrismaError(err as PrismaClientError);
 		}

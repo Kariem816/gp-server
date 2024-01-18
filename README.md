@@ -7,33 +7,27 @@ This repo contains the server side code for the IoT Smart Campus project. The pr
 The project aims to build a smart campus that can be used to monitor the campus and provide useful information to the students and staff. The project is divided into three main parts:
 
 - Embedded
-- Server
 - Image Processing
+- Server
 
 ### Embedded
 
 The embedded part is responsible for collecting data from the sensors and sending it to the server. The embedded part is built using Arduino and ESP8266.
 
-### Server
-
-The server is responsible for receiving data from the embedded part and storing it in a database. The server is also responsible for providing the data to the image processing part and the web/mobile application.
-
 ### Image Processing
 
 The image processing part is responsible for processing the images received from the server and detecting the number of people in the image. The image processing part is built using Python and OpenCV.
 
+### Server
+
+The server is responsible for receiving data from the embedded part and storing it in a database. The server is also responsible for providing the data to the image processing part and the web/mobile application.
+
 ## Contributors
-
-### Server Team
-
-- [Kareem Mostafa ElSawah](https://github.com/Kariem816)
-- [Mostafa Sabry Sayed](#)
-- [Youssef Mohammed Ibrahim](#)
 
 ### Embedded Team
 
 - [Mohamed Sayed Farouk](#)
-- [Raghda Agmed Ahmed](#)
+- [Raghda Ahmed Ahmed](#)
 - [Salah Adel Mohamed](#)
 
 ### Image Processing Team
@@ -41,6 +35,12 @@ The image processing part is responsible for processing the images received from
 - [Eslam Mohamed Hekal](#)
 - [Kareem Youssry Abdelaziz](#)
 - [Omar Gamal Abdelghaffar](#)
+
+### Server Team
+
+- [Kareem Mostafa ElSawah](https://github.com/Kariem816)
+- [Mostafa Sabry Sayed](#)
+- [Youssef Mohammed Ibrahim](#)
 
 ## Supervisor
 

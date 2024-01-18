@@ -88,7 +88,7 @@ export function Page() {
 						rel="noopener noreferer"
 						className={styles.teamButton}
 					>
-						Raghda Agmed Ahmed
+						Raghda Ahmed Ahmed
 					</UnstyledButton>
 				</List.Item>
 				<List.Item>

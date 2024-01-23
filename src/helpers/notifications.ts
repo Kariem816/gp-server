@@ -62,6 +62,7 @@ export async function getReceipts(tickets: ExpoPushTicket[]) {
 			const receipts = await expo.getPushNotificationReceiptsAsync(chunk);
 
 			for (const receiptId in receipts) {
+				// @ts-ignore
 				let { status, message, details } = receipts[receiptId];
 				if (status === "ok") {
 					continue;
@@ -69,7 +70,9 @@ export async function getReceipts(tickets: ExpoPushTicket[]) {
 					console.error(
 						`There was an error sending a notification: ${message}`
 					);
+					// @ts-ignore
 					if (details?.error) {
+						// @ts-ignore
 						console.error(`The error code is ${details.error}`);
 					}
 				}

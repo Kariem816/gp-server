@@ -95,9 +95,11 @@ export default function AuthProvider({
 	// }, []);
 
 	useEffect(() => {
-		refreshTokenInternal().then(() => {
-			getCurrentUser().then(setUser).catch(logout);
-		});
+		refreshTokenInternal()
+			.then(() => {
+				getCurrentUser().then(setUser).catch(logout);
+			})
+			.catch(() => {});
 	}, []);
 
 	useEffect(() => {
@@ -142,7 +144,7 @@ export default function AuthProvider({
 		stopRefreshTokenTimer();
 	}
 
-	async function refreshTokenInternal() {
+	async function refreshTokenInternal(startup = false) {
 		try {
 			const { accessToken } = await refreshToken();
 			setAPIToken(accessToken);
@@ -150,6 +152,9 @@ export default function AuthProvider({
 		} catch (err) {
 			stopRefreshTokenTimer();
 			setUser(DEFAULT_USER);
+			if (startup) {
+				throw err;
+			}
 		}
 	}
 

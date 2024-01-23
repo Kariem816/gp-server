@@ -1,8 +1,9 @@
 import { prisma, parsePrismaError } from "@/config/db.js";
 import type { PrismaClientError } from "@/config/db.js";
+import type { Session } from "@prisma/client";
 
 class SessionStore {
-	async create(userId: string) {
+	async create(userId: Session["userId"], device: Session["device"]) {
 		try {
 			return await prisma.session.create({
 				data: {
@@ -11,6 +12,7 @@ class SessionStore {
 							id: userId,
 						},
 					},
+					device: device,
 				},
 			});
 		} catch (err: any) {
@@ -115,9 +117,55 @@ class SessionStore {
 			parsePrismaError(err as PrismaClientError);
 		}
 	}
+
+	async updateDevice(sid: string, device: Session["device"]) {
+		try {
+			return await prisma.session.update({
+				where: {
+					id: sid,
+				},
+				data: {
+					device: device,
+				},
+			});
+		} catch (err) {
+			parsePrismaError(err as PrismaClientError);
+		}
+	}
+
+	async updateNotificationToken(sid: string, notificationToken: string) {
+		try {
+			return await prisma.session.update({
+				where: {
+					id: sid,
+				},
+				data: {
+					notificationToken: notificationToken,
+				},
+			});
+		} catch (err) {
+			parsePrismaError(err as PrismaClientError);
+		}
+	}
+
+	async getNotificationTokensByUser(userId: string) {
+		try {
+			return await prisma.session.findMany({
+				where: {
+					userId: userId,
+					notificationToken: {
+						not: null,
+					},
+					active: true,
+				},
+				select: {
+					notificationToken: true,
+				},
+			});
+		} catch (err) {
+			parsePrismaError(err as PrismaClientError);
+		}
+	}
 }
 
-/**
- * @deprecated don't use this, until implemented correctly
- */
 export default new SessionStore();

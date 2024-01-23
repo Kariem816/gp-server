@@ -157,7 +157,7 @@ class UserStore {
 	async authenticateUser(
 		username: string,
 		password: string
-	): Promise<Partial<User>> {
+	): Promise<Omit<User, "password">> {
 		try {
 			const user = await prisma.user.findUnique({
 				where: {

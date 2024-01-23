@@ -1,5 +1,6 @@
 import { Router } from "express";
 import userStore from "@/models/users.model.js";
+import sessionStore from "@/models/sessions.model.js";
 import { signJWT, verifyJWT } from "@/utils/jwt.js";
 import {
 	mustBeAdmin,
@@ -11,13 +12,15 @@ import { collectFileters } from "@/helpers/index.js";
 import {
 	loginSchema,
 	newUserSchema,
+	updateNotificationTokenSchema,
 	updatePasswordSchema,
 } from "@/schemas/users.schema.js";
 import { querySchema } from "@/schemas/query.schema.js";
 import { env } from "@/config/env.js";
 import { comparePassword } from "@/utils/hash.js";
-import sessionsModel from "@/models/sessions.model.js";
 import { routerError } from "@/helpers/index.js";
+import { parseUserAgent } from "@/helpers/session.js";
+import { sendNotifications } from "@/helpers/notifications.js";
 
 import type { User } from "@prisma/client";
 
@@ -69,11 +72,14 @@ router.post("/login", validateBody(loginSchema), async (req, res) => {
 			req.body.password
 		);
 
+		const device = parseUserAgent(req.headers["user-agent"]);
+		const session = await sessionStore.create(user.id, device);
+
 		const accessToken = signJWT(
-			{ user },
+			{ user: { ...user, sid: session.id } },
 			env.NODE_ENV === "production" ? "5m" : "1h"
 		);
-		const refreshToken = signJWT({ userId: user.id }, "30d");
+		const refreshToken = signJWT({ sessionId: session.id }, "30d");
 		res.cookie("refreshToken", refreshToken, {
 			maxAge: 2592000000, // 30 days
 			httpOnly: true,
@@ -88,8 +94,28 @@ router.post("/login", validateBody(loginSchema), async (req, res) => {
 });
 
 router.post("/logout", async (_req, res) => {
-	res.clearCookie("refreshToken");
-	res.sendStatus(200);
+	try {
+		const { refreshToken } = _req.cookies;
+		if (!refreshToken) {
+			return res.status(400).json({
+				error: "BAD_REQUEST",
+				message: "Missing refresh token",
+			});
+		}
+
+		const { payload } = verifyJWT(refreshToken);
+		if (payload?.sessionId) {
+			await sessionStore.invalidate(payload.sessionId);
+		} else {
+			throw new Error("No session id in refresh token");
+		}
+		res.clearCookie("refreshToken");
+		res.sendStatus(200);
+	} catch (err) {
+		// ignore error
+		res.clearCookie("refreshToken");
+		res.sendStatus(200);
+	}
 });
 
 router.get("/refresh-token", async (req, res) => {
@@ -104,36 +130,51 @@ router.get("/refresh-token", async (req, res) => {
 
 		const { payload, expired } = verifyJWT(refreshToken);
 		if (expired) {
+			// TODO: invalidate session in db
+			if (payload?.sessionId) {
+				await sessionStore.invalidate(payload.sessionId);
+			} else {
+				throw new Error("No session id in refresh token");
+			}
 			return res.status(400).json({
 				error: "BAD_REQUEST",
 				message: "Refresh token expired",
 			});
 		}
 
-		if (!payload?.userId) {
+		if (!payload?.sessionId) {
 			return res.status(400).json({
 				error: "BAD_REQUEST",
 				message: "Invalid refresh token",
 			});
 		}
 
-		const user = await userStore.getUserById(payload.userId);
-		if (!user) {
+		const session = await sessionStore.get(payload.sessionId);
+		if (!session) {
 			return res
 				.status(401)
 				.json({ error: "UNAUTHORIZED", message: "Login expired" });
 		}
 
+		// Not awaiting on purpose
+		sessionStore.updateDevice(
+			session.id,
+			parseUserAgent(req.headers["user-agent"])
+		);
+
+		const user = await userStore.getUserById(session.userId);
+
 		const accessToken = signJWT(
-			{ user },
+			{ user: { ...user, sid: session.id } },
 			env.NODE_ENV === "production" ? "5m" : "1h"
 		);
 
 		res.json({ accessToken });
 	} catch {
-		return res.status(400).json({
+		res.clearCookie("refreshToken");
+		res.status(400).json({
 			error: "BAD_REQUEST",
-			message: "Invalid refresh token",
+			message: "Invalid session",
 		});
 	}
 });
@@ -224,5 +265,49 @@ router.put(
 		}
 	}
 );
+
+router.post(
+	"/notifications",
+	mustLogin,
+	validateBody(updateNotificationTokenSchema),
+	async (req, res) => {
+		try {
+			await sessionStore.updateNotificationToken(
+				res.locals.user.sid,
+				req.body.token
+			);
+			res.sendStatus(200);
+		} catch (err: any) {
+			routerError(err, res);
+		}
+	}
+);
+
+// FIXME: this is a test route. Remove it later
+router.post("/message", mustBeAdmin, async (req, res) => {
+	try {
+		const { title, body, userIds } = req.body;
+
+		const notificationTokenObjects = await Promise.all(
+			userIds.map((userId: string) =>
+				sessionStore.getNotificationTokensByUser(userId)
+			)
+		);
+
+		const notificationTokens = notificationTokenObjects
+			.flatMap((tokens) => tokens)
+			.map((token) => token.notificationToken);
+
+		// TODO: maybe save ticket ids in db
+		await sendNotifications(notificationTokens, {
+			title,
+			body,
+		});
+
+		res.sendStatus(200);
+	} catch (err: any) {
+		routerError(err, res);
+	}
+});
 
 export default router;

@@ -1,3 +1,4 @@
+import { Expo } from "expo-server-sdk";
 import { z } from "zod";
 
 export const usernameSchema = z
@@ -79,3 +80,9 @@ export const updatePasswordSchema = z
 		if (!data.oldPassword) return true;
 		return data.oldPassword !== data.newPassword;
 	}, "New password must be different from old password");
+
+export const updateNotificationTokenSchema = z.object({
+	token: z.string().refine((token) => {
+		return Expo.isExpoPushToken(token);
+	}, "Invalid notification token"),
+});

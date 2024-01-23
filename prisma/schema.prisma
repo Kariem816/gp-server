@@ -24,13 +24,16 @@ model User {
   controller Controller?
   security   Security?
   admin      Admin?
-  Session    Session[]
+
+  sessions Session[]
 }
 
 model Session {
-  id     String  @id @default(uuid())
-  userId String
-  active Boolean @default(true)
+  id                String  @id @default(uuid())
+  userId            String
+  active            Boolean @default(true)
+  device            String
+  notificationToken String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

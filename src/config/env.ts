@@ -13,6 +13,7 @@ type Env = {
 	CURR_SEMESTER: string;
 	UPLOADTHING_SECRET: string;
 	UPLOADTHING_APP_ID: string;
+	EXPO_ACCESS_TOKEN: string;
 };
 
 export const env: Env = {
@@ -26,4 +27,5 @@ export const env: Env = {
 	CURR_SEMESTER: process.env.CURR_SEMESTER!,
 	UPLOADTHING_SECRET: process.env.UPLOADTHING_SECRET!,
 	UPLOADTHING_APP_ID: process.env.UPLOADTHING_APP_ID!,
+	EXPO_ACCESS_TOKEN: process.env.EXPO_ACCESS_TOKEN!,
 };

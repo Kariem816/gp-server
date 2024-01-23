@@ -1,6 +1,12 @@
 import type { Request, Response, NextFunction } from "express";
 import { verifyJWT } from "@/utils/jwt.js";
 
+import type { User, Session } from "@prisma/client";
+
+type LocalUser = User & {
+	sid: Session["id"];
+};
+
 export default async function getUser(
 	req: Request,
 	res: Response,
@@ -18,7 +24,7 @@ export default async function getUser(
 		// if the access token is expired, just continue
 		// if the access token is valid, set the user in the locals
 		if (payload?.user) {
-			res.locals.user = payload.user;
+			res.locals.user = payload.user as LocalUser;
 			return next();
 		}
 

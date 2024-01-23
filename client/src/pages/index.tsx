@@ -121,7 +121,7 @@ export function Page() {
 				<List.Item>
 					<UnstyledButton
 						component="a"
-						href="#"
+						href="https://linkedin.com/in/kareem-youssry/"
 						target="__blank"
 						rel="noopener noreferer"
 						className={styles.teamButton}

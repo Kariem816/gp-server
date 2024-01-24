@@ -33,7 +33,7 @@ The server is responsible for receiving data from the embedded part and storing 
 ### Image Processing Team
 
 - [Eslam Mohamed Hekal](#)
-- [Kareem Youssry Abdelaziz](#)
+- [Kareem Youssry Abdelaziz](https://linkedin.com/in/kareem-youssry/)
 - [Omar Gamal Abdelghaffar](#)
 
 ### Server Team

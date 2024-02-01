@@ -166,6 +166,24 @@ class SessionStore {
 			parsePrismaError(err as PrismaClientError);
 		}
 	}
+
+	async getAllNotificationTokens() {
+		try {
+			return await prisma.session.findMany({
+				where: {
+					notificationToken: {
+						not: null,
+					},
+					active: true,
+				},
+				select: {
+					notificationToken: true,
+				},
+			});
+		} catch (err) {
+			parsePrismaError(err as PrismaClientError);
+		}
+	}
 }
 
 export default new SessionStore();

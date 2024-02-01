@@ -11,9 +11,11 @@ import {
 import { collectFileters } from "@/helpers/index.js";
 import {
 	loginSchema,
+	notifyUsersSchema,
 	newUserSchema,
 	updateNotificationTokenSchema,
 	updatePasswordSchema,
+	notifyUserSchema,
 } from "@/schemas/users.schema.js";
 import { querySchema } from "@/schemas/query.schema.js";
 import { env } from "@/config/env.js";
@@ -283,31 +285,86 @@ router.post(
 	}
 );
 
-// FIXME: this is a test route. Remove it later
-router.post("/message", mustBeAdmin, async (req, res) => {
-	try {
-		const { title, body, userIds } = req.body;
+router.post(
+	"/notify",
+	mustBeAdmin,
+	validateBody(notifyUsersSchema),
+	async (req, res) => {
+		try {
+			const { title, body, userIds, all } = req.body;
 
-		const notificationTokenObjects = await Promise.all(
-			userIds.map((userId: string) =>
-				sessionStore.getNotificationTokensByUser(userId)
-			)
-		);
+			const notificationTokenObjects =
+				(all
+					? await sessionStore.getAllNotificationTokens()
+					: await Promise.all(
+							userIds.map((userId: string) =>
+								sessionStore.getNotificationTokensByUser(userId)
+							)
+						)) ?? [];
 
-		const notificationTokens = notificationTokenObjects
-			.flatMap((tokens) => tokens)
-			.map((token) => token.notificationToken);
+			const notificationTokens = notificationTokenObjects
+				.flatMap((tokens) => tokens)
+				.map((token) => token.notificationToken);
 
-		// TODO: maybe save ticket ids in db
-		await sendNotifications(notificationTokens, {
-			title,
-			body,
-		});
+			// TODO: maybe save ticket ids in db
+			await sendNotifications(notificationTokens, {
+				title,
+				body,
+			});
 
-		res.sendStatus(200);
-	} catch (err: any) {
-		routerError(err, res);
+			res.json({
+				status: "success",
+				message: `Notification sent to ${notificationTokens.length} device(s)`,
+			});
+		} catch (err: any) {
+			routerError(err, res);
+		}
 	}
-});
+);
+
+router.post(
+	"/:userId/notify",
+	mustBeAdmin,
+	validateBody(notifyUserSchema),
+	async (req, res) => {
+		try {
+			const { title, body } = req.body;
+			const notificationTokenObjects =
+				await sessionStore.getNotificationTokensByUser(
+					req.params.userId
+				);
+
+			if (!notificationTokenObjects?.length) {
+				return res.status(404).json({
+					error: "NOT_FOUND",
+					message: "User has no notification tokens",
+				});
+			}
+
+			const notificationTokens = notificationTokenObjects
+				.map((token) => token.notificationToken)
+				.filter((token) => token !== null) as string[];
+
+			if (notificationTokens.length === 0) {
+				return res.status(404).json({
+					error: "NOT_FOUND",
+					message: "User has no notification tokens",
+				});
+			}
+
+			await sendNotifications(notificationTokens, {
+				title,
+				body,
+			});
+
+			res.json({
+				status: "success",
+				message: `Notification sent to ${notificationTokens.length} device(s)`,
+			});
+		} catch (err: any) {
+			routerError(err, res);
+		}
+	}
+);
 
 export default router;

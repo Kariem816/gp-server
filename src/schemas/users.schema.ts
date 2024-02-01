@@ -86,3 +86,19 @@ export const updateNotificationTokenSchema = z.object({
 		return Expo.isExpoPushToken(token);
 	}, "Invalid notification token"),
 });
+
+export const notifyUserSchema = z.object({
+	title: z.string(),
+	body: z.string(),
+});
+
+export const notifyUsersSchema = z
+	.object({
+		title: z.string(),
+		body: z.string(),
+		userIds: z.array(z.string().uuid()).optional(),
+		all: z.boolean().optional(),
+	})
+	.refine((data) => {
+		return data.userIds?.length || data.all;
+	}, "You must provide either userIds or all");

@@ -28,7 +28,7 @@ class SessionStore {
 				},
 			});
 		} catch (err) {
-			parsePrismaError(err as PrismaClientError);
+			throw parsePrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -40,7 +40,7 @@ class SessionStore {
 				},
 			});
 		} catch (err) {
-			parsePrismaError(err as PrismaClientError);
+			throw parsePrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -52,7 +52,7 @@ class SessionStore {
 				},
 			});
 		} catch (err) {
-			parsePrismaError(err as PrismaClientError);
+			throw parsePrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -60,7 +60,7 @@ class SessionStore {
 		try {
 			return await prisma.session.deleteMany();
 		} catch (err) {
-			parsePrismaError(err as PrismaClientError);
+			throw parsePrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -72,7 +72,7 @@ class SessionStore {
 				},
 			});
 		} catch (err) {
-			parsePrismaError(err as PrismaClientError);
+			throw parsePrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -87,7 +87,7 @@ class SessionStore {
 				},
 			});
 		} catch (err) {
-			parsePrismaError(err as PrismaClientError);
+			throw parsePrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -99,7 +99,7 @@ class SessionStore {
 				},
 			});
 		} catch (err) {
-			parsePrismaError(err as PrismaClientError);
+			throw parsePrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -114,7 +114,7 @@ class SessionStore {
 				},
 			});
 		} catch (err) {
-			parsePrismaError(err as PrismaClientError);
+			throw parsePrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -129,7 +129,7 @@ class SessionStore {
 				},
 			});
 		} catch (err) {
-			parsePrismaError(err as PrismaClientError);
+			throw parsePrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -144,13 +144,13 @@ class SessionStore {
 				},
 			});
 		} catch (err) {
-			parsePrismaError(err as PrismaClientError);
+			throw parsePrismaError(err as PrismaClientError);
 		}
 	}
 
 	async getNotificationTokensByUser(userId: string) {
 		try {
-			return await prisma.session.findMany({
+			const tokenObjects = await prisma.session.findMany({
 				where: {
 					userId: userId,
 					notificationToken: {
@@ -162,14 +162,16 @@ class SessionStore {
 					notificationToken: true,
 				},
 			});
+
+			return tokenObjects.map((o) => o.notificationToken as string);
 		} catch (err) {
-			parsePrismaError(err as PrismaClientError);
+			throw parsePrismaError(err as PrismaClientError);
 		}
 	}
 
 	async getAllNotificationTokens() {
 		try {
-			return await prisma.session.findMany({
+			const tokenObjects = await prisma.session.findMany({
 				where: {
 					notificationToken: {
 						not: null,
@@ -180,8 +182,10 @@ class SessionStore {
 					notificationToken: true,
 				},
 			});
+
+			return tokenObjects.map((o) => o.notificationToken as string);
 		} catch (err) {
-			parsePrismaError(err as PrismaClientError);
+			throw parsePrismaError(err as PrismaClientError);
 		}
 	}
 }

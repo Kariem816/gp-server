@@ -1,6 +1,8 @@
 import { ut, utapi } from "@/config/uploads.js";
 import userStore from "@/models/users.model.js";
 import uploadStore from "@/models/uploads.model.js";
+import sessionStore from "@/models/sessions.model.js";
+import { sendNotifications } from "@/helpers/notifications";
 
 import {
 	createUploadthingExpressHandler,
@@ -53,6 +55,16 @@ const uploadRouter = {
 				}
 			} catch (err) {
 				console.error(err);
+			}
+
+			const tokens = await sessionStore.getNotificationTokensByUser(
+				metadata.userId
+			);
+			if (tokens.length > 0) {
+				await sendNotifications(tokens, {
+					title: "Profile picture updated",
+					body: "Your profile picture has been updated",
+				});
 			}
 
 			return { img: file.url };

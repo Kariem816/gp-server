@@ -293,18 +293,13 @@ router.post(
 		try {
 			const { title, body, userIds, all } = req.body;
 
-			const notificationTokenObjects =
-				(all
-					? await sessionStore.getAllNotificationTokens()
-					: await Promise.all(
-							userIds.map((userId: string) =>
-								sessionStore.getNotificationTokensByUser(userId)
-							)
-						)) ?? [];
-
-			const notificationTokens = notificationTokenObjects
-				.flatMap((tokens) => tokens)
-				.map((token) => token.notificationToken);
+			const notificationTokens = all
+				? await sessionStore.getAllNotificationTokens()
+				: await Promise.all(
+						userIds.map((userId: string) =>
+							sessionStore.getNotificationTokensByUser(userId)
+						)
+					).then((tokens) => tokens.flat());
 
 			// TODO: maybe save ticket ids in db
 			await sendNotifications(notificationTokens, {
@@ -329,21 +324,10 @@ router.post(
 	async (req, res) => {
 		try {
 			const { title, body } = req.body;
-			const notificationTokenObjects =
+			const notificationTokens =
 				await sessionStore.getNotificationTokensByUser(
 					req.params.userId
 				);
-
-			if (!notificationTokenObjects?.length) {
-				return res.status(404).json({
-					error: "NOT_FOUND",
-					message: "User has no notification tokens",
-				});
-			}
-
-			const notificationTokens = notificationTokenObjects
-				.map((token) => token.notificationToken)
-				.filter((token) => token !== null) as string[];
 
 			if (notificationTokens.length === 0) {
 				return res.status(404).json({

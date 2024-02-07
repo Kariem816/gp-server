@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { routerError, uploadToVersion } from "@/helpers/index.js";
 import uploadStore from "@/models/uploads.model.js";
+import sessionStore from "@/models/sessions.model.js";
 import {
 	mustBeAdmin,
 	validateBody,
@@ -13,6 +14,7 @@ import {
 } from "@/schemas/mobile.schema.js";
 import { utapi } from "@/config/uploads.js";
 import { isVersion, parseVersion } from "@/utils/versions.js";
+import { sendNotifications } from "@/helpers/notifications";
 
 import type { Prisma } from "@prisma/client";
 
@@ -175,6 +177,15 @@ router.post(
 			});
 
 			res.sendStatus(200);
+
+			const notificationTokens =
+				await sessionStore.getAllNotificationTokens();
+
+			// TODO: maybe save ticket ids in db
+			await sendNotifications(notificationTokens, {
+				title: "New app version available",
+				body: `A new version of the app is available. Please update to version ${version} from the app settings.`,
+			});
 
 			if (resp?.data?.key) {
 				utapi.renameFile({

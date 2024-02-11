@@ -14,7 +14,7 @@ import {
 } from "@/schemas/mobile.schema.js";
 import { utapi } from "@/config/uploads.js";
 import { isVersion, parseVersion } from "@/utils/versions.js";
-import { sendNotifications } from "@/helpers/notifications";
+import { sendNotifications } from "@/helpers/notifications.js";
 
 import type { Prisma } from "@prisma/client";
 

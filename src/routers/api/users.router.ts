@@ -253,7 +253,7 @@ router.put(
 				req.body.newPassword
 			);
 
-			// await sessionsModel.invalidateAllByUser(res.locals.user.id);
+			await sessionStore.invalidateAllByUser(res.locals.user.id);
 			res.cookie("refreshToken", "", {
 				maxAge: 0,
 				httpOnly: true,

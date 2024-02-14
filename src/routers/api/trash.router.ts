@@ -1,6 +1,6 @@
 import { Router } from "express";
-import trashStore from "@/models/trash.model.js";
-import { routerError } from "@/helpers/index.js";
+import trashStore from "@/models/trash.model";
+import { routerError } from "@/helpers/index";
 
 const router = Router();
 

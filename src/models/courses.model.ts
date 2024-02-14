@@ -1,7 +1,7 @@
-import { prisma, parsePrismaError } from "@/config/db.js";
-import { env } from "@/config/env.js";
+import { prisma, parsePrismaError } from "@/config/db";
+import { env } from "@/config/env";
 
-import type { PrismaClientError } from "@/config/db.js";
+import type { PrismaClientError } from "@/config/db";
 import type { Course } from "@prisma/client";
 
 class CoursesStore {

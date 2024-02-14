@@ -1,10 +1,10 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 
-import { env } from "@/config/env.js";
+import { env } from "@/config/env";
 
-import appRouter from "@/routers/index.router.js";
-import { getUser, logger } from "@/middlewares/index.js";
+import appRouter from "@/routers/index.router";
+import { getUser, logger } from "@/middlewares/index";
 
 const app = express();
 const port = env.PORT || 3000;

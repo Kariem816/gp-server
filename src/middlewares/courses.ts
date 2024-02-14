@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import { prisma } from "@/config/db.js";
+import { prisma } from "@/config/db";
 
 import type { Course } from "@prisma/client";
 

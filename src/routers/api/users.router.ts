@@ -1,14 +1,14 @@
 import { Router } from "express";
-import userStore from "@/models/users.model.js";
-import sessionStore from "@/models/sessions.model.js";
-import { signJWT, verifyJWT } from "@/utils/jwt.js";
+import userStore from "@/models/users.model";
+import sessionStore from "@/models/sessions.model";
+import { signJWT, verifyJWT } from "@/utils/jwt";
 import {
 	mustBeAdmin,
 	mustLogin,
 	validateBody,
 	validateQuery,
-} from "@/middlewares/index.js";
-import { collectFileters } from "@/helpers/index.js";
+} from "@/middlewares/index";
+import { collectFileters } from "@/helpers/index";
 import {
 	loginSchema,
 	notifyUsersSchema,
@@ -16,13 +16,13 @@ import {
 	updateNotificationTokenSchema,
 	updatePasswordSchema,
 	notifyUserSchema,
-} from "@/schemas/users.schema.js";
-import { querySchema } from "@/schemas/query.schema.js";
-import { env } from "@/config/env.js";
-import { comparePassword } from "@/utils/hash.js";
-import { routerError } from "@/helpers/index.js";
-import { parseUserAgent } from "@/helpers/session.js";
-import { sendNotifications } from "@/helpers/notifications.js";
+} from "@/schemas/users.schema";
+import { querySchema } from "@/schemas/query.schema";
+import { env } from "@/config/env";
+import { comparePassword } from "@/utils/hash";
+import { routerError } from "@/helpers/index";
+import { parseUserAgent } from "@/helpers/session";
+import { sendNotifications } from "@/helpers/notifications";
 
 import type { User } from "@prisma/client";
 

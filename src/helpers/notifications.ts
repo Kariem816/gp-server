@@ -1,5 +1,5 @@
 import { Expo } from "expo-server-sdk";
-import { env } from "@/config/env.js";
+import { env } from "@/config/env";
 
 import type {
 	ExpoPushToken,

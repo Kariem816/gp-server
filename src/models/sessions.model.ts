@@ -1,5 +1,5 @@
-import { prisma, parsePrismaError } from "@/config/db.js";
-import type { PrismaClientError } from "@/config/db.js";
+import { prisma, parsePrismaError } from "@/config/db";
+import type { PrismaClientError } from "@/config/db";
 import type { Session } from "@prisma/client";
 
 class SessionStore {

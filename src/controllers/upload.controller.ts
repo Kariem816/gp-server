@@ -1,8 +1,8 @@
-import { ut, utapi } from "@/config/uploads.js";
-import userStore from "@/models/users.model.js";
-import uploadStore from "@/models/uploads.model.js";
-import sessionStore from "@/models/sessions.model.js";
-import { sendNotifications } from "@/helpers/notifications.js";
+import { ut, utapi } from "@/config/uploads";
+import userStore from "@/models/users.model";
+import uploadStore from "@/models/uploads.model";
+import sessionStore from "@/models/sessions.model";
+import { sendNotifications } from "@/helpers/notifications";
 
 import {
 	createUploadthingExpressHandler,

@@ -1,8 +1,8 @@
-import { prisma, parsePrismaError } from "@/config/db.js";
-import { env } from "@/config/env.js";
+import { prisma, parsePrismaError } from "@/config/db";
+import { env } from "@/config/env";
 
 import type { Student } from "@prisma/client";
-import type { PrismaClientError } from "@/config/db.js";
+import type { PrismaClientError } from "@/config/db";
 
 const ONE_WEEK_IN_MS = 7 * 24 * 60 * 60 * 1000;
 
@@ -159,7 +159,7 @@ class StudentStore {
 											: new Date(
 													new Date().getTime() +
 														ONE_WEEK_IN_MS
-											  ),
+												),
 									},
 								},
 								include: {

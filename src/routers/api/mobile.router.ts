@@ -1,20 +1,16 @@
 import { Router } from "express";
-import { routerError, uploadToVersion } from "@/helpers/index.js";
-import uploadStore from "@/models/uploads.model.js";
-import sessionStore from "@/models/sessions.model.js";
-import {
-	mustBeAdmin,
-	validateBody,
-	validateQuery,
-} from "@/middlewares/index.js";
+import { routerError, uploadToVersion } from "@/helpers/index";
+import uploadStore from "@/models/uploads.model";
+import sessionStore from "@/models/sessions.model";
+import { mustBeAdmin, validateBody, validateQuery } from "@/middlewares/index";
 import {
 	downloadAPKSchema,
 	updateAPKSchema,
 	updateURLSchema,
-} from "@/schemas/mobile.schema.js";
-import { utapi } from "@/config/uploads.js";
-import { isVersion, parseVersion } from "@/utils/versions.js";
-import { sendNotifications } from "@/helpers/notifications.js";
+} from "@/schemas/mobile.schema";
+import { utapi } from "@/config/uploads";
+import { isVersion, parseVersion } from "@/utils/versions";
+import { sendNotifications } from "@/helpers/notifications";
 
 import type { Prisma } from "@prisma/client";
 

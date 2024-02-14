@@ -1,5 +1,5 @@
-import { parsePrismaError, prisma } from "@/config/db.js";
-import type { PrismaClientError } from "@/config/db.js";
+import { parsePrismaError, prisma } from "@/config/db";
+import type { PrismaClientError } from "@/config/db";
 
 import type { Lecture, CourseProfile } from "@prisma/client";
 

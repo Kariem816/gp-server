@@ -1,5 +1,5 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { env } from "@/config/env.js";
+import { env } from "@/config/env";
 
 const { JWT_PRIVATE_KEY, JWT_PUBLIC_KEY } = env;
 

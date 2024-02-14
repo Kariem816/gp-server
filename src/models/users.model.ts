@@ -1,7 +1,7 @@
-import { prisma, parsePrismaError, errCodesToMessages } from "@/config/db.js";
-import { comparePassword, hashPassword } from "@/utils/hash.js";
+import { prisma, parsePrismaError, errCodesToMessages } from "@/config/db";
+import { comparePassword, hashPassword } from "@/utils/hash";
 import type { User } from "@prisma/client";
-import type { PrismaClientError, PrismaError } from "@/config/db.js";
+import type { PrismaClientError, PrismaError } from "@/config/db";
 
 class UserStore {
 	async createStudent(userData: User): Promise<User> {

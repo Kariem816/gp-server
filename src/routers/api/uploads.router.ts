@@ -1,5 +1,5 @@
 import { Router, json } from "express";
-import { uploadController } from "@/controllers/upload.controller.js";
+import { uploadController } from "@/controllers/upload.controller";
 
 const router = Router();
 

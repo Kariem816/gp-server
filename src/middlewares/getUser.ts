@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import { verifyJWT } from "@/utils/jwt.js";
+import { verifyJWT } from "@/utils/jwt";
 
 import type { User, Session } from "@prisma/client";
 

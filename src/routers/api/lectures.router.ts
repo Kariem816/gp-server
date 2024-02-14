@@ -1,18 +1,18 @@
 import { Router } from "express";
-import lectureStore from "@/models/lectures.model.js";
+import lectureStore from "@/models/lectures.model";
 import {
 	canModifyLecture,
 	parseFilters,
 	validateBody,
 	validateQuery,
-} from "@/middlewares/index.js";
-import { routerError } from "@/helpers/index.js";
+} from "@/middlewares/index";
+import { routerError } from "@/helpers/index";
 import {
 	addLectureAttendeesSchema,
 	removeLectureAttendeesSchema,
-} from "@/schemas/lectures.schema.js";
-import { updateCourseSchema } from "@/schemas/courses.schema.js";
-import { querySchema } from "@/schemas/query.schema.js";
+} from "@/schemas/lectures.schema";
+import { updateCourseSchema } from "@/schemas/courses.schema";
+import { querySchema } from "@/schemas/query.schema";
 
 const router = Router();
 

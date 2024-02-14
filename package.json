@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A node server to handle IoT requests",
   "main": "dist/index.js",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "dev": "nodemon -x tsx ./src/index.ts",
     "prebuild": "yarn db:up",

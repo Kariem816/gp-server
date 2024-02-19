@@ -14,6 +14,7 @@ type Env = {
 	UPLOADTHING_SECRET: string;
 	UPLOADTHING_APP_ID: string;
 	EXPO_ACCESS_TOKEN: string;
+	RECOGNIZER_BASEURL: string;
 };
 
 export const env: Env = {
@@ -28,4 +29,5 @@ export const env: Env = {
 	UPLOADTHING_SECRET: process.env.UPLOADTHING_SECRET!,
 	UPLOADTHING_APP_ID: process.env.UPLOADTHING_APP_ID!,
 	EXPO_ACCESS_TOKEN: process.env.EXPO_ACCESS_TOKEN!,
+	RECOGNIZER_BASEURL: process.env.RECOGNIZER_BASEURL!,
 };

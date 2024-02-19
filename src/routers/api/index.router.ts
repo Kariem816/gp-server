@@ -6,6 +6,7 @@ import lecturesRouter from "./lectures.router";
 import studentRouter from "./student.router";
 import teachersRouter from "./teachers.router";
 
+import controllersRouter from "./controllers.router";
 import trashRouter from "./trash.router";
 
 import uploadsRouter from "./uploads.router";
@@ -41,6 +42,7 @@ router.use(
 router.use("/students", getCourseProfile, studentRouter);
 router.use("/teachers", mustLogin, teachersRouter);
 
+router.use("/controllers", controllersRouter);
 router.use("/trash", trashRouter);
 
 router.use("/uploads", uploadsRouter);

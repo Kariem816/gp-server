@@ -10,9 +10,9 @@ export async function getCourseProfile(
 ) {
 	try {
 		if (!res.locals.user) {
-			return res.status(403).json({
-				error: "FORBIDDEN",
-				message: "You are not allowed to access this resource",
+			return res.status(401).json({
+				error: "UNAUTHORIZED",
+				message: "You must be logged in to access this resource",
 			});
 		}
 

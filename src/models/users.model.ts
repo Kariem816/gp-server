@@ -3,8 +3,14 @@ import { comparePassword, hashPassword } from "@/utils/hash";
 import type { User } from "@prisma/client";
 import type { PrismaClientError, PrismaError } from "@/config/db";
 
+export type RegisterReturn = {
+	id: string;
+	username: string;
+	name: string;
+	role: string;
+};
 class UserStore {
-	async createStudent(userData: User): Promise<User> {
+	async createStudent(userData: User): Promise<RegisterReturn> {
 		const hashedPassword = await hashPassword(userData.password);
 		userData.password = hashedPassword;
 
@@ -21,8 +27,11 @@ class UserStore {
 						},
 					},
 				},
-				include: {
-					student: true,
+				select: {
+					id: true,
+					username: true,
+					name: true,
+					role: true,
 				},
 			});
 
@@ -32,7 +41,7 @@ class UserStore {
 		}
 	}
 
-	async createTeacher(userData: User): Promise<User> {
+	async createTeacher(userData: User): Promise<RegisterReturn> {
 		const hashedPassword = await hashPassword(userData.password);
 		userData.password = hashedPassword;
 
@@ -48,13 +57,16 @@ class UserStore {
 					},
 				},
 			},
-			include: {
-				teacher: true,
+			select: {
+				id: true,
+				username: true,
+				name: true,
+				role: true,
 			},
 		});
 	}
 
-	async createController(userData: User): Promise<User> {
+	async createController(userData: User): Promise<RegisterReturn> {
 		const hashedPassword = await hashPassword(userData.password);
 		userData.password = hashedPassword;
 
@@ -69,8 +81,11 @@ class UserStore {
 						},
 					},
 				},
-				include: {
-					controller: true,
+				select: {
+					id: true,
+					username: true,
+					name: true,
+					role: true,
 				},
 			});
 
@@ -80,7 +95,7 @@ class UserStore {
 		}
 	}
 
-	async createSecurity(userData: User): Promise<User> {
+	async createSecurity(userData: User): Promise<RegisterReturn> {
 		try {
 			const hashedPassword = await hashPassword(userData.password);
 			userData.password = hashedPassword;
@@ -90,9 +105,15 @@ class UserStore {
 					...userData,
 					role: "security",
 				},
+				select: {
+					id: true,
+					username: true,
+					name: true,
+					role: true,
+				},
 			});
 
-			const security = await prisma.security.create({
+			await prisma.security.create({
 				data: {
 					user: {
 						connect: {
@@ -102,14 +123,13 @@ class UserStore {
 				},
 			});
 
-			//@ts-ignore
-			return { ...user, security };
+			return user;
 		} catch (err) {
 			throw parsePrismaError(err as PrismaClientError);
 		}
 	}
 
-	async createAdmin(userData: User): Promise<User> {
+	async createAdmin(userData: User): Promise<RegisterReturn> {
 		const adminCount = await prisma.user.count({
 			where: { role: "admin" },
 		});
@@ -129,7 +149,7 @@ class UserStore {
 				},
 			});
 
-			const admin = await prisma.admin.create({
+			await prisma.admin.create({
 				data: {
 					user: {
 						connect: {
@@ -140,7 +160,7 @@ class UserStore {
 			});
 
 			//@ts-ignore
-			return { ...user, admin: admin };
+			return user;
 		} catch (err: any) {
 			if (err.message === "Admin already exists") {
 				throw {

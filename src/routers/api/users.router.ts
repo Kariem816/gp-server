@@ -24,7 +24,7 @@ import { routerError } from "@/helpers/index";
 import { parseUserAgent } from "@/helpers/session";
 import { sendNotifications } from "@/helpers/notifications";
 
-import type { User } from "@prisma/client";
+import type { RegisterReturn } from "@/models/users.model";
 
 const router = Router();
 
@@ -41,14 +41,16 @@ router.post(
 	validateBody(newUserSchema),
 	async (req, res) => {
 		const accountType = req.params.accountType;
-		const accountTypeToStore: Record<string, (data: any) => Promise<User>> =
-			{
-				student: userStore.createStudent,
-				teacher: userStore.createTeacher,
-				controller: userStore.createController,
-				security: userStore.createSecurity,
-				admin: userStore.createAdmin,
-			};
+		const accountTypeToStore: Record<
+			string,
+			(data: any) => Promise<RegisterReturn>
+		> = {
+			student: userStore.createStudent,
+			teacher: userStore.createTeacher,
+			controller: userStore.createController,
+			security: userStore.createSecurity,
+			admin: userStore.createAdmin,
+		};
 
 		try {
 			if (!Object.keys(accountTypeToStore).includes(accountType)) {

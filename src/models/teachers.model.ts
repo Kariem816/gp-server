@@ -133,6 +133,23 @@ class TeacherStore {
 			throw parsePrismaError(err as PrismaClientError);
 		}
 	}
+
+	async getTeacherIdByUserId(userId: string) {
+		try {
+			const teacher = await prisma.teacher.findUnique({
+				where: {
+					userId,
+				},
+				select: {
+					id: true,
+				},
+			});
+
+			return teacher?.id;
+		} catch (err) {
+			throw parsePrismaError(err as PrismaClientError);
+		}
+	}
 }
 
 export default new TeacherStore();

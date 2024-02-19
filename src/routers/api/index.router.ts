@@ -31,7 +31,13 @@ router.get("/", (_req, res) => {
 
 router.use("/users", usersRouter);
 router.use("/courses", getCourseProfile, coursesRouter);
-router.use("/lectures", mustBeAdminOrTeacher, getCourseProfile, lecturesRouter);
+router.use(
+	"/lectures",
+	mustLogin,
+	mustBeAdminOrTeacher,
+	getCourseProfile,
+	lecturesRouter
+);
 router.use("/students", getCourseProfile, studentRouter);
 router.use("/teachers", mustLogin, teachersRouter);
 

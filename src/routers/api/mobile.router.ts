@@ -72,7 +72,7 @@ router.get("/update", validateQuery(updateAPKSchema), async (req, res) => {
 		const appUpload = await uploadStore.showByName("mobile-apk");
 
 		if (!appUpload) {
-			throw new Error("Downloading the app is currently unavailable");
+			return res.status(200).json({ update: false });
 		}
 
 		if (!version) {
@@ -90,10 +90,7 @@ router.get("/update", validateQuery(updateAPKSchema), async (req, res) => {
 			currentVersionNumber > latestVersionNumber &&
 			currentVersionNumber !== 0
 		) {
-			return res.status(400).json({
-				error: "BAD_REQUEST",
-				message: `How did you get this version (${version})?`,
-			});
+			return res.status(200).json({ update: false });
 		}
 
 		res.status(200).json({

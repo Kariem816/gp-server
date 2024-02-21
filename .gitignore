@@ -3,7 +3,6 @@ node_modules
 .env
 
 # lock file
-*.lock
 *.log
 
 dist

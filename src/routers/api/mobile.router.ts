@@ -8,7 +8,7 @@ import {
 	updateAPKSchema,
 	updateURLSchema,
 } from "@/schemas/mobile.schema";
-import { utapi } from "@/config/uploads";
+import { utapi } from "@/config/ut";
 import { isVersion, parseVersion } from "@/utils/versions";
 import { sendNotifications } from "@/helpers/notifications";
 

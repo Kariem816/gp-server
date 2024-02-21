@@ -1,4 +1,4 @@
-import { ut, utapi } from "@/config/uploads";
+import { ut, utapi } from "@/config/ut";
 import { env } from "@/config/env";
 import userStore from "@/models/users.model";
 import uploadStore from "@/models/uploads.model";

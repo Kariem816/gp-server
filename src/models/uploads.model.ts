@@ -92,6 +92,20 @@ class UploadsStore {
 		}
 	}
 
+	async isUploadedByUrl(url: string): Promise<boolean> {
+		try {
+			const upload = await prisma.upload.findUnique({
+				where: {
+					url,
+				},
+			});
+
+			return !!upload;
+		} catch (err) {
+			throw parsePrismaError(err as PrismaClientError);
+		}
+	}
+
 	async deleteMany(keys: string[]): Promise<void> {
 		try {
 			await prisma.upload.deleteMany({

@@ -1,7 +1,14 @@
-type Recognizer = {
-	token: string | undefined;
-};
+class Recognizer {
+	#token: string = "";
+	constructor() {}
 
-export const recognizer: Recognizer = {
-	token: undefined,
-};
+	get token() {
+		return this.#token;
+	}
+
+	set token(token: string) {
+		this.#token = token;
+	}
+}
+
+export default new Recognizer();

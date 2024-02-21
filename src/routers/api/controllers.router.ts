@@ -1,6 +1,6 @@
 import { mustBeController, mustLogin, validateBody } from "@/middlewares";
 import { Router } from "express";
-import { recognizer } from "@/config/recognizer";
+import recognizer from "@/config/recognizer";
 import { updateReconizerTokenSchema } from "@/schemas/controllers.schema";
 
 const router = Router();

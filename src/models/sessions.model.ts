@@ -163,7 +163,12 @@ class SessionStore {
 				},
 			});
 
-			return tokenObjects.map((o) => o.notificationToken as string);
+			const tokens = tokenObjects.map(
+				(o) => o.notificationToken as string
+			);
+			const uniqueTokens = Array.from(new Set(tokens));
+
+			return uniqueTokens;
 		} catch (err) {
 			throw parsePrismaError(err as PrismaClientError);
 		}
@@ -183,7 +188,12 @@ class SessionStore {
 				},
 			});
 
-			return tokenObjects.map((o) => o.notificationToken as string);
+			const tokens = tokenObjects.map(
+				(o) => o.notificationToken as string
+			);
+			const uniqueTokens = Array.from(new Set(tokens));
+
+			return uniqueTokens;
 		} catch (err) {
 			throw parsePrismaError(err as PrismaClientError);
 		}

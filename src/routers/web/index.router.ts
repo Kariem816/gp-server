@@ -22,4 +22,9 @@ if (!isProduction) {
 	router.use(static_(path.join(process.cwd(), "dist", "client")));
 }
 
+// for forwading all requests to the index.html
+router.get("*", (_req, res) => {
+	res.sendFile(path.join(process.cwd(), "dist", "client", "index.html"));
+});
+
 export default router;

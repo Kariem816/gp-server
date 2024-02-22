@@ -1,4 +1,4 @@
-import { prisma, parsePrismaError } from "@/config/db";
+import { prisma, PrismaError } from "@/config/db";
 
 import type { PrismaClientError } from "@/config/db";
 import { Teacher } from "@prisma/client";

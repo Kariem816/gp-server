@@ -7,8 +7,8 @@ import {
 	mustLogin,
 	validateBody,
 	validateQuery,
-} from "@/middlewares/index";
-import { collectFileters } from "@/helpers/index";
+} from "@/middlewares";
+import { collectFileters } from "@/helpers";
 import {
 	loginSchema,
 	notifyUsersSchema,
@@ -20,7 +20,7 @@ import {
 import { querySchema } from "@/schemas/query.schema";
 import { env } from "@/config/env";
 import { comparePassword } from "@/utils/hash";
-import { routerError } from "@/helpers/index";
+import { formatError } from "@/helpers";
 import { parseUserAgent } from "@/helpers/session";
 import { sendNotifications } from "@/helpers/notifications";
 import { PrismaError } from "@/config/db";
@@ -73,7 +73,8 @@ router.post(
 			const user = await accountTypeToStore[accountType](req.body);
 			res.status(201).json(user);
 		} catch (err: any) {
-			routerError(err, res);
+			const { status, error } = formatError(err);
+			res.status(status).json(error);
 		}
 	}
 );
@@ -210,7 +211,8 @@ router.get("/", mustBeAdmin, validateQuery(querySchema), async (req, res) => {
 
 		res.json(users);
 	} catch (err: any) {
-		routerError(err, res);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -219,7 +221,8 @@ router.get("/:id", mustLogin, async (req, res) => {
 		const user = await userStore.getUserById(req.params.id);
 		res.json(user);
 	} catch (err: any) {
-		routerError(err, res);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -237,7 +240,8 @@ router.delete("/:id", async (req, res) => {
 		await userStore.deleteUser(req.params.id);
 		res.sendStatus(200);
 	} catch (err: any) {
-		routerError(err, res);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -277,7 +281,8 @@ router.put(
 
 			res.sendStatus(200);
 		} catch (err: any) {
-			routerError(err, res);
+			const { status, error } = formatError(err);
+			res.status(status).json(error);
 		}
 	}
 );
@@ -294,7 +299,8 @@ router.post(
 			);
 			res.sendStatus(200);
 		} catch (err: any) {
-			routerError(err, res);
+			const { status, error } = formatError(err);
+			res.status(status).json(error);
 		}
 	}
 );
@@ -326,7 +332,8 @@ router.post(
 				message: `Notification sent to ${notificationTokens.length} device(s)`,
 			});
 		} catch (err: any) {
-			routerError(err, res);
+			const { status, error } = formatError(err);
+			res.status(status).json(error);
 		}
 	}
 );
@@ -360,7 +367,8 @@ router.post(
 				message: `Notification sent to ${notificationTokens.length} device(s)`,
 			});
 		} catch (err: any) {
-			routerError(err, res);
+			const { status, error } = formatError(err);
+			res.status(status).json(error);
 		}
 	}
 );

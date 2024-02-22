@@ -1,4 +1,4 @@
-import { prisma, parsePrismaError } from "@/config/db";
+import { prisma, PrismaError } from "@/config/db";
 import { env } from "@/config/env";
 
 import type { Student } from "@prisma/client";

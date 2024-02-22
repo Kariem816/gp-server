@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { routerError, uploadToVersion } from "@/helpers/index";
+import { formatError, uploadToVersion } from "@/helpers";
 import uploadStore from "@/models/uploads.model";
 import sessionStore from "@/models/sessions.model";
-import { mustBeAdmin, validateBody, validateQuery } from "@/middlewares/index";
+import { mustBeAdmin, validateBody, validateQuery } from "@/middlewares";
 import {
 	downloadAPKSchema,
 	updateAPKSchema,
@@ -43,7 +43,8 @@ router.get("/", validateQuery(downloadAPKSchema), async (req, res) => {
 
 		res.json({ url: appUpload.url });
 	} catch (err) {
-		routerError(err, res);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -61,7 +62,8 @@ router.get("/latest", async (_req, res) => {
 
 		res.status(200).json({ version: versions[0] });
 	} catch (err) {
-		routerError(err, res);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -97,7 +99,8 @@ router.get("/update", validateQuery(updateAPKSchema), async (req, res) => {
 			update: currentVersionNumber !== latestVersionNumber,
 		});
 	} catch (err) {
-		routerError(err, res);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -122,7 +125,8 @@ router.get("/versions", async (_req, res) => {
 
 		res.status(200).json({ versions });
 	} catch (err) {
-		routerError(err, res);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -189,7 +193,8 @@ router.post(
 				throw new Error("Unreachable");
 			}
 		} catch (err) {
-			routerError(err, res);
+			const { status, error } = formatError(err);
+			res.status(status).json(error);
 		}
 	}
 );

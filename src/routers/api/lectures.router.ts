@@ -5,8 +5,8 @@ import {
 	parseFilters,
 	validateBody,
 	validateQuery,
-} from "@/middlewares/index";
-import { routerError } from "@/helpers/index";
+} from "@/middlewares";
+import { formatError } from "@/helpers";
 import {
 	addLectureAttendeesSchema,
 	removeLectureAttendeesSchema,
@@ -28,7 +28,8 @@ router.put(
 			);
 			res.json(lecture);
 		} catch (err: any) {
-			routerError(err, res);
+			const { status, error } = formatError(err);
+			res.status(status).json(error);
 		}
 	}
 );
@@ -38,7 +39,8 @@ router.delete("/:id", canModifyLecture, async (req, res) => {
 		await lectureStore.deleteLecture(req.params.id);
 		res.sendStatus(204);
 	} catch (err: any) {
-		routerError(err, res);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -61,7 +63,8 @@ router.get(
 
 			res.json(lecture);
 		} catch (err: any) {
-			routerError(err, res);
+			const { status, error } = formatError(err);
+			res.status(status).json(error);
 		}
 	}
 );
@@ -71,7 +74,8 @@ router.get("/:id/attendees", canModifyLecture, async (req, res) => {
 		const lecture = await lectureStore.getLectureAttendees(req.params.id);
 		res.json(lecture);
 	} catch (err: any) {
-		routerError(err, res);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -87,7 +91,8 @@ router.post(
 			);
 			res.json(lecture);
 		} catch (err: any) {
-			routerError(err, res);
+			const { status, error } = formatError(err);
+			res.status(status).json(error);
 		}
 	}
 );
@@ -104,7 +109,8 @@ router.delete(
 			);
 			res.json(lecture);
 		} catch (err: any) {
-			routerError(err, res);
+			const { status, error } = formatError(err);
+			res.status(status).json(error);
 		}
 	}
 );

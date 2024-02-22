@@ -1,8 +1,8 @@
 import type { Request, Response, NextFunction } from "express";
 import type { Course } from "@prisma/client";
 import lectureStore from "@/models/lectures.model";
-import { parsePrismaError } from "@/config/db";
-import { routerError } from "@/helpers/index";
+import { PrismaError } from "@/config/db";
+import { formatError } from "@/helpers";
 
 export async function canModifyLecture(
 	req: Request,
@@ -34,6 +34,7 @@ export async function canModifyLecture(
 		next();
 	} catch (err: any) {
 		console.error(err);
-		routerError(parsePrismaError(err), res);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 }

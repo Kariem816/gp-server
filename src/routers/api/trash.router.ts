@@ -1,6 +1,6 @@
 import { Router } from "express";
 import trashStore from "@/models/trash.model";
-import { routerError } from "@/helpers/index";
+import { formatError } from "@/helpers";
 
 const router = Router();
 
@@ -9,7 +9,8 @@ router.get("/", async (req, res) => {
 		const trash = await trashStore.index();
 		res.json(trash);
 	} catch (err) {
-		routerError(err, res);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -18,7 +19,8 @@ router.get("/:id", async (req, res) => {
 		const trash = await trashStore.show(req.params.id);
 		res.json(trash);
 	} catch (err) {
-		routerError(err, res);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -27,7 +29,8 @@ router.post("/", async (req, res) => {
 		const trash = await trashStore.create(req.body);
 		res.json(trash);
 	} catch (err) {
-		routerError(err, res);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -36,7 +39,8 @@ router.put("/:id", async (req, res) => {
 		const trash = await trashStore.update(req.params.id, req.body);
 		res.json(trash);
 	} catch (err) {
-		routerError(err, res);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -45,7 +49,8 @@ router.delete("/:id", async (req, res) => {
 		const trash = await trashStore.delete(req.params.id);
 		res.json(trash);
 	} catch (err) {
-		routerError(err, res);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 

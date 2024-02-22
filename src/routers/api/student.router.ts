@@ -1,7 +1,7 @@
 import { Router } from "express";
 import studentStore from "@/models/student.model";
-import { mustBeStudent, parseFilters } from "@/middlewares/index";
-import { routerError } from "@/helpers/routerError";
+import { mustBeStudent, parseFilters } from "@/middlewares";
+import { formatError } from "@/helpers/response";
 
 const router = Router();
 
@@ -24,7 +24,7 @@ router.get("/my-courses", mustBeStudent, parseFilters, async (req, res) => {
 
 		res.json(courses);
 	} catch (err) {
-		routerError(err, res);
+		formatError(err);
 	}
 });
 
@@ -48,7 +48,7 @@ router.get("/:id/courses", parseFilters, async (req, res) => {
 
 		res.json(courses);
 	} catch (err) {
-		routerError(err, res);
+		formatError(err);
 	}
 });
 
@@ -65,7 +65,7 @@ router.get("/my-schedule", mustBeStudent, async (req, res) => {
 
 		res.json(schedule);
 	} catch (err) {
-		routerError(err, res);
+		formatError(err);
 	}
 });
 
@@ -81,7 +81,7 @@ router.get("/:id/schedule", async (req, res) => {
 
 		res.json(schedule);
 	} catch (err) {
-		routerError(err, res);
+		formatError(err);
 	}
 });
 
@@ -99,7 +99,7 @@ router.get("/my-attendance", mustBeStudent, async (req, res) => {
 
 		res.json(attendance);
 	} catch (err) {
-		routerError(err, res);
+		formatError(err);
 	}
 });
 
@@ -118,7 +118,7 @@ router.get("/:id/attendance", async (req, res) => {
 
 		res.json(attendance);
 	} catch (err) {
-		routerError(err, res);
+		formatError(err);
 	}
 });
 
@@ -127,7 +127,7 @@ router.get("/:id", async (req, res) => {
 		const student = await studentStore.show(req.params.id);
 		res.json(student);
 	} catch (err) {
-		routerError(err, res);
+		formatError(err);
 	}
 });
 

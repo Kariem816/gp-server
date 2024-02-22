@@ -16,7 +16,7 @@ import {
 	getCourseProfile,
 	mustBeAdminOrTeacher,
 	mustLogin,
-} from "@/middlewares/index";
+} from "@/middlewares";
 
 const router = Router();
 

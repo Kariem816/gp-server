@@ -7,8 +7,8 @@ import {
 	parseFilters,
 	validateBody,
 	validateQuery,
-} from "@/middlewares/index";
-import { routerError } from "@/helpers/index";
+} from "@/middlewares";
+import { formatError } from "@/helpers";
 import { querySchema } from "@/schemas/query.schema";
 import {
 	addTeachersSchema,
@@ -33,7 +33,8 @@ router.get("/", validateQuery(querySchema), parseFilters, async (req, res) => {
 
 		res.json(courses);
 	} catch (err: any) {
-		routerError(err, res);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -42,7 +43,8 @@ router.get("/:id", async (req, res) => {
 		const course = await courseStore.show(req.params.id);
 		res.json(course);
 	} catch (err: any) {
-		routerError(err, res);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -56,7 +58,8 @@ router.post(
 
 			res.json(course);
 		} catch (err: any) {
-			routerError(err, res);
+			const { status, error } = formatError(err);
+			res.status(status).json(error);
 		}
 	}
 );
@@ -72,7 +75,8 @@ router.put(
 
 			res.json(course);
 		} catch (err: any) {
-			routerError(err, res);
+			const { status, error } = formatError(err);
+			res.status(status).json(error);
 		}
 	}
 );
@@ -83,7 +87,8 @@ router.delete("/:id", mustBeAdmin, async (req, res) => {
 
 		res.json(course);
 	} catch (err: any) {
-		routerError(err, res);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -100,7 +105,8 @@ router.post(
 
 			res.json(course);
 		} catch (err: any) {
-			routerError(err, res);
+			const { status, error } = formatError(err);
+			res.status(status).json(error);
 		}
 	}
 );
@@ -124,7 +130,8 @@ router.delete("/:id/teachers/:teacherId", mustBeAdmin, async (req, res) => {
 
 		res.json(course);
 	} catch (err: any) {
-		routerError(err, res);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -143,7 +150,8 @@ router.put(
 			);
 			res.json(course);
 		} catch (err: any) {
-			routerError(err, res);
+			const { status, error } = formatError(err);
+			res.status(status).json(error);
 		}
 	}
 );
@@ -154,7 +162,8 @@ router.get("/:id/teachers", async (req, res) => {
 
 		res.json(teachers);
 	} catch (err: any) {
-		routerError(err, res);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -176,7 +185,8 @@ router.get(
 
 			res.json(students);
 		} catch (err: any) {
-			routerError(err, res);
+			const { status, error } = formatError(err);
+			res.status(status).json(error);
 		}
 	}
 );
@@ -197,7 +207,8 @@ router.get("/:id/mystatus", async (req, res) => {
 		);
 		res.json({ status });
 	} catch (err: any) {
-		routerError(err, res);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -225,7 +236,8 @@ router.post("/:id/register", async (req, res) => {
 		);
 		res.json(course);
 	} catch (err: any) {
-		routerError(err, res);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -254,7 +266,8 @@ router.post("/:id/unregister", async (req, res) => {
 		);
 		res.json(course);
 	} catch (err: any) {
-		routerError(err, res);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -275,7 +288,8 @@ router.get(
 
 			res.json(lectures);
 		} catch (err: any) {
-			routerError(err, res);
+			const { status, error } = formatError(err);
+			res.status(status).json(error);
 		}
 	}
 );
@@ -291,7 +305,8 @@ router.post(
 			const lecture = await courseStore.addLecture(courseId, time);
 			res.json({ lectures: lecture });
 		} catch (err: any) {
-			routerError(err, res);
+			const { status, error } = formatError(err);
+			res.status(status).json(error);
 		}
 	}
 );

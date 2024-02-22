@@ -4,10 +4,10 @@ import {
 	mustBeTeacher,
 	parseFilters,
 	validateQuery,
-} from "@/middlewares/index";
+} from "@/middlewares";
 import { querySchema } from "@/schemas/query.schema";
 import teacherStore from "@/models/teachers.model";
-import { routerError } from "@/helpers/index";
+import { formatError } from "@/helpers";
 
 const router = Router();
 
@@ -18,7 +18,8 @@ router.get("/mycourses", mustBeTeacher, getCourseProfile, async (req, res) => {
 		const courses = await teacherStore.getTeacherCourses(teacherId);
 		res.json(courses);
 	} catch (err: any) {
-		routerError(err, res);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -29,7 +30,8 @@ router.get("/mylectures", mustBeTeacher, getCourseProfile, async (req, res) => {
 		const lectures = await teacherStore.getTeacherLectures(teacherId);
 		res.json(lectures);
 	} catch (err: any) {
-		routerError(err, res);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -38,7 +40,8 @@ router.get("/:id/courses", async (req, res) => {
 		const courses = await teacherStore.getTeacherCourses(req.params.id);
 		res.json(courses);
 	} catch (err: any) {
-		routerError(err, res);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -56,7 +59,8 @@ router.get("/", validateQuery(querySchema), parseFilters, async (req, res) => {
 
 		res.json(teachers);
 	} catch (err: any) {
-		routerError(err, res);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -65,7 +69,8 @@ router.get("/:id", async (req, res) => {
 		const teacher = await teacherStore.show(req.params.id);
 		res.json(teacher);
 	} catch (err: any) {
-		routerError(err, res);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 

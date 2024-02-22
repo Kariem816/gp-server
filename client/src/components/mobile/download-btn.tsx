@@ -15,7 +15,7 @@ export function DownloadBtn({ os = "android", disabled }: DownloadBtnProps) {
 	async function handleDownload() {
 		setIsLoading(true);
 		try {
-			await getVersionUrl().then(({ url }) => {
+			await getVersionUrl().then(({ data: { url } }) => {
 				const link = document.createElement("a");
 				link.href = url;
 				document.body.appendChild(link);

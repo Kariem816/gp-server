@@ -19,7 +19,7 @@ function appPage() {
 		startLoadingLatest(() => {
 			getLatestVersion()
 				.then((res) => {
-					setLatest(`Latest Version: v${res.version}`);
+					setLatest(`Latest Version: v${res.data.version}`);
 					setCanDownload(true);
 				})
 				.catch((err: any) => {

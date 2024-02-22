@@ -97,7 +97,9 @@ export default function AuthProvider({
 	useEffect(() => {
 		refreshTokenInternal()
 			.then(() => {
-				getCurrentUser().then(setUser).catch(logout);
+				getCurrentUser()
+					.then(({ data: user }) => setUser(user))
+					.catch(logout);
 			})
 			.catch(() => {});
 	}, []);
@@ -111,12 +113,15 @@ export default function AuthProvider({
 		userData: User,
 		accountType: UserRole
 	): Promise<User> {
-		const user = await registerUser(userData, accountType);
+		const {
+			data: { user },
+		} = await registerUser(userData, accountType);
 		return user;
 	}
 
 	async function login(username: string, password: string) {
-		const { accessToken, user } = await loginUser(username, password);
+		const { data } = await loginUser(username, password);
+		const { accessToken, user } = data;
 
 		setAPIToken(accessToken);
 		setUser(user);
@@ -146,7 +151,9 @@ export default function AuthProvider({
 
 	async function refreshTokenInternal(startup = false) {
 		try {
-			const { accessToken } = await refreshToken();
+			const {
+				data: { accessToken },
+			} = await refreshToken();
 			setAPIToken(accessToken);
 			startRefreshTokenTimer();
 		} catch (err) {

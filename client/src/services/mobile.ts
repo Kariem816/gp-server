@@ -1,12 +1,14 @@
 import { get, post } from "./api";
 
-export async function getLatestVersion(): Promise<{ version: string }> {
+export async function getLatestVersion(): Promise<{
+	data: { version: string };
+}> {
 	return get("/mobile/latest");
 }
 
 export async function getVersionUrl(
 	version: string = ""
-): Promise<{ url: string }> {
+): Promise<{ data: { url: string } }> {
 	return get("/mobile", { version });
 }
 

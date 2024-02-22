@@ -235,8 +235,13 @@ class UserStore {
 		page: number;
 		limit: number;
 		filters: any;
-	}): Promise<Omit<User, "password">[]> {
+	}): Promise<PaginatedResponse<Omit<User, "password">>> {
 		try {
+			const total = await prisma.user.count({
+				where: {
+					...filters,
+				},
+			});
 			const users = await prisma.user.findMany({
 				where: {
 					...filters,
@@ -253,7 +258,12 @@ class UserStore {
 				},
 			});
 
-			return users;
+			return {
+				data: users,
+				page,
+				limit,
+				total,
+			};
 		} catch (err) {
 			throw new PrismaError(err as PrismaClientError);
 		}

@@ -102,20 +102,26 @@ class StudentStore {
 			semester?: string;
 			filters: any;
 		}
-	) {
+	): Promise<PaginatedResponse> {
 		try {
-			const courses = await prisma.courseProfile.findMany({
-				where: {
-					studentId: studentId,
-					course: {
-						...options.filters,
-					},
-					semester: options?.semester
-						? options.semester === "this"
-							? env.CURR_SEMESTER
-							: options.semester
-						: undefined,
+			const filters = {
+				studentId: studentId,
+				course: {
+					...options.filters,
 				},
+				semester: options?.semester
+					? options.semester === "this"
+						? env.CURR_SEMESTER
+						: options.semester
+					: undefined,
+			};
+
+			const total = await prisma.courseProfile.count({
+				where: filters,
+			});
+
+			const courses = await prisma.courseProfile.findMany({
+				where: filters,
 				skip: options.page * options.limit,
 				take: options.limit,
 				select: {
@@ -134,7 +140,12 @@ class StudentStore {
 				},
 			});
 
-			return courses;
+			return {
+				data: courses,
+				page: options.page,
+				limit: options.limit,
+				total,
+			};
 		} catch (err) {
 			throw new PrismaError(err as PrismaClientError);
 		}

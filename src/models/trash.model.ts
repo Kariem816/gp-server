@@ -4,10 +4,16 @@ import type { PrismaClientError } from "@/config/db";
 import type { TrashCan } from "@prisma/client";
 
 class TrashStore {
-	async index() {
+	async index(): Promise<PaginatedResponse<TrashCan>> {
 		try {
+			const total = await prisma.trashCan.count();
 			const trash = await prisma.trashCan.findMany();
-			return trash;
+			return {
+				data: trash,
+				page: 1,
+				limit: total,
+				total,
+			};
 		} catch (err) {
 			throw new PrismaError(err as PrismaClientError);
 		}

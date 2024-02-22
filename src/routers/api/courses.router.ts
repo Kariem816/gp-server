@@ -8,7 +8,7 @@ import {
 	validateBody,
 	validateQuery,
 } from "@/middlewares";
-import { formatError } from "@/helpers";
+import { formatError, formatResponse } from "@/helpers";
 import { querySchema } from "@/schemas/query.schema";
 import {
 	addTeachersSchema,
@@ -31,7 +31,7 @@ router.get("/", validateQuery(querySchema), parseFilters, async (req, res) => {
 			filters: res.locals.filters,
 		});
 
-		res.json(courses);
+		res.json(formatResponse(courses));
 	} catch (err: any) {
 		const { status, error } = formatError(err);
 		res.status(status).json(error);
@@ -41,7 +41,7 @@ router.get("/", validateQuery(querySchema), parseFilters, async (req, res) => {
 router.get("/:id", async (req, res) => {
 	try {
 		const course = await courseStore.show(req.params.id);
-		res.json(course);
+		res.json(formatResponse(course));
 	} catch (err: any) {
 		const { status, error } = formatError(err);
 		res.status(status).json(error);
@@ -56,7 +56,7 @@ router.post(
 		try {
 			const course = await courseStore.create(req.body);
 
-			res.json(course);
+			res.json(formatResponse(course));
 		} catch (err: any) {
 			const { status, error } = formatError(err);
 			res.status(status).json(error);
@@ -73,7 +73,7 @@ router.put(
 			// TODO: Validate request
 			const course = await courseStore.update(req.params.id, req.body);
 
-			res.json(course);
+			res.json(formatResponse(course));
 		} catch (err: any) {
 			const { status, error } = formatError(err);
 			res.status(status).json(error);
@@ -85,7 +85,7 @@ router.delete("/:id", mustBeAdmin, async (req, res) => {
 	try {
 		const course = await courseStore.delete(req.params.id);
 
-		res.json(course);
+		res.json(formatResponse(course));
 	} catch (err: any) {
 		const { status, error } = formatError(err);
 		res.status(status).json(error);
@@ -103,7 +103,7 @@ router.post(
 				req.body.teacherId
 			);
 
-			res.json(course);
+			res.json(formatResponse(course));
 		} catch (err: any) {
 			const { status, error } = formatError(err);
 			res.status(status).json(error);
@@ -116,19 +116,15 @@ router.delete("/:id/teachers/:teacherId", mustBeAdmin, async (req, res) => {
 		if (
 			!(await courseStore.isTeacher(req.params.id, req.params.teacherId))
 		) {
-			res.status(400).json({
-				error: "Bad Request",
+			return res.status(400).json({
+				error: "BAD REQUEST",
 				message: "This teacher is not assigned to this course",
 			});
-			return;
 		}
 
-		const course = await courseStore.removeTeacher(
-			req.params.id,
-			req.params.teacherId
-		);
+		await courseStore.removeTeacher(req.params.id, req.params.teacherId);
 
-		res.json(course);
+		res.sendStatus(204);
 	} catch (err: any) {
 		const { status, error } = formatError(err);
 		res.status(status).json(error);
@@ -143,12 +139,13 @@ router.put(
 		try {
 			const addedTeachers = req.body.addedTeachers;
 			const removedTeachers = req.body.removedTeachers;
-			const course = await courseStore.updateTeachers(
+			await courseStore.updateTeachers(
 				req.params.id,
 				addedTeachers,
 				removedTeachers
 			);
-			res.json(course);
+
+			res.sendStatus(204);
 		} catch (err: any) {
 			const { status, error } = formatError(err);
 			res.status(status).json(error);
@@ -160,7 +157,7 @@ router.get("/:id/teachers", async (req, res) => {
 	try {
 		const teachers = await courseStore.getTeachers(req.params.id);
 
-		res.json(teachers);
+		res.json(formatResponse(teachers));
 	} catch (err: any) {
 		const { status, error } = formatError(err);
 		res.status(status).json(error);
@@ -183,7 +180,7 @@ router.get(
 				filters,
 			});
 
-			res.json(students);
+			res.json(formatResponse(students));
 		} catch (err: any) {
 			const { status, error } = formatError(err);
 			res.status(status).json(error);
@@ -193,19 +190,18 @@ router.get(
 
 router.get("/:id/mystatus", async (req, res) => {
 	if (!res.locals.student) {
-		res.status(401).json({
+		return res.status(401).json({
 			error: "Unauthorized",
 			message:
 				"You must be logged in as a student to register for a course",
 		});
-		return;
 	}
 	try {
 		const status = await courseStore.isStudent(
 			req.params.id,
 			res.locals.student.id
 		);
-		res.json({ status });
+		res.json(formatResponse({ status }));
 	} catch (err: any) {
 		const { status, error } = formatError(err);
 		res.status(status).json(error);
@@ -214,27 +210,23 @@ router.get("/:id/mystatus", async (req, res) => {
 
 router.post("/:id/register", async (req, res) => {
 	if (!res.locals.student) {
-		res.status(401).json({
+		return res.status(401).json({
 			error: "Unauthorized",
 			message:
 				"You must be logged in as a student to register for a course",
 		});
-		return;
 	}
 	try {
 		if (await courseStore.isStudent(req.params.id, res.locals.student.id)) {
-			res.status(400).json({
+			return res.status(400).json({
 				error: "Bad Request",
 				message: "You are already registered for this course",
 			});
-			return;
 		}
 
-		const course = await courseStore.addStudent(
-			req.params.id,
-			res.locals.student.id
-		);
-		res.json(course);
+		await courseStore.addStudent(req.params.id, res.locals.student.id);
+
+		res.sendStatus(204);
 	} catch (err: any) {
 		const { status, error } = formatError(err);
 		res.status(status).json(error);
@@ -243,28 +235,24 @@ router.post("/:id/register", async (req, res) => {
 
 router.post("/:id/unregister", async (req, res) => {
 	if (!res.locals.student) {
-		res.status(401).json({
+		return res.status(401).json({
 			error: "Unauthorized",
 			message:
 				"You must be logged in as a student to unregister from a course",
 		});
-		return;
 	}
 	try {
 		if (
 			!(await courseStore.isStudent(req.params.id, res.locals.student.id))
 		) {
-			res.status(400).json({
+			return res.status(400).json({
 				error: "Bad Request",
 				message: "You are not registered for this course",
 			});
-			return;
 		}
-		const course = await courseStore.removeStudent(
-			req.params.id,
-			res.locals.student.id
-		);
-		res.json(course);
+		await courseStore.removeStudent(req.params.id, res.locals.student.id);
+
+		res.sendStatus(204);
 	} catch (err: any) {
 		const { status, error } = formatError(err);
 		res.status(status).json(error);
@@ -286,7 +274,7 @@ router.get(
 				filters: res.locals.filters,
 			});
 
-			res.json(lectures);
+			res.json(formatResponse(lectures));
 		} catch (err: any) {
 			const { status, error } = formatError(err);
 			res.status(status).json(error);
@@ -302,8 +290,8 @@ router.post(
 		try {
 			const { time } = req.body;
 			const courseId = req.params.id;
-			const lecture = await courseStore.addLecture(courseId, time);
-			res.json({ lectures: lecture });
+			await courseStore.addLecture(courseId, time);
+			res.sendStatus(204);
 		} catch (err: any) {
 			const { status, error } = formatError(err);
 			res.status(status).json(error);

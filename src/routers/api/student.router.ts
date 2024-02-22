@@ -1,7 +1,7 @@
 import { Router } from "express";
 import studentStore from "@/models/student.model";
 import { mustBeStudent, parseFilters } from "@/middlewares";
-import { formatError } from "@/helpers/response";
+import { formatError, formatResponse } from "@/helpers/response";
 
 const router = Router();
 
@@ -22,7 +22,7 @@ router.get("/my-courses", mustBeStudent, parseFilters, async (req, res) => {
 			semester,
 		});
 
-		res.json(courses);
+		res.json(formatResponse(courses));
 	} catch (err) {
 		formatError(err);
 	}
@@ -46,7 +46,7 @@ router.get("/:id/courses", parseFilters, async (req, res) => {
 			semester,
 		});
 
-		res.json(courses);
+		res.json(formatResponse(courses));
 	} catch (err) {
 		formatError(err);
 	}

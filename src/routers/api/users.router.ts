@@ -20,10 +20,9 @@ import {
 import { querySchema } from "@/schemas/query.schema";
 import { env } from "@/config/env";
 import { comparePassword } from "@/utils/hash";
-import { formatError } from "@/helpers";
+import { formatError, formatResponse } from "@/helpers";
 import { parseUserAgent } from "@/helpers/session";
 import { sendNotifications } from "@/helpers/notifications";
-import { PrismaError } from "@/config/db";
 
 import type { RegisterReturn } from "@/models/users.model";
 
@@ -71,7 +70,8 @@ router.post(
 			}
 
 			const user = await accountTypeToStore[accountType](req.body);
-			res.status(201).json(user);
+
+			res.status(201).json(formatResponse(user));
 		} catch (err: any) {
 			const { status, error } = formatError(err);
 			res.status(status).json(error);
@@ -101,7 +101,7 @@ router.post("/login", validateBody(loginSchema), async (req, res) => {
 			secure: env.NODE_ENV === "production",
 		});
 
-		res.json({ accessToken, user });
+		res.json(formatResponse({ accessToken, user }));
 	} catch (err: any) {
 		res.status(401).json({
 			error: "UNAUTHORIZED",
@@ -186,7 +186,7 @@ router.get("/refresh-token", async (req, res) => {
 			env.NODE_ENV === "production" ? "5m" : "1h"
 		);
 
-		res.json({ accessToken });
+		res.json(formatResponse({ accessToken }));
 	} catch {
 		res.clearCookie("refreshToken");
 		res.status(400).json({
@@ -197,7 +197,7 @@ router.get("/refresh-token", async (req, res) => {
 });
 
 router.get("/me", mustLogin, (_req, res) => {
-	res.json(res.locals.user);
+	res.json(formatResponse(res.locals.user));
 });
 
 router.get("/", mustBeAdmin, validateQuery(querySchema), async (req, res) => {
@@ -209,7 +209,7 @@ router.get("/", mustBeAdmin, validateQuery(querySchema), async (req, res) => {
 
 		const users = await userStore.index({ limit, page, filters });
 
-		res.json(users);
+		res.json(formatResponse(users));
 	} catch (err: any) {
 		const { status, error } = formatError(err);
 		res.status(status).json(error);
@@ -219,7 +219,7 @@ router.get("/", mustBeAdmin, validateQuery(querySchema), async (req, res) => {
 router.get("/:id", mustLogin, async (req, res) => {
 	try {
 		const user = await userStore.getUserById(req.params.id);
-		res.json(user);
+		res.json(formatResponse(user));
 	} catch (err: any) {
 		const { status, error } = formatError(err);
 		res.status(status).json(error);
@@ -327,10 +327,12 @@ router.post(
 				body,
 			});
 
-			res.json({
-				status: "success",
-				message: `Notification sent to ${notificationTokens.length} device(s)`,
-			});
+			res.json(
+				formatResponse({
+					status: "success",
+					message: `Notification sent to ${notificationTokens.length} device(s)`,
+				})
+			);
 		} catch (err: any) {
 			const { status, error } = formatError(err);
 			res.status(status).json(error);

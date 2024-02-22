@@ -7,7 +7,7 @@ import {
 } from "@/middlewares";
 import { querySchema } from "@/schemas/query.schema";
 import teacherStore from "@/models/teachers.model";
-import { formatError } from "@/helpers";
+import { formatError, formatResponse } from "@/helpers";
 
 const router = Router();
 
@@ -16,7 +16,7 @@ router.get("/mycourses", mustBeTeacher, getCourseProfile, async (req, res) => {
 		const teacherId = res.locals.teacher.id;
 
 		const courses = await teacherStore.getTeacherCourses(teacherId);
-		res.json(courses);
+		res.json(formatResponse(courses));
 	} catch (err: any) {
 		const { status, error } = formatError(err);
 		res.status(status).json(error);
@@ -28,7 +28,7 @@ router.get("/mylectures", mustBeTeacher, getCourseProfile, async (req, res) => {
 		const teacherId = res.locals.teacher.id;
 
 		const lectures = await teacherStore.getTeacherLectures(teacherId);
-		res.json(lectures);
+		res.json(formatResponse(lectures));
 	} catch (err: any) {
 		const { status, error } = formatError(err);
 		res.status(status).json(error);
@@ -38,7 +38,7 @@ router.get("/mylectures", mustBeTeacher, getCourseProfile, async (req, res) => {
 router.get("/:id/courses", async (req, res) => {
 	try {
 		const courses = await teacherStore.getTeacherCourses(req.params.id);
-		res.json(courses);
+		res.json(formatResponse(courses));
 	} catch (err: any) {
 		const { status, error } = formatError(err);
 		res.status(status).json(error);
@@ -57,7 +57,7 @@ router.get("/", validateQuery(querySchema), parseFilters, async (req, res) => {
 			filters,
 		});
 
-		res.json(teachers);
+		res.json(formatResponse(teachers));
 	} catch (err: any) {
 		const { status, error } = formatError(err);
 		res.status(status).json(error);
@@ -67,7 +67,7 @@ router.get("/", validateQuery(querySchema), parseFilters, async (req, res) => {
 router.get("/:id", async (req, res) => {
 	try {
 		const teacher = await teacherStore.show(req.params.id);
-		res.json(teacher);
+		res.json(formatResponse(teacher));
 	} catch (err: any) {
 		const { status, error } = formatError(err);
 		res.status(status).json(error);

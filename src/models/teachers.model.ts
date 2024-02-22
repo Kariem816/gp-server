@@ -12,8 +12,11 @@ class TeacherStore {
 		page: number;
 		limit: number;
 		filters: any;
-	}) {
+	}): Promise<PaginatedResponse> {
 		try {
+			const total = await prisma.teacher.count({
+				where: filters,
+			});
 			const teachers = await prisma.teacher.findMany({
 				where: filters,
 				skip: (page - 1) * limit,
@@ -35,7 +38,12 @@ class TeacherStore {
 				},
 			});
 
-			return teachers;
+			return {
+				data: teachers,
+				page,
+				limit,
+				total,
+			};
 		} catch (err) {
 			throw new PrismaError(err as PrismaClientError);
 		}

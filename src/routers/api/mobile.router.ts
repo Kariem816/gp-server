@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { formatError, uploadToVersion } from "@/helpers";
+import { formatError, formatResponse, uploadToVersion } from "@/helpers";
 import uploadStore from "@/models/uploads.model";
 import sessionStore from "@/models/sessions.model";
 import { mustBeAdmin, validateBody, validateQuery } from "@/middlewares";
@@ -32,7 +32,7 @@ router.get("/", validateQuery(downloadAPKSchema), async (req, res) => {
 				});
 			}
 
-			return res.json({ url });
+			return res.json(formatResponse({ url }));
 		}
 
 		const appUpload = await uploadStore.showByName("mobile-apk");
@@ -41,7 +41,7 @@ router.get("/", validateQuery(downloadAPKSchema), async (req, res) => {
 			throw new Error("Downloading the app is currently unavailable");
 		}
 
-		res.json({ url: appUpload.url });
+		res.json(formatResponse({ url: appUpload.url }));
 	} catch (err) {
 		const { status, error } = formatError(err);
 		res.status(status).json(error);
@@ -60,7 +60,7 @@ router.get("/latest", async (_req, res) => {
 			.map((u) => uploadToVersion(u))
 			.filter(isVersion);
 
-		res.status(200).json({ version: versions[0] });
+		res.status(200).json(formatResponse({ version: versions[0] }));
 	} catch (err) {
 		const { status, error } = formatError(err);
 		res.status(status).json(error);
@@ -74,11 +74,11 @@ router.get("/update", validateQuery(updateAPKSchema), async (req, res) => {
 		const appUpload = await uploadStore.showByName("mobile-apk");
 
 		if (!appUpload) {
-			return res.status(200).json({ update: false });
+			return res.status(200).json(formatResponse({ update: false }));
 		}
 
 		if (!version) {
-			return res.status(200).json({ update: false });
+			return res.status(200).json(formatResponse({ update: false }));
 		}
 
 		const { number: currentVersionNumber } = parseVersion(
@@ -95,9 +95,11 @@ router.get("/update", validateQuery(updateAPKSchema), async (req, res) => {
 			return res.status(200).json({ update: false });
 		}
 
-		res.status(200).json({
-			update: currentVersionNumber !== latestVersionNumber,
-		});
+		res.status(200).json(
+			formatResponse({
+				update: currentVersionNumber !== latestVersionNumber,
+			})
+		);
 	} catch (err) {
 		const { status, error } = formatError(err);
 		res.status(status).json(error);
@@ -109,7 +111,7 @@ router.get("/versions", async (_req, res) => {
 		const uploads = await uploadStore.getAllMetadataByName("mobile-apk");
 
 		if (uploads.length === 0) {
-			return res.status(200).json({ versions: [] });
+			return res.status(200).json(formatResponse({ versions: [] }));
 		}
 
 		const versions = uploads
@@ -123,7 +125,7 @@ router.get("/versions", async (_req, res) => {
 			})
 			.filter(isVersion);
 
-		res.status(200).json({ versions });
+		res.status(200).json(formatResponse({ versions }));
 	} catch (err) {
 		const { status, error } = formatError(err);
 		res.status(status).json(error);

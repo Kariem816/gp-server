@@ -13,9 +13,12 @@ class CoursesStore {
 		limit: number;
 		page: number;
 		filters: QueryFilters;
-	}) {
+	}): Promise<PaginatedResponse> {
 		try {
-			return await prisma.course.findMany({
+			const total = await prisma.course.count({
+				where: filters,
+			});
+			const courses = await prisma.course.findMany({
 				where: filters,
 				skip: (page - 1) * limit,
 				take: limit,
@@ -32,6 +35,13 @@ class CoursesStore {
 					},
 				},
 			});
+
+			return {
+				data: courses,
+				page,
+				limit,
+				total,
+			};
 		} catch (err) {
 			throw new PrismaError(err as PrismaClientError);
 		}
@@ -122,15 +132,20 @@ class CoursesStore {
 			page,
 			filters,
 		}: { limit: number; page: number; filters: QueryFilters }
-	) {
+	): Promise<PaginatedResponse> {
 		try {
-			return await prisma.courseProfile.findMany({
-				where: {
-					courseId: id,
-					student: {
-						...filters,
-					},
+			const qfilters = {
+				courseId: id,
+				student: {
+					...filters,
 				},
+			};
+
+			const total = await prisma.courseProfile.count({
+				where: qfilters,
+			});
+			const students = await prisma.courseProfile.findMany({
+				where: qfilters,
 				skip: (page - 1) * limit,
 				take: limit,
 				include: {
@@ -157,6 +172,13 @@ class CoursesStore {
 					},
 				},
 			});
+
+			return {
+				data: students,
+				page,
+				limit,
+				total,
+			};
 		} catch (err) {
 			throw new PrismaError(err as PrismaClientError);
 		}
@@ -335,13 +357,18 @@ class CoursesStore {
 			page,
 			filters,
 		}: { limit: number; page: number; filters: QueryFilters }
-	) {
+	): Promise<PaginatedResponse> {
 		try {
-			return await prisma.lecture.findMany({
-				where: {
-					courseId: id,
-					...filters,
-				},
+			const qfilters = {
+				courseId: id,
+				...filters,
+			};
+
+			const total = await prisma.lecture.count({
+				where: qfilters,
+			});
+			const lectures = await prisma.lecture.findMany({
+				where: qfilters,
 				skip: (page - 1) * limit,
 				take: limit,
 				orderBy: {
@@ -355,6 +382,13 @@ class CoursesStore {
 					},
 				},
 			});
+
+			return {
+				data: lectures,
+				page,
+				limit,
+				total,
+			};
 		} catch (err) {
 			throw new PrismaError(err as PrismaClientError);
 		}

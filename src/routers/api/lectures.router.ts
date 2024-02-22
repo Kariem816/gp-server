@@ -6,7 +6,7 @@ import {
 	validateBody,
 	validateQuery,
 } from "@/middlewares";
-import { formatError } from "@/helpers";
+import { formatError, formatResponse } from "@/helpers";
 import {
 	addLectureAttendeesSchema,
 	removeLectureAttendeesSchema,
@@ -26,7 +26,7 @@ router.put(
 				req.params.id,
 				req.body
 			);
-			res.json(lecture);
+			res.json(formatResponse(lecture));
 		} catch (err: any) {
 			const { status, error } = formatError(err);
 			res.status(status).json(error);
@@ -61,7 +61,7 @@ router.get(
 				filters,
 			});
 
-			res.json(lecture);
+			res.json(formatResponse(lecture));
 		} catch (err: any) {
 			const { status, error } = formatError(err);
 			res.status(status).json(error);
@@ -72,7 +72,7 @@ router.get(
 router.get("/:id/attendees", canModifyLecture, async (req, res) => {
 	try {
 		const lecture = await lectureStore.getLectureAttendees(req.params.id);
-		res.json(lecture);
+		res.json(formatResponse(lecture));
 	} catch (err: any) {
 		const { status, error } = formatError(err);
 		res.status(status).json(error);
@@ -89,7 +89,7 @@ router.post(
 				req.params.id,
 				req.body
 			);
-			res.json(lecture);
+			res.json(formatResponse(lecture));
 		} catch (err: any) {
 			const { status, error } = formatError(err);
 			res.status(status).json(error);
@@ -107,7 +107,7 @@ router.delete(
 				req.params.id,
 				req.body
 			);
-			res.json(lecture);
+			res.json(formatResponse(lecture));
 		} catch (err: any) {
 			const { status, error } = formatError(err);
 			res.status(status).json(error);

@@ -1,4 +1,5 @@
 import { PrismaError } from "@/config/db";
+import { stat } from "fs";
 
 export function formatError(err: any) {
 	if (err instanceof PrismaError)
@@ -17,4 +18,62 @@ export function formatError(err: any) {
 			},
 			status: 500,
 		};
+}
+
+const infoKeys = [
+	"page",
+	"length",
+	"count",
+	"total",
+	"next",
+	"prev",
+	"last",
+	"first",
+];
+
+export function formatResponse(resp: any) {
+	if (Array.isArray(resp)) {
+		return {
+			data: resp,
+		};
+	}
+
+	if (typeof resp !== "object") {
+		return {
+			data: resp,
+		};
+	}
+
+	if (Array.isArray(resp.data)) {
+		const data = resp.data;
+		const info: any = {};
+		for (const key in resp) {
+			if (key === "data") continue;
+			else if (infoKeys.includes(key)) info[key] = resp[key];
+			else data[key] = resp[key];
+		}
+
+		return {
+			data,
+			...info,
+		};
+	}
+
+	let data: any = {};
+	const info: any = {};
+
+	for (const key in resp) {
+		if (key === "data") {
+			data = {
+				...data,
+				...resp[key],
+			};
+		} else if (infoKeys.includes(key)) info[key] = resp[key];
+		else data[key] = resp[key];
+	}
+
+	return {
+		data,
+		...info,
+	};
 }

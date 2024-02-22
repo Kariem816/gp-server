@@ -13,6 +13,7 @@ import { z } from "zod";
 
 import { createRouteHandler, type FileRouter } from "uploadthing/express";
 import { UploadThingError } from "uploadthing/server";
+import { formatResponse } from "@/helpers";
 
 // Define endpoints for UploadThing
 // "endpoint": ut({ options }).middleware(middleware).onUploadComplete(onUploadComplete)
@@ -67,11 +68,11 @@ const uploadRouter = {
 					});
 				}
 
-				return { img: file.url };
+				return formatResponse({ img: file.url });
 			} catch (err) {
-				console.error(err);
-				return {
-					img: file.url,
+				throw {
+					error: "INTERNAL_SERVER_ERROR",
+					message: "An error occurred while updating profile picture",
 				};
 			}
 		}),
@@ -191,7 +192,7 @@ const uploadRouter = {
 						" students have been marked present",
 				});
 
-				return { attendance: attendance.length };
+				return formatResponse({ attendance: attendance.length });
 			} catch (err) {
 				// Report error to console
 				console.error(err);

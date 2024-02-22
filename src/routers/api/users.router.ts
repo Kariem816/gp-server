@@ -49,16 +49,24 @@ router.post(
 			teacher: userStore.createTeacher,
 			controller: userStore.createController,
 			security: userStore.createSecurity,
-			admin: userStore.createAdmin,
 		};
 
 		try {
 			if (!Object.keys(accountTypeToStore).includes(accountType)) {
-				res.status(400).json({
+				return res.status(400).json({
 					error: "BAD_REQUEST",
 					message: "Invalid account type",
 				});
-				return;
+			}
+
+			if (
+				accountType === "controller" &&
+				res.locals.user?.role !== "admin"
+			) {
+				return res.status(401).json({
+					error: "UNAUTHORIZED",
+					message: "Only admin can create controller accounts",
+				});
 			}
 
 			const user = await accountTypeToStore[accountType](req.body);

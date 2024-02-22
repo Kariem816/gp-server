@@ -129,51 +129,6 @@ class UserStore {
 		}
 	}
 
-	async createAdmin(userData: User): Promise<RegisterReturn> {
-		const adminCount = await prisma.user.count({
-			where: { role: "admin" },
-		});
-
-		if (adminCount > 0) {
-			throw new Error("Admin already exists");
-		}
-
-		const hashedPassword = await hashPassword(userData.password);
-		userData.password = hashedPassword;
-
-		try {
-			const user = await prisma.user.create({
-				data: {
-					...userData,
-					role: "admin",
-				},
-			});
-
-			await prisma.admin.create({
-				data: {
-					user: {
-						connect: {
-							id: user.id,
-						},
-					},
-				},
-			});
-
-			//@ts-ignore
-			return user;
-		} catch (err: any) {
-			if (err.message === "Admin already exists") {
-				throw {
-					httpStatus: 400,
-					simpleMessage: "Admin already exists",
-					longMessage: errCodesToMessages[400],
-					originalError: err,
-				} as PrismaError;
-			}
-			throw parsePrismaError(err as PrismaClientError);
-		}
-	}
-
 	async authenticateUser(
 		username: string,
 		password: string

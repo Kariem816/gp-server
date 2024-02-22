@@ -13,7 +13,6 @@ import { z } from "zod";
 
 import { createRouteHandler, type FileRouter } from "uploadthing/express";
 import { UploadThingError } from "uploadthing/server";
-import { formatResponse } from "@/helpers";
 
 // Define endpoints for UploadThing
 // "endpoint": ut({ options }).middleware(middleware).onUploadComplete(onUploadComplete)
@@ -49,9 +48,11 @@ const uploadRouter = {
 				let oldImgKey: string | undefined;
 
 				if (oldImg) {
-					oldImgKey =
-						(await uploadStore.deleteByURL(oldImg))?.key ??
-						undefined;
+					const isUploaded =
+						await uploadStore.isUploadedByUrl(oldImg);
+					oldImgKey = isUploaded
+						? (await uploadStore.deleteByURL(oldImg))?.key
+						: undefined;
 				}
 
 				if (oldImgKey) {
@@ -67,8 +68,7 @@ const uploadRouter = {
 						body: "Your profile picture has been updated",
 					});
 				}
-
-				return formatResponse({ img: file.url });
+				return;
 			} catch (err) {
 				throw {
 					error: "INTERNAL_SERVER_ERROR",
@@ -192,7 +192,7 @@ const uploadRouter = {
 						" students have been marked present",
 				});
 
-				return formatResponse({ attendance: attendance.length });
+				return { attendance: attendance.length };
 			} catch (err) {
 				// Report error to console
 				console.error(err);

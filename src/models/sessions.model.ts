@@ -16,7 +16,7 @@ class SessionStore {
 				},
 			});
 		} catch (err: any) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -28,7 +28,7 @@ class SessionStore {
 				},
 			});
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -40,7 +40,7 @@ class SessionStore {
 				},
 			});
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -52,7 +52,7 @@ class SessionStore {
 				},
 			});
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -60,7 +60,7 @@ class SessionStore {
 		try {
 			return await prisma.session.deleteMany();
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -72,7 +72,7 @@ class SessionStore {
 				},
 			});
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -87,7 +87,7 @@ class SessionStore {
 				},
 			});
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -99,7 +99,7 @@ class SessionStore {
 				},
 			});
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -114,7 +114,7 @@ class SessionStore {
 				},
 			});
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -129,7 +129,7 @@ class SessionStore {
 				},
 			});
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -144,7 +144,7 @@ class SessionStore {
 				},
 			});
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -170,7 +170,7 @@ class SessionStore {
 
 			return uniqueTokens;
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -195,7 +195,7 @@ class SessionStore {
 
 			return uniqueTokens;
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 }

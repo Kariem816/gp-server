@@ -23,6 +23,7 @@ import { comparePassword } from "@/utils/hash";
 import { routerError } from "@/helpers/index";
 import { parseUserAgent } from "@/helpers/session";
 import { sendNotifications } from "@/helpers/notifications";
+import { PrismaError } from "@/config/db";
 
 import type { RegisterReturn } from "@/models/users.model";
 
@@ -101,7 +102,10 @@ router.post("/login", validateBody(loginSchema), async (req, res) => {
 
 		res.json({ accessToken, user });
 	} catch (err: any) {
-		routerError(err, res);
+		res.status(401).json({
+			error: "UNAUTHORIZED",
+			message: "Invalid credentials",
+		});
 	}
 });
 

@@ -1,4 +1,4 @@
-import { parsePrismaError, prisma } from "@/config/db";
+import { PrismaError, prisma } from "@/config/db";
 import type { PrismaClientError } from "@/config/db";
 
 import type { Lecture, CourseProfile } from "@prisma/client";
@@ -12,7 +12,7 @@ class LecturesStore {
 			});
 			return lecture.courseId;
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -58,7 +58,7 @@ class LecturesStore {
 			});
 			return lecture;
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -75,7 +75,7 @@ class LecturesStore {
 			});
 			return lecture;
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -86,7 +86,7 @@ class LecturesStore {
 			});
 			return lecture;
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -95,7 +95,7 @@ class LecturesStore {
 			const lectures = await prisma.lecture.deleteMany();
 			return lectures;
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -107,7 +107,7 @@ class LecturesStore {
 			});
 			return lecture.attendees;
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -128,7 +128,7 @@ class LecturesStore {
 			});
 			return lecture;
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -149,7 +149,7 @@ class LecturesStore {
 			});
 			return lecture;
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 }

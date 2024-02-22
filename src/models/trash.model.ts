@@ -9,7 +9,7 @@ class TrashStore {
 			const trash = await prisma.trashCan.findMany();
 			return trash;
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -21,7 +21,7 @@ class TrashStore {
 				},
 			});
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -31,7 +31,7 @@ class TrashStore {
 				data,
 			});
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -44,7 +44,7 @@ class TrashStore {
 				data,
 			});
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -56,7 +56,7 @@ class TrashStore {
 				},
 			});
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 }

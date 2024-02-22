@@ -1,7 +1,7 @@
-import { prisma, parsePrismaError, errCodesToMessages } from "@/config/db";
+import { prisma, PrismaError } from "@/config/db";
 import { comparePassword, hashPassword } from "@/utils/hash";
 import type { User } from "@prisma/client";
-import type { PrismaClientError, PrismaError } from "@/config/db";
+import type { PrismaClientError } from "@/config/db";
 
 export type RegisterReturn = {
 	id: string;
@@ -37,7 +37,7 @@ class UserStore {
 
 			return user;
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -91,7 +91,7 @@ class UserStore {
 
 			return user;
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -125,7 +125,7 @@ class UserStore {
 
 			return user;
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -180,12 +180,7 @@ class UserStore {
 
 			return clensedUser;
 		} catch (err) {
-			throw {
-				httpStatus: 401,
-				simpleMessage: "Invalid Credentials",
-				longMessage: errCodesToMessages[401],
-				originalError: err,
-			} as PrismaError;
+			throw new Error("Invalid Credentials");
 		}
 	}
 
@@ -211,7 +206,7 @@ class UserStore {
 
 			return user;
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -228,7 +223,7 @@ class UserStore {
 
 			return user.password;
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -260,7 +255,7 @@ class UserStore {
 
 			return users;
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -284,7 +279,7 @@ class UserStore {
 			});
 			return oldImg;
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -300,7 +295,7 @@ class UserStore {
 				},
 			});
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -312,7 +307,7 @@ class UserStore {
 				},
 			});
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 }

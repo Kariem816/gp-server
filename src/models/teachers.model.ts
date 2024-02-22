@@ -37,7 +37,7 @@ class TeacherStore {
 
 			return teachers;
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -68,7 +68,7 @@ class TeacherStore {
 
 			return teacher;
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -91,7 +91,7 @@ class TeacherStore {
 
 			return courses;
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -130,7 +130,7 @@ class TeacherStore {
 
 			return lectures;
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -147,7 +147,7 @@ class TeacherStore {
 
 			return teacher?.id;
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 }

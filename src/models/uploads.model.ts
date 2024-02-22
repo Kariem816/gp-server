@@ -9,7 +9,7 @@ class UploadsStore {
 			// TODO: pagination
 			return prisma.upload.findMany();
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -25,7 +25,7 @@ class UploadsStore {
 				},
 			});
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -37,7 +37,7 @@ class UploadsStore {
 				},
 			});
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -49,7 +49,7 @@ class UploadsStore {
 				},
 			});
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -61,7 +61,7 @@ class UploadsStore {
 				},
 			});
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -73,7 +73,7 @@ class UploadsStore {
 				},
 			});
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -88,7 +88,7 @@ class UploadsStore {
 				},
 			});
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -102,7 +102,7 @@ class UploadsStore {
 
 			return !!upload;
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -116,7 +116,7 @@ class UploadsStore {
 				},
 			});
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -130,7 +130,7 @@ class UploadsStore {
 				},
 			});
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -138,7 +138,7 @@ class UploadsStore {
 		try {
 			await prisma.upload.deleteMany();
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -155,7 +155,7 @@ class UploadsStore {
 
 			return key;
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -176,7 +176,7 @@ class UploadsStore {
 				},
 			});
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 
@@ -196,7 +196,7 @@ class UploadsStore {
 
 			return upload?.url;
 		} catch (err) {
-			throw parsePrismaError(err as PrismaClientError);
+			throw new PrismaError(err as PrismaClientError);
 		}
 	}
 }

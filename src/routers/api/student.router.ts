@@ -63,7 +63,7 @@ router.get("/my-schedule", mustBeStudent, async (req, res) => {
 
 		const schedule = await studentStore.getSchedule(studentId, until);
 
-		res.json(schedule);
+		res.json(formatResponse(schedule));
 	} catch (err) {
 		formatError(err);
 	}
@@ -79,7 +79,7 @@ router.get("/:id/schedule", async (req, res) => {
 
 		const schedule = await studentStore.getSchedule(studentId, until);
 
-		res.json(schedule);
+		res.json(formatResponse(schedule));
 	} catch (err) {
 		formatError(err);
 	}
@@ -97,7 +97,7 @@ router.get("/my-attendance", mustBeStudent, async (req, res) => {
 			semester
 		);
 
-		res.json(attendance);
+		res.json(formatResponse(attendance));
 	} catch (err) {
 		formatError(err);
 	}
@@ -116,7 +116,7 @@ router.get("/:id/attendance", async (req, res) => {
 			semester
 		);
 
-		res.json(attendance);
+		res.json(formatResponse(attendance));
 	} catch (err) {
 		formatError(err);
 	}
@@ -125,7 +125,7 @@ router.get("/:id/attendance", async (req, res) => {
 router.get("/:id", async (req, res) => {
 	try {
 		const student = await studentStore.show(req.params.id);
-		res.json(student);
+		res.json(formatResponse(student));
 	} catch (err) {
 		formatError(err);
 	}

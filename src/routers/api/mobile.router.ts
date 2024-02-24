@@ -168,6 +168,12 @@ router.post(
 				throw "Unreachable";
 			}
 
+			if (resp.error) {
+				throw new Error(
+					"An error occured while uploading new app version"
+				);
+			}
+
 			// Register the new file in the database
 			await uploadStore.create({
 				...resp.data,

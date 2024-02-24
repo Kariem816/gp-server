@@ -13,15 +13,31 @@ class UploadsStore {
 		}
 	}
 
-	async create(data: Partial<Upload>): Promise<Upload> {
+	async create(data: {
+		key: string;
+		url: string;
+		size: number;
+		name: string;
+		metadata?: Record<string, any>;
+	}): Promise<Upload> {
 		try {
-			return await prisma.upload.create({
-				data: {
+			// sometimes somehow ut returns the same key
+			return await prisma.upload.upsert({
+				where: {
 					key: data.key!,
-					url: data.url!,
-					size: data.size!,
-					name: data.name!,
-					metadata: data.metadata!,
+				},
+				update: {
+					url: data.url,
+					size: data.size,
+					name: data.name,
+					metadata: data.metadata,
+				},
+				create: {
+					key: data.key,
+					url: data.url,
+					size: data.size,
+					name: data.name,
+					metadata: data.metadata ?? {},
 				},
 			});
 		} catch (err) {

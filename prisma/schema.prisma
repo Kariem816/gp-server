@@ -129,9 +129,10 @@ enum ControlElement {
   attendance
   gate
   parking
-  waste
+  garbage
   irrigation
   lighting
+  image
 }
 
 model ParkingSpot {

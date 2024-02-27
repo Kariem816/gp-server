@@ -1,3 +1,4 @@
+import { ControlElement } from "@prisma/client";
 import { Expo } from "expo-server-sdk";
 import { z } from "zod";
 
@@ -60,6 +61,23 @@ export const newUserSchema = z.object({
 	username: usernameSchema,
 	password: passwordSchema,
 	liscencePlate: liscencePlateSchema,
+});
+
+export const newControllerSchema = z.object({
+	user: z.object({
+		name: nameSchema,
+		username: usernameSchema,
+		password: passwordSchema,
+	}),
+	controller: z.object({
+		location: z.string().optional(),
+		controls: z
+			.nativeEnum(ControlElement, {
+				required_error: "Invalid Control Element",
+			})
+			.array()
+			.nonempty("There must be at least one control element"),
+	}),
 });
 
 export const loginSchema = z.object({

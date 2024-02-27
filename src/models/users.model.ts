@@ -1,6 +1,6 @@
 import { prisma, PrismaError } from "@/config/db";
 import { comparePassword, hashPassword } from "@/utils/hash";
-import type { User } from "@prisma/client";
+import type { Controller, User } from "@prisma/client";
 import type { PrismaClientError } from "@/config/db";
 
 export type RegisterReturn = {
@@ -66,7 +66,13 @@ class UserStore {
 		});
 	}
 
-	async createController(userData: User): Promise<RegisterReturn> {
+	async createController(
+		userData: User,
+		controller: {
+			location?: Controller["location"];
+			controls: Controller["controls"];
+		}
+	): Promise<RegisterReturn> {
 		const hashedPassword = await hashPassword(userData.password);
 		userData.password = hashedPassword;
 
@@ -76,9 +82,7 @@ class UserStore {
 					...userData,
 					role: "controller",
 					controller: {
-						create: {
-							location: undefined,
-						},
+						create: controller,
 					},
 				},
 				select: {

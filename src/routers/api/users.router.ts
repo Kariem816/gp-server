@@ -16,6 +16,7 @@ import {
 	updateNotificationTokenSchema,
 	updatePasswordSchema,
 	notifyUserSchema,
+	newControllerSchema,
 } from "@/schemas/users.schema";
 import { querySchema } from "@/schemas/query.schema";
 import { env } from "@/config/env";
@@ -37,6 +38,25 @@ router.post("/register", async (_req, res) => {
 });
 
 router.post(
+	"/register/controller",
+	mustBeAdmin,
+	validateBody(newControllerSchema),
+	async (req, res) => {
+		try {
+			const user = await userStore.createController(
+				req.body.user,
+				req.body.controller
+			);
+
+			res.status(201).json(formatResponse(user));
+		} catch (err: any) {
+			const { status, error } = formatError(err);
+			res.status(status).json(error);
+		}
+	}
+);
+
+router.post(
 	"/register/:accountType",
 	validateBody(newUserSchema),
 	async (req, res) => {
@@ -47,7 +67,6 @@ router.post(
 		> = {
 			student: userStore.createStudent,
 			teacher: userStore.createTeacher,
-			controller: userStore.createController,
 			security: userStore.createSecurity,
 		};
 
@@ -56,16 +75,6 @@ router.post(
 				return res.status(400).json({
 					error: "BAD_REQUEST",
 					message: "Invalid account type",
-				});
-			}
-
-			if (
-				accountType === "controller" &&
-				res.locals.user?.role !== "admin"
-			) {
-				return res.status(401).json({
-					error: "UNAUTHORIZED",
-					message: "Only admin can create controller accounts",
 				});
 			}
 

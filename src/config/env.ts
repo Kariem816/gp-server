@@ -1,6 +1,4 @@
-import { config } from "dotenv";
-
-config();
+import { createEnv } from "@/utils/env";
 
 type Env = {
 	NODE_ENV: string;
@@ -16,16 +14,22 @@ type Env = {
 	EXPO_ACCESS_TOKEN: string;
 };
 
-export const env: Env = {
-	NODE_ENV: process.env.NODE_ENV!,
-	PORT: Number(process.env.PORT!),
-	DATABASE_URL: process.env.DATABASE_URL!,
-	SALT: Number(process.env.SALT!),
-	PEPPER: process.env.PEPPER!,
-	JWT_PRIVATE_KEY: process.env.JWT_PRIVATE_KEY!,
-	JWT_PUBLIC_KEY: process.env.JWT_PUBLIC_KEY!,
-	CURR_SEMESTER: process.env.CURR_SEMESTER!,
-	UPLOADTHING_SECRET: process.env.UPLOADTHING_SECRET!,
-	UPLOADTHING_APP_ID: process.env.UPLOADTHING_APP_ID!,
-	EXPO_ACCESS_TOKEN: process.env.EXPO_ACCESS_TOKEN!,
-};
+export const env = createEnv<Env>({
+	values: {
+		NODE_ENV: process.env.NODE_ENV,
+		PORT: process.env.PORT,
+		DATABASE_URL: process.env.DATABASE_URL,
+		SALT: process.env.SALT,
+		PEPPER: process.env.PEPPER,
+		JWT_PRIVATE_KEY: process.env.JWT_PRIVATE_KEY,
+		JWT_PUBLIC_KEY: process.env.JWT_PUBLIC_KEY,
+		CURR_SEMESTER: process.env.CURR_SEMESTER,
+		UPLOADTHING_SECRET: process.env.UPLOADTHING_SECRET,
+		UPLOADTHING_APP_ID: process.env.UPLOADTHING_APP_ID,
+		EXPO_ACCESS_TOKEN: process.env.EXPO_ACCESS_TOKEN,
+	},
+	transform: {
+		PORT: Number,
+		SALT: Number,
+	},
+});

@@ -175,7 +175,9 @@ class UploadsStore {
 		}
 	}
 
-	// Mobile App Specific
+	/* **************************************************** */
+	/* Mobile App Specific */
+	/* **************************************************** */
 	async getAllMetadataByName(
 		name: string
 	): Promise<{ metadata: Upload["metadata"] }[]> {

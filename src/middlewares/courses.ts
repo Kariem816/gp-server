@@ -55,7 +55,8 @@ export async function getCourseProfile(
 				res.locals.teacher = teacher;
 				break;
 			}
-			case "admin": {
+			case "admin":
+			case "controller": {
 				break;
 			}
 			default: {

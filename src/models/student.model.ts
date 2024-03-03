@@ -207,8 +207,10 @@ class StudentStore {
 				where: {
 					attendees: {
 						some: {
-							studentId: studentId,
-							semester: semester,
+							student: {
+								semester: semester,
+								studentId,
+							},
 						},
 					},
 				},

@@ -18,6 +18,8 @@ import {
 } from "@/schemas/courses.schema";
 import { createLectureSchema } from "@/schemas/lectures.schema";
 
+import type { z } from "zod";
+
 const router = Router();
 
 router.get("/", validateQuery(querySchema), parseFilters, async (req, res) => {
@@ -288,10 +290,12 @@ router.post(
 	validateBody(createLectureSchema),
 	async (req, res) => {
 		try {
-			const { time } = req.body;
 			const courseId = req.params.id;
-			await courseStore.addLecture(courseId, time);
-			res.sendStatus(204);
+			await courseStore.addLecture(
+				courseId,
+				req.body as z.infer<typeof createLectureSchema>
+			);
+			res.sendStatus(201);
 		} catch (err: any) {
 			const { status, error } = formatError(err);
 			res.status(status).json(error);

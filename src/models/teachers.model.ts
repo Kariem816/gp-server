@@ -94,6 +94,11 @@ class TeacherStore {
 					id: true,
 					name: true,
 					code: true,
+					_count: {
+						select: {
+							students: true,
+						},
+					},
 				},
 			});
 
@@ -118,6 +123,9 @@ class TeacherStore {
 				select: {
 					id: true,
 					time: true,
+					duration: true,
+					location: true,
+					ended: true,
 					course: {
 						select: {
 							id: true,

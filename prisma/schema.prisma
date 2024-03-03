@@ -25,8 +25,9 @@ model User {
   security   Security?
   admin      Admin?
 
-  sessions         Session[]
-  encodedImageData EncodedImageData[]
+  sessions Session[]
+
+  encodedImageData String?
 }
 
 model Session {
@@ -104,11 +105,12 @@ model Course {
 }
 
 model CourseProfile {
-  id         String    @id @default(uuid())
-  studentId  String
-  courseId   String
-  semester   String    @default("Fall 23")
-  attendance Lecture[]
+  id        String @id @default(uuid())
+  studentId String
+  courseId  String
+  semester  String @default("Fall 23")
+
+  attendance LectureAttendees[]
 
   student Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
   course  Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
@@ -117,12 +119,29 @@ model CourseProfile {
 }
 
 model Lecture {
-  id        String          @id @default(uuid())
-  courseId  String
-  time      DateTime
-  attendees CourseProfile[]
+  id       String    @id @default(uuid())
+  courseId String
+  time     DateTime
+  duration Int
+  ended    DateTime?
+  location String
+
+  attendees LectureAttendees[]
 
   course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+}
+
+model LectureAttendees {
+  id        String @id @default(uuid())
+  lectureId String
+  studentId String
+
+  times DateTime[]
+
+  lecture Lecture       @relation(fields: [lectureId], references: [id], onDelete: Cascade)
+  student CourseProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([lectureId, studentId])
 }
 
 enum ControlElement {
@@ -171,10 +190,8 @@ model Upload {
   updatedAt DateTime @updatedAt
 }
 
-model EncodedImageData {
-  id     String @id @default(uuid())
-  userId String
-  data   String
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+model Camera {
+  id       String @id @default(uuid())
+  location String
+  url      String
 }

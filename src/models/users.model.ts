@@ -136,7 +136,7 @@ class UserStore {
 	async authenticateUser(
 		username: string,
 		password: string
-	): Promise<Omit<User, "password">> {
+	): Promise<Omit<Omit<User, "password">, "encodedImageData">> {
 		try {
 			const user = await prisma.user.findUnique({
 				where: {
@@ -239,7 +239,9 @@ class UserStore {
 		page: number;
 		limit: number;
 		filters: any;
-	}): Promise<PaginatedResponse<Omit<User, "password">>> {
+	}): Promise<
+		PaginatedResponse<Omit<Omit<User, "password">, "encodedImageData">>
+	> {
 		try {
 			const total = await prisma.user.count({
 				where: {
@@ -318,6 +320,41 @@ class UserStore {
 			await prisma.user.delete({
 				where: {
 					id: userId,
+				},
+			});
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
+	}
+
+	async getImgEncoding(userId: string): Promise<User["encodedImageData"]> {
+		try {
+			const user = await prisma.user.findUniqueOrThrow({
+				where: {
+					id: userId,
+				},
+				select: {
+					encodedImageData: true,
+				},
+			});
+
+			return user.encodedImageData;
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
+	}
+
+	async updateImgEncoding(
+		userId: string,
+		encodedImageData: User["encodedImageData"]
+	): Promise<void> {
+		try {
+			await prisma.user.update({
+				where: {
+					id: userId,
+				},
+				data: {
+					encodedImageData,
 				},
 			});
 		} catch (err) {

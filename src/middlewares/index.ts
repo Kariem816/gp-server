@@ -1,6 +1,7 @@
 import getUser from "./getUser";
 import mustLogin, {
 	isLoggedIn,
+	mustBe,
 	mustBeAdmin,
 	mustBeStudent,
 	mustBeAdminOrStudent,
@@ -21,6 +22,7 @@ export {
 	getUser,
 	mustLogin,
 	isLoggedIn,
+	mustBe,
 	mustBeAdmin,
 	mustBeStudent,
 	mustBeAdminOrStudent,

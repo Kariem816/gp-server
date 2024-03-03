@@ -1,19 +1,24 @@
-import { mustBeController, mustLogin, validateBody } from "@/middlewares";
+import { mustBeAdmin, validateBody } from "@/middlewares";
 import { Router } from "express";
-import recognizer from "@/config/recognizer";
-import { updateReconizerTokenSchema } from "@/schemas/controllers.schema";
-import { formatResponse } from "@/helpers";
+import { addCameraSchema } from "@/schemas/controllers.schema";
+import { formatError, formatResponse } from "@/helpers";
+import controllerStore from "@/models/controllers.model";
 
 const router = Router();
 
 router.post(
-	"/recognizer-token",
-	mustLogin,
-	mustBeController,
-	validateBody(updateReconizerTokenSchema),
-	(req, res) => {
-		recognizer.token = req.body.token;
-		res.json(formatResponse({ message: "Recognizer token updated" }));
+	"/camera",
+	mustBeAdmin,
+	validateBody(addCameraSchema),
+	async (req, res) => {
+		try {
+			await controllerStore.addCamera(req.body);
+
+			res.json(formatResponse({ message: "Camera added" }));
+		} catch (err) {
+			const { status, error } = formatError(err);
+			res.status(status).json(error);
+		}
 	}
 );
 

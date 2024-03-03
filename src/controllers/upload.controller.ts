@@ -1,18 +1,17 @@
 import { ut, utapi } from "@/config/ut";
-import { env } from "@/config/env";
 import userStore from "@/models/users.model";
 import uploadStore from "@/models/uploads.model";
 import sessionStore from "@/models/sessions.model";
 import courseStore from "@/models/courses.model";
 import teacherStore from "@/models/teachers.model";
 import lectureStore from "@/models/lectures.model";
-import recognizer from "@/config/recognizer";
 
+import * as re from "@/controllers/recognize.controller";
+import { UploadThingError } from "uploadthing/server";
 import { sendNotifications } from "@/helpers/notifications";
 import { z } from "zod";
 
 import { createRouteHandler, type FileRouter } from "uploadthing/express";
-import { UploadThingError } from "uploadthing/server";
 
 // Define endpoints for UploadThing
 // "endpoint": ut({ options }).middleware(middleware).onUploadComplete(onUploadComplete)
@@ -55,13 +54,31 @@ const uploadRouter = {
 						: undefined;
 				}
 
-				if (oldImgKey) {
+				if (oldImgKey && oldImgKey !== file.key) {
 					await utapi.deleteFiles(oldImgKey);
+				}
+
+				const prevEncoding = await userStore.getImgEncoding(
+					metadata.userId
+				);
+				try {
+					const newEncoding = await re.encodeImage(
+						file.url,
+						prevEncoding
+					);
+
+					await userStore.updateImgEncoding(
+						metadata.userId,
+						newEncoding
+					);
+				} catch (err) {
+					console.error(err);
 				}
 
 				const tokens = await sessionStore.getNotificationTokensByUser(
 					metadata.userId
 				);
+
 				if (tokens.length > 0) {
 					await sendNotifications(tokens, {
 						title: "Profile picture updated",
@@ -95,12 +112,6 @@ const uploadRouter = {
 					"Only teachers can upload attendance"
 				);
 			}
-
-			// if (!recognizer.token) {
-			// 	throw new UploadThingError(
-			// 		"Recognition service is not available"
-			// 	);
-			// }
 
 			const lectureCourseId = await lectureStore.getLectureCourseId(
 				input.lectureId
@@ -145,45 +156,22 @@ const uploadRouter = {
 					metadata.userId
 				);
 
+				// Get possible attendees
+				const students = await lectureStore.getPossibleAttendees(
+					metadata.lectureId
+				);
+
 				// Send to recognition service
-				// const response = await fetch(
-				// 	env.RECOGNIZER_BASEURL +
-				// 		"/detect?token=" +
-				// 		recognizer.token,
-				// 	{
-				// 		method: "POST",
-				// 		body: JSON.stringify({
-				// 			image: file.url,
-				// 			imgs: [
-				// 				{
-				// 					id: "123", // student id,
-				// 					data: '{"hamada": "mido"}', // encoded data for student images,
-				// 				},
-				// 			],
-				// 			detector: "DLIB",
-				// 			recognizer: "DLIB",
-				// 		}),
-				// 	}
-				// );
+				const attendance = await re.recognizeAttendance(
+					file.url,
+					students
+				);
 
-				// if (!response.ok) {
-				// 	throw {
-				// 		error: "INTERNAL_SERVER_ERROR",
-				// 		message:
-				// 			"An error occurred while processing attendance",
-				// 	};
-				// }
-				// const attendance: string[] = await response.json();
-				const attendance: string[] = [
-					"student1",
-					"student2",
-					"student3",
-				];
-
-				// await lectureStore.addLectureAttendees(
-				// 	metadata.lectureId,
-				// 	attendance
-				// );
+				await lectureStore.addLectureAttendees(
+					metadata.lectureId,
+					attendance,
+					new Date()
+				);
 
 				sendNotifications(tokens, {
 					title: "Attendance uploaded",
@@ -197,12 +185,6 @@ const uploadRouter = {
 				// Report error to console
 				console.error(err);
 
-				// Delete the file from the database and storage
-				if (imageSaved) {
-					await uploadStore.deleteByURL(file.url);
-				}
-				await utapi.deleteFiles(file.key);
-
 				// Send error notification to teacher
 				if (tokens.length > 0)
 					await sendNotifications(tokens, {
@@ -211,10 +193,9 @@ const uploadRouter = {
 					});
 
 				// Throw error to client
-				throw {
-					error: "INTERNAL_SERVER_ERROR",
-					message: "An error occurred while processing attendance",
-				};
+				throw new UploadThingError(
+					"An error occurred while processing attendance"
+				);
 			}
 		}),
 } satisfies FileRouter;

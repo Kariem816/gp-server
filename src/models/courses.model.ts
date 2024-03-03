@@ -394,11 +394,17 @@ class CoursesStore {
 		}
 	}
 
-	async addLecture(courseId: Course["id"], lectureTime: string) {
+	async addLecture(
+		courseId: Course["id"],
+		lectureData: { time: number; duration: number; location: string }
+	) {
 		try {
+			const { time, duration, location } = lectureData;
 			return await prisma.lecture.create({
 				data: {
-					time: new Date(lectureTime),
+					time: new Date(time),
+					duration,
+					location,
 					course: {
 						connect: {
 							id: courseId,

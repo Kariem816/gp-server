@@ -1,3 +1,4 @@
+import { UserRole } from "@prisma/client";
 import type { Request, Response, NextFunction } from "express";
 
 export default function (_req: Request, res: Response, next: NextFunction) {
@@ -14,6 +15,26 @@ export default function (_req: Request, res: Response, next: NextFunction) {
 export function isLoggedIn(_req: Request, res: Response, next: NextFunction) {
 	res.locals.isLoggedIn = !!res.locals.user;
 	next();
+}
+
+export function mustBe(role: UserRole | UserRole[]) {
+	return function (_req: Request, res: Response, next: NextFunction) {
+		if (Array.isArray(role)) {
+			if (!role.includes(res.locals.user?.role)) {
+				return res.status(403).json({
+					error: "FORBIDDEN",
+					message: "You are not allowed to access this resource",
+				});
+			}
+		} else if (res.locals.user?.role !== role) {
+			return res.status(403).json({
+				error: "FORBIDDEN",
+				message: "You are not allowed to access this resource",
+			});
+		}
+
+		next();
+	};
 }
 
 export function mustBeAdmin(_req: Request, res: Response, next: NextFunction) {

@@ -12,6 +12,10 @@ type Env = {
 	UPLOADTHING_SECRET: string;
 	UPLOADTHING_APP_ID: string;
 	EXPO_ACCESS_TOKEN: string;
+	CAMERA_USERNAME: string;
+	CAMERA_PASSWORD: string;
+	RECOGNIZER_TOKEN: string;
+	RECOGNIZER_URL: string;
 };
 
 export const env = createEnv<Env>({
@@ -27,6 +31,10 @@ export const env = createEnv<Env>({
 		UPLOADTHING_SECRET: process.env.UPLOADTHING_SECRET,
 		UPLOADTHING_APP_ID: process.env.UPLOADTHING_APP_ID,
 		EXPO_ACCESS_TOKEN: process.env.EXPO_ACCESS_TOKEN,
+		CAMERA_USERNAME: process.env.CAMERA_USERNAME,
+		CAMERA_PASSWORD: process.env.CAMERA_PASSWORD,
+		RECOGNIZER_TOKEN: process.env.RECOGNIZER_TOKEN,
+		RECOGNIZER_URL: process.env.RECOGNIZER_URL,
 	},
 	transform: {
 		PORT: Number,

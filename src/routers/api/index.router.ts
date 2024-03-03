@@ -14,6 +14,7 @@ import mobileRouter from "./mobile.router";
 
 import {
 	getCourseProfile,
+	mustBe,
 	mustBeAdminOrTeacher,
 	mustLogin,
 } from "@/middlewares";
@@ -35,7 +36,7 @@ router.use("/courses", getCourseProfile, coursesRouter);
 router.use(
 	"/lectures",
 	mustLogin,
-	mustBeAdminOrTeacher,
+	mustBe(["admin", "teacher", "controller"]),
 	getCourseProfile,
 	lecturesRouter
 );

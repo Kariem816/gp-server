@@ -1,7 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import type { Course } from "@prisma/client";
 import lectureStore from "@/models/lectures.model";
-import { PrismaError } from "@/config/db";
 import { formatError } from "@/helpers";
 
 export async function canModifyLecture(

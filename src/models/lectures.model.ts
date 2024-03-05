@@ -180,6 +180,72 @@ class LecturesStore {
 		}
 	}
 
+	async getLectureAbsentees(
+		lectureId: Lecture["id"],
+		options: {
+			page: number;
+			limit: number;
+			filters: any;
+		}
+	) {
+		try {
+			const courseId = await this.getLectureCourseId(lectureId);
+
+			const total = await prisma.courseProfile.count({
+				where: {
+					attendance: {
+						none: {
+							lectureId,
+						},
+					},
+					courseId,
+					student: {
+						user: options.filters,
+					},
+				},
+			});
+
+			const students = await prisma.courseProfile.findMany({
+				where: {
+					courseId,
+					attendance: {
+						none: {
+							lectureId: lectureId,
+						},
+					},
+					student: {
+						user: options.filters,
+					},
+				},
+				select: {
+					id: true,
+					student: {
+						select: {
+							id: true,
+							userId: true,
+							user: {
+								select: {
+									id: true,
+									name: true,
+									img: true,
+								},
+							},
+						},
+					},
+				},
+			});
+
+			return {
+				data: students,
+				page: options.page,
+				limit: options.limit,
+				total,
+			};
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
+	}
+
 	async addLectureAttendees(
 		id: Lecture["id"],
 		attendees: CourseProfile["id"][],
@@ -206,7 +272,7 @@ class LecturesStore {
 						create: {
 							lectureId: id,
 							studentId: attendee,
-							times: [new Date()],
+							times: time ? [time] : [],
 						},
 					})
 				);
@@ -294,21 +360,46 @@ class LecturesStore {
 		}
 	}
 
-	async getAttendanceImages(lectureId: Lecture["id"]) {
+	async getAttendanceImages(
+		lectureId: Lecture["id"],
+		options: {
+			page: number;
+			limit: number;
+		}
+	) {
 		try {
-			return await prisma.upload.findMany({
+			const total = await prisma.upload.count({
 				where: {
 					metadata: {
 						path: ["lectureId"],
 						equals: lectureId,
 					},
 				},
+			});
+
+			const imgs = await prisma.upload.findMany({
+				where: {
+					metadata: {
+						path: ["lectureId"],
+						equals: lectureId,
+					},
+				},
+				skip: (options.page - 1) * options.limit,
+				take: options.limit,
 				select: {
+					key: true,
 					url: true,
 					metadata: true,
 					size: true,
 				},
 			});
+
+			return {
+				data: imgs,
+				page: options.page,
+				limit: options.limit,
+				total,
+			};
 		} catch (err) {
 			throw new PrismaError(err as PrismaClientError);
 		}

@@ -253,15 +253,54 @@ router.get(
 	}
 );
 
-router.get("/:id/imgs", canModifyLecture, async (req, res) => {
-	try {
-		const imgs = await lectureStore.getAttendanceImages(req.params.id);
-		res.json(formatResponse(imgs));
-	} catch (err: any) {
-		const { status, error } = formatError(err);
-		res.status(status).json(error);
+router.get(
+	"/:id/absentees",
+	canModifyLecture,
+	validateQuery(querySchema),
+	parseFilters,
+	async (req, res) => {
+		try {
+			const page = Number(req.query.page) || 1;
+			const limit = Number(req.query.limit) || 50;
+			const filters = res.locals.filters;
+
+			const lecture = await lectureStore.getLectureAbsentees(
+				req.params.id,
+				{
+					page,
+					limit,
+					filters,
+				}
+			);
+			res.json(formatResponse(lecture));
+		} catch (err: any) {
+			const { status, error } = formatError(err);
+			res.status(status).json(error);
+		}
 	}
-});
+);
+
+router.get(
+	"/:id/imgs",
+	canModifyLecture,
+	validateQuery(querySchema),
+	parseFilters,
+	async (req, res) => {
+		try {
+			const page = Number(req.query.page) || 1;
+			const limit = Number(req.query.limit) || 5;
+
+			const imgs = await lectureStore.getAttendanceImages(req.params.id, {
+				page,
+				limit,
+			});
+			res.json(formatResponse(imgs));
+		} catch (err: any) {
+			const { status, error } = formatError(err);
+			res.status(status).json(error);
+		}
+	}
+);
 
 router.post(
 	"/:id/attendees",
@@ -269,6 +308,32 @@ router.post(
 	validateBody(addLectureAttendeesSchema),
 	async (req, res) => {
 		try {
+			const existingLecture = await lectureStore.getLecture(
+				req.params.id
+			);
+
+			if (existingLecture.time > new Date()) {
+				return res.status(400).json({
+					error: "BAD_REQUEST",
+					message: "Lecture has not started yet",
+				});
+			}
+
+			let endTime = existingLecture.ended;
+			if (!endTime) {
+				endTime = new Date(
+					existingLecture.time.getTime() +
+						existingLecture.duration * 60000
+				);
+			}
+
+			if (endTime < new Date()) {
+				return res.status(400).json({
+					error: "BAD_REQUEST",
+					message: "Lecture has already ended",
+				});
+			}
+
 			const lecture = await lectureStore.addLectureAttendees(
 				req.params.id,
 				req.body

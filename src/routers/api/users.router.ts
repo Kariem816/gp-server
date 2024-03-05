@@ -29,14 +29,6 @@ import type { RegisterReturn } from "@/models/users.model";
 
 const router = Router();
 
-router.post("/register", async (_req, res) => {
-	res.status(400).json({
-		error: "BAD_REQUEST",
-		message:
-			"use /register/<account_type>\n where <account_type> is one of: student, teacher, controller, admin",
-	});
-});
-
 router.post(
 	"/register/controller",
 	mustBeAdmin,

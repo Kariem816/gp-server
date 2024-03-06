@@ -1,5 +1,48 @@
 import { createUploadthing } from "uploadthing/express";
-import { UTApi } from "uploadthing/server";
+import { UTApi, UploadThingError } from "uploadthing/server";
+
+import type { UploadedFile } from "@uploadthing/shared";
 
 export const ut = createUploadthing();
 export const utapi = new UTApi();
+
+type ResolverOptions = {
+	metadata: any;
+	file: UploadedFile;
+};
+
+type ResolverFn = (opts: ResolverOptions) => Promise<any>;
+
+export function createResolver(resolver: ResolverFn) {
+	return async (opts: ResolverOptions) => {
+		try {
+			return await resolver(opts);
+		} catch (error) {
+			if (error instanceof UploadThingError) {
+				return {
+					error: {
+						error: error.code,
+						message: error.message,
+					},
+				};
+			} else if (error instanceof Error) {
+				return {
+					error: {
+						error: "INTERNAL_SERVER_ERROR",
+						message: error.message,
+					},
+				};
+			} else if (typeof error === "object") {
+				return {
+					error,
+				};
+			}
+			return {
+				error: {
+					error: "INTERNAL_SERVER_ERROR",
+					message: "An unknown error occurred",
+				},
+			};
+		}
+	};
+}

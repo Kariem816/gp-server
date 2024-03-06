@@ -1,4 +1,4 @@
-import { ut, utapi } from "@/config/ut";
+import { createResolver, ut, utapi } from "@/config/ut";
 import userStore from "@/models/users.model";
 import uploadStore from "@/models/uploads.model";
 import sessionStore from "@/models/sessions.model";
@@ -30,69 +30,71 @@ const uploadRouter = {
 			}
 			return { userId: res.locals.user.id };
 		})
-		.onUploadComplete(async ({ file, metadata }) => {
-			// save upload data to database
-			// update user profile pic
-			// delete old profile pic
-			try {
-				await uploadStore.create({
-					...file,
-					metadata,
-				});
-				const oldImg = await userStore.updateProfilePic(
-					metadata.userId,
-					file.url
-				);
-
-				let oldImgKey: string | undefined;
-
-				if (oldImg) {
-					const isUploaded =
-						await uploadStore.isUploadedByUrl(oldImg);
-					oldImgKey = isUploaded
-						? (await uploadStore.deleteByURL(oldImg))?.key
-						: undefined;
-				}
-
-				if (oldImgKey && oldImgKey !== file.key) {
-					await utapi.deleteFiles(oldImgKey);
-				}
-
-				const prevEncoding = await userStore.getImgEncoding(
-					metadata.userId
-				);
+		.onUploadComplete(
+			createResolver(async ({ file, metadata }) => {
+				// save upload data to database
+				// update user profile pic
+				// delete old profile pic
 				try {
-					const newEncoding = await re.encodeImage(
-						file.url,
-						prevEncoding
-					);
-
-					await userStore.updateImgEncoding(
-						metadata.userId,
-						newEncoding
-					);
-				} catch (err) {
-					console.error(err);
-				}
-
-				const tokens = await sessionStore.getNotificationTokensByUser(
-					metadata.userId
-				);
-
-				if (tokens.length > 0) {
-					await sendNotifications(tokens, {
-						title: "Profile picture updated",
-						body: "Your profile picture has been updated",
+					await uploadStore.create({
+						...file,
+						metadata,
 					});
+					const oldImg = await userStore.updateProfilePic(
+						metadata.userId,
+						file.url
+					);
+
+					let oldImgKey: string | undefined;
+
+					if (oldImg) {
+						const isUploaded =
+							await uploadStore.isUploadedByUrl(oldImg);
+						oldImgKey = isUploaded
+							? (await uploadStore.deleteByURL(oldImg))?.key
+							: undefined;
+					}
+
+					if (oldImgKey && oldImgKey !== file.key) {
+						await utapi.deleteFiles(oldImgKey);
+					}
+
+					const prevEncoding = await userStore.getImgEncoding(
+						metadata.userId
+					);
+					try {
+						const newEncoding = await re.encodeImage(
+							file.url,
+							prevEncoding
+						);
+
+						await userStore.updateImgEncoding(
+							metadata.userId,
+							newEncoding
+						);
+					} catch (err) {
+						console.error(err);
+					}
+
+					const tokens =
+						await sessionStore.getNotificationTokensByUser(
+							metadata.userId
+						);
+
+					if (tokens.length > 0) {
+						await sendNotifications(tokens, {
+							title: "Profile picture updated",
+							body: "Your profile picture has been updated",
+						});
+					}
+					return;
+				} catch (err) {
+					throw new Error(
+						"An error occurred while updating profile picture"
+					);
 				}
-				return;
-			} catch (err) {
-				throw {
-					error: "INTERNAL_SERVER_ERROR",
-					message: "An error occurred while updating profile picture",
-				};
-			}
-		}),
+			})
+		),
 	attendance: ut({
 		image: {
 			maxFileSize: "32MB",
@@ -140,64 +142,63 @@ const uploadRouter = {
 				lectureId: input.lectureId,
 			};
 		})
-		.onUploadComplete(async ({ file, metadata }) => {
-			let tokens: string[] = [];
-			let imageSaved = false;
-			try {
-				// save upload data to database
-				await uploadStore.create({
-					...file,
-					metadata,
-				});
-				imageSaved = true;
+		.onUploadComplete(
+			createResolver(async ({ file, metadata }) => {
+				let tokens: string[] = [];
+				let imageSaved = false;
+				try {
+					// save upload data to database
+					await uploadStore.create({
+						...file,
+						metadata,
+					});
+					imageSaved = true;
 
-				// Get teacher notification tokens
-				tokens = await sessionStore.getNotificationTokensByUser(
-					metadata.userId
-				);
+					// Get teacher notification tokens
+					tokens = await sessionStore.getNotificationTokensByUser(
+						metadata.userId
+					);
 
-				// Get possible attendees
-				const students = await lectureStore.getPossibleAttendees(
-					metadata.lectureId
-				);
+					// Get possible attendees
+					const students = await lectureStore.getPossibleAttendees(
+						metadata.lectureId
+					);
 
-				// Send to recognition service
-				const attendance = await re.recognizeAttendance(
-					file.url,
-					students
-				);
+					// Send to recognition service
+					const attendance = await re.recognizeAttendance(
+						file.url,
+						students
+					);
 
-				await lectureStore.addLectureAttendees(
-					metadata.lectureId,
-					attendance,
-					new Date()
-				);
+					await lectureStore.addLectureAttendees(
+						metadata.lectureId,
+						attendance,
+						new Date()
+					);
 
-				sendNotifications(tokens, {
-					title: "Attendance uploaded",
-					body:
-						attendance.length +
-						" students have been marked present",
-				});
-
-				return { attendance: attendance.length };
-			} catch (err) {
-				// Report error to console
-				console.error(err);
-
-				// Send error notification to teacher
-				if (tokens.length > 0)
-					await sendNotifications(tokens, {
-						title: "Attendance upload failed",
-						body: "An error occurred while processing attendance",
+					sendNotifications(tokens, {
+						title: "Attendance uploaded",
+						body:
+							attendance.length +
+							" students have been marked present",
 					});
 
-				// Throw error to client
-				throw new UploadThingError(
-					"An error occurred while processing attendance"
-				);
-			}
-		}),
+					return { attendance: attendance.length };
+				} catch (err) {
+					// Send error notification to teacher
+					if (tokens.length > 0)
+						await sendNotifications(tokens, {
+							title: "Attendance upload failed",
+							body: "An error occurred while processing attendance",
+						});
+
+					// Throw error to client
+					throw new Error(
+						"An error occurred while processing attendance"
+					);
+				}
+			})
+		),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof uploadRouter;

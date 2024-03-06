@@ -15,8 +15,14 @@ export async function recognizeAttendance(
 		);
 		return response.data;
 	} catch (err: any) {
-		console.error(err.response);
-		throw new Error("An error occurred while processing attendance");
+		if (!err.response) {
+			throw {
+				error: "CONNECTION_ERROR",
+				message:
+					"Couldn't connect to the server. Please try again later",
+			};
+		}
+		throw err.response.data;
 	}
 }
 
@@ -34,7 +40,13 @@ export async function encodeImage(
 		);
 		return response.data;
 	} catch (err: any) {
-		console.error(err.response.data);
-		throw new Error("An error occurred while processing attendance");
+		if (!err.response) {
+			throw {
+				error: "CONNECTION_ERROR",
+				message:
+					"Couldn't connect to the server. Please try again later",
+			};
+		}
+		throw err.response.data;
 	}
 }

@@ -6,7 +6,7 @@ import courseStore from "@/models/courses.model";
 import teacherStore from "@/models/teachers.model";
 import lectureStore from "@/models/lectures.model";
 
-import * as re from "@/controllers/recognize.controller";
+import * as irapi from "@/controllers/recognize.controller";
 import { UploadThingError } from "uploadthing/server";
 import { sendNotifications } from "@/helpers/notifications";
 import { z } from "zod";
@@ -63,7 +63,7 @@ const uploadRouter = {
 						metadata.userId
 					);
 					try {
-						const newEncoding = await re.encodeImage(
+						const newEncoding = await irapi.encodeImage(
 							file.url,
 							prevEncoding
 						);
@@ -87,8 +87,8 @@ const uploadRouter = {
 							body: "Your profile picture has been updated",
 						});
 					}
-					return;
 				} catch (err) {
+					console.error(err);
 					throw new Error(
 						"An error occurred while updating profile picture"
 					);
@@ -165,7 +165,7 @@ const uploadRouter = {
 					);
 
 					// Send to recognition service
-					const attendance = await re.recognizeAttendance(
+					const attendance = await irapi.recognizeAttendance(
 						file.url,
 						students
 					);
@@ -185,6 +185,7 @@ const uploadRouter = {
 
 					return { attendance: attendance.length };
 				} catch (err) {
+					console.error(err);
 					// Send error notification to teacher
 					if (tokens.length > 0)
 						await sendNotifications(tokens, {

@@ -53,11 +53,20 @@ class LecturesStore {
 				},
 			});
 
-			return lectures.filter((lecture) => {
-				const endTime = new Date(lecture.time);
-				endTime.setMinutes(endTime.getMinutes() + lecture.duration);
-				return endTime > new Date();
+			const activeLectures: Lecture[] = [];
+
+			lectures.forEach((lecture) => {
+				const endTime =
+					lecture.ended ??
+					new Date(lecture.time.getTime() + lecture.duration * 60000);
+				if (endTime > new Date()) {
+					activeLectures.push(lecture);
+				} else {
+					this.finishLecture(lecture.id, endTime);
+				}
 			});
+
+			return activeLectures;
 		} catch (err) {
 			throw new PrismaError(err as PrismaClientError);
 		}
@@ -368,29 +377,26 @@ class LecturesStore {
 		}
 	) {
 		try {
-			const total = await prisma.upload.count({
+			const total = await prisma.lectureImage.count({
 				where: {
-					metadata: {
-						path: ["lectureId"],
-						equals: lectureId,
-					},
+					lectureId,
 				},
 			});
 
-			const imgs = await prisma.upload.findMany({
+			const imgs = await prisma.lectureImage.findMany({
 				where: {
-					metadata: {
-						path: ["lectureId"],
-						equals: lectureId,
-					},
+					lectureId,
 				},
 				skip: (options.page - 1) * options.limit,
 				take: options.limit,
+				orderBy: {
+					capturedAt: "desc",
+				},
 				select: {
 					key: true,
 					url: true,
-					metadata: true,
-					size: true,
+					capturedAt: true,
+					students: true,
 				},
 			});
 
@@ -400,6 +406,38 @@ class LecturesStore {
 				limit: options.limit,
 				total,
 			};
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
+	}
+
+	async addAttendanceImage(
+		lectureId: Lecture["id"],
+		imageData: {
+			key: string;
+			url: string;
+		}
+	) {
+		try {
+			return await prisma.lectureImage.create({
+				data: {
+					...imageData,
+					lectureId,
+				},
+			});
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
+	}
+
+	async updateLectureImg(imgKey: string, noStudents: number) {
+		try {
+			return await prisma.lectureImage.update({
+				where: { key: imgKey },
+				data: {
+					students: noStudents,
+				},
+			});
 		} catch (err) {
 			throw new PrismaError(err as PrismaClientError);
 		}

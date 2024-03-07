@@ -115,9 +115,26 @@ const uploadRouter = {
 				);
 			}
 
-			const lectureCourseId = await lectureStore.getLectureCourseId(
-				input.lectureId
-			);
+			const lecture = await lectureStore.getLecture(input.lectureId);
+
+			if (!lecture) {
+				throw new UploadThingError("Lecture not found");
+			}
+
+			if (lecture.time > new Date()) {
+				throw new UploadThingError("Lecture has not started yet");
+			} else {
+				const endTime =
+					lecture.ended ??
+					new Date(lecture.time.getTime() + lecture.duration * 60000);
+				if (endTime < new Date()) {
+					if (!lecture.ended) {
+						await lectureStore.finishLecture(lecture.id, endTime);
+					}
+					throw new UploadThingError("Lecture has ended");
+				}
+			}
+
 			const teacherId = await teacherStore.getTeacherIdByUserId(
 				res.locals.user.id
 			);
@@ -127,7 +144,7 @@ const uploadRouter = {
 			}
 
 			const isTeacher = await courseStore.isTeacher(
-				lectureCourseId,
+				lecture.courseId,
 				teacherId
 			);
 			if (!isTeacher) {
@@ -148,9 +165,9 @@ const uploadRouter = {
 				let imageSaved = false;
 				try {
 					// save upload data to database
-					await uploadStore.create({
-						...file,
-						metadata,
+					await lectureStore.addAttendanceImage(metadata.lectureId, {
+						key: file.key,
+						url: file.url,
 					});
 					imageSaved = true;
 
@@ -170,11 +187,17 @@ const uploadRouter = {
 						students
 					);
 
-					await lectureStore.addLectureAttendees(
-						metadata.lectureId,
-						attendance,
-						new Date()
-					);
+					await Promise.all([
+						lectureStore.addLectureAttendees(
+							metadata.lectureId,
+							attendance,
+							new Date()
+						),
+						lectureStore.updateLectureImg(
+							file.key,
+							attendance.length
+						),
+					]);
 
 					sendNotifications(tokens, {
 						title: "Attendance uploaded",

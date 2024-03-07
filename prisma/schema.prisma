@@ -127,8 +127,21 @@ model Lecture {
   location String
 
   attendees LectureAttendees[]
+  imgs      LectureImage[]
 
   course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+}
+
+model LectureImage {
+  key      String @id
+  url      String @unique
+  students Int    @default(0)
+
+  lectureId String
+
+  capturedAt DateTime @default(now())
+
+  lecture Lecture @relation(fields: [lectureId], references: [id], onDelete: Cascade)
 }
 
 model LectureAttendees {

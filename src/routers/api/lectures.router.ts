@@ -97,12 +97,9 @@ router.post("/collect", mustBeAdminOrController, async (req, res) => {
 				uploadedKey = uploadedImg.key;
 
 				// Save uploaded image to database
-				await uploadStore.create({
-					url: uploadedImg.url,
+				await lectureStore.addAttendanceImage(id, {
 					key: uploadedImg.key,
-					name: uploadedImg.name,
-					size: uploadedImg.size,
-					metadata: metadata,
+					url: uploadedImg.url,
 				});
 				saved = true;
 
@@ -128,11 +125,17 @@ router.post("/collect", mustBeAdminOrController, async (req, res) => {
 				}
 
 				// Add attendance to lecture
-				await lectureStore.addLectureAttendees(
-					id,
-					attendance,
-					new Date()
-				);
+				await Promise.all([
+					lectureStore.addLectureAttendees(
+						id,
+						attendance,
+						new Date()
+					),
+					lectureStore.updateLectureImg(
+						uploadedKey,
+						attendance.length
+					),
+				]);
 			} catch (err) {
 				console.error(err);
 				errors.push(
@@ -201,7 +204,26 @@ router.put(
 
 router.delete("/:id", canModifyLecture, async (req, res) => {
 	try {
-		await lectureStore.deleteLecture(req.params.id);
+		const existingLecture = await lectureStore.getLecture(req.params.id);
+		if (!existingLecture) {
+			return res.status(404).json({
+				error: "NOT_FOUND",
+				message: "Lecture not found",
+			});
+		}
+
+		const lectureImgs = await lectureStore.getAttendanceImages(
+			existingLecture.id,
+			{ page: 1, limit: 1000 }
+		);
+
+		if (lectureImgs.data.length > 0) {
+			const keys = lectureImgs.data.map((img) => img.key);
+			await utapi.deleteFiles(keys);
+		}
+
+		await lectureStore.deleteLecture(existingLecture.id);
+
 		res.sendStatus(204);
 	} catch (err: any) {
 		const { status, error } = formatError(err);

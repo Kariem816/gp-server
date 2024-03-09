@@ -40,24 +40,7 @@ const uploadRouter = {
 						...file,
 						metadata,
 					});
-					const oldImg = await userStore.updateProfilePic(
-						metadata.userId,
-						file.url
-					);
-
-					let oldImgKey: string | undefined;
-
-					if (oldImg) {
-						const isUploaded =
-							await uploadStore.isUploadedByUrl(oldImg);
-						oldImgKey = isUploaded
-							? (await uploadStore.deleteByURL(oldImg))?.key
-							: undefined;
-					}
-
-					if (oldImgKey && oldImgKey !== file.key) {
-						await utapi.deleteFiles(oldImgKey);
-					}
+					await userStore.updateProfilePic(metadata.userId, file.url);
 
 					const prevEncoding = await userStore.getImgEncoding(
 						metadata.userId

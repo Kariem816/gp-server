@@ -133,10 +133,7 @@ class UserStore {
 		}
 	}
 
-	async authenticateUser(
-		username: string,
-		password: string
-	): Promise<Omit<Omit<User, "password">, "encodedImageData">> {
+	async authenticateUser(username: string, password: string) {
 		try {
 			const user = await prisma.user.findUnique({
 				where: {
@@ -240,7 +237,14 @@ class UserStore {
 		limit: number;
 		filters: any;
 	}): Promise<
-		PaginatedResponse<Omit<Omit<User, "password">, "encodedImageData">>
+		PaginatedResponse<{
+			id: User["id"];
+			username: User["username"];
+			name: User["name"];
+			role: User["role"];
+			img: User["img"];
+			liscencePlate: User["liscencePlate"];
+		}>
 	> {
 		try {
 			const total = await prisma.user.count({
@@ -275,7 +279,7 @@ class UserStore {
 		}
 	}
 
-	async updateProfilePic(userId: string, img: string): Promise<User["img"]> {
+	async updateProfilePic(userId: string, img: string): Promise<void> {
 		try {
 			const { img: oldImg } = await prisma.user.findUniqueOrThrow({
 				where: {
@@ -291,9 +295,11 @@ class UserStore {
 				},
 				data: {
 					img,
+					prevImgs: {
+						push: oldImg,
+					},
 				},
 			});
-			return oldImg;
 		} catch (err) {
 			throw new PrismaError(err as PrismaClientError);
 		}

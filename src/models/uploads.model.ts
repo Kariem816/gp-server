@@ -81,6 +81,20 @@ class UploadsStore {
 		}
 	}
 
+	async showManyByURL(urls: string[]): Promise<Upload[]> {
+		try {
+			return prisma.upload.findMany({
+				where: {
+					url: {
+						in: urls,
+					},
+				},
+			});
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
+	}
+
 	async deleteByURL(url: string): Promise<Upload> {
 		try {
 			return prisma.upload.delete({

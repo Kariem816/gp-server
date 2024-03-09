@@ -148,9 +148,16 @@ const uploadRouter = {
 				let imageSaved = false;
 				try {
 					// save upload data to database
-					await lectureStore.addAttendanceImage(metadata.lectureId, {
-						key: file.key,
-						url: file.url,
+					await lectureStore.addAttendanceImage(
+						metadata.lecture,
+						file.url
+					);
+					await uploadStore.create({
+						...file,
+						metadata: {
+							lectureId: metadata.lectureId,
+							time: Date.now(),
+						},
 					});
 					imageSaved = true;
 

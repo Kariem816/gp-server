@@ -135,8 +135,8 @@ model Lecture {
 }
 
 model LectureImage {
-  key      String @id
-  url      String @unique
+  id       String @id @default(uuid())
+  img      String @unique
   students Int    @default(0)
 
   lectureId String

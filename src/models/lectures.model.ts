@@ -393,8 +393,7 @@ class LecturesStore {
 					capturedAt: "desc",
 				},
 				select: {
-					key: true,
-					url: true,
+					img: true,
 					capturedAt: true,
 					students: true,
 				},
@@ -411,17 +410,11 @@ class LecturesStore {
 		}
 	}
 
-	async addAttendanceImage(
-		lectureId: Lecture["id"],
-		imageData: {
-			key: string;
-			url: string;
-		}
-	) {
+	async addAttendanceImage(lectureId: Lecture["id"], img: string) {
 		try {
 			return await prisma.lectureImage.create({
 				data: {
-					...imageData,
+					img,
 					lectureId,
 				},
 			});
@@ -430,10 +423,10 @@ class LecturesStore {
 		}
 	}
 
-	async updateLectureImg(imgKey: string, noStudents: number) {
+	async updateLectureImg(id: string, noStudents: number) {
 		try {
 			return await prisma.lectureImage.update({
-				where: { key: imgKey },
+				where: { id },
 				data: {
 					students: noStudents,
 				},

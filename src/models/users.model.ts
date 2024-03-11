@@ -145,7 +145,7 @@ class UserStore {
 					name: true,
 					role: true,
 					img: true,
-					liscencePlate: true,
+					liscensePlate: true,
 					teacher: true,
 					student: true,
 					security: true,
@@ -172,7 +172,7 @@ class UserStore {
 				name: user.name,
 				role: user.role,
 				img: user.img,
-				liscencePlate: user.liscencePlate,
+				liscensePlate: user.liscensePlate,
 				teacher: user.teacher,
 				student: user.student,
 				security: user.security,
@@ -197,7 +197,7 @@ class UserStore {
 					name: true,
 					role: true,
 					img: true,
-					liscencePlate: true,
+					liscensePlate: true,
 					teacher: true,
 					student: true,
 					security: true,
@@ -243,7 +243,7 @@ class UserStore {
 			name: User["name"];
 			role: User["role"];
 			img: User["img"];
-			liscencePlate: User["liscencePlate"];
+			liscensePlate: User["liscensePlate"];
 		}>
 	> {
 		try {
@@ -264,7 +264,7 @@ class UserStore {
 					name: true,
 					role: true,
 					img: true,
-					liscencePlate: true,
+					liscensePlate: true,
 				},
 			});
 
@@ -314,6 +314,24 @@ class UserStore {
 				},
 				data: {
 					password: hashedPassword,
+				},
+			});
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
+	}
+
+	async updateliscensePlate(
+		userId: string,
+		liscensePlate: string
+	): Promise<void> {
+		try {
+			await prisma.user.update({
+				where: {
+					id: userId,
+				},
+				data: {
+					liscensePlate,
 				},
 			});
 		} catch (err) {

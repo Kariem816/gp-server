@@ -48,7 +48,7 @@ export const passwordSchema = z
 		);
 	}, "Password must contain number, uppercase letter, lowercase letter and special character");
 
-export const liscencePlateSchema = z
+export const liscensePlateSchema = z
 	.string()
 	.min(6)
 	.max(7)
@@ -96,6 +96,10 @@ export const updatePasswordSchema = z
 		if (!data.oldPassword) return true;
 		return data.oldPassword !== data.newPassword;
 	}, "New password must be different from old password");
+
+export const updateliscensePlateSchema = z.object({
+	liscensePlate: liscensePlateSchema,
+});
 
 export const updateNotificationTokenSchema = z.object({
 	token: z.string().refine((token) => {

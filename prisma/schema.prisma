@@ -19,7 +19,7 @@ model User {
   role UserRole @default(student)
 
   parkingSpot   ParkingSpot?
-  liscencePlate String?
+  liscensePlate String?
 
   student    Student?
   teacher    Teacher?

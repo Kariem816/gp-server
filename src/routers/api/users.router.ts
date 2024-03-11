@@ -12,6 +12,7 @@ import {
 	updatePasswordSchema,
 	notifyUserSchema,
 	newControllerSchema,
+	updateliscensePlateSchema,
 } from "@/schemas/users.schema";
 import { querySchema } from "@/schemas/query.schema";
 import { env } from "@/config/env";
@@ -21,6 +22,7 @@ import { parseUserAgent } from "@/helpers/session";
 import { sendNotifications } from "@/helpers/notifications";
 
 import type { RegisterReturn } from "@/models/users.model";
+import { z } from "zod";
 
 const router = Router();
 
@@ -281,6 +283,25 @@ router.put(
 			});
 
 			res.sendStatus(200);
+		} catch (err: any) {
+			const { status, error } = formatError(err);
+			res.status(status).json(error);
+		}
+	}
+);
+
+router.put(
+	"/liscense-plate",
+	mustBe(["admin", "teacher"]),
+	validateBody(updateliscensePlateSchema),
+	async (req, res) => {
+		const body = req.body as z.infer<typeof updateliscensePlateSchema>;
+		try {
+			await userStore.updateliscensePlate(
+				res.locals.user.id,
+				body.liscensePlate
+			);
+			res.sendStatus(204);
 		} catch (err: any) {
 			const { status, error } = formatError(err);
 			res.status(status).json(error);

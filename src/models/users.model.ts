@@ -146,10 +146,6 @@ class UserStore {
 					role: true,
 					img: true,
 					licensePlate: true,
-					teacher: true,
-					student: true,
-					security: true,
-					controller: true,
 					password: true,
 				},
 			});
@@ -173,10 +169,6 @@ class UserStore {
 				role: user.role,
 				img: user.img,
 				licensePlate: user.licensePlate,
-				teacher: user.teacher,
-				student: user.student,
-				security: user.security,
-				controller: user.controller,
 			};
 
 			return clensedUser;

@@ -339,6 +339,21 @@ class UserStore {
 		}
 	}
 
+	async deleteLiscensePlate(userId: string): Promise<void> {
+		try {
+			await prisma.user.update({
+				where: {
+					id: userId,
+				},
+				data: {
+					liscensePlate: null,
+				},
+			});
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
+	}
+
 	async deleteUser(userId: string): Promise<void> {
 		try {
 			await prisma.user.delete({

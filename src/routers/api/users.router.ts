@@ -309,6 +309,20 @@ router.put(
 	}
 );
 
+router.delete(
+	"/liscense-plate",
+	mustBe(["admin", "teacher"]),
+	async (req, res) => {
+		try {
+			await userStore.deleteLiscensePlate(res.locals.user.id);
+			res.sendStatus(204);
+		} catch (err: any) {
+			const { status, error } = formatError(err);
+			res.status(status).json(error);
+		}
+	}
+);
+
 router.post(
 	"/notifications",
 	mustLogin,

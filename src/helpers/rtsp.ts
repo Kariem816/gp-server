@@ -4,13 +4,16 @@ import { promisify } from "util";
 const execAsync = promisify(exec);
 
 export class RTSP {
+	public url: string;
 	constructor(
-		public url: string,
+		url: string,
 		public name = "cam"
-	) {}
+	) {
+		this.url = encodeURI(url);
+	}
 
 	async capture(fileName?: string) {
-		let args = ["-i", this.url, "-vframes", "1"];
+		let args = ["-i", '"' + this.url + '"', "-vframes", "1"];
 
 		let actualFileName = fileName ?? `./${this.name}-${Date.now()}.jpg`;
 

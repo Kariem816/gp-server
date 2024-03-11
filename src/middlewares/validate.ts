@@ -18,7 +18,7 @@ export function validateBody<T = any>(schema: ZodSchema<T>) {
 			next();
 		} catch (err: any) {
 			res.status(400).json({
-				error: "BAD_REQUEST",
+				error: "FORM_ERROR",
 				messages: formatZodError(err),
 			});
 		}
@@ -32,7 +32,7 @@ export function validateQuery<T = any>(schema: ZodSchema<T>) {
 			next();
 		} catch (err: any) {
 			res.status(400).json({
-				error: "BAD_REQUEST",
+				error: "FORM_ERROR",
 				messages: formatZodError(err),
 			});
 		}

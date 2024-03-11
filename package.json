@@ -12,7 +12,7 @@
     "build": "yarn build:frontend && yarn build:backend",
     "start": "node dist/index.js",
     "preview": "cross-env NODE_ENV=production yarn start",
-    "db:up": "prisma migrate dev",
+    "db:up": "prisma migrate deploy",
     "db:down": "prisma migrate reset",
     "db:generate": "prisma generate"
   },

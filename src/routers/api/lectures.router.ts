@@ -7,7 +7,7 @@ import uploadStore from "@/models/uploads.model";
 import { utapi } from "@/config/ut";
 import {
 	canModifyLecture,
-	mustBeAdminOrController,
+	mustBe,
 	parseFilters,
 	validateBody,
 	validateQuery,
@@ -26,7 +26,7 @@ import { z } from "zod";
 
 const router = Router();
 
-router.post("/collect", mustBeAdminOrController, async (req, res) => {
+router.post("/collect", mustBe(["admin", "controller"]), async (req, res) => {
 	try {
 		if (res.locals.user.role === "controller") {
 			const controller = await controllerStore.getControllerByUserId(

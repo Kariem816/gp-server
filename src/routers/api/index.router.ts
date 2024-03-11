@@ -12,12 +12,7 @@ import trashRouter from "./trash.router";
 import uploadsRouter from "./uploads.router";
 import mobileRouter from "./mobile.router";
 
-import {
-	getCourseProfile,
-	mustBe,
-	mustBeAdminOrTeacher,
-	mustLogin,
-} from "@/middlewares";
+import { getCourseProfile, mustBe, mustLogin } from "@/middlewares";
 
 const router = Router();
 

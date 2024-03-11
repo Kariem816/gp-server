@@ -2,7 +2,7 @@ import { Router } from "express";
 import { formatError, formatResponse, uploadToVersion } from "@/helpers";
 import uploadStore from "@/models/uploads.model";
 import sessionStore from "@/models/sessions.model";
-import { mustBeAdmin, validateBody, validateQuery } from "@/middlewares";
+import { mustBe, validateBody, validateQuery } from "@/middlewares";
 import {
 	downloadAPKSchema,
 	updateAPKSchema,
@@ -134,7 +134,7 @@ router.get("/versions", async (_req, res) => {
 
 router.post(
 	"/",
-	mustBeAdmin,
+	mustBe("admin"),
 	validateBody(updateURLSchema),
 	async (req, res) => {
 		try {

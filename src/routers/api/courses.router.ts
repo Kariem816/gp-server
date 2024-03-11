@@ -1,8 +1,7 @@
 import { Router } from "express";
 import courseStore from "@/models/courses.model";
 import {
-	mustBeAdmin,
-	mustBeAdminOrTeacher,
+	mustBe,
 	mustBeCourseTeacher,
 	parseFilters,
 	validateBody,
@@ -52,7 +51,7 @@ router.get("/:id", async (req, res) => {
 
 router.post(
 	"/",
-	mustBeAdmin,
+	mustBe("admin"),
 	validateBody(createCourseSchema),
 	async (req, res) => {
 		try {
@@ -68,7 +67,7 @@ router.post(
 
 router.put(
 	"/:id",
-	mustBeAdmin,
+	mustBe("admin"),
 	validateBody(updateCourseSchema),
 	async (req, res) => {
 		try {
@@ -83,7 +82,7 @@ router.put(
 	}
 );
 
-router.delete("/:id", mustBeAdmin, async (req, res) => {
+router.delete("/:id", mustBe("admin"), async (req, res) => {
 	try {
 		const course = await courseStore.delete(req.params.id);
 
@@ -96,7 +95,7 @@ router.delete("/:id", mustBeAdmin, async (req, res) => {
 
 router.post(
 	"/:id/teachers",
-	mustBeAdmin,
+	mustBe("admin"),
 	validateBody(addTeachersSchema),
 	async (req, res) => {
 		try {
@@ -113,7 +112,7 @@ router.post(
 	}
 );
 
-router.delete("/:id/teachers/:teacherId", mustBeAdmin, async (req, res) => {
+router.delete("/:id/teachers/:teacherId", mustBe("admin"), async (req, res) => {
 	try {
 		if (
 			!(await courseStore.isTeacher(req.params.id, req.params.teacherId))
@@ -135,7 +134,7 @@ router.delete("/:id/teachers/:teacherId", mustBeAdmin, async (req, res) => {
 
 router.put(
 	"/:id/teachers",
-	mustBeAdmin,
+	mustBe("admin"),
 	validateBody(editTeachersSchema),
 	async (req, res) => {
 		try {
@@ -168,7 +167,7 @@ router.get("/:id/teachers", async (req, res) => {
 
 router.get(
 	"/:id/students",
-	mustBeAdminOrTeacher,
+	mustBe(["admin", "teacher"]),
 	validateQuery(querySchema),
 	async (req, res) => {
 		try {

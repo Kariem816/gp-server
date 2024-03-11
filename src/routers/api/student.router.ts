@@ -1,11 +1,11 @@
 import { Router } from "express";
 import studentStore from "@/models/student.model";
-import { mustBeStudent, parseFilters } from "@/middlewares";
+import { mustBe, parseFilters } from "@/middlewares";
 import { formatError, formatResponse } from "@/helpers/response";
 
 const router = Router();
 
-router.get("/my-courses", mustBeStudent, parseFilters, async (req, res) => {
+router.get("/my-courses", mustBe("student"), parseFilters, async (req, res) => {
 	try {
 		const studentId = res.locals.student.id;
 		if (!studentId) throw new Error("Student ID not found");
@@ -52,7 +52,7 @@ router.get("/:id/courses", parseFilters, async (req, res) => {
 	}
 });
 
-router.get("/my-schedule", mustBeStudent, async (req, res) => {
+router.get("/my-schedule", mustBe("student"), async (req, res) => {
 	try {
 		const studentId = res.locals.student.id;
 		if (!studentId) throw new Error("Student ID not found");
@@ -85,7 +85,7 @@ router.get("/:id/schedule", async (req, res) => {
 	}
 });
 
-router.get("/my-attendance", mustBeStudent, async (req, res) => {
+router.get("/my-attendance", mustBe("student"), async (req, res) => {
 	try {
 		const studentId = res.locals.student.id;
 		if (!studentId) throw new Error("Student ID not found");

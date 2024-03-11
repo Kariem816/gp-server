@@ -1,7 +1,7 @@
 import { Router } from "express";
 import {
 	getCourseProfile,
-	mustBeTeacher,
+	mustBe,
 	parseFilters,
 	validateQuery,
 } from "@/middlewares";
@@ -11,29 +11,39 @@ import { formatError, formatResponse } from "@/helpers";
 
 const router = Router();
 
-router.get("/mycourses", mustBeTeacher, getCourseProfile, async (req, res) => {
-	try {
-		const teacherId = res.locals.teacher.id;
+router.get(
+	"/mycourses",
+	mustBe("teacher"),
+	getCourseProfile,
+	async (req, res) => {
+		try {
+			const teacherId = res.locals.teacher.id;
 
-		const courses = await teacherStore.getTeacherCourses(teacherId);
-		res.json(formatResponse(courses));
-	} catch (err: any) {
-		const { status, error } = formatError(err);
-		res.status(status).json(error);
+			const courses = await teacherStore.getTeacherCourses(teacherId);
+			res.json(formatResponse(courses));
+		} catch (err: any) {
+			const { status, error } = formatError(err);
+			res.status(status).json(error);
+		}
 	}
-});
+);
 
-router.get("/mylectures", mustBeTeacher, getCourseProfile, async (req, res) => {
-	try {
-		const teacherId = res.locals.teacher.id;
+router.get(
+	"/mylectures",
+	mustBe("teacher"),
+	getCourseProfile,
+	async (req, res) => {
+		try {
+			const teacherId = res.locals.teacher.id;
 
-		const lectures = await teacherStore.getTeacherLectures(teacherId);
-		res.json(formatResponse(lectures));
-	} catch (err: any) {
-		const { status, error } = formatError(err);
-		res.status(status).json(error);
+			const lectures = await teacherStore.getTeacherLectures(teacherId);
+			res.json(formatResponse(lectures));
+		} catch (err: any) {
+			const { status, error } = formatError(err);
+			res.status(status).json(error);
+		}
 	}
-});
+);
 
 router.get("/:id/courses", async (req, res) => {
 	try {

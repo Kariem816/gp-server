@@ -2,12 +2,7 @@ import { Router } from "express";
 import userStore from "@/models/users.model";
 import sessionStore from "@/models/sessions.model";
 import { signJWT, verifyJWT } from "@/utils/jwt";
-import {
-	mustBeAdmin,
-	mustLogin,
-	validateBody,
-	validateQuery,
-} from "@/middlewares";
+import { mustBe, mustLogin, validateBody, validateQuery } from "@/middlewares";
 import { collectFileters } from "@/helpers";
 import {
 	loginSchema,
@@ -31,7 +26,7 @@ const router = Router();
 
 router.post(
 	"/register/controller",
-	mustBeAdmin,
+	mustBe("admin"),
 	validateBody(newControllerSchema),
 	async (req, res) => {
 		try {
@@ -201,21 +196,26 @@ router.get("/me", mustLogin, (_req, res) => {
 	res.json(formatResponse(res.locals.user));
 });
 
-router.get("/", mustBeAdmin, validateQuery(querySchema), async (req, res) => {
-	try {
-		const limit = Number(req.query.limit) || 50;
-		const page = Number(req.query.page) || 1;
+router.get(
+	"/",
+	mustBe("admin"),
+	validateQuery(querySchema),
+	async (req, res) => {
+		try {
+			const limit = Number(req.query.limit) || 50;
+			const page = Number(req.query.page) || 1;
 
-		const filters = collectFileters(req.query);
+			const filters = collectFileters(req.query);
 
-		const users = await userStore.index({ limit, page, filters });
+			const users = await userStore.index({ limit, page, filters });
 
-		res.json(formatResponse(users));
-	} catch (err: any) {
-		const { status, error } = formatError(err);
-		res.status(status).json(error);
+			res.json(formatResponse(users));
+		} catch (err: any) {
+			const { status, error } = formatError(err);
+			res.status(status).json(error);
+		}
 	}
-});
+);
 
 router.get("/:id", mustLogin, async (req, res) => {
 	try {
@@ -308,7 +308,7 @@ router.post(
 
 router.post(
 	"/notify",
-	mustBeAdmin,
+	mustBe("admin"),
 	validateBody(notifyUsersSchema),
 	async (req, res) => {
 		try {
@@ -343,7 +343,7 @@ router.post(
 
 router.post(
 	"/:userId/notify",
-	mustBeAdmin,
+	mustBe("admin"),
 	validateBody(notifyUserSchema),
 	async (req, res) => {
 		try {

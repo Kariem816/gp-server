@@ -1,4 +1,4 @@
-import { mustBeAdmin, validateBody } from "@/middlewares";
+import { mustBe, validateBody } from "@/middlewares";
 import { Router } from "express";
 import { addCameraSchema } from "@/schemas/controllers.schema";
 import { formatError, formatResponse } from "@/helpers";
@@ -8,7 +8,7 @@ const router = Router();
 
 router.post(
 	"/camera",
-	mustBeAdmin,
+	mustBe("admin"),
 	validateBody(addCameraSchema),
 	async (req, res) => {
 		try {

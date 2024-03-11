@@ -145,7 +145,7 @@ class UserStore {
 					name: true,
 					role: true,
 					img: true,
-					liscensePlate: true,
+					licensePlate: true,
 					teacher: true,
 					student: true,
 					security: true,
@@ -172,7 +172,7 @@ class UserStore {
 				name: user.name,
 				role: user.role,
 				img: user.img,
-				liscensePlate: user.liscensePlate,
+				licensePlate: user.licensePlate,
 				teacher: user.teacher,
 				student: user.student,
 				security: user.security,
@@ -197,7 +197,7 @@ class UserStore {
 					name: true,
 					role: true,
 					img: true,
-					liscensePlate: true,
+					licensePlate: true,
 					teacher: true,
 					student: true,
 					security: true,
@@ -243,7 +243,7 @@ class UserStore {
 			name: User["name"];
 			role: User["role"];
 			img: User["img"];
-			liscensePlate: User["liscensePlate"];
+			licensePlate: User["licensePlate"];
 		}>
 	> {
 		try {
@@ -264,7 +264,7 @@ class UserStore {
 					name: true,
 					role: true,
 					img: true,
-					liscensePlate: true,
+					licensePlate: true,
 				},
 			});
 
@@ -321,9 +321,9 @@ class UserStore {
 		}
 	}
 
-	async updateliscensePlate(
+	async updatelicensePlate(
 		userId: string,
-		liscensePlate: string
+		licensePlate: string
 	): Promise<void> {
 		try {
 			await prisma.user.update({
@@ -331,7 +331,7 @@ class UserStore {
 					id: userId,
 				},
 				data: {
-					liscensePlate,
+					licensePlate,
 				},
 			});
 		} catch (err) {
@@ -339,14 +339,14 @@ class UserStore {
 		}
 	}
 
-	async deleteLiscensePlate(userId: string): Promise<void> {
+	async deletelicensePlate(userId: string): Promise<void> {
 		try {
 			await prisma.user.update({
 				where: {
 					id: userId,
 				},
 				data: {
-					liscensePlate: null,
+					licensePlate: null,
 				},
 			});
 		} catch (err) {

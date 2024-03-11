@@ -13,7 +13,7 @@ interface MetaUser {
 
 export type Admin = BaseUser & {
 	role: "admin";
-	liscensePlate: string;
+	licensePlate: string;
 };
 
 export type Student = BaseUser & {
@@ -25,7 +25,7 @@ export type Student = BaseUser & {
 
 export type Teacher = BaseUser & {
 	role: "teacher";
-	liscensePlate: string;
+	licensePlate: string;
 	teacher: MetaUser & {
 		courses: any[];
 	};

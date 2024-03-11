@@ -12,7 +12,7 @@ import {
 	updatePasswordSchema,
 	notifyUserSchema,
 	newControllerSchema,
-	updateliscensePlateSchema,
+	updatelicensePlateSchema,
 } from "@/schemas/users.schema";
 import { querySchema } from "@/schemas/query.schema";
 import { env } from "@/config/env";
@@ -291,15 +291,15 @@ router.put(
 );
 
 router.put(
-	"/liscense-plate",
+	"/license-plate",
 	mustBe(["admin", "teacher"]),
-	validateBody(updateliscensePlateSchema),
+	validateBody(updatelicensePlateSchema),
 	async (req, res) => {
-		const body = req.body as z.infer<typeof updateliscensePlateSchema>;
+		const body = req.body as z.infer<typeof updatelicensePlateSchema>;
 		try {
-			await userStore.updateliscensePlate(
+			await userStore.updatelicensePlate(
 				res.locals.user.id,
-				body.liscensePlate
+				body.licensePlate
 			);
 			res.sendStatus(204);
 		} catch (err: any) {
@@ -310,11 +310,11 @@ router.put(
 );
 
 router.delete(
-	"/liscense-plate",
+	"/license-plate",
 	mustBe(["admin", "teacher"]),
 	async (req, res) => {
 		try {
-			await userStore.deleteLiscensePlate(res.locals.user.id);
+			await userStore.deletelicensePlate(res.locals.user.id);
 			res.sendStatus(204);
 		} catch (err: any) {
 			const { status, error } = formatError(err);

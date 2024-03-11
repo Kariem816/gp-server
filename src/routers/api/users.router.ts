@@ -229,6 +229,39 @@ router.get("/:id", mustLogin, async (req, res) => {
 	}
 });
 
+router.put(
+	"/license-plate",
+	mustBe(["admin", "teacher"]),
+	validateBody(updatelicensePlateSchema),
+	async (req, res) => {
+		const body = req.body as z.infer<typeof updatelicensePlateSchema>;
+		try {
+			await userStore.updatelicensePlate(
+				res.locals.user.id,
+				body.licensePlate
+			);
+			res.sendStatus(204);
+		} catch (err: any) {
+			const { status, error } = formatError(err);
+			res.status(status).json(error);
+		}
+	}
+);
+
+router.delete(
+	"/license-plate",
+	mustBe(["admin", "teacher"]),
+	async (req, res) => {
+		try {
+			await userStore.deletelicensePlate(res.locals.user.id);
+			res.sendStatus(204);
+		} catch (err: any) {
+			const { status, error } = formatError(err);
+			res.status(status).json(error);
+		}
+	}
+);
+
 router.delete("/:id", async (req, res) => {
 	try {
 		if (
@@ -283,39 +316,6 @@ router.put(
 			});
 
 			res.sendStatus(200);
-		} catch (err: any) {
-			const { status, error } = formatError(err);
-			res.status(status).json(error);
-		}
-	}
-);
-
-router.put(
-	"/license-plate",
-	mustBe(["admin", "teacher"]),
-	validateBody(updatelicensePlateSchema),
-	async (req, res) => {
-		const body = req.body as z.infer<typeof updatelicensePlateSchema>;
-		try {
-			await userStore.updatelicensePlate(
-				res.locals.user.id,
-				body.licensePlate
-			);
-			res.sendStatus(204);
-		} catch (err: any) {
-			const { status, error } = formatError(err);
-			res.status(status).json(error);
-		}
-	}
-);
-
-router.delete(
-	"/license-plate",
-	mustBe(["admin", "teacher"]),
-	async (req, res) => {
-		try {
-			await userStore.deletelicensePlate(res.locals.user.id);
-			res.sendStatus(204);
 		} catch (err: any) {
 			const { status, error } = formatError(err);
 			res.status(status).json(error);

@@ -52,15 +52,13 @@ export const liscencePlateSchema = z
 	.string()
 	.min(6)
 	.max(7)
-	.regex(/^[0-9]{3,4}[\u0600-\u06ff]{2,3}$/)
-	.optional();
+	.regex(/^[0-9]{3,4}[\u0600-\u06ff]{2,3}$/);
 
 export const newUserSchema = z.object({
 	name: nameSchema,
 	img: imgSchema,
 	username: usernameSchema,
 	password: passwordSchema,
-	liscencePlate: liscencePlateSchema,
 });
 
 export const newControllerSchema = z.object({

@@ -198,6 +198,26 @@ router.get("/me", mustLogin, (_req, res) => {
 	res.json(formatResponse(res.locals.user));
 });
 
+router.get("/my-imgs", mustLogin, async (req, res) => {
+	try {
+		const imgs = await userStore.getUserImgs(res.locals.user.id);
+		res.json(formatResponse(imgs));
+	} catch (err) {
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
+	}
+});
+
+router.get("/:id/imgs", mustBe("admin"), async (req, res) => {
+	try {
+		const imgs = await userStore.getUserImgs(req.params.id);
+		res.json(formatResponse(imgs));
+	} catch (err) {
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
+	}
+});
+
 router.get(
 	"/",
 	mustBe("admin"),

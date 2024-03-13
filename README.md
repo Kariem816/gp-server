@@ -2,6 +2,44 @@
 
 This repo contains the server side code for the IoT Smart Campus project. The project is part of courses ECE491 - Graduation Project I and ECE492 - Graduation Project II at Faculty of Engineering, Ain Shams University.
 
+## Getting Started
+
+### Prerequisites
+
+- Node.js v20 or later
+- Yarn package manager `npm install -g yarn`
+- A running PostgreSQL database
+
+### Installation
+
+1. Clone the repo
+
+2. Install the dependencies
+
+    ```sh
+    yarn
+    ```
+
+3. Copy the `.env.example` file to `.env` and fill in the required environment variables
+
+    ```sh
+    cp .env.example .env
+    notepad .env
+    ```
+
+4. Run the server in development mode
+
+    ```sh
+    yarn dev
+    ```
+
+5. Run the server in production mode
+
+    ```sh
+    yarn build
+    yarn start
+    ```
+
 ## Project Description
 
 The project aims to build a smart campus that can be used to monitor the campus and provide useful information to the students and staff. The project is divided into three main parts:

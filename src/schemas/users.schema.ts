@@ -52,7 +52,7 @@ export const licensePlateSchema = z
 	.string()
 	.min(6)
 	.max(7)
-	.regex(/^[0-9]{3,4}[\u0600-\u06ff]{2,3}$/);
+	.regex(/^[1-9]{3,4}[أبجدرسصطعفقلمنهوى]{2,3}$/);
 
 export const newUserSchema = z.object({
 	name: nameSchema,

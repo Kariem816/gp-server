@@ -218,6 +218,11 @@ class StudentStore {
 							id: true,
 							name: true,
 							code: true,
+							_count: {
+								select: {
+									lectures: true,
+								},
+							},
 						},
 					},
 					attendance: {

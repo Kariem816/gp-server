@@ -148,8 +148,8 @@ const uploadRouter = {
 				let imageSaved = false;
 				try {
 					// save upload data to database
-					await lectureStore.addAttendanceImage(
-						metadata.lecture,
+					const { id: imgId } = await lectureStore.addAttendanceImage(
+						metadata.lectureId,
 						file.url
 					);
 					await uploadStore.create({
@@ -183,10 +183,7 @@ const uploadRouter = {
 							attendance,
 							new Date()
 						),
-						lectureStore.updateLectureImg(
-							file.key,
-							attendance.length
-						),
+						lectureStore.updateLectureImg(imgId, attendance.length),
 					]);
 
 					sendNotifications(tokens, {

@@ -415,8 +415,13 @@ class LecturesStore {
 			return await prisma.lectureImage.create({
 				data: {
 					img,
-					lectureId,
+					lecture: {
+						connect: {
+							id: lectureId,
+						},
+					},
 				},
+				select: { id: true },
 			});
 		} catch (err) {
 			throw new PrismaError(err as PrismaClientError);

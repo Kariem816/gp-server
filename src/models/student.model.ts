@@ -203,20 +203,16 @@ class StudentStore {
 		semester: string = env.CURR_SEMESTER
 	) {
 		try {
-			const attendance = await prisma.lecture.findMany({
+			const profiles = await prisma.courseProfile.findMany({
 				where: {
-					attendees: {
-						some: {
-							student: {
-								semester: semester,
-								studentId,
-							},
-						},
+					studentId: studentId,
+					semester,
+					attendance: {
+						some: {},
 					},
 				},
 				select: {
 					id: true,
-					time: true,
 					course: {
 						select: {
 							id: true,
@@ -224,10 +220,26 @@ class StudentStore {
 							code: true,
 						},
 					},
+					attendance: {
+						select: {
+							id: true,
+							times: true,
+							lecture: {
+								include: {
+									imgs: {
+										select: {
+											id: true,
+											capturedAt: true,
+										},
+									},
+								},
+							},
+						},
+					},
 				},
 			});
 
-			return attendance;
+			return profiles;
 		} catch (err) {
 			throw new PrismaError(err as PrismaClientError);
 		}

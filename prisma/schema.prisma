@@ -138,6 +138,7 @@ model LectureImage {
   id       String @id @default(uuid())
   img      String
   students Int    @default(0)
+  faces    Int    @default(0)
 
   lectureId String
 

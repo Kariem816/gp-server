@@ -125,7 +125,7 @@ router.post("/collect", mustBe(["admin", "controller"]), async (req, res) => {
 					studentsData
 				);
 
-				if (attendance.length === 0) {
+				if (attendance.students.length === 0) {
 					errors.push(
 						"No attendance data collected for lecture " + lecture.id
 					);
@@ -136,10 +136,14 @@ router.post("/collect", mustBe(["admin", "controller"]), async (req, res) => {
 				await Promise.all([
 					lectureStore.addLectureAttendees(
 						id,
-						attendance,
+						attendance.students,
 						new Date()
 					),
-					lectureStore.updateLectureImg(imgId, attendance.length),
+					lectureStore.updateLectureImg(
+						imgId,
+						attendance.students.length,
+						attendance.faces
+					),
 				]);
 			} catch (err) {
 				console.error(err);

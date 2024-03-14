@@ -4,15 +4,19 @@ import axios from "axios";
 export async function recognizeAttendance(
 	imgUrl: string,
 	studentsData: { id: string; imgs: string }[]
-): Promise<string[]> {
+): Promise<{
+	students: string[];
+	faces: number;
+}> {
 	try {
-		const response = await axios.post<string[]>(
-			env.RECOGNIZER_URL + "/recognition?token=" + env.RECOGNIZER_TOKEN,
-			{
-				img_url: imgUrl,
-				encoded_dict: studentsData,
-			}
-		);
+		const response = await axios.post<{
+			students: string[];
+			faces: number;
+		}>(env.RECOGNIZER_URL + "/recognition?token=" + env.RECOGNIZER_TOKEN, {
+			img_url: imgUrl,
+			encoded_dict: studentsData,
+		});
+
 		return response.data;
 	} catch (err: any) {
 		if (!err.response) {

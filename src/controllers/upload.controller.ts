@@ -180,20 +180,24 @@ const uploadRouter = {
 					await Promise.all([
 						lectureStore.addLectureAttendees(
 							metadata.lectureId,
-							attendance,
+							attendance.students,
 							new Date()
 						),
-						lectureStore.updateLectureImg(imgId, attendance.length),
+						lectureStore.updateLectureImg(
+							imgId,
+							attendance.students.length,
+							attendance.faces
+						),
 					]);
 
 					sendNotifications(tokens, {
 						title: "Attendance uploaded",
 						body:
-							attendance.length +
+							attendance.students.length +
 							" students have been marked present",
 					});
 
-					return { attendance: attendance.length };
+					return { attendance: attendance.students.length };
 				} catch (err) {
 					console.error(err);
 					// Send error notification to teacher

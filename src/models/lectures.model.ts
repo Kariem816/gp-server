@@ -392,11 +392,6 @@ class LecturesStore {
 				orderBy: {
 					capturedAt: "desc",
 				},
-				select: {
-					img: true,
-					capturedAt: true,
-					students: true,
-				},
 			});
 
 			return {
@@ -428,12 +423,13 @@ class LecturesStore {
 		}
 	}
 
-	async updateLectureImg(id: string, noStudents: number) {
+	async updateLectureImg(id: string, noStudents: number, noFaces: number) {
 		try {
 			return await prisma.lectureImage.update({
 				where: { id },
 				data: {
 					students: noStudents,
+					faces: noFaces,
 				},
 			});
 		} catch (err) {

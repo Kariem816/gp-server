@@ -256,6 +256,51 @@ class StudentStore {
 			throw new PrismaError(err as PrismaClientError);
 		}
 	}
+
+	async getCourseProfileDetails(courseProfileId: string) {
+		try {
+			return await prisma.courseProfile.findUnique({
+				where: {
+					id: courseProfileId,
+				},
+				select: {
+					id: true,
+					semester: true,
+					course: {
+						select: {
+							id: true,
+							name: true,
+							code: true,
+							creditHours: true,
+							_count: {
+								select: {
+									lectures: true,
+								},
+							},
+						},
+					},
+					attendance: {
+						select: {
+							id: true,
+							times: true,
+							lecture: {
+								include: {
+									imgs: {
+										select: {
+											id: true,
+											capturedAt: true,
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			});
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
+	}
 }
 
 export default new StudentStore();

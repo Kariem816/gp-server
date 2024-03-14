@@ -221,6 +221,13 @@ class StudentStore {
 						},
 					},
 					attendance: {
+						where: {
+							lecture: {
+								ended: {
+									not: null,
+								},
+							},
+						},
 						select: {
 							id: true,
 							times: true,
@@ -239,7 +246,7 @@ class StudentStore {
 				},
 			});
 
-			return profiles;
+			return profiles.filter((profile) => profile.attendance.length > 0);
 		} catch (err) {
 			throw new PrismaError(err as PrismaClientError);
 		}

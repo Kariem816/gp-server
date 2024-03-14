@@ -69,7 +69,8 @@ router.post("/collect", mustBe(["admin", "controller"]), async (req, res) => {
 
 				// Initiate RTSP stream
 				const cam = new RTSP(
-					`rtsp://${env.CAMERA_USERNAME}:${env.CAMERA_PASSWORD}@${camera[0].url}/cam/realmonitor?channel=1&subtype=0`,
+					`rtsp://${env.CAMERA_USERNAME}:${env.CAMERA_PASSWORD}@${camera[0].ip}/cam/realmonitor?channel=1&subtype=0`,
+					camera[0].tcp,
 					id
 				);
 
@@ -97,7 +98,10 @@ router.post("/collect", mustBe(["admin", "controller"]), async (req, res) => {
 				uploadedKey = uploadedImg.key;
 
 				// Save uploaded image to database
-				await lectureStore.addAttendanceImage(id, uploadedImg.url);
+				const { id: imgId } = await lectureStore.addAttendanceImage(
+					id,
+					uploadedImg.url
+				);
 				await uploadStore.create({
 					...uploadedImg,
 					metadata: {
@@ -135,10 +139,7 @@ router.post("/collect", mustBe(["admin", "controller"]), async (req, res) => {
 						attendance,
 						new Date()
 					),
-					lectureStore.updateLectureImg(
-						uploadedKey,
-						attendance.length
-					),
+					lectureStore.updateLectureImg(imgId, attendance.length),
 				]);
 			} catch (err) {
 				console.error(err);

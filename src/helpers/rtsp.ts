@@ -7,6 +7,7 @@ export class RTSP {
 	public url: string;
 	constructor(
 		url: string,
+		public tcp: boolean,
 		public name = "cam"
 	) {
 		this.url = encodeURI(url);
@@ -14,6 +15,10 @@ export class RTSP {
 
 	async capture(fileName?: string) {
 		let args = ["-i", '"' + this.url + '"', "-vframes", "1"];
+
+		if (this.tcp) {
+			args.unshift("-rtsp_transport", "tcp");
+		}
 
 		let actualFileName = fileName ?? `./${this.name}-${Date.now()}.jpg`;
 

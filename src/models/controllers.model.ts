@@ -34,10 +34,7 @@ class ControllerStore {
 		}
 	}
 
-	async addCamera(camera: {
-		location: string;
-		url: string;
-	}): Promise<Camera> {
+	async addCamera(camera: { location: string; ip: string }): Promise<Camera> {
 		try {
 			return await prisma.camera.create({
 				data: camera,

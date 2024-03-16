@@ -49,7 +49,7 @@ router.post(
 				user.id
 			);
 
-			const key = randomBytes(32).toString("hex");
+			const key = randomBytes(32).toString("base64");
 
 			// TODO: check if key/name already exists
 			const apiKey = await controllerStore.createApiKey(controller.id, {

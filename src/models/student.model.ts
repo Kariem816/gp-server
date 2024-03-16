@@ -259,22 +259,34 @@ class StudentStore {
 
 	async getCourseProfileDetails(courseProfileId: string) {
 		try {
-			return await prisma.courseProfile.findUnique({
+			return await prisma.courseProfile.findUniqueOrThrow({
 				where: {
 					id: courseProfileId,
 				},
 				select: {
 					id: true,
 					semester: true,
+					student: {
+						select: {
+							user: {
+								select: {
+									id: true,
+									name: true,
+									img: true,
+								},
+							},
+						},
+					},
 					course: {
 						select: {
 							id: true,
 							name: true,
 							code: true,
 							creditHours: true,
-							_count: {
+							lectures: {
 								select: {
-									lectures: true,
+									id: true,
+									time: true,
 								},
 							},
 						},

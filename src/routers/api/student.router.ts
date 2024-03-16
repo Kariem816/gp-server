@@ -131,4 +131,15 @@ router.get("/:id", async (req, res) => {
 	}
 });
 
+router.get("/profile/:id", async (req, res) => {
+	try {
+		const studentProfile = await studentStore.getCourseProfileDetails(
+			req.params.id
+		);
+		res.json(formatResponse(studentProfile));
+	} catch (err) {
+		formatError(err);
+	}
+});
+
 export default router;

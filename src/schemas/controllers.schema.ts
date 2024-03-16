@@ -12,3 +12,8 @@ export const addCameraSchema = z.object({
 	location: z.string(),
 	ip: z.string(),
 });
+
+export const newApiKeySchema = z.object({
+	name: z.string(),
+	expiresAt: z.string().datetime().optional(),
+});

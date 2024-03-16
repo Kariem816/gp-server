@@ -24,6 +24,81 @@ class ControllerStore {
 		}
 	}
 
+	async createApiKey(
+		id: Controller["id"],
+		data: { key: string; name: string; expiresAt?: Date }
+	) {
+		try {
+			return await prisma.apiKey.create({
+				data: {
+					...data,
+					controller: {
+						connect: { id },
+					},
+				},
+			});
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
+	}
+
+	async getApiKey(key: string) {
+		try {
+			return await prisma.apiKey.findUniqueOrThrow({
+				where: { key },
+				include: {
+					controller: {
+						include: {
+							user: true,
+						},
+					},
+				},
+			});
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
+	}
+
+	async getApiKeyById(id: string) {
+		try {
+			return await prisma.apiKey.findUniqueOrThrow({
+				where: { id },
+			});
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
+	}
+
+	async getApiKeysByControllerId(id: Controller["id"]) {
+		try {
+			return await prisma.apiKey.findMany({
+				where: { controllerId: id },
+			});
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
+	}
+
+	async getApiKeysByUserId(id: User["id"]) {
+		try {
+			return await prisma.apiKey.findMany({
+				where: { controller: { userId: id } },
+			});
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
+	}
+
+	async rollApiKey(keyId: string) {
+		try {
+			return await prisma.apiKey.delete({
+				where: { id: keyId },
+			});
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
+	}
+
 	async getCamerasByLocation(location: string): Promise<Camera[]> {
 		try {
 			return await prisma.camera.findMany({

@@ -349,6 +349,13 @@ router.post(
 	validateBody(updateNotificationTokenSchema),
 	async (req, res) => {
 		try {
+			if (!res.locals.user.sid) {
+				return res.status(400).json({
+					error: "BAD_REQUEST",
+					message:
+						"To receive notifications, you must be logged in from a valid device",
+				});
+			}
 			await sessionStore.updateNotificationToken(
 				res.locals.user.sid,
 				req.body.token

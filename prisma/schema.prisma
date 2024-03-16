@@ -74,6 +74,8 @@ model Controller {
   location String?
   controls ControlElement[]
 
+  apiKeys ApiKey[]
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
@@ -211,4 +213,18 @@ model Camera {
   location String
   ip       String
   tcp      Boolean @default(false)
+}
+
+model ApiKey {
+  id           String @id @default(uuid())
+  key          String @unique
+  name         String
+  controllerId String
+
+  createdAt DateTime  @default(now())
+  expiresAt DateTime?
+
+  controller Controller @relation(fields: [controllerId], references: [id], onDelete: Cascade)
+
+  @@unique([name, controllerId])
 }

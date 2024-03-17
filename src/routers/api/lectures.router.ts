@@ -150,11 +150,8 @@ router.post("/collect", mustBe(["admin", "controller"]), async (req, res) => {
 				errors.push(
 					"Failed to collect attendance for lecture " + lecture.id
 				);
-				if (uploadedKey) {
-					utapi.deleteFiles([uploadedKey]);
-					if (saved) {
-						uploadStore.delete(uploadedKey);
-					}
+				if (saved) {
+					// TODO: add to queue for retry
 				}
 			} finally {
 				// Clean up
@@ -226,6 +223,7 @@ router.delete("/:id", canModifyLecture, async (req, res) => {
 				(u) => u.key
 			);
 			await utapi.deleteFiles(keys);
+			await uploadStore.deleteManyByURL(urls);
 		}
 
 		await lectureStore.deleteLecture(existingLecture.id);

@@ -56,6 +56,7 @@ const uploadRouter = {
 							newEncoding
 						);
 					} catch (err) {
+						// TODO: add to queue to retry
 						console.error(err);
 					}
 
@@ -172,32 +173,37 @@ const uploadRouter = {
 					);
 
 					// Send to recognition service
-					const attendance = await irapi.recognizeAttendance(
-						file.url,
-						students
-					);
+					try {
+						const attendance = await irapi.recognizeAttendance(
+							file.url,
+							students
+						);
 
-					await Promise.all([
-						lectureStore.addLectureAttendees(
-							metadata.lectureId,
-							attendance.students,
-							new Date()
-						),
-						lectureStore.updateLectureImg(
-							imgId,
-							attendance.students.length,
-							attendance.faces
-						),
-					]);
+						await Promise.all([
+							lectureStore.addLectureAttendees(
+								metadata.lectureId,
+								attendance.students,
+								new Date()
+							),
+							lectureStore.updateLectureImg(
+								imgId,
+								attendance.students.length,
+								attendance.faces
+							),
+						]);
 
-					sendNotifications(tokens, {
-						title: "Attendance uploaded",
-						body:
-							attendance.students.length +
-							" students have been marked present",
-					});
+						sendNotifications(tokens, {
+							title: "Attendance uploaded",
+							body:
+								attendance.students.length +
+								" students have been marked present",
+						});
 
-					return { attendance: attendance.students.length };
+						return { attendance: attendance.students.length };
+					} catch (err) {
+						// TODO: add to queue to retry
+						throw err;
+					}
 				} catch (err) {
 					console.error(err);
 					// Send error notification to teacher

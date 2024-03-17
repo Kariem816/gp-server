@@ -90,9 +90,9 @@ router.post(
 			do {
 				try {
 					await controllerStore.getApiKey(key);
-					existingKey = false;
-				} catch {
 					key = randomBytes(32).toString("base64");
+				} catch {
+					existingKey = false;
 				}
 			} while (existingKey);
 

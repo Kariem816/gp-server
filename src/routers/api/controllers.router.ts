@@ -66,7 +66,11 @@ router.post(
 			);
 
 			// Maybe unnecessary, but just in case
-			if (prevKeys.length >= 5) {
+			if (
+				prevKeys.filter((key) =>
+					key.expiresAt ? key.expiresAt > new Date() : true
+				).length >= 5
+			) {
 				return res.status(400).json({
 					error: "FORBIDDEN",
 					message:

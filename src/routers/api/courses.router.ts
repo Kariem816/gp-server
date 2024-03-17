@@ -71,7 +71,6 @@ router.put(
 	validateBody(updateCourseSchema),
 	async (req, res) => {
 		try {
-			// TODO: Validate request
 			const course = await courseStore.update(req.params.id, req.body);
 
 			res.json(formatResponse(course));

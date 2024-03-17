@@ -108,9 +108,9 @@ router.post("/login", validateBody(loginSchema), async (req, res) => {
 	}
 });
 
-router.post("/logout", async (_req, res) => {
+router.post("/logout", async (req, res) => {
 	try {
-		const { refreshToken } = _req.cookies;
+		const { refreshToken } = req.cookies;
 		if (!refreshToken) {
 			return res.status(400).json({
 				error: "BAD_REQUEST",
@@ -118,6 +118,7 @@ router.post("/logout", async (_req, res) => {
 			});
 		}
 
+		// TODO: mark jwt as blacklisted
 		const { payload } = verifyJWT(refreshToken);
 		if (payload?.sessionId) {
 			await sessionStore.invalidate(payload.sessionId);
@@ -145,7 +146,6 @@ router.get("/refresh-token", async (req, res) => {
 
 		const { payload, expired } = verifyJWT(refreshToken);
 		if (expired) {
-			// TODO: invalidate session in db
 			if (payload?.sessionId) {
 				await sessionStore.invalidate(payload.sessionId);
 			} else {

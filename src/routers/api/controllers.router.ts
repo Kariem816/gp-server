@@ -49,9 +49,37 @@ router.post(
 				user.id
 			);
 
-			const key = randomBytes(32).toString("base64");
+			const prevKeys = await controllerStore.getApiKeysByControllerId(
+				controller.id
+			);
 
-			// TODO: check if key/name already exists
+			// Maybe unnecessary, but just in case
+			if (prevKeys.length >= 5) {
+				return res.status(400).json({
+					error: "FORBIDDEN",
+					message:
+						"You can only have up to 5 keys at a time. Please delete some keys before creating new ones",
+				});
+			}
+
+			if (prevKeys.some((key) => key.name === body.name)) {
+				return res.status(400).json({
+					error: "BAD_REQUEST",
+					message: "A key with that name already exists",
+				});
+			}
+
+			let key = randomBytes(32).toString("base64");
+			let existingKey = true;
+			do {
+				try {
+					await controllerStore.getApiKey(key);
+					existingKey = false;
+				} catch {
+					key = randomBytes(32).toString("base64");
+				}
+			} while (existingKey);
+
 			const apiKey = await controllerStore.createApiKey(controller.id, {
 				key,
 				name: body.name,

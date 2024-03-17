@@ -8,6 +8,18 @@ import { z } from "zod";
 
 const router = Router();
 
+router.get("/controlling", mustBe("controller"), async (_req, res) => {
+	try {
+		const user = res.locals.user;
+		const controller = await controllerStore.getControllerByUserId(user.id);
+
+		res.json(formatResponse(controller.controls));
+	} catch (err) {
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
+	}
+});
+
 router.post(
 	"/camera",
 	mustBe("admin"),

@@ -18,7 +18,7 @@ import { createRouteHandler, type FileRouter } from "uploadthing/express";
 const uploadRouter = {
 	profilePics: ut({
 		image: {
-			maxFileSize: "4MB",
+			maxFileSize: "8MB",
 			maxFileCount: 1,
 		},
 	})

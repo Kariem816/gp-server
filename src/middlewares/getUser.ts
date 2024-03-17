@@ -15,7 +15,7 @@ export default async function getUser(
 ) {
 	try {
 		const accessToken = req.headers.authorization?.split(" ")[1] ?? null;
-		const apiKey = req.headers["X-API-Key"] ?? null;
+		const apiKey = req.headers["x-api-key"] ?? null;
 
 		if (accessToken) {
 			const user = getUserFromBearerToken(accessToken);

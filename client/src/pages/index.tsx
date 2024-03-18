@@ -1,9 +1,9 @@
-import { FileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { UnstyledButton, Code, List, Title, Text, Space } from "@mantine/core";
 
 import styles from "~/styles/index.module.css";
 
-export const Route = new FileRoute("/").createRoute({
+export const Route = createFileRoute("/")({
 	component: Page,
 });
 

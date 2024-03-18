@@ -1,16 +1,16 @@
 import { Button, Group, Stack, Text, Title, Tooltip } from "@mantine/core";
-import { FileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, useTransition } from "react";
 import { SignedInAs } from "~/components/auth";
 import { getLatestVersion } from "~/services/mobile";
 import { DownloadBtn } from "~/components/mobile/download-btn";
 import { UploadBtn } from "~/components/mobile/upload-btn";
 
-export const Route = new FileRoute("/mobile/").createRoute({
-	component: appPage,
+export const Route = createFileRoute("/mobile/")({
+	component: AppPage,
 });
 
-function appPage() {
+function AppPage() {
 	const [latest, setLatest] = useState<string>();
 	const [canDownload, setCanDownload] = useState(false);
 	const [isLatestLoading, startLoadingLatest] = useTransition();

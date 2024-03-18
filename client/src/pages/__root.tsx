@@ -1,5 +1,9 @@
 import { useEffect } from "react";
-import { Link, Outlet, rootRouteWithContext } from "@tanstack/react-router";
+import {
+	Link,
+	Outlet,
+	createRootRouteWithContext,
+} from "@tanstack/react-router";
 import { RouterContext } from "../routerContext";
 import {
 	AppShell,
@@ -19,7 +23,7 @@ import { useRouter } from "@tanstack/react-router";
 
 import classes from "~/styles/root.module.css";
 
-export const Route = rootRouteWithContext<RouterContext>()({
+export const Route = createRootRouteWithContext<RouterContext>()({
 	component: RootComponent,
 });
 

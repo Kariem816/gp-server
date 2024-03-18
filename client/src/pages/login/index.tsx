@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FileRoute } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import {
 	TextInput,
 	PasswordInput,
@@ -18,7 +18,7 @@ import { useForm } from "@mantine/form";
 
 import classes from "~/styles/login.module.css";
 
-export const Route = new FileRoute("/login/").createRoute({
+export const Route = createFileRoute("/login/")({
 	component: LoginPage,
 });
 

@@ -10,16 +10,8 @@ export default defineConfig({
 	plugins: [
 		react(),
 		TanStackRouterVite({
-			routesDirectory: path.join(
-				__dirname,
-				__dirname.endsWith("server_module") ? "client" : ".",
-				"/src/pages"
-			),
-			generatedRouteTree: path.join(
-				__dirname,
-				__dirname.endsWith("server_module") ? "client" : ".",
-				"/src/routeTree.gen.ts"
-			),
+			routesDirectory: path.join(__dirname, "/src/pages"),
+			generatedRouteTree: path.join(__dirname, "/src/routeTree.gen.ts"),
 			quoteStyle: "double",
 		}),
 	],
@@ -27,5 +19,9 @@ export default defineConfig({
 		alias: {
 			"~": "/src",
 		},
+	},
+	envDir: path.join(__dirname, ".."),
+	build: {
+		outDir: "../dist/client",
 	},
 });

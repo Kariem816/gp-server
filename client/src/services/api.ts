@@ -2,8 +2,12 @@ import axios from "axios";
 
 import type { APIQuery } from "~/types/query";
 
+const serverURL = import.meta.env.DEV
+	? import.meta.env.VITE_APP_SERVER_URL
+	: "";
+
 const api = axios.create({
-	baseURL: "/api",
+	baseURL: serverURL + "/api",
 	withCredentials: true,
 	headers: {
 		"Content-Type": "application/json",

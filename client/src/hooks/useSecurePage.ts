@@ -7,7 +7,7 @@ type Role = UserRole | "guest";
 export function useSecurePage(role?: Role | Role[], redirect?: string) {
 	const { user, isLoggedIn } = useAuth();
 	const navigate = useNavigate();
-	const to = redirect || "/login";
+	const to = (redirect || "/login") as any;
 
 	if (!role) {
 		if (!isLoggedIn) {

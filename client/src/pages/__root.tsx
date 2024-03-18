@@ -72,6 +72,7 @@ function RootComponent() {
 								Our App
 							</UnstyledButton>
 							<SignedIn>
+								{/* @ts-ignore */}
 								<Link to="/profile/me">
 									<Avatar
 										// @ts-ignore

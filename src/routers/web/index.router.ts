@@ -9,14 +9,8 @@ const router = Router();
 
 // Add Vite or respective production middlewares
 if (!isProduction) {
-	import("vite").then(async ({ createServer }) => {
-		const vite = await createServer({
-			root: path.resolve(process.cwd(), "./client/"),
-			server: { middlewareMode: true },
-			appType: "spa",
-			base: "/",
-		});
-		router.use(vite.middlewares);
+	router.use((req, res) => {
+		res.redirect(`${env.CLIENT_DEV_SERVER}/${req.originalUrl}`);
 	});
 } else {
 	router.use(static_(path.join(process.cwd(), "dist", "client")));

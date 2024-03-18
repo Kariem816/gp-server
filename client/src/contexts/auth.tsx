@@ -53,7 +53,7 @@ export default function AuthProvider({
 }) {
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [user, setUser] = useState<User>(DEFAULT_USER);
-	const refreshTokenTimeout = useRef<NodeJS.Timeout>();
+	const refreshTokenTimeout = useRef<number>();
 	const refreshTokenLastRefreshed = useRef<Date>();
 	// TODO: handle refresh when the app comes back from background
 	// const loggedInRef = useRef(false);
@@ -142,7 +142,7 @@ export default function AuthProvider({
 	async function logout() {
 		try {
 			await logoutUser();
-		} catch (err) {}
+		} catch {}
 
 		removeAPIToken();
 		setUser(DEFAULT_USER);

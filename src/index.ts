@@ -1,5 +1,6 @@
 import express from "express";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 import { env } from "@/config/env";
 
@@ -22,6 +23,14 @@ app.use((error, _req, res, next) => {
 	}
 });
 app.use(cookieParser());
+if (env.NODE_ENV === "development") {
+	app.use(
+		cors({
+			origin: env.CLIENT_DEV_SERVER,
+			credentials: true,
+		})
+	);
+}
 
 app.use(
 	logger({ debugOnly: true, fields: ["method", "path", "query", "body"] })

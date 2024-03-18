@@ -8,7 +8,7 @@ type DownloadBtnProps = {
 	disabled?: boolean;
 };
 
-export function DownloadBtn({ os = "android", disabled }: DownloadBtnProps) {
+export function DownloadBtn({ disabled }: DownloadBtnProps) {
 	const [opened, { open, close }] = useDisclosure(false);
 	const [isLoading, setIsLoading] = useState(false);
 

@@ -52,7 +52,7 @@ function RootComponent() {
 								<Logo size={40} />
 							</Link>
 						</div>
-						<nav className="hidden md:flex gap-4">
+						<nav className="hidden sm:flex gap-4">
 							<Link
 								className="font-medium flex items-center text-sm transition-colors hover:underline"
 								to="/"

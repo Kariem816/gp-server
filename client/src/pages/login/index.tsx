@@ -1,25 +1,32 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import {
-	TextInput,
-	PasswordInput,
-	Anchor,
-	Paper,
-	Title,
-	Text,
-	Container,
-	Group,
-	Button,
-} from "@mantine/core";
 import { useAuth } from "~/contexts/auth";
 import { useNavigate } from "@tanstack/react-router";
 import { useSecurePage } from "~/hooks/useSecurePage";
-import { useForm } from "@mantine/form";
-
-import classes from "~/styles/login.module.css";
 
 export const Route = createFileRoute("/login/")({
 	component: LoginPage,
+});
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import {
+	Form,
+	FormControl,
+	FormDescription,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "~/components/ui/form";
+import { Input } from "~/components/ui/input";
+import { Button } from "~/components/ui/button";
+
+const loginSchema = z.object({
+	username: z.string().min(1),
+	password: z.string().min(1),
 });
 
 export function LoginPage() {
@@ -27,23 +34,19 @@ export function LoginPage() {
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [formError, setFormError] = useState("");
-	const form = useForm({
-		initialValues: {
+	const form = useForm<z.infer<typeof loginSchema>>({
+		resolver: zodResolver(loginSchema),
+		defaultValues: {
 			username: "",
 			password: "",
-		},
-		validate: {
-			username: (value) =>
-				value.trim().length === 0 ? "Username is missing" : null,
-			password: (value) =>
-				value.trim().length === 0 ? "Password is missing" : null,
 		},
 	});
 
 	const navigate = useNavigate();
 	useSecurePage("guest", "/");
 
-	async function handleSubmit(values: typeof form.values) {
+	async function handleSubmit(values: z.infer<typeof loginSchema>) {
+		if (isLoading) return;
 		try {
 			setIsLoading(true);
 			await login(values.username, values.password);
@@ -55,7 +58,7 @@ export function LoginPage() {
 			if ("message" in err) setFormError(err.message);
 			else if ("messages" in err)
 				for (const message of err.messages) {
-					form.setFieldError(message.path, message.message);
+					form.setError(message.path, message.message);
 				}
 		} finally {
 			setIsLoading(false);
@@ -63,47 +66,59 @@ export function LoginPage() {
 	}
 
 	return (
-		<Container size={420} my={40}>
-			<Title ta="center" className={classes.title}>
-				Welcome back!
-			</Title>
-			<Text c="dimmed" size="sm" ta="center" mt={5}>
-				Do not have an account yet?{" "}
-				<Anchor size="sm" component="button">
-					Create account
-				</Anchor>
-			</Text>
-
-			<Paper withBorder shadow="md" p={30} mt={30} radius="md">
-				<form onSubmit={form.onSubmit(handleSubmit)}>
-					<TextInput
-						label="Username"
-						name="username"
-						placeholder="Your username"
-						required
-						{...form.getInputProps("username")}
-					/>
-					<PasswordInput
-						label="Password"
-						name="password"
-						placeholder="Your password"
-						required
-						mt="md"
-						{...form.getInputProps("password")}
-					/>
-					<Text c="red" mt="sm" fw="bold">
-						{formError}
-					</Text>
-					<Group justify="flex-end" mt="lg">
-						<Anchor component="button" size="sm">
-							Forgot password?
-						</Anchor>
-					</Group>
-					<Button fullWidth mt="xl" type="submit" loading={isLoading}>
-						Sign in
-					</Button>
-				</form>
-			</Paper>
-		</Container>
+		<div className="container h-full flex flex-col justify-center">
+			<Card>
+				<CardHeader>
+					<CardTitle className="text-center">Welcome back!</CardTitle>
+				</CardHeader>
+				<CardContent>
+					<Form {...form}>
+						<form onSubmit={form.handleSubmit(handleSubmit)}>
+							<FormField
+								control={form.control}
+								name="username"
+								render={() => (
+									<FormItem>
+										<FormLabel>Username</FormLabel>
+										<FormControl>
+											<Input
+												placeholder="Your username"
+												{...form.register("username")}
+											/>
+										</FormControl>
+										<FormDescription />
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={form.control}
+								name="password"
+								render={() => (
+									<FormItem>
+										<FormLabel>Password</FormLabel>
+										<FormControl>
+											<Input
+												placeholder="Your password"
+												type="password"
+												{...form.register("password")}
+											/>
+										</FormControl>
+										<FormDescription />
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<p className="text-red-500 text-sm">{formError}</p>
+							<div className="text-center mt-4">
+								<Button type="submit" disabled={isLoading}>
+									Submit
+								</Button>
+							</div>
+						</form>
+					</Form>
+				</CardContent>
+			</Card>
+		</div>
 	);
 }

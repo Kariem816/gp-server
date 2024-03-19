@@ -5,30 +5,21 @@ import {
 	createRootRouteWithContext,
 } from "@tanstack/react-router";
 import { RouterContext } from "../routerContext";
-import {
-	AppShell,
-	Avatar,
-	Burger,
-	Button,
-	Group,
-	Stack,
-	Text,
-	UnstyledButton,
-} from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 import { useAuth } from "~/contexts/auth";
 import Logo from "~/components/logo";
 import { SignedIn, SignedOut } from "~/components/auth";
 import { useRouter } from "@tanstack/react-router";
+// import { useDisclosure } from "~/hooks/use-disclosure";
+import { Button } from "~/components/ui/button";
 
-import classes from "~/styles/root.module.css";
+// import classes from "~/styles/root.module.css";
 
 export const Route = createRootRouteWithContext<RouterContext>()({
 	component: RootComponent,
 });
 
 function RootComponent() {
-	const [opened, { toggle, close }] = useDisclosure();
+	// const [opened, { toggle, close }] = useDisclosure();
 	const { logout, user } = useAuth();
 	const router = useRouter();
 
@@ -40,120 +31,69 @@ function RootComponent() {
 		};
 	}, []);
 
+	// TODO: Add mobile menu
 	return (
-		<AppShell
-			header={{ height: 60 }}
-			navbar={{
-				width: 300,
-				breakpoint: "sm",
-				collapsed: { desktop: true, mobile: !opened },
-			}}
-			padding="md"
-		>
-			<AppShell.Header>
-				<Group h="100%" px="md">
-					<Burger
-						opened={opened}
-						onClick={toggle}
-						hiddenFrom="sm"
-						size="sm"
-					/>
-					<Group justify="space-between" style={{ flex: 1 }}>
-						<Logo size={50} />
-						<Group ml="xl" gap="md" visibleFrom="sm">
-							<UnstyledButton
-								className={classes.control}
-								component={Link}
+		<>
+			<nav className="fixed inset-x-0 top-0 z-50 bg-white shadow-sm dark:bg-gray-950/90">
+				<div className="w-full max-w-7xl mx-auto px-4">
+					<div className="flex justify-between h-14 items-center">
+						<Link className="flex items-center" to="/">
+							<span>
+								<Logo size={40} />
+							</span>
+						</Link>
+						<nav className="hidden md:flex gap-4">
+							<Link
+								className="font-medium flex items-center text-sm transition-colors hover:underline"
 								to="/"
 							>
 								Home
-							</UnstyledButton>
-							<UnstyledButton
-								className={classes.control}
-								component={Link}
+							</Link>
+							<Link
+								className="font-medium flex items-center text-sm transition-colors hover:underline"
 								to="/mobile"
 							>
-								Our App
-							</UnstyledButton>
-							<SignedIn>
-								{/* @ts-ignore */}
-								<Link to="/profile/me">
-									<Avatar
-										// @ts-ignore
-										src={user?.img}
-										// @ts-ignore
-										alt={user?.username}
-									/>
+								Mobile
+							</Link>
+						</nav>
+						<SignedOut>
+							<div className="flex items-center gap-4">
+								<Link to="/login">
+									<Button size="sm" variant="outline">
+										Sign in
+									</Button>
 								</Link>
-								<Button
-									className={classes.control}
-									variant="outline"
-									onClick={logout}
-								>
+								<Link to={"/register" as any}>
+									<Button size="sm">Sign up</Button>
+								</Link>
+							</div>
+						</SignedOut>
+						<SignedIn>
+							<div className="flex items-center gap-4">
+								<Link to={"/profile/me" as any}>
+									<Button size="sm" variant="ghost">
+										{user.role === "guest" ? (
+											<Logo size={40} />
+										) : (
+											<img
+												src={user?.img}
+												alt={user?.username}
+												className="w-8 h-8 rounded-full"
+											/>
+										)}
+									</Button>
+								</Link>
+								<Button size="sm" onClick={logout}>
 									Logout
 								</Button>
-							</SignedIn>
-							<SignedOut>
-								<Button
-									className={classes.control}
-									component={Link}
-									to="/login"
-								>
-									Login
-								</Button>
-							</SignedOut>
-						</Group>
-					</Group>
-				</Group>
-			</AppShell.Header>
-
-			<AppShell.Navbar py="md" px={8}>
-				<Stack gap={32} mb={8} flex={1}>
-					<Button component={Link} to="/mobile" variant="gradient">
-						Get The App
-					</Button>
-					<SignedIn>
-						<UnstyledButton component={Link} to="/profile/me">
-							<Group>
-								<Avatar
-									// @ts-ignore
-									src={user?.img}
-									// @ts-ignore
-									alt={user?.username}
-								/>
-								{/* @ts-ignore */}
-								<Text fw={500}>{user?.username}</Text>
-							</Group>
-						</UnstyledButton>
-					</SignedIn>
-					<UnstyledButton component={Link} to="/">
-						Home
-					</UnstyledButton>
-					<SignedOut>
-						<Button
-							className={classes.control}
-							component={Link}
-							to="/login"
-						>
-							Login
-						</Button>
-					</SignedOut>
-					<SignedIn>
-						<Button
-							className={classes.control}
-							variant="outline"
-							onClick={logout}
-							style={{ marginBlockStart: "auto" }}
-						>
-							Logout
-						</Button>
-					</SignedIn>
-				</Stack>
-			</AppShell.Navbar>
-
-			<AppShell.Main>
+							</div>
+						</SignedIn>
+					</div>
+				</div>
+			</nav>
+			<main className="h-screen pt-14">
 				<Outlet />
-			</AppShell.Main>
-		</AppShell>
+			</main>
+		</>
 	);
 }

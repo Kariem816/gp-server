@@ -1,6 +1,6 @@
 import { Link, NotFoundRoute } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
-import { Title, Text, Stack, Button } from "@mantine/core";
+import { Button } from "./components/ui/button";
 
 export const Route = new NotFoundRoute({
 	component: NotFound,
@@ -9,19 +9,15 @@ export const Route = new NotFoundRoute({
 
 export function NotFound() {
 	return (
-		<Stack align="center" pt={150}>
-			<Title order={1} ta="center">
-				404
-			</Title>
-			<Title order={2} ta="center">
-				Page not found
-			</Title>
-			<Text ta="center">
+		<div className="flex flex-col items-center">
+			<h1 className="text-center">404</h1>
+			<h2 className="text-center">Page not found</h2>
+			<p className="text-center">
 				The page you are looking for does not exist.
-			</Text>
-			<Button component={Link} to="/">
-				Go home
+			</p>
+			<Button size="lg">
+				<Link to="/">Go home</Link>
 			</Button>
-		</Stack>
+		</div>
 	);
 }

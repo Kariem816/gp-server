@@ -1,77 +1,122 @@
-// import { Button, Group, Modal, Text, TextInput } from "@mantine/core";
-// import { useForm } from "@mantine/form";
-// import { useDisclosure } from "@mantine/hooks";
-// import { useState } from "react";
-// import { uploadMobileApp } from "~/services/mobile";
+import { useState } from "react";
+import { uploadMobileApp } from "~/services/mobile";
+import {
+	Dialog,
+	DialogTrigger,
+	DialogHeader,
+	DialogTitle,
+	DialogContent,
+	DialogClose,
+} from "~/components/ui/dialog";
+import { Button } from "~/components/ui/button";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "~/components/ui/form";
+import { Input } from "~/components/ui/input";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const uploadSchema = z.object({
+	url: z.string().url(),
+	version: z.string().min(1),
+});
 
 export function UploadBtn() {
-	// const [opened, { open, close }] = useDisclosure(false);
-	// const [isLoading, setIsLoading] = useState(false);
-	// const uploadForm = useForm({
-	// 	initialValues: {
-	// 		url: "",
-	// 		version: "",
-	// 	},
-	// });
-	// const [formError, setFormError] = useState<string>("");
+	const [isLoading, setIsLoading] = useState(false);
+	const form = useForm<z.infer<typeof uploadSchema>>({
+		resolver: zodResolver(uploadSchema),
+		defaultValues: {
+			url: "",
+			version: "",
+		},
+	});
+	const [formError, setFormError] = useState("");
 
-	// async function handleUpload(values: typeof uploadForm.values) {
-	// 	setIsLoading(true);
-	// 	try {
-	// 		await uploadMobileApp(values.url, values.version);
-	// 		close();
-	// 	} catch (err: any) {
-	// 		if ("message" in err) setFormError(err.message);
-	// 		else if ("messages" in err)
-	// 			for (const message of err.messages) {
-	// 				uploadForm.setFieldError(message.path, message.message);
-	// 			}
-	// 	} finally {
-	// 		setIsLoading(false);
-	// 	}
-	// }
+	async function handleUpload(values: z.infer<typeof uploadSchema>) {
+		setIsLoading(true);
+		try {
+			await uploadMobileApp(values.url, values.version);
+			close();
+		} catch (err: any) {
+			if ("message" in err) setFormError(err.message);
+			else if ("messages" in err)
+				for (const message of err.messages) {
+					form.setError(message.path, message.message);
+				}
+		} finally {
+			setIsLoading(false);
+		}
+	}
 
 	return (
 		<>
-			{/* <Modal
-				opened={opened}
-				onClose={close}
-				title="Upload new version"
-				centered
-			>
-				<form onSubmit={uploadForm.onSubmit(handleUpload)}>
-					<TextInput
-						label="File URL"
-						required
-						placeholder="File URL"
-						{...uploadForm.getInputProps("url")}
-					/>
-					<TextInput
-						mt="md"
-						label="Version"
-						required
-						placeholder="1.2.3"
-						{...uploadForm.getInputProps("version")}
-					/>
+			<Dialog>
+				<DialogTrigger asChild>
+					<Button>Upload new version</Button>
+				</DialogTrigger>
+				<DialogContent>
+					<DialogHeader>
+						<DialogTitle>Upload new version</DialogTitle>
+					</DialogHeader>
+					<Form {...form}>
+						<form onSubmit={form.handleSubmit(handleUpload)}>
+							<FormField
+								control={form.control}
+								name="url"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>File URL</FormLabel>
+										<FormControl>
+											<Input
+												placeholder="File URL"
+												required
+												{...field}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={form.control}
+								name="version"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Version</FormLabel>
+										<FormControl>
+											<Input
+												placeholder="1.2.3"
+												required
+												{...field}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
 
-					{formError && (
-						<Text c="red" mt="md">
-							{formError}
-						</Text>
-					)}
+							{formError && (
+								<p className="text-danger mt-2">{formError}</p>
+							)}
 
-					<Group justify="flex-end" mt="md">
-						<Button onClick={close} variant="outline">
-							Cancel
-						</Button>
-						<Button type="submit" loading={isLoading}>
-							Upload
-						</Button>
-					</Group>
-				</form>
-			</Modal>
-
-			<Button onClick={open}>Upload new version</Button> */}
+							<div className="flex justify-end gap-2 mt-2">
+								<DialogClose asChild>
+									<Button variant="outline">Cancel</Button>
+								</DialogClose>
+								<Button type="submit" disabled={isLoading}>
+									Upload
+								</Button>
+							</div>
+						</form>
+					</Form>
+				</DialogContent>
+			</Dialog>
 		</>
 	);
 }

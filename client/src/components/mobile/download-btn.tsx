@@ -1,57 +1,59 @@
-// import { useDisclosure } from "~/hooks/use-disclosure";
-// import { useState } from "react";
-// import { getVersionUrl } from "~/services/mobile";
+import { useState } from "react";
+import { getVersionUrl } from "~/services/mobile";
+import {
+	Dialog,
+	DialogClose,
+	DialogContent,
+	DialogTrigger,
+} from "~/components/ui/dialog";
+import { Button } from "~/components/ui/button";
 
-// type DownloadBtnProps = {
-// 	os?: "android" | "ios";
-// 	disabled?: boolean;
-// };
+type DownloadBtnProps = {
+	os?: "android" | "ios";
+	disabled?: boolean;
+};
 
-export function DownloadBtn(/* { disabled }: DownloadBtnProps */) {
-	// const [opened, { open, close }] = useDisclosure(false);
-	// const [isLoading, setIsLoading] = useState(false);
+export function DownloadBtn({ disabled }: DownloadBtnProps) {
+	const [isLoading, setIsLoading] = useState(false);
 
-	// async function handleDownload() {
-	// 	setIsLoading(true);
-	// 	try {
-	// 		await getVersionUrl().then(({ data: { url } }) => {
-	// 			const link = document.createElement("a");
-	// 			link.href = url;
-	// 			document.body.appendChild(link);
-	// 			link.click();
-	// 			link.remove();
-	// 		});
-	// 	} catch (err) {
-	// 		console.log(err);
-	// 	} finally {
-	// 		close();
-	// 		setIsLoading(false);
-	// 	}
-	// }
+	async function handleDownload() {
+		setIsLoading(true);
+		try {
+			await getVersionUrl().then(({ data: { url } }) => {
+				const link = document.createElement("a");
+				link.href = url;
+				document.body.appendChild(link);
+				link.click();
+				link.remove();
+			});
+		} catch (err) {
+			console.log(err);
+		} finally {
+			close();
+			setIsLoading(false);
+		}
+	}
 
 	return (
 		<>
-			{/* <Modal
-				opened={opened}
-				onClose={close}
-				title="Smart Campus App"
-				centered
-			>
-				<Text mb="md">You are about to download our app</Text>
+			<Dialog>
+				<DialogTrigger asChild>
+					<Button disabled={disabled}>Download for Android</Button>
+				</DialogTrigger>
+				<DialogContent>
+					<h4>Smart Campus App</h4>
+					<p className="mb-2">You are about to download our app</p>
 
-				<Group justify="flex-end">
-					<Button onClick={close} variant="outline">
-						Cancel
-					</Button>
-					<Button onClick={handleDownload} loading={isLoading}>
-						Download
-					</Button>
-				</Group>
-			</Modal>
-
-			<Button variant="gradient" onClick={open} disabled={disabled}>
-				Download for Android
-			</Button> */}
+					<div className="flex justify-end gap-2">
+						<DialogClose asChild>
+							<Button variant="outline">Cancel</Button>
+						</DialogClose>
+						<Button onClick={handleDownload} disabled={isLoading}>
+							Download
+						</Button>
+					</div>
+				</DialogContent>
+			</Dialog>
 		</>
 	);
 }

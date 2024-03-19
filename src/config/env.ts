@@ -3,7 +3,6 @@ import { createEnv } from "@/utils/env";
 type Env = {
 	NODE_ENV: string;
 	PORT: number;
-	CLIENT_DEV_SERVER: string;
 	DATABASE_URL: string;
 	SALT: number;
 	PEPPER: string;
@@ -23,7 +22,6 @@ export const env = createEnv<Env>({
 	values: {
 		NODE_ENV: process.env.NODE_ENV,
 		PORT: process.env.PORT,
-		CLIENT_DEV_SERVER: process.env.CLIENT_DEV_SERVER,
 		DATABASE_URL: process.env.DATABASE_URL,
 		SALT: process.env.SALT,
 		PEPPER: process.env.PEPPER,

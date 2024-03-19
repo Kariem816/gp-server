@@ -13,9 +13,11 @@ import { useDisclosure } from "~/hooks/use-disclosure";
 import { Button } from "~/components/ui/button";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { Sidebar } from "~/components/root/sidebar";
+import { NotFound } from "~/not-found";
 
 export const Route = createRootRouteWithContext<RouterContext>()({
 	component: RootComponent,
+	notFoundComponent: NotFound,
 });
 
 function RootComponent() {

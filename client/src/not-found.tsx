@@ -1,12 +1,6 @@
-import { Link, NotFoundRoute } from "@tanstack/react-router";
-import { routeTree } from "./routeTree.gen";
+import { Link } from "@tanstack/react-router";
 import { Button } from "./components/ui/button";
 import { HomeIcon } from "@radix-ui/react-icons";
-
-export const Route = new NotFoundRoute({
-	component: NotFound,
-	getParentRoute: () => routeTree,
-});
 
 export function NotFound() {
 	return (

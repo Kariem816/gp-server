@@ -9,17 +9,17 @@ import { useAuth } from "~/contexts/auth";
 import Logo from "~/components/logo";
 import { SignedIn, SignedOut } from "~/components/auth";
 import { useRouter } from "@tanstack/react-router";
-// import { useDisclosure } from "~/hooks/use-disclosure";
+import { useDisclosure } from "~/hooks/use-disclosure";
 import { Button } from "~/components/ui/button";
-
-// import classes from "~/styles/root.module.css";
+import { HamburgerMenuIcon } from "@radix-ui/react-icons";
+import { Sidebar } from "~/components/root/sidebar";
 
 export const Route = createRootRouteWithContext<RouterContext>()({
 	component: RootComponent,
 });
 
 function RootComponent() {
-	// const [opened, { toggle, close }] = useDisclosure();
+	const [opened, { toggle, close }] = useDisclosure();
 	const { logout, user } = useAuth();
 	const router = useRouter();
 
@@ -37,17 +37,31 @@ function RootComponent() {
 			<nav className="fixed inset-x-0 top-0 z-50 bg-white shadow-sm dark:bg-gray-950/90">
 				<div className="w-full max-w-7xl mx-auto px-4">
 					<div className="flex justify-between h-14 items-center">
-						<Link className="flex items-center" to="/">
-							<span>
+						<div className="flex gap-4 items-center">
+							<Button
+								size="icon"
+								variant="ghost"
+								className="sm:hidden"
+								onClick={toggle}
+							>
+								<HamburgerMenuIcon className="w-8 h-8 " />
+							</Button>
+							<Link to="/" className="hover:no-underline">
 								<Logo size={40} />
-							</span>
-						</Link>
+							</Link>
+						</div>
 						<nav className="hidden md:flex gap-4">
 							<Link
 								className="font-medium flex items-center text-sm transition-colors hover:underline"
 								to="/"
 							>
 								Home
+							</Link>
+							<Link
+								className="font-medium flex items-center text-sm transition-colors hover:underline"
+								to="/monitor"
+							>
+								App Monitor
 							</Link>
 							<Link
 								className="font-medium flex items-center text-sm transition-colors hover:underline"
@@ -91,6 +105,7 @@ function RootComponent() {
 					</div>
 				</div>
 			</nav>
+			<Sidebar opened={opened} onClose={close} />
 			<main className="h-screen pt-14">
 				<Outlet />
 			</main>

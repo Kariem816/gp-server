@@ -36,14 +36,20 @@ export function Sidebar({ opened, onClose }: SidebarProps) {
 								to={"/profile/me" as any}
 								className="py-4 gap-4 font-medium flex justify-center items-center hover:no-underline rounded-md hover:bg-muted"
 							>
-								<img
-									src={user?.img}
-									alt={user?.username}
-									className="w-10 h-10 rounded-full"
-								/>
-								<span className="ml-2 text-xl">
-									{user?.name}
-								</span>
+								{user.role === "guest" ? (
+									<Logo size={40} withImg />
+								) : (
+									<>
+										<img
+											src={user?.img}
+											alt={user?.username}
+											className="w-10 h-10 rounded-full"
+										/>
+										<span className="ml-2 text-xl">
+											{user?.name}
+										</span>
+									</>
+								)}
 							</Link>
 						</div>
 					</SignedIn>

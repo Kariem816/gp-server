@@ -57,3 +57,30 @@
 		@apply bg-background text-foreground;
 	}
 }
+
+h1 {
+	@apply my-4 text-4xl font-bold;
+}
+
+h2 {
+	@apply my-4 text-primary text-2xl font-bold;
+}
+
+h3 {
+	@apply my-4 text-primary text-xl font-bold;
+}
+
+code {
+	@apply bg-muted text-card-foreground px-1 rounded;
+}
+
+li {
+	@apply mb-2;
+	&::marker {
+		@apply text-primary;
+	}
+}
+
+a {
+	@apply underline-offset-4 hover:underline;
+}

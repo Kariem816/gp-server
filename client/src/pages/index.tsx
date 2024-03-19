@@ -1,195 +1,113 @@
 import { createFileRoute } from "@tanstack/react-router";
-
-// import styles from "~/styles/index.module.css";
+import { Button } from "~/components/ui/button";
 
 export const Route = createFileRoute("/")({
 	component: Page,
 });
 
 export function Page() {
-	return "Hello";
-	// <>
-	// 	<Title my="md" order={1}>
-	// 		<Text variant="gradient" inherit>
-	// 			IoT Smart Campus
-	// 		</Text>
-	// 	</Title>
-	// 	<Text>
-	// 		This is the website for the IoT Smart Campus project. The
-	// 		project is part of courses{" "}
-	// 		<Code>ECE491 - Graduation Project I</Code> and{" "}
-	// 		<Code>ECE492 - Graduation Project II</Code> at Faculty of
-	// 		Engineering, Ain Shams University.
-	// 	</Text>
-	// 	<Title my="md" order={2} c={"primary"}>
-	// 		Project Description
-	// 	</Title>
-	// 	<Text>
-	// 		The project aims to build a smart campus that can be used to
-	// 		monitor the campus and provide useful information to the
-	// 		students and staff. The project is divided into three main
-	// 		parts:
-	// 	</Text>
-	// 	<List>
-	// 		<List.Item>Embedded</List.Item>
-	// 		<List.Item>Image Processing</List.Item>
-	// 		<List.Item>Server</List.Item>
-	// 	</List>
-	// 	<Title my="md" order={3} c={"primary"}>
-	// 		Embedded
-	// 	</Title>
-	// 	<Text>
-	// 		The embedded part is responsible for collecting data from the
-	// 		sensors and sending it to the server. The embedded part is built
-	// 		using Arduino and ESP8266.
-	// 	</Text>
-	// 	<Title my="md" order={3} c={"primary"}>
-	// 		Image Processing
-	// 	</Title>
-	// 	<Text>
-	// 		The image processing part is responsible for processing the
-	// 		images received from the server and detecting the number of
-	// 		people in the image. The image processing part is built using
-	// 		Python and OpenCV.
-	// 	</Text>
-	// 	<Title my="md" order={3} c={"primary"}>
-	// 		Server
-	// 	</Title>
-	// 	<Text>
-	// 		The server is responsible for receiving data from the embedded
-	// 		part and storing it in a database. The server is also
-	// 		responsible for providing the data to the image processing part
-	// 		and the web/mobile application.
-	// 	</Text>
-	// 	<Title my="md" order={2} c={"primary"}>
-	// 		Contributors
-	// 	</Title>
-	// 	<Title my="md" order={3} c={"primary"}>
-	// 		Embedded Team
-	// 	</Title>
-	// 	<List>
-	// 		<List.Item>
-	// 			<UnstyledButton
-	// 				component="a"
-	// 				href="#"
-	// 				target="__blank"
-	// 				rel="noopener noreferer"
-	// 				className={styles.teamButton}
-	// 			>
-	// 				Mohamed Sayed Farouk
-	// 			</UnstyledButton>
-	// 		</List.Item>
-	// 		<List.Item>
-	// 			<UnstyledButton
-	// 				component="a"
-	// 				href="#"
-	// 				target="__blank"
-	// 				rel="noopener noreferer"
-	// 				className={styles.teamButton}
-	// 			>
-	// 				Raghda Ahmed Ahmed
-	// 			</UnstyledButton>
-	// 		</List.Item>
-	// 		<List.Item>
-	// 			<UnstyledButton
-	// 				component="a"
-	// 				href="#"
-	// 				target="__blank"
-	// 				rel="noopener noreferer"
-	// 				className={styles.teamButton}
-	// 			>
-	// 				Salah Adel Mohamed
-	// 			</UnstyledButton>
-	// 		</List.Item>
-	// 	</List>
-	// 	<Title my="md" order={3} c={"primary"}>
-	// 		Image Processing Team
-	// 	</Title>
-	// 	<List>
-	// 		<List.Item>
-	// 			<UnstyledButton
-	// 				component="a"
-	// 				href="#"
-	// 				target="__blank"
-	// 				rel="noopener noreferer"
-	// 				className={styles.teamButton}
-	// 			>
-	// 				Eslam Mohamed Hekal
-	// 			</UnstyledButton>
-	// 		</List.Item>
-	// 		<List.Item>
-	// 			<UnstyledButton
-	// 				component="a"
-	// 				href="https://linkedin.com/in/kareem-youssry/"
-	// 				target="__blank"
-	// 				rel="noopener noreferer"
-	// 				className={styles.teamButton}
-	// 			>
-	// 				Kareem Youssry Abdelaziz
-	// 			</UnstyledButton>
-	// 		</List.Item>
-	// 		<List.Item>
-	// 			<UnstyledButton
-	// 				component="a"
-	// 				href="#"
-	// 				target="__blank"
-	// 				rel="noopener noreferer"
-	// 				className={styles.teamButton}
-	// 			>
-	// 				Omar Gamal Abdelghaffar
-	// 			</UnstyledButton>
-	// 		</List.Item>
-	// 	</List>
-	// 	<Title my="md" order={3} c={"primary"}>
-	// 		Server Team
-	// 	</Title>
-	// 	<List>
-	// 		<List.Item>
-	// 			<UnstyledButton
-	// 				component="a"
-	// 				href="https://github.com/Kariem816"
-	// 				target="__blank"
-	// 				rel="noopener noreferer"
-	// 				className={styles.teamButton}
-	// 			>
-	// 				Kareem Mostafa ElSawah
-	// 			</UnstyledButton>
-	// 		</List.Item>
-	// 		<List.Item>
-	// 			<UnstyledButton
-	// 				component="a"
-	// 				href="#"
-	// 				target="__blank"
-	// 				rel="noopener noreferer"
-	// 				className={styles.teamButton}
-	// 			>
-	// 				Mostafa Sabry Sayed
-	// 			</UnstyledButton>
-	// 		</List.Item>
-	// 		<List.Item>
-	// 			<UnstyledButton
-	// 				component="a"
-	// 				href="#"
-	// 				target="__blank"
-	// 				rel="noopener noreferer"
-	// 				className={styles.teamButton}
-	// 			>
-	// 				Youssef Mohammed Ibrahim
-	// 			</UnstyledButton>
-	// 		</List.Item>
-	// 	</List>
-	// 	<Title my="md" order={2} c={"primary"}>
-	// 		Supervisor
-	// 	</Title>
-	// 	<UnstyledButton
-	// 		component="a"
-	// 		href="https://eng.asu.edu.eg/staff/helsayed"
-	// 		target="_blank"
-	// 		rel="noopener noreferrer"
-	// 		className={styles.teamButton}
-	// 	>
-	// 		Prof. Dr. Hussein A. Elsayed
-	// 	</UnstyledButton>
-	// 	<Space h="xl" />
-	// </>
+	return (
+		<div className="container">
+			<h1 className="bg-gradient-to-r from-primary to-red-400 inline-block text-transparent bg-clip-text">
+				IoT Smart Campus
+			</h1>
+			<p>
+				This is the website for the IoT Smart Campus project. The
+				project is part of courses{" "}
+				<code>ECE491 - Graduation Project I</code> and{" "}
+				<code>ECE492 - Graduation Project II</code> at Faculty of
+				Engineering, Ain Shams University.
+			</p>
+			<h2>Project Description</h2>
+			<p>
+				The project aims to build a smart campus that can be used to
+				monitor the campus and provide useful information to the
+				students and staff. The project is divided into three main
+				parts:
+			</p>
+			<ul className="list-inside list-disc my-2">
+				<li>Embedded</li>
+				<li>Image Processing</li>
+				<li>Server</li>
+			</ul>
+			<h3>Embedded</h3>
+			<p>
+				The embedded part is responsible for collecting data from the
+				sensors and sending it to the server. The embedded part is built
+				using Arduino and ESP8266.
+			</p>
+			<h3>Image Processing</h3>
+			<p>
+				The image processing part is responsible for processing the
+				images received from the server and detecting the number of
+				people in the image. The image processing part is built using
+				Python and OpenCV.
+			</p>
+			<h3>Server</h3>
+			<p>
+				The server is responsible for receiving data from the embedded
+				part and storing it in a database. The server is also
+				responsible for providing the data to the image processing part
+				and the web/mobile application.
+			</p>
+			<h2>Contributors</h2>
+			<h3>Embedded Team</h3>
+			<ul className="list-inside list-disc my-2">
+				<li>
+					<a href="#">Mohamed Sayed Farouk</a>
+				</li>
+				<li>
+					<a href="#">Raghda Ahmed Ahmed</a>
+				</li>
+				<li>
+					<a href="#">Salah Adel Mohamed</a>
+				</li>
+			</ul>
+			<h3>Image Processing Team</h3>
+			<ul className="list-inside list-disc my-2">
+				<li>
+					<a href="#">Eslam Mohamed Hekal</a>
+				</li>
+				<li>
+					<a
+						href="https://linkedin.com/in/kareem-youssry/"
+						target="__blank"
+						rel="noopener noreferer"
+					>
+						Kareem Youssry Abdelaziz
+					</a>
+				</li>
+				<li>
+					<a href="#">Omar Gamal Abdelghaffar</a>
+				</li>
+			</ul>
+			<h3>Server Team</h3>
+			<ul className="list-inside list-disc my-2">
+				<li>
+					<a
+						href="https://github.com/Kariem816"
+						target="__blank"
+						rel="noopener noreferer"
+					>
+						Kareem Mostafa ElSawah
+					</a>
+				</li>
+				<li>
+					<a href="#">Mostafa Sabry Sayed</a>
+				</li>
+				<li>
+					<a href="#">Youssef Mohammed Ibrahim</a>
+				</li>
+			</ul>
+			<h2>Supervisor</h2>
+			<a
+				href="https://eng.asu.edu.eg/staff/helsayed"
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				Prof. Dr. Hussein A. Elsayed
+			</a>
+			<div className="h-8" />
+		</div>
+	);
 }

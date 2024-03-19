@@ -12,6 +12,8 @@ import trashRouter from "./trash.router";
 import uploadsRouter from "./uploads.router";
 import mobileRouter from "./mobile.router";
 
+import graphRouter_temp from "./graph.router.temp";
+
 import { getCourseProfile, mustBe, mustLogin } from "@/middlewares";
 
 const router = Router();
@@ -43,6 +45,8 @@ router.use("/trash", trashRouter);
 
 router.use("/uploads", uploadsRouter);
 router.use("/mobile", mobileRouter);
+
+router.use("/graph-temp", graphRouter_temp);
 
 router.use((_req, res) => {
 	res.status(404).json({

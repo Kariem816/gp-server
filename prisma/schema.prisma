@@ -229,3 +229,24 @@ model ApiKey {
 
   @@unique([name, controllerId])
 }
+
+// suggest a name for model that is suppossed to store graph data
+model GraphData_Temp {
+  id Int @id @default(autoincrement())
+
+  label  String
+  xLabel String @default("Time")
+  yLabel String @default("Value")
+
+  data GraphDataValues_Temp[]
+}
+
+model GraphDataValues_Temp {
+  id    Int      @id @default(autoincrement())
+  time  DateTime @default(now())
+  value Float
+
+  graphDataId Int
+
+  graphData GraphData_Temp @relation(fields: [graphDataId], references: [id], onDelete: Cascade)
+}

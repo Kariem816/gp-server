@@ -11,15 +11,28 @@
 // Import Routes
 
 import { Route as rootRoute } from "./pages/__root"
+import { Route as MonitorImport } from "./pages/monitor"
 import { Route as IndexImport } from "./pages/index"
+import { Route as MonitorIndexImport } from "./pages/monitor/index"
 import { Route as MobileIndexImport } from "./pages/mobile/index"
 import { Route as LoginIndexImport } from "./pages/login/index"
+import { Route as MonitorIdImport } from "./pages/monitor/$id"
 
 // Create/Update Routes
+
+const MonitorRoute = MonitorImport.update({
+  path: "/monitor",
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   path: "/",
   getParentRoute: () => rootRoute,
+} as any)
+
+const MonitorIndexRoute = MonitorIndexImport.update({
+  path: "/",
+  getParentRoute: () => MonitorRoute,
 } as any)
 
 const MobileIndexRoute = MobileIndexImport.update({
@@ -32,6 +45,11 @@ const LoginIndexRoute = LoginIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const MonitorIdRoute = MonitorIdImport.update({
+  path: "/$id",
+  getParentRoute: () => MonitorRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module "@tanstack/react-router" {
@@ -39,6 +57,14 @@ declare module "@tanstack/react-router" {
     "/": {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
+    }
+    "/monitor": {
+      preLoaderRoute: typeof MonitorImport
+      parentRoute: typeof rootRoute
+    }
+    "/monitor/$id": {
+      preLoaderRoute: typeof MonitorIdImport
+      parentRoute: typeof MonitorImport
     }
     "/login/": {
       preLoaderRoute: typeof LoginIndexImport
@@ -48,6 +74,10 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof MobileIndexImport
       parentRoute: typeof rootRoute
     }
+    "/monitor/": {
+      preLoaderRoute: typeof MonitorIndexImport
+      parentRoute: typeof MonitorImport
+    }
   }
 }
 
@@ -55,6 +85,7 @@ declare module "@tanstack/react-router" {
 
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
+  MonitorRoute.addChildren([MonitorIdRoute, MonitorIndexRoute]),
   LoginIndexRoute,
   MobileIndexRoute,
 ])

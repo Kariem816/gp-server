@@ -1,10 +1,5 @@
 import { useEffect } from "react";
-import {
-	Link,
-	Outlet,
-	createRootRouteWithContext,
-} from "@tanstack/react-router";
-import { RouterContext } from "../routerContext";
+import { Link, Outlet, createRootRoute } from "@tanstack/react-router";
 import { useAuth } from "~/contexts/auth";
 import Logo from "~/components/logo";
 import { SignedIn, SignedOut } from "~/components/auth";
@@ -15,7 +10,7 @@ import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { Sidebar } from "~/components/root/sidebar";
 import { NotFound } from "~/not-found";
 
-export const Route = createRootRouteWithContext<RouterContext>()({
+export const Route = createRootRoute({
 	component: RootComponent,
 	notFoundComponent: NotFound,
 });

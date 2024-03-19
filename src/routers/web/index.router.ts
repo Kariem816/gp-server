@@ -10,7 +10,7 @@ const router = Router();
 // Add Vite or respective production middlewares
 if (!isProduction) {
 	router.use((req, res) => {
-		res.redirect(`${env.CLIENT_DEV_SERVER}/${req.originalUrl}`);
+		res.redirect(`${process.env.CLIENT_DEV_SERVER}/${req.originalUrl}`);
 	});
 } else {
 	router.use(static_(path.join(process.cwd(), "dist", "client")));

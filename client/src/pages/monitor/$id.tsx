@@ -37,7 +37,7 @@ function formatData(
 
 		return {
 			...d,
-			time: timeObj.getTime() / 1000,
+			time: timeObj.getTime(),
 		};
 	});
 }
@@ -53,7 +53,7 @@ function MonitorPage() {
 		queryFn: () => get(`/graph-temp/${id}`),
 		select: (data) => formatData(data.data),
 		initialData: formatData(data),
-		refetchInterval: 3 * 1000, // 10 seconds
+		refetchInterval: 3 * 1000, // 3 seconds
 	});
 
 	if (isLoading) {
@@ -67,22 +67,36 @@ function MonitorPage() {
 	return (
 		<>
 			<h1 className="text-center">{label}</h1>
-			<VictoryChart animate>
-				<VictoryLine
-					data={graphData}
-					x="time"
-					y="value"
-					style={{ data: { stroke: "blue" } }}
-				/>
-				<VictoryAxis
-					label={xLabel}
-					fixLabelOverlap
-					tickFormat={(
-						t: ReturnType<typeof formatData>[number]["time"]
-					) => f.format(new Date(t))}
-				/>
-				<VictoryAxis dependentAxis label={yLabel} />
-			</VictoryChart>
+			{graphData.length === 0 ? (
+				<p className="italic text-center">No data available</p>
+			) : (
+				<VictoryChart>
+					<VictoryAxis
+						label={xLabel}
+						fixLabelOverlap
+						tickFormat={(
+							t: ReturnType<typeof formatData>[number]["time"]
+						) => f.format(new Date(t))}
+						style={{
+							grid: { stroke: "#a0a0a0", strokeWidth: 0.5 },
+						}}
+					/>
+					<VictoryAxis
+						dependentAxis
+						label={yLabel}
+						style={{
+							grid: { stroke: "#a0a0a0", strokeWidth: 0.5 },
+						}}
+					/>
+					<VictoryLine
+						data={graphData}
+						x="time"
+						y="value"
+						style={{ data: { stroke: "blue" } }}
+						animate
+					/>
+				</VictoryChart>
+			)}
 		</>
 	);
 }

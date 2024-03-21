@@ -47,6 +47,14 @@ router.post(
 		try {
 			const body = req.body as z.infer<typeof createGraphSchema>;
 
+			const exists = await graphStore_temp.exists(body.label);
+			if (exists) {
+				return res.status(409).json({
+					error: "CONFLICT",
+					message: "Label already exists",
+				});
+			}
+
 			const data = await graphStore_temp.create(body);
 			res.json(data);
 		} catch (err) {

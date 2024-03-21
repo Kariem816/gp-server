@@ -12,6 +12,18 @@ class GraphModel_Temp {
 		}
 	}
 
+	async exists(label: string) {
+		try {
+			return await prisma.graphData_Temp.findFirst({
+				where: {
+					label,
+				},
+			});
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
+	}
+
 	async show(id: number) {
 		try {
 			return await prisma.graphData_Temp.findUniqueOrThrow({

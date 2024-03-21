@@ -20,7 +20,7 @@ class GraphModel_Temp {
 				},
 				include: {
 					data: {
-						take: 100,
+						take: 20,
 						orderBy: {
 							time: "desc",
 						},

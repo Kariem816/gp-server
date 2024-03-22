@@ -9,6 +9,7 @@ import { Button } from "~/components/ui/button";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { Sidebar } from "~/components/root/sidebar";
 import { NotFound } from "~/not-found";
+import { useMediaQuery } from "~/hooks/use-media-query";
 
 export const Route = createRootRoute({
 	component: RootComponent,
@@ -18,6 +19,7 @@ export const Route = createRootRoute({
 function RootComponent() {
 	const [opened, { toggle, close }] = useDisclosure();
 	const { logout, user } = useAuth();
+	const isMdScreen = useMediaQuery("(min-width: 640px)");
 	const router = useRouter();
 
 	useEffect(() => {
@@ -44,7 +46,7 @@ function RootComponent() {
 								<HamburgerMenuIcon className="w-8 h-8 " />
 							</Button>
 							<Link to="/" className="hover:no-underline">
-								<Logo size={40} />
+								<Logo size={40} withImg={isMdScreen} />
 							</Link>
 						</div>
 						<nav className="hidden sm:flex gap-4">

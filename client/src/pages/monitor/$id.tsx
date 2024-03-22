@@ -1,7 +1,27 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { get } from "~/services/api";
-import { VictoryChart, VictoryLine, VictoryAxis } from "victory";
 import { useQuery } from "@tanstack/react-query";
+import {
+	Chart as ChartJS,
+	CategoryScale,
+	LinearScale,
+	PointElement,
+	LineElement,
+	Title,
+	Tooltip,
+	Legend,
+} from "chart.js";
+import { Line } from "react-chartjs-2";
+
+ChartJS.register(
+	CategoryScale,
+	LinearScale,
+	PointElement,
+	LineElement,
+	Title,
+	Tooltip,
+	Legend
+);
 
 export const Route = createFileRoute("/monitor/$id")({
 	component: MonitorPage,
@@ -32,18 +52,20 @@ function formatData(
 		value: number;
 	}[]
 ) {
-	return data.map((d) => {
-		const timeObj = new Date(d.time);
+	return data
+		.map((d) => {
+			const timeObj = new Date(d.time);
 
-		return {
-			...d,
-			time: timeObj.getTime(),
-		};
-	});
+			return {
+				...d,
+				time: timeObj.getTime(),
+			};
+		})
+		.reverse();
 }
 
 function MonitorPage() {
-	const { id, data, label, xLabel, yLabel } = Route.useLoaderData();
+	const { id, data, label, yLabel } = Route.useLoaderData();
 	const {
 		data: graphData,
 		isLoading,
@@ -66,36 +88,36 @@ function MonitorPage() {
 
 	return (
 		<>
-			<h1 className="text-center">{label}</h1>
 			{graphData.length === 0 ? (
 				<p className="italic text-center">No data available</p>
 			) : (
-				<VictoryChart>
-					<VictoryAxis
-						label={xLabel}
-						fixLabelOverlap
-						tickFormat={(
-							t: ReturnType<typeof formatData>[number]["time"]
-						) => f.format(new Date(t))}
-						style={{
-							grid: { stroke: "#a0a0a0", strokeWidth: 0.5 },
-						}}
-					/>
-					<VictoryAxis
-						dependentAxis
-						label={yLabel}
-						style={{
-							grid: { stroke: "#a0a0a0", strokeWidth: 0.5 },
-						}}
-					/>
-					<VictoryLine
-						data={graphData}
-						x="time"
-						y="value"
-						style={{ data: { stroke: "blue" } }}
-						animate
-					/>
-				</VictoryChart>
+				<Line
+					data={{
+						labels: graphData.map((d) =>
+							f.format(new Date(d.time))
+						),
+						datasets: [
+							{
+								label: yLabel,
+								data: graphData.map((d) => d.value),
+								backgroundColor: "rgba(0, 0, 255)",
+								borderColor: "rgba(0, 0, 255, 0.2)",
+							},
+						],
+					}}
+					options={{
+						responsive: true,
+						plugins: {
+							legend: {
+								position: "bottom",
+							},
+							title: {
+								display: true,
+								text: label,
+							},
+						},
+					}}
+				/>
 			)}
 		</>
 	);

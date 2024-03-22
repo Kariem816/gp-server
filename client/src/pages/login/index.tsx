@@ -3,11 +3,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useAuth } from "~/contexts/auth";
 import { useNavigate } from "@tanstack/react-router";
 import { useSecurePage } from "~/hooks/useSecurePage";
-
-export const Route = createFileRoute("/login/")({
-	component: LoginPage,
-});
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -23,6 +18,10 @@ import {
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
+
+export const Route = createFileRoute("/login/")({
+	component: LoginPage,
+});
 
 const loginSchema = z.object({
 	username: z.string().min(1),

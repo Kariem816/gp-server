@@ -3,6 +3,8 @@ import { createEnv } from "@/utils/env";
 type Env = {
 	NODE_ENV: string;
 	PORT: number;
+	CLIENT_DEV_SERVER: string;
+	VITE_APP_SERVER_URL: string;
 	DATABASE_URL: string;
 	SALT: number;
 	PEPPER: string;
@@ -22,6 +24,8 @@ export const env = createEnv<Env>({
 	values: {
 		NODE_ENV: process.env.NODE_ENV,
 		PORT: process.env.PORT,
+		CLIENT_DEV_SERVER: process.env.CLIENT_DEV_SERVER,
+		VITE_APP_SERVER_URL: process.env.VITE_APP_SERVER_URL,
 		DATABASE_URL: process.env.DATABASE_URL,
 		SALT: process.env.SALT,
 		PEPPER: process.env.PEPPER,
@@ -36,6 +40,7 @@ export const env = createEnv<Env>({
 		RECOGNIZER_TOKEN: process.env.RECOGNIZER_TOKEN,
 		RECOGNIZER_URL: process.env.RECOGNIZER_URL,
 	},
+	devOnly: ["CLIENT_DEV_SERVER", "VITE_APP_SERVER_URL"],
 	transform: {
 		PORT: Number,
 		SALT: Number,

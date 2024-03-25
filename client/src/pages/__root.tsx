@@ -9,6 +9,14 @@ import { Button } from "~/components/ui/button";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { Sidebar } from "~/components/root/sidebar";
 import { NotFound } from "~/not-found";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from "~/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 
 export const Route = createRootRoute({
 	component: RootComponent,
@@ -83,7 +91,41 @@ function RootComponent() {
 							</div>
 						</SignedOut>
 						<SignedIn>
-							<div className="flex items-center gap-4">
+							<DropdownMenu>
+								<DropdownMenuTrigger asChild>
+									<Avatar className="cursor-pointer">
+										<AvatarImage
+											src={user?.img}
+											alt={user?.username}
+										/>
+										<AvatarFallback>
+											{user?.username?.[0] ?? "?"}
+										</AvatarFallback>
+									</Avatar>
+								</DropdownMenuTrigger>
+								<DropdownMenuContent
+									align="end"
+									className="space-y-2"
+								>
+									<DropdownMenuItem asChild>
+										<Link
+											to={"/profile/me" as any}
+											className="hover:no-underline cursor-pointer"
+										>
+											Profile
+										</Link>
+									</DropdownMenuItem>
+									<DropdownMenuSeparator />
+									<Button
+										size="sm"
+										onClick={logout}
+										className="w-full"
+									>
+										Logout
+									</Button>
+								</DropdownMenuContent>
+							</DropdownMenu>
+							{/* <div className="flex items-center gap-4">
 								<Link to={"/profile/me" as any}>
 									<Button size="sm" variant="ghost">
 										{user.role === "guest" ? (
@@ -100,7 +142,7 @@ function RootComponent() {
 								<Button size="sm" onClick={logout}>
 									Logout
 								</Button>
-							</div>
+							</div> */}
 						</SignedIn>
 					</div>
 				</div>

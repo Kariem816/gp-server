@@ -6,6 +6,8 @@ import { Link } from "@tanstack/react-router";
 import { SignedIn, SignedOut } from "../auth";
 import { useAuth } from "~/contexts/auth";
 
+import type { LoggedUser } from "~/types/users";
+
 type SidebarProps = {
 	opened: boolean;
 	onClose: () => void;
@@ -24,7 +26,7 @@ export function Sidebar({ opened, onClose }: SidebarProps) {
 		>
 			<div className="fixed inset-y-0 w-full max-w-96 bg-white z-50 shadow-lg flex flex-col">
 				<div className="flex items-center justify-between p-4 border-b">
-					<Logo size={50} withImg />
+					<Logo size={50} />
 					<Button size="sm" variant="ghost" onClick={onClose}>
 						<Cross1Icon className="w-6 h-6" />
 					</Button>
@@ -36,20 +38,14 @@ export function Sidebar({ opened, onClose }: SidebarProps) {
 								to={"/profile/me" as any}
 								className="py-4 gap-4 font-medium flex justify-center items-center hover:no-underline rounded-md hover:bg-muted"
 							>
-								{user.role === "guest" ? (
-									<Logo size={40} withImg />
-								) : (
-									<>
-										<img
-											src={user?.img}
-											alt={user?.username}
-											className="w-10 h-10 rounded-full"
-										/>
-										<span className="ml-2 text-xl">
-											{user?.name}
-										</span>
-									</>
-								)}
+								<img
+									src={(user as LoggedUser).img}
+									alt={(user as LoggedUser).username}
+									className="w-10 h-10 rounded-full"
+								/>
+								<span className="ml-2 text-xl">
+									{(user as LoggedUser).name}
+								</span>
 							</Link>
 						</div>
 					</SignedIn>

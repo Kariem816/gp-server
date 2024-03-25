@@ -18,6 +18,8 @@ import {
 } from "~/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 
+import type { LoggedUser } from "~/types/users";
+
 export const Route = createRootRoute({
 	component: RootComponent,
 	notFoundComponent: NotFound,
@@ -36,7 +38,6 @@ function RootComponent() {
 		};
 	}, []);
 
-	// TODO: Add mobile menu
 	return (
 		<>
 			<nav className="fixed inset-x-0 top-0 z-50 bg-white shadow-sm dark:bg-gray-950/90">
@@ -95,11 +96,11 @@ function RootComponent() {
 								<DropdownMenuTrigger asChild>
 									<Avatar className="cursor-pointer">
 										<AvatarImage
-											src={user?.img}
-											alt={user?.username}
+											src={(user as LoggedUser).img}
+											alt={(user as LoggedUser).username}
 										/>
 										<AvatarFallback>
-											{user?.username?.[0] ?? "?"}
+											{(user as LoggedUser).username[0]}
 										</AvatarFallback>
 									</Avatar>
 								</DropdownMenuTrigger>

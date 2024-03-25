@@ -7,9 +7,10 @@
   "scripts": {
     "dev": "concurrently \"nodemon -x tsx ./src/index.ts --ignore ./client\" \"cd client && yarn dev\"",
     "prebuild": "yarn db:up",
+    "build:translations": "node intl/build.js",
     "build:frontend": "cd client && yarn build && cd ..",
     "build:backend": "tsc && tsc-alias",
-    "build": "yarn build:frontend && yarn build:backend",
+    "build": "yarn build:translations && yarn build:frontend && yarn build:backend",
     "start": "node dist/index.js",
     "preview": "cross-env NODE_ENV=production yarn start",
     "db:up": "prisma migrate dev",

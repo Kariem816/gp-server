@@ -6,6 +6,7 @@ import AuthProvider from "~/contexts/auth";
 import { routeTree } from "./routeTree.gen";
 
 import "~/styles/global.css";
+import TranslationProvider from "./contexts/translations";
 
 const router = createRouter({ routeTree });
 declare module "@tanstack/react-router" {
@@ -22,10 +23,12 @@ const root = ReactDOM.createRoot(
 
 root.render(
 	<React.StrictMode>
-		<AuthProvider>
-			<QueryClientProvider client={queryClient}>
-				<RouterProvider router={router} />
-			</QueryClientProvider>
-		</AuthProvider>
+		<TranslationProvider>
+			<AuthProvider>
+				<QueryClientProvider client={queryClient}>
+					<RouterProvider router={router} />
+				</QueryClientProvider>
+			</AuthProvider>
+		</TranslationProvider>
 	</React.StrictMode>
 );

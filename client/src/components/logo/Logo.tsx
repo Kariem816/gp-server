@@ -1,4 +1,5 @@
 import LogoImg from "~/assets/logo.svg";
+import { useTranslation } from "~/contexts/translations";
 import { cn } from "~/utils";
 
 type LogoProps = {
@@ -8,6 +9,7 @@ type LogoProps = {
 };
 
 function Logo({ className, size, withImg = false }: LogoProps) {
+	const { t } = useTranslation();
 	return (
 		<div className={cn("flex items-center gap-1", className)}>
 			<img
@@ -17,7 +19,7 @@ function Logo({ className, size, withImg = false }: LogoProps) {
 				height={size}
 				width={size}
 			/>
-			<span className="font-semibold text-xl">Smart Campus</span>
+			<span className="font-semibold text-xl">{t("app_name")}</span>
 		</div>
 	);
 }

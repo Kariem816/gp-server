@@ -23,10 +23,10 @@ export function createEnv<
 
 	for (const [key, value] of Object.entries(values)) {
 		if (value === undefined) {
-			if (isDev && devOnly.includes(key)) {
+			if (!isDev && devOnly.includes(key)) {
 				continue;
 			}
-			if (!isDev && prodOnly.includes(key as keyof T)) {
+			if (isDev && prodOnly.includes(key as keyof T)) {
 				continue;
 			}
 			throw new Error(`Missing environment variable: ${key}`);

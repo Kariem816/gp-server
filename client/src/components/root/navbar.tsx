@@ -56,13 +56,9 @@ export function Navbar({ toggle }: { toggle: () => void }) {
 				</nav>
 				<SignedOut>
 					<div className="flex items-center gap-4">
-						<Link to="/login">
-							<Button size="sm" variant="outline">
-								Sign in
-							</Button>
-						</Link>
+						<Link to="/login">Sign in</Link>
 						<Link to={"/register" as any}>
-							<Button size="sm">Sign up</Button>
+							<Button>Sign up</Button>
 						</Link>
 					</div>
 				</SignedOut>

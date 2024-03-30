@@ -6,28 +6,28 @@ type NavRoute = {
 	icon?: JSX.Element;
 };
 
-const HOME_ROUTE: NavRoute = { name: "Home", path: "/" };
-const COURSES_ROUTE: NavRoute = { name: "Courses", path: "/courses" };
+const HOME_ROUTE: NavRoute = { name: "home", path: "/" };
+const COURSES_ROUTE: NavRoute = { name: "courses", path: "/courses" };
 const APP_MONITOR_TEMP_ROUTE: NavRoute = {
-	name: "App Monitor",
+	name: "app_monitor",
 	path: "/monitor",
 };
-const MOBILE_ROUTE: NavRoute = { name: "Mobile", path: "/mobile" };
-const ADMIN_DASHBOARD_ROUTE: NavRoute = { name: "Dashboard", path: "/admin" };
+const MOBILE_ROUTE: NavRoute = { name: "mobile", path: "/mobile" };
+const ADMIN_DASHBOARD_ROUTE: NavRoute = { name: "dashboard", path: "/admin" };
 const STUDENT_DASHBOARD_ROUTE: NavRoute = {
-	name: "Dashboard",
+	name: "dashboard",
 	path: "/students/me",
 };
 const TEACHER_DASHBOARD_ROUTE: NavRoute = {
-	name: "Dashboard",
+	name: "dashboard",
 	path: "/teachers/me",
 };
 const SECURITY_DASHBOARD_ROUTE: NavRoute = {
-	name: "Dashboard",
+	name: "dashboard",
 	path: "/security/me",
 };
 const CONTROLLER_DASHBOARD_ROUTE: NavRoute = {
-	name: "Dashboard",
+	name: "dashboard",
 	path: "/controllers/me",
 };
 

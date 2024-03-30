@@ -16,9 +16,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import type { LoggedUser } from "~/types/users";
 import { useMemo } from "react";
 import { generateNavRoutes } from "./helpers/generate-nav-routes";
+import { useTranslation } from "~/contexts/translation";
 
 export function Navbar({ toggle }: { toggle: () => void }) {
 	const { user, logout } = useAuth();
+	const { t } = useTranslation();
 
 	const navRoutes = useMemo(() => generateNavRoutes(user.role), [user.role]);
 
@@ -45,15 +47,15 @@ export function Navbar({ toggle }: { toggle: () => void }) {
 							className="font-medium flex items-center text-sm transition-colors hover:underline"
 							to={route.path as any}
 						>
-							{route.name}
+							{t(route.name)}
 						</Link>
 					))}
 				</nav>
 				<SignedOut>
 					<div className="flex items-center gap-4">
-						<Link to="/login">Sign in</Link>
+						<Link to="/login">{t("login")}</Link>
 						<Link to={"/register" as any}>
-							<Button>Sign up</Button>
+							<Button>{t("register")}</Button>
 						</Link>
 					</div>
 				</SignedOut>
@@ -76,7 +78,7 @@ export function Navbar({ toggle }: { toggle: () => void }) {
 									to={"/profile/me"}
 									className="hover:no-underline cursor-pointer"
 								>
-									Profile
+									{t("profile")}
 								</Link>
 							</DropdownMenuItem>
 							<DropdownMenuSeparator />
@@ -85,7 +87,7 @@ export function Navbar({ toggle }: { toggle: () => void }) {
 								onClick={logout}
 								className="w-full"
 							>
-								Logout
+								{t("logout")}
 							</Button>
 						</DropdownMenuContent>
 					</DropdownMenu>

@@ -2,5 +2,61 @@
     "app_name": {
         "en": "Smart Campus",
         "ar": "الجامعة الذكية"
+    },
+    "language": {
+        "ar": "اللغة",
+        "en": "Language"
+    },
+    "ar": {
+        "en": "Arabic",
+        "ar": "العربية"
+    },
+    "arabic": {
+        "en": "Arabic",
+        "ar": "العربية"
+    },
+    "en": {
+        "en": "English",
+        "ar": "الإنجليزية"
+    },
+    "english": {
+        "en": "English",
+        "ar": "الإنجليزية"
+    },
+    "login": {
+        "en": "Login",
+        "ar": "تسجيل الدخول"
+    },
+    "logout": {
+        "en": "Logout",
+        "ar": "تسجيل الخروج"
+    },
+    "register": {
+        "en": "Register",
+        "ar": "التسجيل"
+    },
+    "profile": {
+        "en": "Profile",
+        "ar": "الملف الشخصي"
+    },
+    "home": {
+        "en": "Home",
+        "ar": "الرئيسية"
+    },
+    "dashboard": {
+        "en": "Dashboard",
+        "ar": "لوحة التحكم"
+    },
+    "courses": {
+        "en": "Courses",
+        "ar": "الدورات"
+    },
+    "app_monitor": {
+        "en": "App Monitor",
+        "ar": "مراقبة التطبيق"
+    },
+    "mobile": {
+        "en": "Mobile App",
+        "ar": "تطبيق الموبايل"
     }
 }

@@ -9,6 +9,7 @@ import { useAuth } from "~/contexts/auth";
 import type { LoggedUser } from "~/types/users";
 import { useMemo } from "react";
 import { generateNavRoutes } from "./helpers/generate-nav-routes";
+import { useTranslation } from "~/contexts/translation";
 
 type SidebarProps = {
 	opened: boolean;
@@ -17,6 +18,7 @@ type SidebarProps = {
 
 export function Sidebar({ opened, onClose }: SidebarProps) {
 	const { logout, user } = useAuth();
+	const { t } = useTranslation();
 	const navRoutes = useMemo(() => generateNavRoutes(user.role), [user.role]);
 
 	return (
@@ -58,7 +60,7 @@ export function Sidebar({ opened, onClose }: SidebarProps) {
 							className="font-medium text-lg"
 							to={route.path as any}
 						>
-							{route.name}
+							{t(route.name)}
 						</Link>
 					))}
 				</nav>
@@ -66,11 +68,11 @@ export function Sidebar({ opened, onClose }: SidebarProps) {
 					<div className="flex items-center gap-4 p-4">
 						<Link to="/login">
 							<Button size="sm" variant="outline">
-								Sign in
+								{t("login")}
 							</Button>
 						</Link>
 						<Link to={"/register" as any}>
-							<Button size="sm">Sign up</Button>
+							<Button size="sm">{t("register")}</Button>
 						</Link>
 					</div>
 				</SignedOut>
@@ -81,7 +83,7 @@ export function Sidebar({ opened, onClose }: SidebarProps) {
 							onClick={logout}
 							className="rounded-xl"
 						>
-							Logout
+							{t("logout")}
 						</Button>
 					</div>
 				</SignedIn>

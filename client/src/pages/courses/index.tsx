@@ -47,7 +47,7 @@ function CoursesList() {
 		<div className="container flex flex-col h-full">
 			<div className="flex flex-col justify-center border-b-2">
 				<div className="flex items-center justify-between flex-wrap gap-2">
-					<div className="flex gap-2 items-center">
+					<div className="flex gap-2 items-end">
 						<h1 className="my-1">Courses</h1>
 						<Button
 							variant="ghost"

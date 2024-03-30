@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useTranslation } from "~/contexts/translations";
+import { useTranslation } from "~/contexts/translation";
 import { Button } from "~/components/ui/button";
 import {
 	DoubleArrowLeftIcon,

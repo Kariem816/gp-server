@@ -1,5 +1,5 @@
 import LogoImg from "~/assets/logo.svg";
-import { useTranslation } from "~/contexts/translations";
+import { useTranslation } from "~/contexts/translation";
 import { cn } from "~/utils";
 
 type LogoProps = {

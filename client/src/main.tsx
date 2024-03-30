@@ -6,7 +6,7 @@ import AuthProvider from "~/contexts/auth";
 import { routeTree } from "./routeTree.gen";
 
 import "~/styles/global.css";
-import TranslationProvider from "./contexts/translations";
+import TranslationProvider from "./contexts/translation";
 
 const router = createRouter({ routeTree });
 declare module "@tanstack/react-router" {

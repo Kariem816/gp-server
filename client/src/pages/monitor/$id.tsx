@@ -40,12 +40,6 @@ export const Route = createFileRoute("/monitor/$id")({
 	},
 });
 
-const f = new Intl.DateTimeFormat("en-eg", {
-	hour: "numeric",
-	minute: "numeric",
-	second: "numeric",
-});
-
 function formatData(
 	data: {
 		time: string;
@@ -94,7 +88,7 @@ function MonitorPage() {
 				<Line
 					data={{
 						labels: graphData.map((d) =>
-							f.format(new Date(d.time))
+							new Date(d.time).toLocaleTimeString("en-US")
 						),
 						datasets: [
 							{

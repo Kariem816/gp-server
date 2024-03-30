@@ -44,8 +44,8 @@ function CoursesList() {
 	});
 
 	return (
-		<div className="container flex flex-col h-full">
-			<div className="flex flex-col justify-center border-b-2 py-4">
+		<div className="flex flex-col h-full">
+			<div className="flex flex-col justify-center border-b-2 py-4 container">
 				<div className="flex items-center justify-between flex-wrap gap-2">
 					<div className="flex gap-2 items-end">
 						<h1 className="my-1">Courses</h1>
@@ -79,7 +79,7 @@ function CoursesList() {
 					<Pagination page={page} pages={pages} onChange={setPage} />
 				</div>
 			</div>
-			<div className="flex-grow overflow-auto pe-1 md:pe-2 my-2">
+			<div className="flex-grow overflow-auto pe-1 md:pe-2 my-2 container">
 				{isError ? (
 					<div className="text-destructive italic font-semibold h-full flex items-center justify-center">
 						{error.message}
@@ -87,6 +87,10 @@ function CoursesList() {
 				) : isPending ? (
 					<div className="h-full flex justify-center items-center">
 						<Spinner />
+					</div>
+				) : courses.length === 0 ? (
+					<div className="text-neutral-600 italic font-semibold h-full flex items-center justify-center">
+						No courses found
 					</div>
 				) : (
 					<ul>

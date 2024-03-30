@@ -7,6 +7,7 @@ type NavRoute = {
 };
 
 const HOME_ROUTE: NavRoute = { name: "Home", path: "/" };
+const COURSES_ROUTE: NavRoute = { name: "Courses", path: "/courses" };
 const APP_MONITOR_TEMP_ROUTE: NavRoute = {
 	name: "App Monitor",
 	path: "/monitor",
@@ -53,7 +54,7 @@ export function generateNavRoutes(userRole: UserRole | "guest"): NavRoute[] {
 		routes.push(CONTROLLER_DASHBOARD_ROUTE);
 	}
 
-	routes.push(APP_MONITOR_TEMP_ROUTE, MOBILE_ROUTE);
+	routes.push(COURSES_ROUTE, APP_MONITOR_TEMP_ROUTE, MOBILE_ROUTE);
 
 	return routes;
 }

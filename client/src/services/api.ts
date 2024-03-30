@@ -93,3 +93,15 @@ export function patch(url: string, data = {}) {
 		data: JSON.stringify(data),
 	});
 }
+
+export function filterize(obj: any, extended: boolean = false) {
+	const newObj: any = {};
+
+	for (const key in obj) {
+		if (obj[key]) newObj["filter_" + key] = obj[key];
+	}
+
+	if (extended) newObj.extended_filters = true;
+
+	return newObj;
+}

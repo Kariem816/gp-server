@@ -47,7 +47,7 @@ export function get(url: string, query: APIQuery = {}) {
 	Object.entries(query).forEach(([key, value]) => {
 		if (value) {
 			if (typeof value === "string") params.append(key, value);
-			else params.append(key, JSON.stringify(value));
+			else params.append(key, value.toString());
 		}
 	});
 

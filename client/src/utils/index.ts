@@ -1,5 +1,8 @@
-export function classnames(...args: any[]) {
-	return args.filter(Boolean).join(" ");
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+export function cn(...inputs: ClassValue[]) {
+	return twMerge(clsx(inputs));
 }
 
 function capitalizeWord(word: string) {
@@ -8,4 +11,16 @@ function capitalizeWord(word: string) {
 
 export function capitalize(str: string) {
 	return str.split(" ").map(capitalizeWord).join(" ");
+}
+
+export function filterize(obj: any, extended: boolean = false) {
+	const newObj: any = {};
+
+	for (const key in obj) {
+		if (obj[key]) newObj["filter_" + key] = obj[key];
+	}
+
+	if (extended) newObj.extended_filters = true;
+
+	return newObj;
 }

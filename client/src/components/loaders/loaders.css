@@ -1,0 +1,92 @@
+/* ***************************************************************************************** */
+/* Loading Spinner */
+/* ***************************************************************************************** */
+
+.loading__spinner {
+	width: 100px;
+	height: 100px;
+	border: 10px solid hsl(var(--muted));
+	border-top-color: hsl(var(--primary));
+	border-radius: 50%;
+	animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+/* ***************************************************************************************** */
+/* Loading Dots */
+/* ***************************************************************************************** */
+
+.loading-dots {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	padding: 1rem;
+}
+
+.loading-dot {
+	background-color: hsl(var(--primary));
+}
+
+.loading-dot,
+.loading-dot::after {
+	display: inline-block;
+	width: 2em;
+	height: 2em;
+	border-radius: 50%;
+	animation: dot-open 2s
+		calc(((var(--order) + var(--o, 0)) / var(--total-dots) - 1) * 1.5s)
+		infinite;
+}
+
+.loading-dot::after {
+	--o: 1;
+	content: "";
+	background-color: hsl(var(--background));
+}
+
+@keyframes dot-open {
+	0%,
+	50% {
+		transform: scale(0);
+	}
+}
+
+/* ***************************************************************************************** */
+/* Loading Bars */
+/* ***************************************************************************************** */
+
+.loading-bars {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+}
+
+.loading-bar {
+	width: 10px;
+	height: 100px;
+	background: var(--primary);
+	animation: bar 1.5s ease-in-out infinite;
+	animation-delay: calc(var(--order) * 0.2s);
+}
+
+@keyframes bar {
+	0% {
+		transform: scaleY(0);
+	}
+	50% {
+		transform: scaleY(1);
+	}
+	100% {
+		transform: scaleY(0);
+	}
+}

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useAuth } from "~/contexts/auth";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, Navigate } from "@tanstack/react-router";
 import { useSecurePage } from "~/hooks/useSecurePage";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -42,7 +42,9 @@ export function LoginPage() {
 	});
 
 	const navigate = useNavigate();
-	useSecurePage("guest", "/");
+
+	const showPage = useSecurePage("guest");
+	if (showPage === "deny") return <Navigate to="/" replace />;
 
 	async function handleSubmit(values: z.infer<typeof loginSchema>) {
 		if (isLoading) return;

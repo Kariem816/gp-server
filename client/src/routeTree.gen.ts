@@ -12,16 +12,46 @@
 
 import { Route as rootRoute } from "./pages/__root"
 import { Route as MonitorImport } from "./pages/monitor"
+import { Route as DashboardImport } from "./pages/dashboard"
 import { Route as IndexImport } from "./pages/index"
 import { Route as MonitorIndexImport } from "./pages/monitor/index"
 import { Route as MobileIndexImport } from "./pages/mobile/index"
 import { Route as LoginIndexImport } from "./pages/login/index"
+import { Route as CoursesIndexImport } from "./pages/courses/index"
+import { Route as AdminIndexImport } from "./pages/admin/index"
+import { Route as TeachersIdImport } from "./pages/teachers/$id"
+import { Route as StudentsIdImport } from "./pages/students/$id"
+import { Route as ProfileMeImport } from "./pages/profile/me"
+import { Route as ProfileIdImport } from "./pages/profile/$id"
 import { Route as MonitorIdImport } from "./pages/monitor/$id"
+import { Route as CoursesNewImport } from "./pages/courses/new"
+import { Route as AdminUsersImport } from "./pages/admin/users"
+import { Route as AdminExtraImport } from "./pages/admin/extra"
+import { Route as AdminControllersImport } from "./pages/admin/controllers"
+import { Route as SecurityMeIndexImport } from "./pages/security/me/index"
+import { Route as LecturesIdIndexImport } from "./pages/lectures/$id/index"
+import { Route as CoursesIdIndexImport } from "./pages/courses/$id/index"
+import { Route as ControllerMeIndexImport } from "./pages/controller/me/index"
+import { Route as TeachersMeScheduleImport } from "./pages/teachers/me/schedule"
+import { Route as TeachersMeCoursesImport } from "./pages/teachers/me/courses"
+import { Route as StudentsMeScheduleImport } from "./pages/students/me/schedule"
+import { Route as StudentsMeCoursesImport } from "./pages/students/me/courses"
+import { Route as StudentsMeAttendanceImport } from "./pages/students/me/attendance"
+import { Route as LecturesIdImgsImport } from "./pages/lectures/$id/imgs"
+import { Route as LecturesIdAttendanceImport } from "./pages/lectures/$id/attendance"
+import { Route as CoursesIdTeachersImport } from "./pages/courses/$id/teachers"
+import { Route as CoursesIdStudentsImport } from "./pages/courses/$id/students"
+import { Route as CoursesIdEditImport } from "./pages/courses/$id/edit"
 
 // Create/Update Routes
 
 const MonitorRoute = MonitorImport.update({
   path: "/monitor",
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DashboardRoute = DashboardImport.update({
+  path: "/dashboard",
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -45,9 +75,129 @@ const LoginIndexRoute = LoginIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const CoursesIndexRoute = CoursesIndexImport.update({
+  path: "/courses/",
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AdminIndexRoute = AdminIndexImport.update({
+  path: "/admin/",
+  getParentRoute: () => rootRoute,
+} as any)
+
+const TeachersIdRoute = TeachersIdImport.update({
+  path: "/teachers/$id",
+  getParentRoute: () => rootRoute,
+} as any)
+
+const StudentsIdRoute = StudentsIdImport.update({
+  path: "/students/$id",
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ProfileMeRoute = ProfileMeImport.update({
+  path: "/profile/me",
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ProfileIdRoute = ProfileIdImport.update({
+  path: "/profile/$id",
+  getParentRoute: () => rootRoute,
+} as any)
+
 const MonitorIdRoute = MonitorIdImport.update({
   path: "/$id",
   getParentRoute: () => MonitorRoute,
+} as any)
+
+const CoursesNewRoute = CoursesNewImport.update({
+  path: "/courses/new",
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AdminUsersRoute = AdminUsersImport.update({
+  path: "/admin/users",
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AdminExtraRoute = AdminExtraImport.update({
+  path: "/admin/extra",
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AdminControllersRoute = AdminControllersImport.update({
+  path: "/admin/controllers",
+  getParentRoute: () => rootRoute,
+} as any)
+
+const SecurityMeIndexRoute = SecurityMeIndexImport.update({
+  path: "/security/me/",
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LecturesIdIndexRoute = LecturesIdIndexImport.update({
+  path: "/lectures/$id/",
+  getParentRoute: () => rootRoute,
+} as any)
+
+const CoursesIdIndexRoute = CoursesIdIndexImport.update({
+  path: "/courses/$id/",
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ControllerMeIndexRoute = ControllerMeIndexImport.update({
+  path: "/controller/me/",
+  getParentRoute: () => rootRoute,
+} as any)
+
+const TeachersMeScheduleRoute = TeachersMeScheduleImport.update({
+  path: "/teachers/me/schedule",
+  getParentRoute: () => rootRoute,
+} as any)
+
+const TeachersMeCoursesRoute = TeachersMeCoursesImport.update({
+  path: "/teachers/me/courses",
+  getParentRoute: () => rootRoute,
+} as any)
+
+const StudentsMeScheduleRoute = StudentsMeScheduleImport.update({
+  path: "/students/me/schedule",
+  getParentRoute: () => rootRoute,
+} as any)
+
+const StudentsMeCoursesRoute = StudentsMeCoursesImport.update({
+  path: "/students/me/courses",
+  getParentRoute: () => rootRoute,
+} as any)
+
+const StudentsMeAttendanceRoute = StudentsMeAttendanceImport.update({
+  path: "/students/me/attendance",
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LecturesIdImgsRoute = LecturesIdImgsImport.update({
+  path: "/lectures/$id/imgs",
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LecturesIdAttendanceRoute = LecturesIdAttendanceImport.update({
+  path: "/lectures/$id/attendance",
+  getParentRoute: () => rootRoute,
+} as any)
+
+const CoursesIdTeachersRoute = CoursesIdTeachersImport.update({
+  path: "/courses/$id/teachers",
+  getParentRoute: () => rootRoute,
+} as any)
+
+const CoursesIdStudentsRoute = CoursesIdStudentsImport.update({
+  path: "/courses/$id/students",
+  getParentRoute: () => rootRoute,
+} as any)
+
+const CoursesIdEditRoute = CoursesIdEditImport.update({
+  path: "/courses/$id/edit",
+  getParentRoute: () => rootRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -58,13 +208,57 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    "/dashboard": {
+      preLoaderRoute: typeof DashboardImport
+      parentRoute: typeof rootRoute
+    }
     "/monitor": {
       preLoaderRoute: typeof MonitorImport
+      parentRoute: typeof rootRoute
+    }
+    "/admin/controllers": {
+      preLoaderRoute: typeof AdminControllersImport
+      parentRoute: typeof rootRoute
+    }
+    "/admin/extra": {
+      preLoaderRoute: typeof AdminExtraImport
+      parentRoute: typeof rootRoute
+    }
+    "/admin/users": {
+      preLoaderRoute: typeof AdminUsersImport
+      parentRoute: typeof rootRoute
+    }
+    "/courses/new": {
+      preLoaderRoute: typeof CoursesNewImport
       parentRoute: typeof rootRoute
     }
     "/monitor/$id": {
       preLoaderRoute: typeof MonitorIdImport
       parentRoute: typeof MonitorImport
+    }
+    "/profile/$id": {
+      preLoaderRoute: typeof ProfileIdImport
+      parentRoute: typeof rootRoute
+    }
+    "/profile/me": {
+      preLoaderRoute: typeof ProfileMeImport
+      parentRoute: typeof rootRoute
+    }
+    "/students/$id": {
+      preLoaderRoute: typeof StudentsIdImport
+      parentRoute: typeof rootRoute
+    }
+    "/teachers/$id": {
+      preLoaderRoute: typeof TeachersIdImport
+      parentRoute: typeof rootRoute
+    }
+    "/admin/": {
+      preLoaderRoute: typeof AdminIndexImport
+      parentRoute: typeof rootRoute
+    }
+    "/courses/": {
+      preLoaderRoute: typeof CoursesIndexImport
+      parentRoute: typeof rootRoute
     }
     "/login/": {
       preLoaderRoute: typeof LoginIndexImport
@@ -78,6 +272,62 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof MonitorIndexImport
       parentRoute: typeof MonitorImport
     }
+    "/courses/$id/edit": {
+      preLoaderRoute: typeof CoursesIdEditImport
+      parentRoute: typeof rootRoute
+    }
+    "/courses/$id/students": {
+      preLoaderRoute: typeof CoursesIdStudentsImport
+      parentRoute: typeof rootRoute
+    }
+    "/courses/$id/teachers": {
+      preLoaderRoute: typeof CoursesIdTeachersImport
+      parentRoute: typeof rootRoute
+    }
+    "/lectures/$id/attendance": {
+      preLoaderRoute: typeof LecturesIdAttendanceImport
+      parentRoute: typeof rootRoute
+    }
+    "/lectures/$id/imgs": {
+      preLoaderRoute: typeof LecturesIdImgsImport
+      parentRoute: typeof rootRoute
+    }
+    "/students/me/attendance": {
+      preLoaderRoute: typeof StudentsMeAttendanceImport
+      parentRoute: typeof rootRoute
+    }
+    "/students/me/courses": {
+      preLoaderRoute: typeof StudentsMeCoursesImport
+      parentRoute: typeof rootRoute
+    }
+    "/students/me/schedule": {
+      preLoaderRoute: typeof StudentsMeScheduleImport
+      parentRoute: typeof rootRoute
+    }
+    "/teachers/me/courses": {
+      preLoaderRoute: typeof TeachersMeCoursesImport
+      parentRoute: typeof rootRoute
+    }
+    "/teachers/me/schedule": {
+      preLoaderRoute: typeof TeachersMeScheduleImport
+      parentRoute: typeof rootRoute
+    }
+    "/controller/me/": {
+      preLoaderRoute: typeof ControllerMeIndexImport
+      parentRoute: typeof rootRoute
+    }
+    "/courses/$id/": {
+      preLoaderRoute: typeof CoursesIdIndexImport
+      parentRoute: typeof rootRoute
+    }
+    "/lectures/$id/": {
+      preLoaderRoute: typeof LecturesIdIndexImport
+      parentRoute: typeof rootRoute
+    }
+    "/security/me/": {
+      preLoaderRoute: typeof SecurityMeIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -85,9 +335,34 @@ declare module "@tanstack/react-router" {
 
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
+  DashboardRoute,
   MonitorRoute.addChildren([MonitorIdRoute, MonitorIndexRoute]),
+  AdminControllersRoute,
+  AdminExtraRoute,
+  AdminUsersRoute,
+  CoursesNewRoute,
+  ProfileIdRoute,
+  ProfileMeRoute,
+  StudentsIdRoute,
+  TeachersIdRoute,
+  AdminIndexRoute,
+  CoursesIndexRoute,
   LoginIndexRoute,
   MobileIndexRoute,
+  CoursesIdEditRoute,
+  CoursesIdStudentsRoute,
+  CoursesIdTeachersRoute,
+  LecturesIdAttendanceRoute,
+  LecturesIdImgsRoute,
+  StudentsMeAttendanceRoute,
+  StudentsMeCoursesRoute,
+  StudentsMeScheduleRoute,
+  TeachersMeCoursesRoute,
+  TeachersMeScheduleRoute,
+  ControllerMeIndexRoute,
+  CoursesIdIndexRoute,
+  LecturesIdIndexRoute,
+  SecurityMeIndexRoute,
 ])
 
 /* prettier-ignore-end */

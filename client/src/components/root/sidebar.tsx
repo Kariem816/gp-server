@@ -7,6 +7,8 @@ import { SignedIn, SignedOut } from "../auth";
 import { useAuth } from "~/contexts/auth";
 
 import type { LoggedUser } from "~/types/users";
+import { useMemo } from "react";
+import { generateNavRoutes } from "./helpers/generate-nav-routes";
 
 type SidebarProps = {
 	opened: boolean;
@@ -15,6 +17,7 @@ type SidebarProps = {
 
 export function Sidebar({ opened, onClose }: SidebarProps) {
 	const { logout, user } = useAuth();
+	const navRoutes = useMemo(() => generateNavRoutes(user.role), [user.role]);
 
 	return (
 		<div
@@ -35,7 +38,7 @@ export function Sidebar({ opened, onClose }: SidebarProps) {
 					<SignedIn>
 						<div className="mb-4">
 							<Link
-								to={"/profile/me" as any}
+								to={"/profile/me"}
 								className="py-4 gap-4 font-medium flex justify-center items-center hover:no-underline rounded-md hover:bg-muted"
 							>
 								<img
@@ -49,15 +52,15 @@ export function Sidebar({ opened, onClose }: SidebarProps) {
 							</Link>
 						</div>
 					</SignedIn>
-					<Link className="font-medium text-lg" to="/">
-						Home
-					</Link>
-					<Link className="font-medium text-lg" to="/monitor">
-						App Monitor
-					</Link>
-					<Link className="font-medium text-lg" to="/mobile">
-						Mobile
-					</Link>
+					{navRoutes.map((route) => (
+						<Link
+							key={route.path}
+							className="font-medium text-lg"
+							to={route.path as any}
+						>
+							{route.name}
+						</Link>
+					))}
 				</nav>
 				<SignedOut>
 					<div className="flex items-center gap-4 p-4">

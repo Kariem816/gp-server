@@ -14,9 +14,13 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 
 import type { LoggedUser } from "~/types/users";
+import { useMemo } from "react";
+import { generateNavRoutes } from "./helpers/generate-nav-routes";
 
 export function Navbar({ toggle }: { toggle: () => void }) {
 	const { user, logout } = useAuth();
+
+	const navRoutes = useMemo(() => generateNavRoutes(user.role), [user.role]);
 
 	return (
 		<div className="w-full max-w-7xl mx-auto px-4">
@@ -35,24 +39,15 @@ export function Navbar({ toggle }: { toggle: () => void }) {
 					</Link>
 				</div>
 				<nav className="hidden sm:flex gap-4">
-					<Link
-						className="font-medium flex items-center text-sm transition-colors hover:underline"
-						to="/"
-					>
-						Home
-					</Link>
-					<Link
-						className="font-medium flex items-center text-sm transition-colors hover:underline"
-						to="/monitor"
-					>
-						App Monitor
-					</Link>
-					<Link
-						className="font-medium flex items-center text-sm transition-colors hover:underline"
-						to="/mobile"
-					>
-						Mobile
-					</Link>
+					{navRoutes.map((route) => (
+						<Link
+							key={route.path}
+							className="font-medium flex items-center text-sm transition-colors hover:underline"
+							to={route.path as any}
+						>
+							{route.name}
+						</Link>
+					))}
 				</nav>
 				<SignedOut>
 					<div className="flex items-center gap-4">
@@ -78,7 +73,7 @@ export function Navbar({ toggle }: { toggle: () => void }) {
 						<DropdownMenuContent align="end" className="space-y-2">
 							<DropdownMenuItem asChild>
 								<Link
-									to={"/profile/me" as any}
+									to={"/profile/me"}
 									className="hover:no-underline cursor-pointer"
 								>
 									Profile

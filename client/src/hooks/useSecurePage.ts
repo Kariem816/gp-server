@@ -1,35 +1,32 @@
-import { useNavigate } from "@tanstack/react-router";
 import { useAuth } from "~/contexts/auth";
-import { UserRole } from "~/types/users";
+
+import type { UserRole } from "~/types/users";
 
 type Role = UserRole | "guest";
 
-export function useSecurePage(role?: Role | Role[], redirect?: string) {
+type Decision = "allow" | "deny" | "redirect";
+
+export function useSecurePage(...roles: Role[]): Decision {
 	const { user, isLoggedIn } = useAuth();
-	const navigate = useNavigate();
-	const to = (redirect || "/login") as any;
 
-	if (!role) {
-		if (!isLoggedIn) {
-			return navigate({
-				to,
-			});
+	if (roles.length === 0) {
+		return isLoggedIn ? "allow" : "redirect";
+	}
+
+	if (roles.includes("guest")) {
+		if (roles.includes(user.role)) {
+			return "allow";
 		}
-		return;
+		return "deny";
 	}
 
-	if (Array.isArray(role)) {
-		if (!role.includes(user.role)) {
-			return navigate({
-				to,
-			});
-		}
-		return;
+	if (!isLoggedIn) {
+		return "redirect";
 	}
 
-	if (user.role !== role) {
-		return navigate({
-			to,
-		});
+	if (roles.includes(user.role)) {
+		return "allow";
 	}
+
+	return "deny";
 }

@@ -27,7 +27,17 @@ class CoursesStore {
 					name: true,
 					code: true,
 					creditHours: true,
-					teachers: true,
+					teachers: {
+						include: {
+							user: {
+								select: {
+									id: true,
+									name: true,
+									img: true,
+								},
+							},
+						},
+					},
 					_count: {
 						select: {
 							students: true,

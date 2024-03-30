@@ -53,31 +53,41 @@ export function Page() {
 			<h3>Embedded Team</h3>
 			<ul className="list-inside list-disc my-2">
 				<li>
-					<a href="#">Mohamed Sayed Farouk</a>
+					<a href="#" className="hover:underline">
+						Mohamed Sayed Farouk
+					</a>
 				</li>
 				<li>
-					<a href="#">Raghda Ahmed Ahmed</a>
+					<a href="#" className="hover:underline">
+						Raghda Ahmed Ahmed
+					</a>
 				</li>
 				<li>
-					<a href="#">Salah Adel Mohamed</a>
+					<a href="#" className="hover:underline">
+						Salah Adel Mohamed
+					</a>
 				</li>
 			</ul>
 			<h3>Image Processing Team</h3>
 			<ul className="list-inside list-disc my-2">
 				<li>
-					<a href="#">Eslam Mohamed Hekal</a>
+					<a href="#" className="hover:underline">
+						Eslam Mohamed Hekal
+					</a>
 				</li>
 				<li>
 					<a
 						href="https://linkedin.com/in/kareem-youssry/"
 						target="__blank"
-						rel="noopener noreferer"
+						className="hover:underline"
 					>
 						Kareem Youssry Abdelaziz
 					</a>
 				</li>
 				<li>
-					<a href="#">Omar Gamal Abdelghaffar</a>
+					<a href="#" className="hover:underline">
+						Omar Gamal Abdelghaffar
+					</a>
 				</li>
 			</ul>
 			<h3>Server Team</h3>
@@ -86,23 +96,27 @@ export function Page() {
 					<a
 						href="https://github.com/Kariem816"
 						target="__blank"
-						rel="noopener noreferer"
+						className="hover:underline"
 					>
 						Kareem Mostafa ElSawah
 					</a>
 				</li>
 				<li>
-					<a href="#">Mostafa Sabry Sayed</a>
+					<a href="#" className="hover:underline">
+						Mostafa Sabry Sayed
+					</a>
 				</li>
 				<li>
-					<a href="#">Youssef Mohammed Ibrahim</a>
+					<a href="#" className="hover:underline">
+						Youssef Mohammed Ibrahim
+					</a>
 				</li>
 			</ul>
 			<h2>Supervisor</h2>
 			<a
 				href="https://eng.asu.edu.eg/staff/helsayed"
 				target="_blank"
-				rel="noopener noreferrer"
+				className="hover:underline"
 			>
 				Prof. Dr. Hussein A. Elsayed
 			</a>

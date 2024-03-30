@@ -11,8 +11,8 @@
 // Import Routes
 
 import { Route as rootRoute } from "./pages/__root"
-import { Route as MonitorImport } from "./pages/monitor"
-import { Route as DashboardImport } from "./pages/dashboard"
+import { Route as MonitorRouteImport } from "./pages/monitor/route"
+import { Route as AdminRouteImport } from "./pages/admin/route"
 import { Route as IndexImport } from "./pages/index"
 import { Route as MonitorIndexImport } from "./pages/monitor/index"
 import { Route as MobileIndexImport } from "./pages/mobile/index"
@@ -28,6 +28,10 @@ import { Route as CoursesNewImport } from "./pages/courses/new"
 import { Route as AdminUsersImport } from "./pages/admin/users"
 import { Route as AdminExtraImport } from "./pages/admin/extra"
 import { Route as AdminControllersImport } from "./pages/admin/controllers"
+import { Route as TeachersMeRouteImport } from "./pages/teachers/me/route"
+import { Route as StudentsMeRouteImport } from "./pages/students/me/route"
+import { Route as LecturesIdRouteImport } from "./pages/lectures/$id/route"
+import { Route as ControllerMeRouteImport } from "./pages/controller/me/route"
 import { Route as SecurityMeIndexImport } from "./pages/security/me/index"
 import { Route as LecturesIdIndexImport } from "./pages/lectures/$id/index"
 import { Route as CoursesIdIndexImport } from "./pages/courses/$id/index"
@@ -42,16 +46,18 @@ import { Route as LecturesIdAttendanceImport } from "./pages/lectures/$id/attend
 import { Route as CoursesIdTeachersImport } from "./pages/courses/$id/teachers"
 import { Route as CoursesIdStudentsImport } from "./pages/courses/$id/students"
 import { Route as CoursesIdEditImport } from "./pages/courses/$id/edit"
+import { Route as ControllerMeControlElementsImport } from "./pages/controller/me/control-elements"
+import { Route as ControllerMeApiKeysImport } from "./pages/controller/me/api-keys"
 
 // Create/Update Routes
 
-const MonitorRoute = MonitorImport.update({
+const MonitorRouteRoute = MonitorRouteImport.update({
   path: "/monitor",
   getParentRoute: () => rootRoute,
 } as any)
 
-const DashboardRoute = DashboardImport.update({
-  path: "/dashboard",
+const AdminRouteRoute = AdminRouteImport.update({
+  path: "/admin",
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -62,7 +68,7 @@ const IndexRoute = IndexImport.update({
 
 const MonitorIndexRoute = MonitorIndexImport.update({
   path: "/",
-  getParentRoute: () => MonitorRoute,
+  getParentRoute: () => MonitorRouteRoute,
 } as any)
 
 const MobileIndexRoute = MobileIndexImport.update({
@@ -81,8 +87,8 @@ const CoursesIndexRoute = CoursesIndexImport.update({
 } as any)
 
 const AdminIndexRoute = AdminIndexImport.update({
-  path: "/admin/",
-  getParentRoute: () => rootRoute,
+  path: "/",
+  getParentRoute: () => AdminRouteRoute,
 } as any)
 
 const TeachersIdRoute = TeachersIdImport.update({
@@ -107,7 +113,7 @@ const ProfileIdRoute = ProfileIdImport.update({
 
 const MonitorIdRoute = MonitorIdImport.update({
   path: "/$id",
-  getParentRoute: () => MonitorRoute,
+  getParentRoute: () => MonitorRouteRoute,
 } as any)
 
 const CoursesNewRoute = CoursesNewImport.update({
@@ -116,17 +122,37 @@ const CoursesNewRoute = CoursesNewImport.update({
 } as any)
 
 const AdminUsersRoute = AdminUsersImport.update({
-  path: "/admin/users",
-  getParentRoute: () => rootRoute,
+  path: "/users",
+  getParentRoute: () => AdminRouteRoute,
 } as any)
 
 const AdminExtraRoute = AdminExtraImport.update({
-  path: "/admin/extra",
-  getParentRoute: () => rootRoute,
+  path: "/extra",
+  getParentRoute: () => AdminRouteRoute,
 } as any)
 
 const AdminControllersRoute = AdminControllersImport.update({
-  path: "/admin/controllers",
+  path: "/controllers",
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+
+const TeachersMeRouteRoute = TeachersMeRouteImport.update({
+  path: "/teachers/me",
+  getParentRoute: () => rootRoute,
+} as any)
+
+const StudentsMeRouteRoute = StudentsMeRouteImport.update({
+  path: "/students/me",
+  getParentRoute: () => rootRoute,
+} as any)
+
+const LecturesIdRouteRoute = LecturesIdRouteImport.update({
+  path: "/lectures/$id",
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ControllerMeRouteRoute = ControllerMeRouteImport.update({
+  path: "/controller/me",
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -136,8 +162,8 @@ const SecurityMeIndexRoute = SecurityMeIndexImport.update({
 } as any)
 
 const LecturesIdIndexRoute = LecturesIdIndexImport.update({
-  path: "/lectures/$id/",
-  getParentRoute: () => rootRoute,
+  path: "/",
+  getParentRoute: () => LecturesIdRouteRoute,
 } as any)
 
 const CoursesIdIndexRoute = CoursesIdIndexImport.update({
@@ -146,43 +172,43 @@ const CoursesIdIndexRoute = CoursesIdIndexImport.update({
 } as any)
 
 const ControllerMeIndexRoute = ControllerMeIndexImport.update({
-  path: "/controller/me/",
-  getParentRoute: () => rootRoute,
+  path: "/",
+  getParentRoute: () => ControllerMeRouteRoute,
 } as any)
 
 const TeachersMeScheduleRoute = TeachersMeScheduleImport.update({
-  path: "/teachers/me/schedule",
-  getParentRoute: () => rootRoute,
+  path: "/schedule",
+  getParentRoute: () => TeachersMeRouteRoute,
 } as any)
 
 const TeachersMeCoursesRoute = TeachersMeCoursesImport.update({
-  path: "/teachers/me/courses",
-  getParentRoute: () => rootRoute,
+  path: "/courses",
+  getParentRoute: () => TeachersMeRouteRoute,
 } as any)
 
 const StudentsMeScheduleRoute = StudentsMeScheduleImport.update({
-  path: "/students/me/schedule",
-  getParentRoute: () => rootRoute,
+  path: "/schedule",
+  getParentRoute: () => StudentsMeRouteRoute,
 } as any)
 
 const StudentsMeCoursesRoute = StudentsMeCoursesImport.update({
-  path: "/students/me/courses",
-  getParentRoute: () => rootRoute,
+  path: "/courses",
+  getParentRoute: () => StudentsMeRouteRoute,
 } as any)
 
 const StudentsMeAttendanceRoute = StudentsMeAttendanceImport.update({
-  path: "/students/me/attendance",
-  getParentRoute: () => rootRoute,
+  path: "/attendance",
+  getParentRoute: () => StudentsMeRouteRoute,
 } as any)
 
 const LecturesIdImgsRoute = LecturesIdImgsImport.update({
-  path: "/lectures/$id/imgs",
-  getParentRoute: () => rootRoute,
+  path: "/imgs",
+  getParentRoute: () => LecturesIdRouteRoute,
 } as any)
 
 const LecturesIdAttendanceRoute = LecturesIdAttendanceImport.update({
-  path: "/lectures/$id/attendance",
-  getParentRoute: () => rootRoute,
+  path: "/attendance",
+  getParentRoute: () => LecturesIdRouteRoute,
 } as any)
 
 const CoursesIdTeachersRoute = CoursesIdTeachersImport.update({
@@ -200,6 +226,17 @@ const CoursesIdEditRoute = CoursesIdEditImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const ControllerMeControlElementsRoute =
+  ControllerMeControlElementsImport.update({
+    path: "/control-elements",
+    getParentRoute: () => ControllerMeRouteRoute,
+  } as any)
+
+const ControllerMeApiKeysRoute = ControllerMeApiKeysImport.update({
+  path: "/api-keys",
+  getParentRoute: () => ControllerMeRouteRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module "@tanstack/react-router" {
@@ -208,25 +245,41 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    "/dashboard": {
-      preLoaderRoute: typeof DashboardImport
+    "/admin": {
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRoute
     }
     "/monitor": {
-      preLoaderRoute: typeof MonitorImport
+      preLoaderRoute: typeof MonitorRouteImport
+      parentRoute: typeof rootRoute
+    }
+    "/controller/me": {
+      preLoaderRoute: typeof ControllerMeRouteImport
+      parentRoute: typeof rootRoute
+    }
+    "/lectures/$id": {
+      preLoaderRoute: typeof LecturesIdRouteImport
+      parentRoute: typeof rootRoute
+    }
+    "/students/me": {
+      preLoaderRoute: typeof StudentsMeRouteImport
+      parentRoute: typeof rootRoute
+    }
+    "/teachers/me": {
+      preLoaderRoute: typeof TeachersMeRouteImport
       parentRoute: typeof rootRoute
     }
     "/admin/controllers": {
       preLoaderRoute: typeof AdminControllersImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof AdminRouteImport
     }
     "/admin/extra": {
       preLoaderRoute: typeof AdminExtraImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof AdminRouteImport
     }
     "/admin/users": {
       preLoaderRoute: typeof AdminUsersImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof AdminRouteImport
     }
     "/courses/new": {
       preLoaderRoute: typeof CoursesNewImport
@@ -234,7 +287,7 @@ declare module "@tanstack/react-router" {
     }
     "/monitor/$id": {
       preLoaderRoute: typeof MonitorIdImport
-      parentRoute: typeof MonitorImport
+      parentRoute: typeof MonitorRouteImport
     }
     "/profile/$id": {
       preLoaderRoute: typeof ProfileIdImport
@@ -254,7 +307,7 @@ declare module "@tanstack/react-router" {
     }
     "/admin/": {
       preLoaderRoute: typeof AdminIndexImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof AdminRouteImport
     }
     "/courses/": {
       preLoaderRoute: typeof CoursesIndexImport
@@ -270,7 +323,15 @@ declare module "@tanstack/react-router" {
     }
     "/monitor/": {
       preLoaderRoute: typeof MonitorIndexImport
-      parentRoute: typeof MonitorImport
+      parentRoute: typeof MonitorRouteImport
+    }
+    "/controller/me/api-keys": {
+      preLoaderRoute: typeof ControllerMeApiKeysImport
+      parentRoute: typeof ControllerMeRouteImport
+    }
+    "/controller/me/control-elements": {
+      preLoaderRoute: typeof ControllerMeControlElementsImport
+      parentRoute: typeof ControllerMeRouteImport
     }
     "/courses/$id/edit": {
       preLoaderRoute: typeof CoursesIdEditImport
@@ -286,35 +347,35 @@ declare module "@tanstack/react-router" {
     }
     "/lectures/$id/attendance": {
       preLoaderRoute: typeof LecturesIdAttendanceImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof LecturesIdRouteImport
     }
     "/lectures/$id/imgs": {
       preLoaderRoute: typeof LecturesIdImgsImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof LecturesIdRouteImport
     }
     "/students/me/attendance": {
       preLoaderRoute: typeof StudentsMeAttendanceImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof StudentsMeRouteImport
     }
     "/students/me/courses": {
       preLoaderRoute: typeof StudentsMeCoursesImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof StudentsMeRouteImport
     }
     "/students/me/schedule": {
       preLoaderRoute: typeof StudentsMeScheduleImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof StudentsMeRouteImport
     }
     "/teachers/me/courses": {
       preLoaderRoute: typeof TeachersMeCoursesImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof TeachersMeRouteImport
     }
     "/teachers/me/schedule": {
       preLoaderRoute: typeof TeachersMeScheduleImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof TeachersMeRouteImport
     }
     "/controller/me/": {
       preLoaderRoute: typeof ControllerMeIndexImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof ControllerMeRouteImport
     }
     "/courses/$id/": {
       preLoaderRoute: typeof CoursesIdIndexImport
@@ -322,7 +383,7 @@ declare module "@tanstack/react-router" {
     }
     "/lectures/$id/": {
       preLoaderRoute: typeof LecturesIdIndexImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof LecturesIdRouteImport
     }
     "/security/me/": {
       preLoaderRoute: typeof SecurityMeIndexImport
@@ -335,33 +396,44 @@ declare module "@tanstack/react-router" {
 
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
-  DashboardRoute,
-  MonitorRoute.addChildren([MonitorIdRoute, MonitorIndexRoute]),
-  AdminControllersRoute,
-  AdminExtraRoute,
-  AdminUsersRoute,
+  AdminRouteRoute.addChildren([
+    AdminControllersRoute,
+    AdminExtraRoute,
+    AdminUsersRoute,
+    AdminIndexRoute,
+  ]),
+  MonitorRouteRoute.addChildren([MonitorIdRoute, MonitorIndexRoute]),
+  ControllerMeRouteRoute.addChildren([
+    ControllerMeApiKeysRoute,
+    ControllerMeControlElementsRoute,
+    ControllerMeIndexRoute,
+  ]),
+  LecturesIdRouteRoute.addChildren([
+    LecturesIdAttendanceRoute,
+    LecturesIdImgsRoute,
+    LecturesIdIndexRoute,
+  ]),
+  StudentsMeRouteRoute.addChildren([
+    StudentsMeAttendanceRoute,
+    StudentsMeCoursesRoute,
+    StudentsMeScheduleRoute,
+  ]),
+  TeachersMeRouteRoute.addChildren([
+    TeachersMeCoursesRoute,
+    TeachersMeScheduleRoute,
+  ]),
   CoursesNewRoute,
   ProfileIdRoute,
   ProfileMeRoute,
   StudentsIdRoute,
   TeachersIdRoute,
-  AdminIndexRoute,
   CoursesIndexRoute,
   LoginIndexRoute,
   MobileIndexRoute,
   CoursesIdEditRoute,
   CoursesIdStudentsRoute,
   CoursesIdTeachersRoute,
-  LecturesIdAttendanceRoute,
-  LecturesIdImgsRoute,
-  StudentsMeAttendanceRoute,
-  StudentsMeCoursesRoute,
-  StudentsMeScheduleRoute,
-  TeachersMeCoursesRoute,
-  TeachersMeScheduleRoute,
-  ControllerMeIndexRoute,
   CoursesIdIndexRoute,
-  LecturesIdIndexRoute,
   SecurityMeIndexRoute,
 ])
 

@@ -45,7 +45,7 @@ function CoursesList() {
 
 	return (
 		<div className="container flex flex-col h-full">
-			<div className="flex flex-col justify-center border-b-2">
+			<div className="flex flex-col justify-center border-b-2 py-4">
 				<div className="flex items-center justify-between flex-wrap gap-2">
 					<div className="flex gap-2 items-end">
 						<h1 className="my-1">Courses</h1>
@@ -75,7 +75,7 @@ function CoursesList() {
 						/>
 					</div>
 				</div>
-				<div className="mb-2">
+				<div>
 					<Pagination page={page} pages={pages} onChange={setPage} />
 				</div>
 			</div>

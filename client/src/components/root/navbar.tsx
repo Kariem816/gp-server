@@ -25,7 +25,7 @@ export function Navbar({ toggle }: { toggle: () => void }) {
 	const navRoutes = useMemo(() => generateNavRoutes(user.role), [user.role]);
 
 	return (
-		<div className="w-full max-w-7xl mx-auto px-4">
+		<div className="w-full mx-auto px-2">
 			<div className="flex justify-between h-14 items-center">
 				<div className="flex gap-4 items-center">
 					<Button
@@ -60,7 +60,7 @@ export function Navbar({ toggle }: { toggle: () => void }) {
 					</div>
 				</SignedOut>
 				<SignedIn>
-					<DropdownMenu>
+					<DropdownMenu modal={false}>
 						<DropdownMenuTrigger asChild>
 							<Avatar className="cursor-pointer">
 								<AvatarImage

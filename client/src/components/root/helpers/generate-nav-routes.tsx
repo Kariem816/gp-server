@@ -35,15 +35,15 @@ export function generateNavRoutes(userRole: UserRole | "guest"): NavRoute[] {
 	const routes: NavRoute[] = [HOME_ROUTE];
 
 	if (userRole === "admin") {
-		routes.push(ADMIN_DASHBOARD_ROUTE);
+		routes.push(ADMIN_DASHBOARD_ROUTE, COURSES_ROUTE);
 	}
 
 	if (userRole === "teacher") {
-		routes.push(TEACHER_DASHBOARD_ROUTE);
+		routes.push(TEACHER_DASHBOARD_ROUTE, COURSES_ROUTE);
 	}
 
 	if (userRole === "student") {
-		routes.push(STUDENT_DASHBOARD_ROUTE);
+		routes.push(STUDENT_DASHBOARD_ROUTE, COURSES_ROUTE);
 	}
 
 	if (userRole === "security") {
@@ -51,10 +51,10 @@ export function generateNavRoutes(userRole: UserRole | "guest"): NavRoute[] {
 	}
 
 	if (userRole === "controller") {
-		routes.push(CONTROLLER_DASHBOARD_ROUTE);
+		routes.push(CONTROLLER_DASHBOARD_ROUTE, COURSES_ROUTE);
 	}
 
-	routes.push(COURSES_ROUTE, APP_MONITOR_TEMP_ROUTE, MOBILE_ROUTE);
+	routes.push(APP_MONITOR_TEMP_ROUTE, MOBILE_ROUTE);
 
 	return routes;
 }

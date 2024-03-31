@@ -13,14 +13,12 @@ import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 
 import type { ChangeEvent, ReactNode } from "react";
-
-type LectureData = {
-	time: Date;
-	duration: number;
-	location: string;
-};
+import { LectureData } from "~/services/courses";
 
 interface LectureProps {
+	open: boolean;
+	setOpen: (open: boolean) => void;
+
 	initialData?: Partial<LectureData>;
 
 	onSubmit: (data: LectureData) => void;
@@ -33,6 +31,8 @@ interface LectureProps {
 }
 
 export default function LectureModal({
+	open,
+	setOpen,
 	initialData,
 	onSubmit,
 	title,
@@ -64,7 +64,7 @@ export default function LectureModal({
 	}
 
 	return (
-		<Dialog>
+		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>{Btn}</DialogTrigger>
 			<DialogContent>
 				<DialogHeader>

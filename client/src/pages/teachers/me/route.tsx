@@ -42,7 +42,7 @@ function Layout() {
 
 	return (
 		<div className="h-full flex flex-col divide-x-2 md:flex-row">
-			<div className="pt-2 md:p-4 md:w-[25%] md:h-full md:overflow-y-auto md:space-y-2 overflow-x-auto flex md:block">
+			<div className="pt-2 md:p-4 md:w-[25%] md:h-full md:overflow-y-auto md:space-y-2 overflow-x-auto flex md:block border-b-2 md:border-none">
 				{generateDashboardRoutes().map((route) => (
 					<Link
 						key={route.path}
@@ -54,7 +54,7 @@ function Layout() {
 					</Link>
 				))}
 			</div>
-			<div className="container py-8 md:h-full md:overflow-auto">
+			<div className="flex-grow pt-2 pb-8 md:h-full md:overflow-auto">
 				<Outlet />
 			</div>
 		</div>

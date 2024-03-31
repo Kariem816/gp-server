@@ -58,5 +58,65 @@
     "mobile": {
         "en": "Mobile App",
         "ar": "تطبيق الموبايل"
+    },
+    "dash_word": {
+        "en": "Welcome back to your dashboard, {{1}}",
+        "ar": "مرحبا بك مجددا في لوحة التحكم الخاصة بك, {{1}}"
+    },
+    "no_courses": {
+        "en": "No courses found",
+        "ar": "لا توجد دورات"
+    },
+    "create_lecture": {
+        "en": "Create Lecture",
+        "ar": "إنشاء محاضرة"
+    },
+    "time": {
+        "en": "Time",
+        "ar": "وقت"
+    },
+    "Time": {
+        "en": "Time",
+        "ar": "الوقت"
+    },
+    "duration": {
+        "en": "Duration",
+        "ar": "المدة"
+    },
+    "location": {
+        "en": "Location",
+        "ar": "الموقع"
+    },
+    "mins": {
+        "en": "minutes",
+        "ar": "دقائق"
+    },
+    "cancel": {
+        "en": "Cancel",
+        "ar": "إلغاء"
+    },
+    "submit": {
+        "en": "Submit",
+        "ar": "إرسال"
+    },
+    "students": {
+        "en": "Students",
+        "ar": "طلاب"
+    },
+    "lecture_created": {
+        "en": "Lecture created successfully",
+        "ar": "تم إنشاء المحاضرة بنجاح"
+    },
+    "create_lecture_error": {
+        "en": "Error creating lecture",
+        "ar": "خطأ في إنشاء المحاضرة"
+    },
+    "lecture": {
+        "en": "Lecture",
+        "ar": "محاضرة"
+    },
+    "Lecture": {
+        "en": "Lecture",
+        "ar": "المحاضرة"
     }
 }

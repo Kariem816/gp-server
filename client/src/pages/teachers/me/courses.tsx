@@ -7,6 +7,7 @@ import { Spinner } from "~/components/loaders";
 import { Button } from "~/components/ui/button";
 import LectureModal from "~/components/lectures/modal";
 import { toast } from "sonner";
+import { useState } from "react";
 
 export const Route = createFileRoute("/teachers/me/courses")({
 	component: MyCourses,
@@ -58,6 +59,7 @@ function MyCourses() {
 }
 
 function Course({ id, name, code, _count }: TeacherCourse) {
+	const [open, setOpen] = useState(false);
 	const { t } = useTranslation();
 	const queryClient = useQueryClient();
 
@@ -69,6 +71,7 @@ function Course({ id, name, code, _count }: TeacherCourse) {
 			}),
 		onSuccess: async () => {
 			toast.success(t("lecture_created"));
+			setOpen(false);
 			await queryClient.invalidateQueries({
 				queryKey: ["teacher-lectures"],
 			});
@@ -100,6 +103,8 @@ function Course({ id, name, code, _count }: TeacherCourse) {
 				</Link>
 				<div className="flex justify-end gap-4">
 					<LectureModal
+						open={open}
+						setOpen={setOpen}
 						Btn={
 							<Button variant="outline">
 								{t("create_lecture")}

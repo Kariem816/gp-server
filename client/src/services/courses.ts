@@ -21,6 +21,12 @@ export type TCourseListing = {
 	};
 };
 
+export type CreateLectureData = {
+	time: number; // Unix Timestamp
+	duration: number;
+	location: string;
+};
+
 export async function getCourses(
 	query: APIQuery = {}
 ): Promise<PaginatedResponse<TCourseListing>> {
@@ -100,6 +106,6 @@ export async function getCourseLectures(id: string) {
 	return get(`/courses/${id}/lectures`);
 }
 
-export async function createCourseLecture(id: string, data: any) {
+export async function createCourseLecture(id: string, data: CreateLectureData) {
 	return post(`/courses/${id}/lectures`, data);
 }

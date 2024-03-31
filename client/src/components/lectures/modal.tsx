@@ -13,22 +13,25 @@ import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 
 import type { ChangeEvent, ReactNode } from "react";
-import { LectureData } from "~/services/courses";
+import { CreateLectureData } from "~/services/courses";
 
-interface LectureProps {
+interface LectureModalProps {
 	open: boolean;
 	setOpen: (open: boolean) => void;
 
-	initialData?: Partial<LectureData>;
+	initialData?: Partial<InternalLectureData>;
 
-	onSubmit: (data: LectureData) => void;
+	onSubmit: (data: InternalLectureData) => void;
 
 	title: string;
 	Btn: ReactNode;
 
-	isLoading?: boolean;
 	isDisabled?: boolean;
 }
+
+export type InternalLectureData = Omit<CreateLectureData, "time"> & {
+	time: Date;
+};
 
 export default function LectureModal({
 	open,
@@ -37,12 +40,11 @@ export default function LectureModal({
 	onSubmit,
 	title,
 	Btn,
-	// isLoading = false,
 	isDisabled = false,
-}: LectureProps) {
+}: LectureModalProps) {
 	const { t } = useTranslation();
 
-	const [formdata, setFormData] = useState(() => {
+	const [formdata, setFormData] = useState<InternalLectureData>(() => {
 		const now = new Date();
 		now.setDate(now.getDate() + 7);
 		now.setSeconds(0, 0);

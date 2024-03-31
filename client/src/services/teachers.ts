@@ -11,11 +11,27 @@ export type TeacherCourse = {
 	};
 };
 
+export type TeacherLecture = {
+	id: string;
+	time: string; // ISO date
+	duration: number;
+	location: string;
+	ended: string | null; // ISO date
+	course: {
+		id: string;
+		name: string;
+		code: string;
+	};
+	_count: {
+		attendees: number;
+	};
+};
+
 export async function getTeachers(query?: APIQuery) {
 	return get("/teachers", query);
 }
 
-export async function getMyLectures() {
+export async function getMyLectures(): Promise<APIResponse<TeacherLecture[]>> {
 	return get("/teachers/mylectures");
 }
 

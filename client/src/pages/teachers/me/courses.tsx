@@ -5,7 +5,7 @@ import { createCourseLecture } from "~/services/courses";
 import { Link, createFileRoute } from "@tanstack/react-router";
 import { Spinner } from "~/components/loaders";
 import { Button } from "~/components/ui/button";
-import LectureModal from "~/components/lectures/modal";
+import LectureModal, { InternalLectureData } from "~/components/lectures/modal";
 import { toast } from "sonner";
 import { useState } from "react";
 
@@ -64,7 +64,7 @@ function Course({ id, name, code, _count }: TeacherCourse) {
 	const queryClient = useQueryClient();
 
 	const createLectureMutation = useMutation({
-		mutationFn: (data: any) =>
+		mutationFn: (data: InternalLectureData) =>
 			createCourseLecture(id, {
 				...data,
 				time: data.time.valueOf(),
@@ -113,7 +113,6 @@ function Course({ id, name, code, _count }: TeacherCourse) {
 						onSubmit={createLectureMutation.mutateAsync}
 						title={t("create_lecture")}
 						isDisabled={createLectureMutation.isPending}
-						isLoading={createLectureMutation.isPending}
 					/>
 				</div>
 			</div>

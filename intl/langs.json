@@ -118,5 +118,69 @@
     "Lecture": {
         "en": "Lecture",
         "ar": "المحاضرة"
+    },
+    "lecture_ended": {
+        "en": "Lecture ended",
+        "ar": "انتهت المحاضرة"
+    },
+    "end_lecture": {
+        "en": "End Lecture",
+        "ar": "إنهاء المحاضرة"
+    },
+    "end_lecture_confirm": {
+        "en": "Are you sure you want to end the lecture?",
+        "ar": "هل أنت متأكد أنك تريد إنهاء المحاضرة؟"
+    },
+    "success": {
+        "en": "Success",
+        "ar": "نجاح"
+    },
+    "lecture_updated": {
+        "en": "Lecture updated successfully",
+        "ar": "تم تحديث المحاضرة بنجاح"
+    },
+    "error": {
+        "en": "Error",
+        "ar": "خطأ"
+    },
+    "edit_lecture": {
+        "en": "Edit Lecture",
+        "ar": "تعديل المحاضرة"
+    },
+    "lecture_deleted": {
+        "en": "Lecture deleted successfully",
+        "ar": "تم حذف المحاضرة بنجاح"
+    },
+    "delete_lecture": {
+        "en": "Delete Lecture",
+        "ar": "حذف المحاضرة"
+    },
+    "delete_lecture_error": {
+        "en": "Error deleting lecture",
+        "ar": "خطأ في حذف المحاضرة"
+    },
+    "n_attendees": {
+        "en": "{{1}} attendants",
+        "ar": "{{1}} حاضر"
+    },
+    "details": {
+        "en": "Details",
+        "ar": "التفاصيل"
+    },
+    "no_lectures": {
+        "en": "No lectures found",
+        "ar": "لا توجد محاضرات"
+    },
+    "actions": {
+        "en": "Actions",
+        "ar": "الإجراءات"
+    },
+    "schedule": {
+        "en": "Schedule",
+        "ar": "الجدول"
+    },
+    "delete_lecture_confirm": {
+        "en": "Are you sure you want to delete the lecture?",
+        "ar": "هل أنت متأكد أنك تريد حذف المحاضرة؟"
     }
 }

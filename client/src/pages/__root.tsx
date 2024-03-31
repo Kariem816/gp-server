@@ -5,6 +5,7 @@ import { useDisclosure } from "~/hooks/use-disclosure";
 import { Sidebar } from "~/components/root/sidebar";
 import { NotFound } from "~/not-found";
 import { Navbar } from "~/components/root/navbar";
+import { Toaster } from "~/components/ui/sonner";
 
 export const Route = createRootRoute({
 	component: RootComponent,
@@ -32,6 +33,7 @@ function RootComponent() {
 			<main className="h-screen pt-14">
 				<Outlet />
 			</main>
+			<Toaster richColors />
 		</>
 	);
 }

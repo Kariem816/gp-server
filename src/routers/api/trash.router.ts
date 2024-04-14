@@ -15,6 +15,7 @@ const router = Router();
 
 router.get("/", async (_req, res) => {
 	try {
+		// TODO: Implement pagination
 		const trash = await trashStore.index();
 		res.json(formatResponse(trash));
 	} catch (err) {

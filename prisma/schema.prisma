@@ -189,7 +189,7 @@ model TrashCan {
 
 model Plant {
   id          String   @id @default(uuid())
-  lastWatered DateTime
+  lastUpdated DateTime @map("lastWatered")
   isWatering  Boolean
   type        String
 }

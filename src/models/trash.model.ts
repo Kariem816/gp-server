@@ -31,7 +31,7 @@ class TrashStore {
 		}
 	}
 
-	async create(data: TrashCan) {
+	async create(data: PartialBy<Omit<TrashCan, "id">, "level">) {
 		try {
 			return await prisma.trashCan.create({
 				data,
@@ -41,13 +41,63 @@ class TrashStore {
 		}
 	}
 
-	async update(id: string, data: TrashCan) {
+	async update(id: string, data: Omit<Omit<TrashCan, "id">, "location">) {
 		try {
 			return await prisma.trashCan.update({
 				where: {
 					id,
 				},
 				data,
+			});
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
+	}
+
+	async updateMany(data: Array<{ id: string; level: number }>) {
+		try {
+			return await prisma.trashCan.updateMany({
+				data: data.map((item) => ({
+					where: {
+						id: item.id,
+					},
+					data: {
+						level: item.level,
+					},
+				})),
+			});
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
+	}
+
+	async edit(id: string, data: { level?: number; location?: string }) {
+		try {
+			return await prisma.trashCan.update({
+				where: {
+					id,
+				},
+				data,
+			});
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
+	}
+
+	async editMany(
+		data: Array<{ id: string; level?: number; location?: string }>
+	) {
+		try {
+			return await prisma.trashCan.updateMany({
+				data: data.map((item) => ({
+					where: {
+						id: item.id,
+					},
+					data: {
+						level: item.level,
+						location: item.location,
+					},
+				})),
 			});
 		} catch (err) {
 			throw new PrismaError(err as PrismaClientError);

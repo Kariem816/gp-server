@@ -8,6 +8,7 @@ import teachersRouter from "./teachers.router";
 
 import controllersRouter from "./controllers.router";
 import trashRouter from "./trash.router";
+import irrigationRouter from "./irrigation.router";
 
 import uploadsRouter from "./uploads.router";
 import mobileRouter from "./mobile.router";
@@ -42,6 +43,7 @@ router.use("/teachers", mustLogin, teachersRouter);
 
 router.use("/controllers", controllersRouter);
 router.use("/trash", trashRouter);
+router.use("/irrigation", irrigationRouter);
 
 router.use("/uploads", uploadsRouter);
 router.use("/mobile", mobileRouter);

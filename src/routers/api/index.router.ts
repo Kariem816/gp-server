@@ -13,6 +13,7 @@ import lightingRouter from "./lighting.router";
 
 import uploadsRouter from "./uploads.router";
 import mobileRouter from "./mobile.router";
+import parkingRouter from "./parking.router";
 
 import adminRouter from "./admin.router";
 
@@ -46,6 +47,7 @@ router.use("/controllers", controllersRouter);
 router.use("/trash", trashRouter);
 router.use("/irrigation", irrigationRouter);
 router.use("/lighting", lightingRouter);
+router.use("/parking", parkingRouter);
 
 router.use("/uploads", uploadsRouter);
 router.use("/mobile", mobileRouter);

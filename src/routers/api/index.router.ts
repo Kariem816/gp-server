@@ -11,6 +11,7 @@ import trashRouter from "./trash.router";
 
 import uploadsRouter from "./uploads.router";
 import mobileRouter from "./mobile.router";
+import parkingRouter from "./parking.router";
 
 import graphRouter_temp from "./graph.router.temp";
 
@@ -42,6 +43,7 @@ router.use("/teachers", mustLogin, teachersRouter);
 
 router.use("/controllers", controllersRouter);
 router.use("/trash", trashRouter);
+router.use("/parking", parkingRouter);
 
 router.use("/uploads", uploadsRouter);
 router.use("/mobile", mobileRouter);

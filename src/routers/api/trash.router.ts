@@ -16,10 +16,10 @@ const router = Router();
 
 router.get("/", validateQuery(querySchema), async (req, res) => {
 	try {
-		const query = req.query as z.infer<typeof querySchema>;
+		const query = req.query;
 
-		const page = query.page ?? 1;
-		const limit = query.limit ?? 25;
+		const page = query.page ? Number(query.page) : 1;
+		const limit = query.limit ? Number(query.limit) : 25;
 
 		const trash = await trashStore.index({ page, limit });
 		res.json(formatResponse(trash));

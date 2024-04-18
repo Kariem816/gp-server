@@ -61,7 +61,7 @@ router.put("/", validateBody(updateTrashLevelBulkSchema), async (req, res) => {
 	}
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", validateBody(updateTrashLevelSchema), async (req, res) => {
 	try {
 		const body = req.body as z.infer<typeof updateTrashLevelSchema>;
 		const trash = await trashStore.update(req.params.id, body);

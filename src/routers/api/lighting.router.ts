@@ -60,7 +60,8 @@ router.get("/:id/check", async (req, res) => {
 	}
 });
 
-router.get("/check", validateBody(z.array(z.string())), async (req, res) => {
+// TODO: same as plants
+router.post("/check", validateBody(z.array(z.string())), async (req, res) => {
 	try {
 		const ids = req.body as string[];
 		const lights = await lightingStore.showMany(ids);
@@ -77,24 +78,20 @@ router.get("/check", validateBody(z.array(z.string())), async (req, res) => {
 	}
 });
 
-router.post(
-	"/:id/change",
-	validateBody(updateLightSchema),
-	async (req, res) => {
-		try {
-			const { state } = req.body as z.infer<typeof updateLightSchema>;
+router.post("/:id/state", validateBody(updateLightSchema), async (req, res) => {
+	try {
+		const { state } = req.body as z.infer<typeof updateLightSchema>;
 
-			const light = await lightingStore.update(req.params.id, state);
-			res.json(formatResponse(light));
-		} catch (err) {
-			const { status, error } = formatError(err);
-			res.status(status).json(error);
-		}
+		const light = await lightingStore.update(req.params.id, state);
+		res.json(formatResponse(light));
+	} catch (err) {
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
-);
+});
 
 router.post(
-	"/change",
+	"/state",
 	validateBody(updateManyLightsSchema),
 	async (req, res) => {
 		try {

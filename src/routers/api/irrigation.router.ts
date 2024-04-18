@@ -60,13 +60,15 @@ router.get("/:id/check", async (req, res) => {
 	}
 });
 
-router.get("/check", validateBody(z.array(z.string())), async (req, res) => {
+// TODO: find a better way to do this
+// I don't want to use query params as it will be harder for mcu to send data
+router.post("/check", validateBody(z.array(z.string())), async (req, res) => {
 	try {
 		const ids = req.body as string[];
 		const plants = await irrigationStore.showMany(ids);
 		const needsWater = plants.map((plant) => ({
 			id: plant.id,
-			shouldWater: shouldWater(plant),
+			needsWater: shouldWater(plant),
 		}));
 		res.json(formatResponse(needsWater));
 	} catch (err) {

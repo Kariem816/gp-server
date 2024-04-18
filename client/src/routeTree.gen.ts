@@ -23,7 +23,6 @@ import { Route as TeachersIdImport } from "./pages/teachers/$id"
 import { Route as StudentsIdImport } from "./pages/students/$id"
 import { Route as ProfileMeImport } from "./pages/profile/me"
 import { Route as ProfileIdImport } from "./pages/profile/$id"
-import { Route as MonitorIdImport } from "./pages/monitor/$id"
 import { Route as CoursesNewImport } from "./pages/courses/new"
 import { Route as AdminUsersImport } from "./pages/admin/users"
 import { Route as AdminExtraImport } from "./pages/admin/extra"
@@ -110,11 +109,6 @@ const ProfileMeRoute = ProfileMeImport.update({
 const ProfileIdRoute = ProfileIdImport.update({
   path: "/profile/$id",
   getParentRoute: () => rootRoute,
-} as any)
-
-const MonitorIdRoute = MonitorIdImport.update({
-  path: "/$id",
-  getParentRoute: () => MonitorRouteRoute,
 } as any)
 
 const CoursesNewRoute = CoursesNewImport.update({
@@ -291,10 +285,6 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof CoursesNewImport
       parentRoute: typeof rootRoute
     }
-    "/monitor/$id": {
-      preLoaderRoute: typeof MonitorIdImport
-      parentRoute: typeof MonitorRouteImport
-    }
     "/profile/$id": {
       preLoaderRoute: typeof ProfileIdImport
       parentRoute: typeof rootRoute
@@ -412,7 +402,7 @@ export const routeTree = rootRoute.addChildren([
     AdminUsersRoute,
     AdminIndexRoute,
   ]),
-  MonitorRouteRoute.addChildren([MonitorIdRoute, MonitorIndexRoute]),
+  MonitorRouteRoute.addChildren([MonitorIndexRoute]),
   ControllerMeRouteRoute.addChildren([
     ControllerMeApiKeysRoute,
     ControllerMeControlElementsRoute,

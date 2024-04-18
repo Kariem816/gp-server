@@ -70,14 +70,9 @@ class IrrigationStore {
 
 	async updateMany(plants: { id: string; isWatering: boolean }[]) {
 		try {
-			return await prisma.plant.updateMany({
-				where: {
-					OR: plants.map(({ id }) => ({
-						id,
-					})),
-				},
-				data: plants as any as Plant,
-			});
+			return await Promise.all(
+				plants.map((plant) => this.update(plant.id, plant.isWatering))
+			);
 		} catch (err) {
 			throw new PrismaError(err as PrismaClientError);
 		}

@@ -56,16 +56,9 @@ class TrashStore {
 
 	async updateMany(data: Array<{ id: string; level: number }>) {
 		try {
-			return await prisma.trashCan.updateMany({
-				data: data.map((item) => ({
-					where: {
-						id: item.id,
-					},
-					data: {
-						level: item.level,
-					},
-				})),
-			});
+			return await Promise.all(
+				data.map((item) => this.update(item.id, item))
+			);
 		} catch (err) {
 			throw new PrismaError(err as PrismaClientError);
 		}
@@ -88,17 +81,9 @@ class TrashStore {
 		data: Array<{ id: string; level?: number; location?: string }>
 	) {
 		try {
-			return await prisma.trashCan.updateMany({
-				data: data.map((item) => ({
-					where: {
-						id: item.id,
-					},
-					data: {
-						level: item.level,
-						location: item.location,
-					},
-				})),
-			});
+			return await Promise.all(
+				data.map((item) => this.edit(item.id, item))
+			);
 		} catch (err) {
 			throw new PrismaError(err as PrismaClientError);
 		}

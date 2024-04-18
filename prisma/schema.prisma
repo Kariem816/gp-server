@@ -195,8 +195,9 @@ model Plant {
 }
 
 model Light {
-  id    String  @id @default(uuid())
-  state Boolean
+  id       String  @id @default(uuid())
+  state    Boolean
+  location String
 }
 
 model Upload {

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import trashStore from "@/models/trash.model";
 import { formatError, formatResponse } from "@/helpers";
-import { validateBody } from "@/middlewares";
+import { validateBody, validateQuery } from "@/middlewares";
 import {
 	createTrashSchema,
 	editTrashBulkSchema,
@@ -10,13 +10,18 @@ import {
 	updateTrashLevelSchema,
 } from "@/schemas/trash.schema";
 import { z } from "zod";
+import { querySchema } from "@/schemas/query.schema";
 
 const router = Router();
 
-router.get("/", async (_req, res) => {
+router.get("/", validateQuery(querySchema), async (req, res) => {
 	try {
-		// TODO: Implement pagination
-		const trash = await trashStore.index();
+		const query = req.query as z.infer<typeof querySchema>;
+
+		const page = query.page ?? 1;
+		const limit = query.limit ?? 25;
+
+		const trash = await trashStore.index({ page, limit });
 		res.json(formatResponse(trash));
 	} catch (err) {
 		const { status, error } = formatError(err);

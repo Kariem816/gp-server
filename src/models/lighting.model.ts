@@ -4,10 +4,23 @@ import type { PrismaClientError } from "@/config/db";
 import type { Light } from "@prisma/client";
 
 class LightingStore {
-	async index(): Promise<PaginatedResponse<Light>> {
+	async index({
+		page,
+		limit,
+	}: {
+		page: number;
+		limit: number;
+	}): Promise<PaginatedResponse<Light>> {
 		try {
+			const take = limit;
+			const skip = (page - 1) * limit;
+
 			const total = await prisma.light.count();
-			const lights = await prisma.light.findMany();
+			const lights = await prisma.light.findMany({
+				take,
+				skip,
+			});
+
 			return {
 				data: lights,
 				page: 1,

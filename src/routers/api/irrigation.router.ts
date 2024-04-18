@@ -1,7 +1,7 @@
 import { Router } from "express";
 import irrigationStore from "@/models/irrigation.model";
 import { formatError, formatResponse } from "@/helpers";
-import { validateBody } from "@/middlewares";
+import { validateBody, validateQuery } from "@/middlewares";
 import {
 	createPlantSchema,
 	updateManyPlantsSchema,
@@ -9,12 +9,18 @@ import {
 } from "@/schemas/irrigation.schema";
 import { z } from "zod";
 import { shouldWater } from "@/helpers/plants";
+import { querySchema } from "@/schemas/query.schema";
 
 const router = Router();
 
-router.get("/", async (req, res) => {
+router.get("/", validateQuery(querySchema), async (req, res) => {
 	try {
-		const plants = await irrigationStore.index();
+		const query = req.query as z.infer<typeof querySchema>;
+
+		const page = query.page ?? 1;
+		const limit = query.limit ?? 25;
+
+		const plants = await irrigationStore.index({ page, limit });
 		res.json(formatResponse(plants));
 	} catch (err) {
 		const { status, error } = formatError(err);

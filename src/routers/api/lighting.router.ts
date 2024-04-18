@@ -1,21 +1,26 @@
 import { Router } from "express";
 import lightingStore from "@/models/lighting.model";
 import { formatError, formatResponse } from "@/helpers";
-import { validateBody } from "@/middlewares";
+import { validateBody, validateQuery } from "@/middlewares";
 import {
 	createLightSchema,
 	updateLightSchema,
 	updateManyLightsSchema,
 } from "@/schemas/lighting.schema";
 import { z } from "zod";
-import { shouldWater } from "@/helpers/plants";
 import { shouldTurnOn } from "@/helpers/lights";
+import { querySchema } from "@/schemas/query.schema";
 
 const router = Router();
 
-router.get("/", async (_req, res) => {
+router.get("/", validateQuery(querySchema), async (req, res) => {
 	try {
-		const plants = await lightingStore.index();
+		const query = req.query as z.infer<typeof querySchema>;
+
+		const page = query.page ?? 1;
+		const limit = query.limit ?? 25;
+
+		const plants = await lightingStore.index({ page, limit });
 		res.json(formatResponse(plants));
 	} catch (err) {
 		const { status, error } = formatError(err);

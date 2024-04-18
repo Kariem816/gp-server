@@ -4,10 +4,23 @@ import type { PrismaClientError } from "@/config/db";
 import type { Plant } from "@prisma/client";
 
 class IrrigationStore {
-	async index(): Promise<PaginatedResponse<Plant>> {
+	async index({
+		page,
+		limit,
+	}: {
+		page: number;
+		limit: number;
+	}): Promise<PaginatedResponse<Plant>> {
 		try {
+			const take = limit;
+			const skip = (page - 1) * limit;
+
 			const total = await prisma.plant.count();
-			const plants = await prisma.plant.findMany();
+			const plants = await prisma.plant.findMany({
+				take,
+				skip,
+			});
+
 			return {
 				data: plants,
 				page: 1,

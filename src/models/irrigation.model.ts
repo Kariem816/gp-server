@@ -87,6 +87,7 @@ class IrrigationStore {
 				plants.map((plant) => this.update(plant.id, plant.isWatering))
 			);
 		} catch (err) {
+			// TODO: Parse errors and return a more meaningful error
 			throw new PrismaError(err as PrismaClientError);
 		}
 	}

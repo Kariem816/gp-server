@@ -73,6 +73,7 @@ class TrashStore {
 				data.map((item) => this.update(item.id, item))
 			);
 		} catch (err) {
+			// TODO: Parse errors and return a more meaningful error
 			throw new PrismaError(err as PrismaClientError);
 		}
 	}
@@ -98,6 +99,7 @@ class TrashStore {
 				data.map((item) => this.edit(item.id, item))
 			);
 		} catch (err) {
+			// TODO: Parse errors and return a more meaningful error
 			throw new PrismaError(err as PrismaClientError);
 		}
 	}

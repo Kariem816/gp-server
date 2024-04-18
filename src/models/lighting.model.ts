@@ -87,6 +87,7 @@ class LightingStore {
 				lights.map((light) => this.update(light.id, light.state))
 			);
 		} catch (err) {
+			// TODO: Parse errors and return a more meaningful error
 			throw new PrismaError(err as PrismaClientError);
 		}
 	}

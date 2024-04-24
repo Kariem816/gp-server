@@ -5,7 +5,6 @@ import { validateBody, validateQuery } from "@/middlewares";
 import {
 	checkManyLightsSchema,
 	createLightSchema,
-	updateLightSchema,
 	updateManyLightsSchema,
 } from "@/schemas/lighting.schema";
 import { z } from "zod";

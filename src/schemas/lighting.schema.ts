@@ -4,9 +4,9 @@ export const createLightSchema = z.object({
 	location: z.string(),
 });
 
-export const updateLightSchema = z.object({
-	state: z.boolean(),
-});
+export const checkManyLightsSchema = z
+	.array(z.object({ id: z.string(), body: z.boolean() }))
+	.nonempty();
 
 export const updateManyLightsSchema = z.array(
 	z.object({

@@ -3,6 +3,7 @@ import lightingStore from "@/models/lighting.model";
 import { formatError, formatResponse } from "@/helpers";
 import { validateBody, validateQuery } from "@/middlewares";
 import {
+	checkManyLightsSchema,
 	createLightSchema,
 	updateLightSchema,
 	updateManyLightsSchema,
@@ -49,22 +50,10 @@ router.post("/", validateBody(createLightSchema), async (req, res) => {
 	}
 });
 
-router.get("/:id/check", async (req, res) => {
+router.post("/check", validateBody(checkManyLightsSchema), async (req, res) => {
 	try {
-		// const light = await lightingStore.show(req.params.id);
-		const state = shouldTurnOn(/* light */);
-		res.json(formatResponse({ state }));
-	} catch (err) {
-		const { status, error } = formatError(err);
-		res.status(status).json(error);
-	}
-});
-
-// TODO: same as plants
-router.post("/check", validateBody(z.array(z.string())), async (req, res) => {
-	try {
-		const ids = req.body as string[];
-		const lights = await lightingStore.showMany(ids);
+		const body = req.body as z.infer<typeof checkManyLightsSchema>;
+		const lights = await lightingStore.showMany(body.map((l) => l.id));
 		const should = shouldTurnOn();
 		const state = lights.map((plant) => ({
 			id: plant.id,
@@ -72,18 +61,6 @@ router.post("/check", validateBody(z.array(z.string())), async (req, res) => {
 			state: should,
 		}));
 		res.json(formatResponse(state));
-	} catch (err) {
-		const { status, error } = formatError(err);
-		res.status(status).json(error);
-	}
-});
-
-router.post("/:id/state", validateBody(updateLightSchema), async (req, res) => {
-	try {
-		const { state } = req.body as z.infer<typeof updateLightSchema>;
-
-		const light = await lightingStore.update(req.params.id, state);
-		res.json(formatResponse(light));
 	} catch (err) {
 		const { status, error } = formatError(err);
 		res.status(status).json(error);

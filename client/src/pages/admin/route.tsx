@@ -29,6 +29,10 @@ function generateDashboardRoutes(): NavRoute[] {
 			path: "/admin/controllers",
 		},
 		{
+			name: "parking_config",
+			path: "/admin/camera",
+		},
+		{
 			name: "extra",
 			path: "/admin/extra",
 		},

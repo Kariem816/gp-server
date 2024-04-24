@@ -14,6 +14,8 @@ import lightingRouter from "./lighting.router";
 import uploadsRouter from "./uploads.router";
 import mobileRouter from "./mobile.router";
 
+import adminRouter from "./admin.router";
+
 import { getCourseProfile, mustBe, mustLogin } from "@/middlewares";
 
 const router = Router();
@@ -47,6 +49,9 @@ router.use("/lighting", lightingRouter);
 
 router.use("/uploads", uploadsRouter);
 router.use("/mobile", mobileRouter);
+
+// TODO: remove this
+router.use("/admin", adminRouter);
 
 router.use((_req, res) => {
 	res.status(404).json({

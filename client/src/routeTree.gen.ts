@@ -27,6 +27,7 @@ import { Route as CoursesNewImport } from "./pages/courses/new"
 import { Route as AdminUsersImport } from "./pages/admin/users"
 import { Route as AdminExtraImport } from "./pages/admin/extra"
 import { Route as AdminControllersImport } from "./pages/admin/controllers"
+import { Route as AdminCameraImport } from "./pages/admin/camera"
 import { Route as TeachersMeRouteImport } from "./pages/teachers/me/route"
 import { Route as StudentsMeRouteImport } from "./pages/students/me/route"
 import { Route as LecturesIdRouteImport } from "./pages/lectures/$id/route"
@@ -128,6 +129,11 @@ const AdminExtraRoute = AdminExtraImport.update({
 
 const AdminControllersRoute = AdminControllersImport.update({
   path: "/controllers",
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+
+const AdminCameraRoute = AdminCameraImport.update({
+  path: "/camera",
   getParentRoute: () => AdminRouteRoute,
 } as any)
 
@@ -269,6 +275,10 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof TeachersMeRouteImport
       parentRoute: typeof rootRoute
     }
+    "/admin/camera": {
+      preLoaderRoute: typeof AdminCameraImport
+      parentRoute: typeof AdminRouteImport
+    }
     "/admin/controllers": {
       preLoaderRoute: typeof AdminControllersImport
       parentRoute: typeof AdminRouteImport
@@ -397,6 +407,7 @@ declare module "@tanstack/react-router" {
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
   AdminRouteRoute.addChildren([
+    AdminCameraRoute,
     AdminControllersRoute,
     AdminExtraRoute,
     AdminUsersRoute,

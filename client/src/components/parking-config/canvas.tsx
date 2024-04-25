@@ -160,6 +160,7 @@ export function SelectorCanvas({ bg }: SelectorCanvasProps) {
 				setPolygons((prev) =>
 					prev.filter((_p, i) => i !== insidePolyIdx)
 				);
+				setSpots((prev) => prev.filter((_p, i) => i !== insidePolyIdx));
 			}
 		}
 	}

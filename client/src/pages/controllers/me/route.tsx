@@ -8,7 +8,7 @@ import Forbidden from "~/components/error/forbidden";
 import { useTranslation } from "~/contexts/translation";
 import { useSecurePage } from "~/hooks/useSecurePage";
 
-export const Route = createFileRoute("/controller/me")({
+export const Route = createFileRoute("/controllers/me")({
 	component: Layout,
 });
 
@@ -21,12 +21,12 @@ type NavRoute = {
 function generateDashboardRoutes(): NavRoute[] {
 	return [
 		{
-			name: "api_keys",
-			path: "/controller/me/api-keys",
+			name: "general",
+			path: "/controllers/me/",
 		},
 		{
-			name: "control_elements",
-			path: "/controller/me/control-elements",
+			name: "api_keys",
+			path: "/controllers/me/api-keys",
 		},
 	];
 }
@@ -56,7 +56,7 @@ function Layout() {
 					</Link>
 				))}
 			</div>
-			<div className="flex-grow py-2 md:pb-8 md:h-full overflow-y-hidden md:overflow-y-auto">
+			<div className="flex-grow py-2 md:pb-8 md:h-full overflow-y-auto">
 				<Outlet />
 			</div>
 		</div>

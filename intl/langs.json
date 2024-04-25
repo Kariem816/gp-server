@@ -186,5 +186,125 @@
     "parking_config": {
         "en": "Parking Configuration",
         "ar": "تكوين المواقف"
+    },
+    "permission": {
+        "en": "Permission",
+        "ar": "إذن"
+    },
+    "Permission": {
+        "en": "Permission",
+        "ar": "الإذن"
+    },
+    "permissions": {
+        "en": "Permissions",
+        "ar": "أذونات"
+    },
+    "Permissions": {
+        "en": "Permissions",
+        "ar": "الأذونات"
+    },
+    "key": {
+        "en": "Key",
+        "ar": "مفتاح"
+    },
+    "Key": {
+        "en": "Key",
+        "ar": "المفتاح"
+    },
+    "keys": {
+        "en": "Keys",
+        "ar": "مفاتيح"
+    },
+    "Keys": {
+        "en": "Keys",
+        "ar": "المفاتيح"
+    },
+    "api_keys": {
+        "en": "API Keys",
+        "ar": "مفاتيح الواجهة"
+    },
+    "api_key": {
+        "en": "API Key",
+        "ar": "مفتاح الواجهة"
+    },
+    "key_rolled": {
+        "en": "Key rolled successfully!",
+        "ar": "تم إزالة المفتاح بنجاح!"
+    },
+    "key_rolled_desc": {
+        "en": "The key was rolled successfully. The key will no longer work.",
+        "ar": "تم إزالة المفتاح بنجاح. لن يعمل المفتاح بعد الآن."
+    },
+    "valid": {
+        "en": "Valid",
+        "ar": "صالح"
+    },
+    "invalid": {
+        "en": "Invalid",
+        "ar": "غير صالح"
+    },
+    "expired": {
+        "en": "Expired",
+        "ar": "منتهي الصلاحية"
+    },
+    "hide": {
+        "en": "Hide",
+        "ar": "إخفاء"
+    },
+    "show": {
+        "en": "Show",
+        "ar": "عرض"
+    },
+    "created_at": {
+        "en": "Created at",
+        "ar": "تم الإنشاء في"
+    },
+    "updated_at": {
+        "en": "Updated at",
+        "ar": "تم التحديث في"
+    },
+    "expires_at": {
+        "en": "Expires at",
+        "ar": "ينتهي في"
+    },
+    "n/a": {
+        "en": "N/A",
+        "ar": "غ/م"
+    },
+    "create_key": {
+        "en": "Create Key",
+        "ar": "إنشاء مفتاح"
+    },
+    "create": {
+        "en": "Create",
+        "ar": "إنشاء"
+    },
+    "api_key_name": {
+        "en": "API Key Name",
+        "ar": "اسم مفتاح الواجهة"
+    },
+    "general": {
+        "en": "General",
+        "ar": "عام"
+    },
+    "no_keys": {
+        "en": "No keys",
+        "ar": "لا يوجد مفاتيح"
+    },
+    "key_created": {
+        "en": "Key created successfully!",
+        "ar": "تم إنشاء المفتاح بنجاح!"
+    },
+    "key_created_desc": {
+        "en": "The key was created successfully. You can use this key to access the API.",
+        "ar": "تم إنشاء المفتاح بنجاح. يمكنك استخدام هذا المفتاح للوصول إلى الواجهة."
+    },
+    "roll_key": {
+        "en": "Roll Key",
+        "ar": "إزالة المفتاح"
+    },
+    "must_be_future": {
+        "en": "Must be a future date",
+        "ar": "يجب أن يكون تاريخ مستقبلي"
     }
 }

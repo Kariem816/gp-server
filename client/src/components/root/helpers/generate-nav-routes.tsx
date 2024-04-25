@@ -16,19 +16,19 @@ const MOBILE_ROUTE: NavRoute = { name: "mobile", path: "/mobile" };
 const ADMIN_DASHBOARD_ROUTE: NavRoute = { name: "dashboard", path: "/admin" };
 const STUDENT_DASHBOARD_ROUTE: NavRoute = {
 	name: "dashboard",
-	path: "/students/me",
+	path: "/students/me/",
 };
 const TEACHER_DASHBOARD_ROUTE: NavRoute = {
 	name: "dashboard",
-	path: "/teachers/me",
+	path: "/teachers/me/",
 };
 const SECURITY_DASHBOARD_ROUTE: NavRoute = {
 	name: "dashboard",
-	path: "/security/me",
+	path: "/security/me/",
 };
 const CONTROLLER_DASHBOARD_ROUTE: NavRoute = {
 	name: "dashboard",
-	path: "/controllers/me",
+	path: "/controllers/me/",
 };
 
 export function generateNavRoutes(userRole: UserRole | "guest"): NavRoute[] {

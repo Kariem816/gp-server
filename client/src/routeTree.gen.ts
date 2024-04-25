@@ -31,12 +31,12 @@ import { Route as AdminCameraImport } from "./pages/admin/camera"
 import { Route as TeachersMeRouteImport } from "./pages/teachers/me/route"
 import { Route as StudentsMeRouteImport } from "./pages/students/me/route"
 import { Route as LecturesIdRouteImport } from "./pages/lectures/$id/route"
-import { Route as ControllerMeRouteImport } from "./pages/controller/me/route"
+import { Route as ControllersMeRouteImport } from "./pages/controllers/me/route"
 import { Route as TeachersMeIndexImport } from "./pages/teachers/me/index"
 import { Route as SecurityMeIndexImport } from "./pages/security/me/index"
 import { Route as LecturesIdIndexImport } from "./pages/lectures/$id/index"
 import { Route as CoursesIdIndexImport } from "./pages/courses/$id/index"
-import { Route as ControllerMeIndexImport } from "./pages/controller/me/index"
+import { Route as ControllersMeIndexImport } from "./pages/controllers/me/index"
 import { Route as TeachersMeScheduleImport } from "./pages/teachers/me/schedule"
 import { Route as TeachersMeCoursesImport } from "./pages/teachers/me/courses"
 import { Route as StudentsMeScheduleImport } from "./pages/students/me/schedule"
@@ -47,8 +47,7 @@ import { Route as LecturesIdAttendanceImport } from "./pages/lectures/$id/attend
 import { Route as CoursesIdTeachersImport } from "./pages/courses/$id/teachers"
 import { Route as CoursesIdStudentsImport } from "./pages/courses/$id/students"
 import { Route as CoursesIdEditImport } from "./pages/courses/$id/edit"
-import { Route as ControllerMeControlElementsImport } from "./pages/controller/me/control-elements"
-import { Route as ControllerMeApiKeysImport } from "./pages/controller/me/api-keys"
+import { Route as ControllersMeApiKeysImport } from "./pages/controllers/me/api-keys"
 
 // Create/Update Routes
 
@@ -152,8 +151,8 @@ const LecturesIdRouteRoute = LecturesIdRouteImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const ControllerMeRouteRoute = ControllerMeRouteImport.update({
-  path: "/controller/me",
+const ControllersMeRouteRoute = ControllersMeRouteImport.update({
+  path: "/controllers/me",
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -177,9 +176,9 @@ const CoursesIdIndexRoute = CoursesIdIndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const ControllerMeIndexRoute = ControllerMeIndexImport.update({
+const ControllersMeIndexRoute = ControllersMeIndexImport.update({
   path: "/",
-  getParentRoute: () => ControllerMeRouteRoute,
+  getParentRoute: () => ControllersMeRouteRoute,
 } as any)
 
 const TeachersMeScheduleRoute = TeachersMeScheduleImport.update({
@@ -232,15 +231,9 @@ const CoursesIdEditRoute = CoursesIdEditImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const ControllerMeControlElementsRoute =
-  ControllerMeControlElementsImport.update({
-    path: "/control-elements",
-    getParentRoute: () => ControllerMeRouteRoute,
-  } as any)
-
-const ControllerMeApiKeysRoute = ControllerMeApiKeysImport.update({
+const ControllersMeApiKeysRoute = ControllersMeApiKeysImport.update({
   path: "/api-keys",
-  getParentRoute: () => ControllerMeRouteRoute,
+  getParentRoute: () => ControllersMeRouteRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -259,8 +252,8 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof MonitorRouteImport
       parentRoute: typeof rootRoute
     }
-    "/controller/me": {
-      preLoaderRoute: typeof ControllerMeRouteImport
+    "/controllers/me": {
+      preLoaderRoute: typeof ControllersMeRouteImport
       parentRoute: typeof rootRoute
     }
     "/lectures/$id": {
@@ -331,13 +324,9 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof MonitorIndexImport
       parentRoute: typeof MonitorRouteImport
     }
-    "/controller/me/api-keys": {
-      preLoaderRoute: typeof ControllerMeApiKeysImport
-      parentRoute: typeof ControllerMeRouteImport
-    }
-    "/controller/me/control-elements": {
-      preLoaderRoute: typeof ControllerMeControlElementsImport
-      parentRoute: typeof ControllerMeRouteImport
+    "/controllers/me/api-keys": {
+      preLoaderRoute: typeof ControllersMeApiKeysImport
+      parentRoute: typeof ControllersMeRouteImport
     }
     "/courses/$id/edit": {
       preLoaderRoute: typeof CoursesIdEditImport
@@ -379,9 +368,9 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof TeachersMeScheduleImport
       parentRoute: typeof TeachersMeRouteImport
     }
-    "/controller/me/": {
-      preLoaderRoute: typeof ControllerMeIndexImport
-      parentRoute: typeof ControllerMeRouteImport
+    "/controllers/me/": {
+      preLoaderRoute: typeof ControllersMeIndexImport
+      parentRoute: typeof ControllersMeRouteImport
     }
     "/courses/$id/": {
       preLoaderRoute: typeof CoursesIdIndexImport
@@ -414,10 +403,9 @@ export const routeTree = rootRoute.addChildren([
     AdminIndexRoute,
   ]),
   MonitorRouteRoute.addChildren([MonitorIndexRoute]),
-  ControllerMeRouteRoute.addChildren([
-    ControllerMeApiKeysRoute,
-    ControllerMeControlElementsRoute,
-    ControllerMeIndexRoute,
+  ControllersMeRouteRoute.addChildren([
+    ControllersMeApiKeysRoute,
+    ControllersMeIndexRoute,
   ]),
   LecturesIdRouteRoute.addChildren([
     LecturesIdAttendanceRoute,

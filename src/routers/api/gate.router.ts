@@ -1,23 +1,12 @@
-// import { Router } from "express";
-// import parkingstore from "@/models/parking.model"; 
-// import { formatError, formatResponse } from "@/helpers";
+import { Router } from "express";
 
-// async function checkAndOpenGate() {
-//     try {
-        
-//         const emptySpots = await parkingstore.countEmpty();
+const router = Router();
 
-//         if (emptySpots > 0) {
-         
-//             console.log("Sending signal to open gate for an empty parking spot...");
-//         } else {
-//             console.log("All parking spots are occupied.");
-//         }
-//     } catch (err) {
-// 		const { status, error } = formatError(err);
-// 		res.status(status).json(error);
-// 	}
-// }
+router.all("/", (_req, res) => {
+	res.status(501).json({
+		error: "NOT_IMPLEMENTED",
+		message: "This resource is not implemented yet",
+	});
+});
 
-
-// checkAndOpenGate();
+export default router;

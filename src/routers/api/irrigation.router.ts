@@ -3,6 +3,7 @@ import irrigationStore from "@/models/irrigation.model";
 import { formatError, formatResponse } from "@/helpers";
 import { validateBody, validateQuery } from "@/middlewares";
 import {
+	checkManyPlantsSchema,
 	createPlantSchema,
 	updateManyPlantsSchema,
 	updatePlantSchema,
@@ -49,40 +50,18 @@ router.post("/", validateBody(createPlantSchema), async (req, res) => {
 	}
 });
 
-router.get("/:id/check", async (req, res) => {
+router.post("/check", validateBody(checkManyPlantsSchema), async (req, res) => {
 	try {
-		const plant = await irrigationStore.show(req.params.id);
-		const needsWater = shouldWater(plant);
-		res.json(formatResponse({ needsWater }));
-	} catch (err) {
-		const { status, error } = formatError(err);
-		res.status(status).json(error);
-	}
-});
-
-// TODO: find a better way to do this
-// I don't want to use query params as it will be harder for mcu to send data
-router.post("/check", validateBody(z.array(z.string())), async (req, res) => {
-	try {
-		const ids = req.body as string[];
-		const plants = await irrigationStore.showMany(ids);
-		const needsWater = plants.map((plant) => ({
-			id: plant.id,
-			needsWater: shouldWater(plant),
-		}));
+		const body = req.body as z.infer<typeof checkManyPlantsSchema>;
+		const plants = await irrigationStore.showMany(body.map((p) => p.id));
+		const needsWater = plants.map((plant) => {
+			const moisture = body.find((p) => p.id === plant.id)?.moisture ?? 0;
+			return {
+				id: plant.id,
+				needsWater: shouldWater(plant, moisture),
+			};
+		});
 		res.json(formatResponse(needsWater));
-	} catch (err) {
-		const { status, error } = formatError(err);
-		res.status(status).json(error);
-	}
-});
-
-router.post("/:id/water", validateBody(updatePlantSchema), async (req, res) => {
-	try {
-		const { isWatering } = req.body as z.infer<typeof updatePlantSchema>;
-
-		const plant = await irrigationStore.update(req.params.id, isWatering);
-		res.json(formatResponse(plant));
 	} catch (err) {
 		const { status, error } = formatError(err);
 		res.status(status).json(error);

@@ -7,14 +7,15 @@ const WateringInfo: Record<string, [number, number]> = {
 	default: [5, 24 * hour],
 };
 
-export function shouldWater(plant: Plant): boolean {
-	const [wateredFor, wateredEvery] =
-		WateringInfo[plant.type] ?? WateringInfo.default;
+export function shouldWater(plant: Plant, moisture: number): boolean {
+	return moisture < 50;
+	// const [wateredFor, wateredEvery] =
+	// 	WateringInfo[plant.type] ?? WateringInfo.default;
 
-	const now = Date.now();
-	if (plant.isWatering) {
-		return now - plant.lastUpdated.getTime() >= wateredFor;
-	}
+	// const now = Date.now();
+	// if (plant.isWatering) {
+	// 	return now - plant.lastUpdated.getTime() >= wateredFor;
+	// }
 
-	return now - plant.lastUpdated.getTime() >= wateredEvery - wateredFor;
+	// return now - plant.lastUpdated.getTime() >= wateredEvery - wateredFor;
 }

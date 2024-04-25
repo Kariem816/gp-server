@@ -33,6 +33,7 @@ import { Route as StudentsMeRouteImport } from "./pages/students/me/route"
 import { Route as LecturesIdRouteImport } from "./pages/lectures/$id/route"
 import { Route as ControllersMeRouteImport } from "./pages/controllers/me/route"
 import { Route as TeachersMeIndexImport } from "./pages/teachers/me/index"
+import { Route as StudentsMeIndexImport } from "./pages/students/me/index"
 import { Route as SecurityMeIndexImport } from "./pages/security/me/index"
 import { Route as LecturesIdIndexImport } from "./pages/lectures/$id/index"
 import { Route as CoursesIdIndexImport } from "./pages/courses/$id/index"
@@ -159,6 +160,11 @@ const ControllersMeRouteRoute = ControllersMeRouteImport.update({
 const TeachersMeIndexRoute = TeachersMeIndexImport.update({
   path: "/",
   getParentRoute: () => TeachersMeRouteRoute,
+} as any)
+
+const StudentsMeIndexRoute = StudentsMeIndexImport.update({
+  path: "/",
+  getParentRoute: () => StudentsMeRouteRoute,
 } as any)
 
 const SecurityMeIndexRoute = SecurityMeIndexImport.update({
@@ -384,6 +390,10 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof SecurityMeIndexImport
       parentRoute: typeof rootRoute
     }
+    "/students/me/": {
+      preLoaderRoute: typeof StudentsMeIndexImport
+      parentRoute: typeof StudentsMeRouteImport
+    }
     "/teachers/me/": {
       preLoaderRoute: typeof TeachersMeIndexImport
       parentRoute: typeof TeachersMeRouteImport
@@ -416,6 +426,7 @@ export const routeTree = rootRoute.addChildren([
     StudentsMeAttendanceRoute,
     StudentsMeCoursesRoute,
     StudentsMeScheduleRoute,
+    StudentsMeIndexRoute,
   ]),
   TeachersMeRouteRoute.addChildren([
     TeachersMeCoursesRoute,

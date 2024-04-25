@@ -60,7 +60,7 @@ function Layout() {
 					</Link>
 				))}
 			</div>
-			<div className="flex-grow py-2 md:pb-8 md:h-full overflow-y-hidden md:overflow-y-auto">
+			<div className="flex-grow py-2 md:pb-8 md:h-full overflow-y-auto">
 				<Outlet />
 			</div>
 		</div>

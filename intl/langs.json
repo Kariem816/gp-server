@@ -306,5 +306,89 @@
     "must_be_future": {
         "en": "Must be a future date",
         "ar": "يجب أن يكون تاريخ مستقبلي"
+    },
+    "showing_schedule": {
+        "en": "Showing upcoming lectures until",
+        "ar": "عرض المحاضرات القادمة حتى"
+    },
+    "showing_until": {
+        "en": "Showing until {{1}}",
+        "ar": "عرض حتى {{1}}"
+    },
+    "no_schedule": {
+        "en": "No upcoming lectures",
+        "ar": "لا يوجد محاضرات قادمة"
+    },
+    "change": {
+        "en": "Change",
+        "ar": "تغيير"
+    },
+    "view_course": {
+        "en": "View Course",
+        "ar": "عرض الدورة"
+    },
+    "showing_courses_semester": {
+        "en": "Showing courses for: {{1}}",
+        "ar": "عرض الدورات للفصل الدراسي: {{1}}"
+    },
+    "curr_semester": {
+        "en": "Current Semester",
+        "ar": "الفصل الدراسي الحالي"
+    },
+    "all_semesters": {
+        "en": "All Semesters",
+        "ar": "جميع الفصول الدراسية"
+    },
+    "this(mas)": {
+        "en": "this",
+        "ar": "هذا"
+    },
+    "This(mas)": {
+        "en": "This",
+        "ar": "هذا"
+    },
+    "this(fem)": {
+        "en": "this",
+        "ar": "هذه"
+    },
+    "This(fem)": {
+        "en": "This",
+        "ar": "هذه"
+    },
+    "no_attendance": {
+        "en": "No attendance",
+        "ar": "لا يوجد حضور"
+    },
+    "showing_curr_attendance": {
+        "en": "Showing attendance for current semester",
+        "ar": "عرض الحضور للفصل الدراسي الحالي"
+    },
+    "my_courses": {
+        "en": "My Courses",
+        "ar": "دوراتي"
+    },
+    "attendance": {
+        "en": "Attendance",
+        "ar": "الحضور"
+    },
+    "register_course": {
+        "en": "Register Course",
+        "ar": "تسجيل الدورة"
+    },
+    "registered_course_description": {
+        "en": "You registered successfully to {{1}}",
+        "ar": "لقد سجلت بنجاح في {{1}}"
+    },
+    "unregister_course": {
+        "en": "Unregister Course",
+        "ar": "إلغاء تسجيل الدورة"
+    },
+    "unregistered_course_description": {
+        "en": "You unregistered successfully from {{1}}",
+        "ar": "لقد ألغيت تسجيلك بنجاح من {{1}}"
+    },
+    "unregister_success": {
+        "en": "Unregistered successfully!",
+        "ar": "تم إلغاء التسجيل بنجاح!"
     }
 }

@@ -24,7 +24,8 @@ router.get("/my-courses", mustBe("student"), parseFilters, async (req, res) => {
 
 		res.json(formatResponse(courses));
 	} catch (err) {
-		formatError(err);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -48,7 +49,8 @@ router.get("/:id/courses", parseFilters, async (req, res) => {
 
 		res.json(formatResponse(courses));
 	} catch (err) {
-		formatError(err);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -65,7 +67,8 @@ router.get("/my-schedule", mustBe("student"), async (req, res) => {
 
 		res.json(formatResponse(schedule));
 	} catch (err) {
-		formatError(err);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -81,7 +84,8 @@ router.get("/:id/schedule", async (req, res) => {
 
 		res.json(formatResponse(schedule));
 	} catch (err) {
-		formatError(err);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -99,7 +103,8 @@ router.get("/my-attendance", mustBe("student"), async (req, res) => {
 
 		res.json(formatResponse(attendance));
 	} catch (err) {
-		formatError(err);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -118,7 +123,8 @@ router.get("/:id/attendance", async (req, res) => {
 
 		res.json(formatResponse(attendance));
 	} catch (err) {
-		formatError(err);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -127,7 +133,8 @@ router.get("/:id", async (req, res) => {
 		const student = await studentStore.show(req.params.id);
 		res.json(formatResponse(student));
 	} catch (err) {
-		formatError(err);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 
@@ -138,7 +145,8 @@ router.get("/profile/:id", async (req, res) => {
 		);
 		res.json(formatResponse(studentProfile));
 	} catch (err) {
-		formatError(err);
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
 });
 

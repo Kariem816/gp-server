@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { UpcomingClass } from "~/components/dashboard/student/upcoming-class";
 import { Spinner } from "~/components/loaders";
 import { Input } from "~/components/ui/input";
 import { useTranslation } from "~/contexts/translation";
@@ -48,7 +49,7 @@ function MySchedule() {
 
 	return (
 		<div className="space-y-4 p-4">
-			<div className="flex justify-end gap-2 items-center">
+			<div className="xs:flex xs:justify-end gap-2 items-center">
 				<p className="text-nowrap">{t("showing_schedule")}</p>
 				<div>
 					<Input
@@ -59,12 +60,14 @@ function MySchedule() {
 				</div>
 			</div>
 
-			{isLoading ? (
+			{isLoading || !schedule ? (
 				<div className="h-full grid place-items-center">
 					<Spinner />
 				</div>
 			) : schedule.length > 0 ? (
-				<div className="space-y-4">Not Implemented</div>
+				schedule.map((upcoming) => (
+					<UpcomingClass key={upcoming.id} upcoming={upcoming} />
+				))
 			) : (
 				<p className="text-center opacity-75 italic">
 					{t("no_schedule")}

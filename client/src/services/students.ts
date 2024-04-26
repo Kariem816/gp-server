@@ -77,6 +77,20 @@ export type TStudentCourse = {
 	semester: string;
 };
 
+export type TScheduleClass = {
+	id: string;
+	courseId: string;
+	time: string; // ISO Date
+	duration: number;
+	ended: string | null; // ISO Date
+	location: string;
+	course: {
+		id: string;
+		name: string;
+		code: string;
+	};
+};
+
 export async function getMyCourses(
 	query: APIQuery = {},
 	page: number
@@ -91,7 +105,9 @@ export async function getStudentCourses(
 	return get(`/students/${studentId}/courses`, query);
 }
 
-export async function getMySchedule(until: Date | undefined = undefined) {
+export async function getMySchedule(
+	until: Date | undefined = undefined
+): Promise<APIResponse<TScheduleClass[]>> {
 	return get("/students/my-schedule", {
 		until: until?.toISOString(),
 	});
@@ -100,7 +116,7 @@ export async function getMySchedule(until: Date | undefined = undefined) {
 export async function getStudentSchedule(
 	studentId: string,
 	until: Date | undefined = undefined
-) {
+): Promise<APIResponse<TScheduleClass[]>> {
 	return get(`/students/${studentId}/schedule`, {
 		until: until?.toISOString(),
 	});

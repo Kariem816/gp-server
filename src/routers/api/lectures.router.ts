@@ -58,8 +58,9 @@ router.post("/collect", mustBe(["admin", "controller"]), async (req, res) => {
 				// Get lecture data
 				const { location, id } = lecture;
 
-				const camera =
-					await controllerStore.getCamerasByLocation(location);
+				const camera = await controllerStore.getCamerasByLocation(
+					location
+				);
 				if (camera.length === 0) {
 					errors.push(
 						`No camera found for location ${location} for lecture ${id}`
@@ -112,8 +113,9 @@ router.post("/collect", mustBe(["admin", "controller"]), async (req, res) => {
 				saved = true;
 
 				// Get students to be recognized
-				const studentsData =
-					await lectureStore.getPossibleAttendees(id);
+				const studentsData = await lectureStore.getPossibleAttendees(
+					id
+				);
 
 				if (studentsData.length === 0) {
 					errors.push("No students found for lecture " + lecture.id);
@@ -425,9 +427,14 @@ router.post("/:id/finish", canModifyLecture, async (req, res) => {
 			);
 		}
 
+		const duration = Math.ceil(
+			(endTime.getTime() - existingLecture.time.getTime()) / 60000
+		);
+
 		const lecture = await lectureStore.finishLecture(
 			req.params.id,
-			endTime
+			endTime,
+			duration
 		);
 		res.json(formatResponse(lecture));
 	} catch (err: any) {

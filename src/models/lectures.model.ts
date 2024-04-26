@@ -96,12 +96,13 @@ class LecturesStore {
 		}
 	}
 
-	async finishLecture(id: Lecture["id"], time: Date) {
+	async finishLecture(id: Lecture["id"], time: Date, duration?: number) {
 		try {
 			const lecture = await prisma.lecture.update({
 				where: { id },
 				data: {
 					ended: time,
+					duration,
 				},
 			});
 			return lecture;
@@ -275,7 +276,7 @@ class LecturesStore {
 							times: time
 								? {
 										push: time,
-									}
+								  }
 								: undefined,
 						},
 						create: {

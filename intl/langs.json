@@ -390,5 +390,45 @@
     "unregister_success": {
         "en": "Unregistered successfully!",
         "ar": "تم إلغاء التسجيل بنجاح!"
+    },
+    "at": {
+        "en": "At",
+        "ar": "في"
+    },
+    "percentage_attendance": {
+        "en": "Percentage of Attendance",
+        "ar": "نسبة الحضور"
+    },
+    "manual_attendance": {
+        "en": "Attendance was added manually by the teacher",
+        "ar": "تمت إضافة الحضور يدويًا من قبل المعلم"
+    },
+    "attended": {
+        "en": "Attended",
+        "ar": "تم حضور"
+    },
+    "absence": {
+        "en": "Absence",
+        "ar": "الغياب"
+    },
+    "timeline": {
+        "en": "Timeline",
+        "ar": "الخط الزمني"
+    },
+    "period": {
+        "en": "Period",
+        "ar": "الفترة"
+    },
+    "periods": {
+        "en": "Periods",
+        "ar": "الفترات"
+    },
+    "catched": {
+        "en": "Cought",
+        "ar": "ملتقط"
+    },
+    "uncatched": {
+        "en": "Uncought",
+        "ar": "غير ملتقط"
     }
 }

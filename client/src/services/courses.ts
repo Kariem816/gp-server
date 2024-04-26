@@ -2,6 +2,20 @@ import { del, get, post, put } from "./api";
 
 import type { APIQuery } from "~/types/query";
 
+export type CreateCourse = {
+	name: string;
+	code: string;
+	creditHours: number;
+	content?: string;
+};
+
+export type UpdateCourse = {
+	name?: string;
+	code?: string;
+	creditHours?: number;
+	content?: string;
+};
+
 export type TCourseListing = {
 	id: string;
 	name: string;
@@ -37,11 +51,11 @@ export async function getCourse(id: string) {
 	return get(`/courses/${id}`);
 }
 
-export async function createCourse(data: any) {
+export async function createCourse(data: CreateCourse) {
 	return post("/courses", data);
 }
 
-export async function updateCourse(id: string, data: any) {
+export async function updateCourse(id: string, data: UpdateCourse) {
 	return put(`/courses/${id}`, data);
 }
 

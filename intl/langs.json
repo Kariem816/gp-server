@@ -430,5 +430,125 @@
     "uncatched": {
         "en": "Uncought",
         "ar": "غير ملتقط"
+    },
+    "Courses": {
+        "en": "Courses",
+        "ar": "الدورات"
+    },
+    "create_course": {
+        "en": "Create Course",
+        "ar": "إنشاء دورة"
+    },
+    "new_course": {
+        "en": "New Course",
+        "ar": "دورة جديدة"
+    },
+    "loading": {
+        "en": "Loading...",
+        "ar": "جاري التحميل..."
+    },
+    "course": {
+        "en": "Course",
+        "ar": "دورة"
+    },
+    "Course": {
+        "en": "Course",
+        "ar": "الدورة"
+    },
+    "course_name": {
+        "en": "Course Name",
+        "ar": "اسم الدورة"
+    },
+    "course_content": {
+        "en": "Course Content",
+        "ar": "محتوى الدورة"
+    },
+    "no_content": {
+        "en": "No content",
+        "ar": "لا يوجد محتوى"
+    },
+    "teachers": {
+        "en": "Teachers",
+        "ar": "معلمين"
+    },
+    "Teachers": {
+        "en": "Teachers",
+        "ar": "المعلمين"
+    },
+    "credit_hours": {
+        "en": "Credit Hours",
+        "ar": "الساعات المعتمدة"
+    },
+    "course_code": {
+        "en": "Course Code",
+        "ar": "كود الدورة"
+    },
+    "course_teachers": {
+        "en": "Course Teachers",
+        "ar": "أساتذة الدورة"
+    },
+    "no_teachers": {
+        "en": "No teachers yet",
+        "ar": "لا يوجد أساتذة حتى الآن"
+    },
+    "course_students": {
+        "en": "Course Students",
+        "ar": "طلاب الدورة"
+    },
+    "course_students_count": {
+        "en": "Course Students Count",
+        "ar": "عدد طلاب الدورة"
+    },
+    "course_name_placeholder": {
+        "en": "Enter course name",
+        "ar": "أدخل اسم الدورة"
+    },
+    "course_code_placeholder": {
+        "en": "Enter course code",
+        "ar": "أدخل كود الدورة"
+    },
+    "course_credit_hours_placeholder": {
+        "en": "Enter course credit hours",
+        "ar": "أدخل الساعات المعتمدة للدورة"
+    },
+    "course_content_placeholder": {
+        "en": "Enter course content (optional)",
+        "ar": "أدخل محتوى الدورة (اختياري)"
+    },
+    "course_teachers_placeholder": {
+        "en": "Select course teachers",
+        "ar": "اختر أساتذة الدورة"
+    },
+    "course_credit_hours": {
+        "en": "Course Credit Hours",
+        "ar": "الساعات المعتمدة للدورة"
+    },
+    "new_course_description": {
+        "en": "Create a new course. You can add teachers and students later. You can also edit the course later.",
+        "ar": "إنشاء دورة جديدة. يمكنك إضافة أساتذة وطلاب لاحقًا. يمكنك أيضًا تعديل الدورة لاحقًا."
+    },
+    "create_course_success": {
+        "en": "Course created successfully!",
+        "ar": "تم إنشاء الدورة بنجاح!"
+    },
+    "course_actions": {
+        "en": "Course Actions",
+        "ar": "إجراءات الدورة"
+    },
+    "edit_course": {
+        "en": "Edit Course",
+        "ar": "تعديل الدورة"
+    },
+    "delete_course": {
+        "en": "Delete Course",
+        "ar": "حذف الدورة"
+    },
+    "delete_course_prompt": {
+        "en": "Are you sure you want to delete this course?",
+        "ar": "هل أنت متأكد أنك تريد حذف هذه الدورة؟"
+    },
+    "course_deleted": {
+        "en": "Course deleted successfully!",
+        "ar": "تم حذف الدورة بنجاح!"
     }
 }

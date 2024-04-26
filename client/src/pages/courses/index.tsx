@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { CourseListing } from "~/components/courses/course-listing";
 import { Spinner } from "~/components/loaders";
@@ -8,8 +8,9 @@ import useDebounce from "~/hooks/use-debounce";
 import { usePaginatedQuery } from "~/hooks/use-paginated-query";
 import { getCourses } from "~/services/courses";
 import { cn, filterize } from "~/utils";
-import { UpdateIcon } from "@radix-ui/react-icons";
+import { PlusIcon, UpdateIcon } from "@radix-ui/react-icons";
 import { Button } from "~/components/ui/button";
+import { SignedInAs } from "~/components/auth";
 
 export const Route = createFileRoute("/courses/")({
 	component: CoursesList,
@@ -61,6 +62,13 @@ function CoursesList() {
 								)}
 							/>
 						</Button>
+						<SignedInAs role="admin">
+							<Link to="/courses/new">
+								<Button variant="ghost" size="icon">
+									<PlusIcon className="text-primary" />
+								</Button>
+							</Link>
+						</SignedInAs>
 					</div>
 					<div className="flex flex-grow xs:flex-grow-0 mb-2 xs:mb-0">
 						<Input

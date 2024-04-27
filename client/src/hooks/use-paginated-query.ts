@@ -39,5 +39,6 @@ export function usePaginatedQuery<T = any>({
 		limit,
 		setLimit,
 		pages: Math.ceil(metadata.total / limit),
+		total: metadata.total,
 	};
 }

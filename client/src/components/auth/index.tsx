@@ -1,4 +1,5 @@
 import { useAuth } from "~/contexts/auth";
+import { UserRole } from "~/types/users";
 
 export function SignedIn({ children }: { children: React.ReactNode }) {
 	const { isLoggedIn } = useAuth();
@@ -21,7 +22,7 @@ export function SignedInAs({
 	role,
 }: {
 	children: React.ReactNode;
-	role: string | string[];
+	role: UserRole | "guest" | (UserRole | "guest")[];
 }) {
 	const { isLoggedIn, user } = useAuth();
 

@@ -1,9 +1,9 @@
 import { cn } from "~/utils";
-import Logo from "../logo";
-import { Button } from "../ui/button";
+import Logo from "~/components/logo";
+import { Button } from "~/components/ui/button";
 import { Cross1Icon } from "@radix-ui/react-icons";
 import { Link } from "@tanstack/react-router";
-import { SignedIn, SignedOut } from "../auth";
+import { SignedIn, SignedOut } from "~/components/auth";
 import { useAuth } from "~/contexts/auth";
 
 import type { LoggedUser } from "~/types/users";

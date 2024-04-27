@@ -1,16 +1,16 @@
 import { Pencil2Icon } from "@radix-ui/react-icons";
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "~/contexts/translation";
-import { SignedInAs } from "../auth";
-import { Button } from "../ui/button";
+import { SignedInAs } from "~/components/auth";
+import { Button } from "~/components/ui/button";
 import { CourseTeachers } from "./course-teachers";
 import { DeleteCourse } from "./delete-course";
 import { RegisterButton } from "./register-btn";
 import { CreateLecture } from "./create-lecture";
 import { CourseLectures } from "./course-lectures";
+import { CourseStudents } from "./course-students";
 
 import type { Course as TCourse } from "~/services/courses";
-import { CourseStudents } from "./course-students";
 
 export function Course({ course }: { course: TCourse }) {
 	const { t } = useTranslation();
@@ -60,23 +60,21 @@ export function Course({ course }: { course: TCourse }) {
 				<CourseTeachers teachers={course.teachers} />
 			</div>
 
-			<div className="flex gap-4 items-center">
-				<h4 className="text-primary font-semibold text-lg">
-					{t("course_students_count")}
-				</h4>
-				<h4 className="font-semibold text-lg">
-					{course._count.students}
-				</h4>
-			</div>
-
-			<SignedInAs role={["admin", "teacher"]}>
-				<div className="space-y-2">
+			<div className="space-y-2">
+				<div className="flex gap-4 items-center">
 					<h4 className="font-semibold text-lg text-primary">
 						{t("course_students")}
 					</h4>
-					<CourseStudents courseId={course.id} />
+					<span className="font-semibold text-lg">
+						{course._count.students}
+					</span>
 				</div>
+				<SignedInAs role={["admin", "teacher"]}>
+					<CourseStudents courseId={course.id} />
+				</SignedInAs>
+			</div>
 
+			<SignedInAs role={["admin", "teacher"]}>
 				<div className="space-y-2">
 					<div className="flex justify-between items-center">
 						<h4 className="font-semibold text-lg text-primary">

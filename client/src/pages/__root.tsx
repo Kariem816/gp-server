@@ -33,7 +33,7 @@ function RootComponent() {
 			<main className="h-screen pt-14">
 				<Outlet />
 			</main>
-			<Toaster richColors />
+			<Toaster richColors toastOptions={{}} />
 		</>
 	);
 }

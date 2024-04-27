@@ -265,11 +265,11 @@ router.get(
 	parseFilters,
 	async (req, res) => {
 		try {
-			const count = Number(req.query.count) || 50;
+			const limit = Number(req.query.limit) || 50;
 			const page = Number(req.query.page) || 1;
 
 			const lectures = await courseStore.getLectures(req.params.id, {
-				limit: count,
+				limit,
 				page,
 				filters: res.locals.filters,
 			});

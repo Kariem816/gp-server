@@ -195,7 +195,7 @@ class CoursesStore {
 		}
 	}
 
-	async addStudent(id: Course["id"], studentId: string) {
+	async addStudent(id: Course["id"], studentId: string, semester?: string) {
 		try {
 			return await prisma.courseProfile.create({
 				data: {
@@ -209,6 +209,7 @@ class CoursesStore {
 							id: studentId,
 						},
 					},
+					semester: semester || env.CURR_SEMESTER,
 				},
 			});
 		} catch (err) {

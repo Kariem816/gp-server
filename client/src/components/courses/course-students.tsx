@@ -5,7 +5,7 @@ import { Spinner } from "~/components/loaders";
 import { Link } from "@tanstack/react-router";
 import { Button } from "~/components/ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 
 export function CourseStudents({ courseId }: { courseId: string }) {
 	const { t } = useTranslation();

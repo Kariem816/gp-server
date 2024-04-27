@@ -166,6 +166,7 @@ class CoursesStore {
 								select: {
 									id: true,
 									name: true,
+									img: true,
 								},
 							},
 							registerations: {
@@ -175,6 +176,7 @@ class CoursesStore {
 										select: {
 											id: true,
 											name: true,
+											code: true,
 										},
 									},
 								},

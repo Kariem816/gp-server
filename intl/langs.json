@@ -391,6 +391,10 @@
         "en": "Unregistered successfully!",
         "ar": "تم إلغاء التسجيل بنجاح!"
     },
+    "register_success": {
+        "en": "Registered successfully!",
+        "ar": "تم التسجيل بنجاح!"
+    },
     "at": {
         "en": "At",
         "ar": "في"
@@ -531,10 +535,6 @@
         "en": "Course created successfully!",
         "ar": "تم إنشاء الدورة بنجاح!"
     },
-    "course_actions": {
-        "en": "Course Actions",
-        "ar": "إجراءات الدورة"
-    },
     "edit_course": {
         "en": "Edit Course",
         "ar": "تعديل الدورة"
@@ -550,5 +550,29 @@
     "course_deleted": {
         "en": "Course deleted successfully!",
         "ar": "تم حذف الدورة بنجاح!"
+    },
+    "back_courses": {
+        "en": "Back to Courses",
+        "ar": "الرجوع إلى الدورات"
+    },
+    "course_lectures": {
+        "en": "Course Lectures",
+        "ar": "محاضرات الدورة"
+    },
+    "delete": {
+        "en": "Delete",
+        "ar": "حذف"
+    },
+    "all": {
+        "en": "All",
+        "ar": "الكل"
+    },
+    "manage": {
+        "en": "Manage",
+        "ar": "إدارة"
+    },
+    "no_students": {
+        "en": "No students",
+        "ar": "لا يوجد طلاب"
     }
 }

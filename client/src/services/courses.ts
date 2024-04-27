@@ -35,10 +35,67 @@ export type TCourseListing = {
 	};
 };
 
+export type Course = {
+	id: string;
+	name: string;
+	code: string;
+	content: string;
+	creditHours: number;
+	teachers: {
+		id: string;
+		user: {
+			id: string;
+			name: string;
+			img: string;
+		};
+	}[];
+	_count: {
+		students: number;
+	};
+};
+
+export type RegistrationStatus = {
+	status: boolean;
+};
+
 export type CreateLectureData = {
 	time: number; // Unix Timestamp
 	duration: number;
 	location: string;
+};
+
+export type CourseLecture = {
+	id: string;
+	courseId: string;
+	time: string;
+	duration: number;
+	ended: string | null; // ISO Date
+	location: string;
+	_count: {
+		attendees: 0;
+	};
+};
+
+export type CourseStudent = {
+	id: string;
+	studentId: string;
+	courseId: string;
+	semester: string;
+	student: {
+		user: {
+			id: string;
+			name: string;
+			img: string;
+		};
+		registerations: {
+			id: string;
+			course: {
+				id: string;
+				name: string;
+				code: string;
+			};
+		}[];
+	};
 };
 
 export async function getCourses(
@@ -47,7 +104,7 @@ export async function getCourses(
 	return get("/courses", query);
 }
 
-export async function getCourse(id: string) {
+export async function getCourse(id: string): Promise<APIResponse<Course>> {
 	return get(`/courses/${id}`);
 }
 
@@ -88,7 +145,9 @@ export async function updateCourseTeachers(
 	});
 }
 
-export async function isRegisteredInCourse(id: string) {
+export async function isRegisteredInCourse(
+	id: string
+): Promise<APIResponse<RegistrationStatus>> {
 	return get(`/courses/${id}/mystatus`);
 }
 
@@ -100,24 +159,22 @@ export async function unregisterCourse(id: string) {
 	return post(`/courses/${id}/unregister`);
 }
 
-/**
- *
- * Don't Use This. Not Implemented Yet
- */
-export async function getCourseStudents(id: string, query?: APIQuery) {
+export async function getCourseStudents(
+	id: string,
+	query?: APIQuery
+): Promise<PaginatedResponse<CourseStudent>> {
 	return get(`/courses/${id}/students`, query);
 }
 
-/**
- *
- * Don't Use This. Not Implemented Yet
- */
 export async function getCourseTeachers(id: string) {
 	return get(`/courses/${id}/teachers`);
 }
 
-export async function getCourseLectures(id: string) {
-	return get(`/courses/${id}/lectures`);
+export async function getCourseLectures(
+	id: string,
+	query: APIQuery = {}
+): Promise<PaginatedResponse<CourseLecture>> {
+	return get(`/courses/${id}/lectures`, query);
 }
 
 export async function createCourseLecture(id: string, data: CreateLectureData) {

@@ -2,30 +2,13 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { getAllCans } from "~/services/garbage";
 
-import LoadingBar from '../../../components/loading-bar/loading-bar.tsx';
-
+import LoadingBar from "../../../components/loading-bar/loading-bar.tsx";
 
 export const Route = createFileRoute("/monitor/garbage/")({
 	component: GarbageList,
-	// loader: async ({ params: { id } }) => {
-	// 	const data = await get(`/graph-temp/${id}`);
-	// 	return data as {
-	// 		id: number;
-	// 		label: string;
-	// 		xLabel: string;
-	// 		yLabel: string;
-	// 		data: {
-	// 			time: string; // ISO string
-	// 			value: number;
-	// 		}[];
-	// 	};
-	// },
 });
 
-
-
 function GarbageList() {
-	// const { id, data, label, yLabel } = Route.useLoaderData();
 	const {
 		data: garbage,
 		isLoading,
@@ -34,7 +17,6 @@ function GarbageList() {
 		queryKey: ["garbage"],
 		queryFn: () => getAllCans(),
 		select: (data) => data.data,
-		// initialData: {}
 		refetchInterval: 3 * 1000, // 3 seconds
 	});
 
@@ -52,15 +34,10 @@ function GarbageList() {
 				<p className="italic text-center">No data available</p>
 			) : (
 				garbage.map((can) => (
-
-						<div className="rounded-lg bg-accent p-4 space-y-4 mb-20">
-						<p className=" text-center mb-5">
-							{can.location} 
-						</p>
-						<LoadingBar   value={can.level} />
-						
+					<div className="rounded-lg bg-accent p-4 space-y-4 mb-8">
+						<p className="text-center">{can.location}</p>
+						<LoadingBar value={can.level} />
 					</div>
-
 				))
 			)}
 		</>

@@ -71,7 +71,11 @@ export function Page() {
 			<h3>Image Processing Team</h3>
 			<ul className="list-inside list-disc my-2">
 				<li>
-					<a href="#" className="hover:underline">
+					<a
+						href="https://www.linkedin.com/in/eslamhekal74/"
+						target="__blank"
+						className="hover:underline"
+					>
 						Eslam Mohamed Hekal
 					</a>
 				</li>

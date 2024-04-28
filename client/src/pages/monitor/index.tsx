@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-
+  
 export const Route = createFileRoute("/monitor/")({
 	component: () => (
-		<p className="italic text-center">Choose a controller to monitor</p>
+		<div className="flex items-center justify-center">
+  			<h3 className="text-black">Please select the Monitor you want</h3>
+		</div>
 	),
 });

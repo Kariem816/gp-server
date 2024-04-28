@@ -14,7 +14,6 @@ import { Route as rootRoute } from "./pages/__root"
 import { Route as MonitorRouteImport } from "./pages/monitor/route"
 import { Route as AdminRouteImport } from "./pages/admin/route"
 import { Route as IndexImport } from "./pages/index"
-import { Route as RegisterIndexImport } from "./pages/register/index"
 import { Route as PasswordResetIndexImport } from "./pages/password-reset/index"
 import { Route as MonitorIndexImport } from "./pages/monitor/index"
 import { Route as MobileIndexImport } from "./pages/mobile/index"
@@ -68,11 +67,6 @@ const AdminRouteRoute = AdminRouteImport.update({
 
 const IndexRoute = IndexImport.update({
   path: "/",
-  getParentRoute: () => rootRoute,
-} as any)
-
-const RegisterIndexRoute = RegisterIndexImport.update({
-  path: "/register/",
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -354,6 +348,10 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof MonitorIndexImport
       parentRoute: typeof MonitorRouteImport
     }
+    "/password-reset/": {
+      preLoaderRoute: typeof PasswordResetIndexImport
+      parentRoute: typeof rootRoute
+    }
     "/controllers/me/api-keys": {
       preLoaderRoute: typeof ControllersMeApiKeysImport
       parentRoute: typeof ControllersMeRouteImport
@@ -444,7 +442,7 @@ export const routeTree = rootRoute.addChildren([
     AdminUsersRoute,
     AdminIndexRoute,
   ]),
-  MonitorRouteRoute.addChildren([MonitorIndexRoute]),
+  MonitorRouteRoute.addChildren([MonitorIndexRoute, MonitorGarbageIndexRoute]),
   ControllersMeRouteRoute.addChildren([
     ControllersMeApiKeysRoute,
     ControllersMeIndexRoute,
@@ -474,7 +472,6 @@ export const routeTree = rootRoute.addChildren([
   LoginIndexRoute,
   MobileIndexRoute,
   PasswordResetIndexRoute,
-  RegisterIndexRoute,
   CoursesIdEditRoute,
   CoursesIdLecturesRoute,
   CoursesIdStudentsRoute,

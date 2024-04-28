@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { Navigate, createFileRoute } from "@tanstack/react-router";
 import { useAuth } from "~/contexts/auth";
-import { useNavigate, Navigate } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import { useSecurePage } from "~/hooks/useSecurePage";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import {
 	Form,
@@ -20,16 +19,15 @@ import {
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 
-export const Route = createFileRoute("/login/")({
-	component: LoginPage,
+export const Route = createFileRoute("/password-reset/")({
+	component: PasswordReset,
 });
 
 const loginSchema = z.object({
 	username: z.string().min(1),
 	password: z.string().min(1),
 });
-
-export function LoginPage() {
+export function PasswordReset() {
 	const { login } = useAuth();
 
 	const [isLoading, setIsLoading] = useState(false);
@@ -41,13 +39,10 @@ export function LoginPage() {
 			password: "",
 		},
 	});
-
-	const navigate = useNavigate();
-
+    const navigate = useNavigate();
 	const showPage = useSecurePage("guest");
 	if (showPage === "deny") return <Navigate to="/" replace />;
-
-	async function handleSubmit(values: z.infer<typeof loginSchema>) {
+    async function handleSubmit(values: z.infer<typeof loginSchema>) {
 		if (isLoading) return;
 		try {
 			setIsLoading(true);
@@ -66,12 +61,13 @@ export function LoginPage() {
 			setIsLoading(false);
 		}
 	}
-
-	return (
+    return (
 		<div className="container h-full flex flex-col justify-center items-center">
 			<Card className="max-w-2xl w-full">
 				<CardHeader>
-					<CardTitle className="text-center">Welcome back!</CardTitle>
+					<CardTitle className="text-center">Find Your Account</CardTitle>
+					<hr className=" mt-4" style={{ width: '100%', borderTop: '1px solid #ddd' }} />
+                    <div>Please enter your username to search for your account.</div>
 				</CardHeader>
 				<CardContent>
 					<Form {...form}>
@@ -81,7 +77,7 @@ export function LoginPage() {
 								name="username"
 								render={() => (
 									<FormItem>
-										<FormLabel>Username</FormLabel>
+										<FormLabel>Username:</FormLabel>
 										<FormControl>
 											<Input
 												placeholder="Your username"
@@ -92,54 +88,21 @@ export function LoginPage() {
 										<FormMessage />
 									</FormItem>
 								)}
-							/>
-							<FormField
-								control={form.control}
-								name="password"
-								render={() => (
-									<FormItem>
-										<FormLabel>Password</FormLabel>
-										<FormControl>
-											<Input
-												placeholder="Your password"
-												type="password"
-												{...form.register("password")}
-											/>
-										</FormControl>
-										<FormDescription />
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							
-							
+							/>	
 							
 							<p className="text-red-500 text-sm">{formError}</p>
 							<div className="text-center mt-4">
 								<Button type="submit" disabled={isLoading}>
-									Log in
+									Search
 								</Button>
 							</div>
-							<div>
-  								
-  								<hr className=" mt-4" style={{ width: '100%', borderTop: '1px solid #ddd' }} />
-  								
-							</div>
+							<hr className=" mt-4" style={{ width: '100%', borderTop: '1px solid #ddd' }} />
+                            <div className="text-center mt-4" > Or create a new account?</div>
 
-							<p className="text-center mt-4 text-blue-600 " >
-								<a className="hover:underline"href="http://localhost:5173/password-reset" >
-									Forgotten password?
-								</a>
-								
-							</p>
-							<div className="text-center	 mt-4 ">
-								<Button className="bg-lime-700 hover:bg-lime-800">
-								<a type="submit"  href="http://localhost:5173/register" >
-									Create new account
-								</a>
-								</Button>
-							
-								
+							<div  className="text-center">
+                            <Button  className="bg-lime-700 hover:bg-lime-600">
+									<a href="/register"> Create new account</a>
+							</Button>
 							</div>
 						</form>
 					</Form>
@@ -147,4 +110,4 @@ export function LoginPage() {
 			</Card>
 		</div>
 	);
-}	
+}

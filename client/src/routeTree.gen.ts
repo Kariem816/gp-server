@@ -14,6 +14,8 @@ import { Route as rootRoute } from "./pages/__root"
 import { Route as MonitorRouteImport } from "./pages/monitor/route"
 import { Route as AdminRouteImport } from "./pages/admin/route"
 import { Route as IndexImport } from "./pages/index"
+import { Route as RegisterIndexImport } from "./pages/register/index"
+import { Route as PasswordResetIndexImport } from "./pages/password-reset/index"
 import { Route as MonitorIndexImport } from "./pages/monitor/index"
 import { Route as MobileIndexImport } from "./pages/mobile/index"
 import { Route as LoginIndexImport } from "./pages/login/index"
@@ -35,6 +37,7 @@ import { Route as ControllersMeRouteImport } from "./pages/controllers/me/route"
 import { Route as TeachersMeIndexImport } from "./pages/teachers/me/index"
 import { Route as StudentsMeIndexImport } from "./pages/students/me/index"
 import { Route as SecurityMeIndexImport } from "./pages/security/me/index"
+import { Route as MonitorGarbageIndexImport } from "./pages/monitor/garbage/index"
 import { Route as LecturesIdIndexImport } from "./pages/lectures/$id/index"
 import { Route as CoursesIdIndexImport } from "./pages/courses/$id/index"
 import { Route as ControllersMeIndexImport } from "./pages/controllers/me/index"
@@ -65,6 +68,16 @@ const AdminRouteRoute = AdminRouteImport.update({
 
 const IndexRoute = IndexImport.update({
   path: "/",
+  getParentRoute: () => rootRoute,
+} as any)
+
+const RegisterIndexRoute = RegisterIndexImport.update({
+  path: "/register/",
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PasswordResetIndexRoute = PasswordResetIndexImport.update({
+  path: "/password-reset/",
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -171,6 +184,11 @@ const StudentsMeIndexRoute = StudentsMeIndexImport.update({
 const SecurityMeIndexRoute = SecurityMeIndexImport.update({
   path: "/security/me/",
   getParentRoute: () => rootRoute,
+} as any)
+
+const MonitorGarbageIndexRoute = MonitorGarbageIndexImport.update({
+  path: "/garbage/",
+  getParentRoute: () => MonitorRouteRoute,
 } as any)
 
 const LecturesIdIndexRoute = LecturesIdIndexImport.update({
@@ -396,6 +414,10 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof LecturesIdIndexImport
       parentRoute: typeof LecturesIdRouteImport
     }
+    "/monitor/garbage/": {
+      preLoaderRoute: typeof MonitorGarbageIndexImport
+      parentRoute: typeof MonitorRouteImport
+    }
     "/security/me/": {
       preLoaderRoute: typeof SecurityMeIndexImport
       parentRoute: typeof rootRoute
@@ -451,6 +473,8 @@ export const routeTree = rootRoute.addChildren([
   CoursesIndexRoute,
   LoginIndexRoute,
   MobileIndexRoute,
+  PasswordResetIndexRoute,
+  RegisterIndexRoute,
   CoursesIdEditRoute,
   CoursesIdLecturesRoute,
   CoursesIdStudentsRoute,

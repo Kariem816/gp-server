@@ -87,7 +87,7 @@ function CoursesList() {
 					<Pagination page={page} pages={pages} onChange={setPage} />
 				</div>
 			</div>
-			<div className="flex-grow overflow-auto pe-1 md:pe-2 my-2 container">
+			<div className="flex-grow overflow-auto p-2">
 				{isError ? (
 					<div className="text-destructive italic font-semibold h-full flex items-center justify-center">
 						{error.message}
@@ -101,13 +101,11 @@ function CoursesList() {
 						No courses found
 					</div>
 				) : (
-					<ul>
+					<div className="space-y-2">
 						{courses.map((course) => (
-							<li key={course.id}>
-								<CourseListing {...course} />
-							</li>
+							<CourseListing {...course} key={course.id} />
 						))}
-					</ul>
+					</div>
 				)}
 			</div>
 		</div>

@@ -12,6 +12,7 @@ export function CourseTeachers({ teachers }: { teachers: Course["teachers"] }) {
 					to="/teachers/$id"
 					params={{ id: teacher.id }}
 					className="block flex-grow"
+					key={teacher.id}
 				>
 					<div className="p-2 flex gap-2 bg-accent rounded-md items-center">
 						<Avatar>

@@ -172,12 +172,12 @@ router.get(
 		try {
 			const limit = Number(req.query.limit) || 50;
 			const page = Number(req.query.page) || 1;
-			const filters = res.locals.filters;
+			const search = req.query.search as string;
 
 			const students = await courseStore.getStudents(req.params.id, {
 				limit,
 				page,
-				filters,
+				search,
 			});
 
 			res.json(formatResponse(students));

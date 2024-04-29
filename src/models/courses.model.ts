@@ -138,19 +138,20 @@ class CoursesStore {
 
 	async getStudents(
 		id: Course["id"],
-		{
-			limit,
-			page,
-			filters,
-		}: { limit: number; page: number; filters: QueryFilters }
+		{ limit, page, search }: { limit: number; page: number; search: string }
 	): Promise<PaginatedResponse> {
 		try {
 			const qfilters = {
 				courseId: id,
 				student: {
-					...filters,
+					user: {
+						name: {
+							contains: search,
+							mode: "insensitive",
+						},
+					},
 				},
-			};
+			} as const;
 
 			const total = await prisma.courseProfile.count({
 				where: qfilters,

@@ -1,6 +1,7 @@
 import { get } from "./api";
 
 import type { APIQuery } from "~/types/query";
+import { Teacher } from "./courses";
 
 export type TeacherCourse = {
 	id: string;
@@ -27,7 +28,9 @@ export type TeacherLecture = {
 	};
 };
 
-export async function getTeachers(query?: APIQuery) {
+export async function getTeachers(
+	query?: APIQuery
+): Promise<APIResponse<Teacher[]>> {
 	return get("/teachers", query);
 }
 

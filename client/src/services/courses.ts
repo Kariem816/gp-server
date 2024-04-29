@@ -98,6 +98,15 @@ export type CourseStudent = {
 	};
 };
 
+export type Teacher = {
+	id: string;
+	user: {
+		id: string;
+		name: string;
+		img: string;
+	};
+};
+
 export async function getCourses(
 	query: APIQuery = {}
 ): Promise<PaginatedResponse<TCourseListing>> {
@@ -129,9 +138,12 @@ export async function addTeachersToCourse(
 
 export async function removeTeachersFromCourse(
 	id: string,
-	teacherIds: string | string[]
+	teacherIds: string[]
 ) {
-	return del(`/courses/${id}/teachers`, { teacherId: teacherIds });
+	return put(`/courses/${id}/teachers`, {
+		removedTeachers: teacherIds,
+		addedTeachers: [],
+	});
 }
 
 export async function updateCourseTeachers(
@@ -166,7 +178,9 @@ export async function getCourseStudents(
 	return get(`/courses/${id}/students`, query);
 }
 
-export async function getCourseTeachers(id: string) {
+export async function getCourseTeachers(
+	id: string
+): Promise<APIResponse<Teacher[]>> {
 	return get(`/courses/${id}/teachers`);
 }
 

@@ -578,5 +578,37 @@
     "search_name": {
         "en": "Search by name",
         "ar": "البحث بالاسم"
+    },
+    "add": {
+        "en": "Add",
+        "ar": "إضافة"
+    },
+    "add_teachers": {
+        "en": "Add Teachers",
+        "ar": "إضافة أساتذة"
+    },
+    "added_teachers": {
+        "en": "Added Teachers",
+        "ar": "الأساتذة المضافين"
+    },
+    "save": {
+        "en": "Save",
+        "ar": "حفظ"
+    },
+    "remove": {
+        "en": "Remove",
+        "ar": "إزالة"
+    },
+    "undo": {
+        "en": "Undo",
+        "ar": "تراجع"
+    },
+    "teachers_added": {
+        "en": "Teachers were added successfully!",
+        "ar": "تم إضافة الأساتذة بنجاح!"
+    },
+    "teachers_removed": {
+        "en": "Teachers were removed successfully!",
+        "ar": "تم إزالة الأساتذة بنجاح!"
     }
 }

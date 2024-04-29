@@ -54,7 +54,7 @@ export function CourseStudents({ courseId }: { courseId: string }) {
 
 			{total > 5 && (
 				<div className="flex justify-end">
-					<Link to="/courses/$id/lectures" params={{ id: courseId }}>
+					<Link to="/courses/$id/students" params={{ id: courseId }}>
 						<Button variant="outline">
 							<PlusIcon className="me-2 size-4" />
 							{t("all")}

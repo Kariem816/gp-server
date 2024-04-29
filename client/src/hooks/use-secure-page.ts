@@ -5,6 +5,7 @@ import type { UserRole } from "~/types/users";
 
 type Role = UserRole | "guest";
 
+// TODO: don't navigate while rendering
 export function useSecurePage(redirectTo: string | null, ...roles: Role[]) {
 	const { user, isLoggedIn } = useAuth();
 	const router = useRouter();
@@ -22,6 +23,10 @@ export function useSecurePage(redirectTo: string | null, ...roles: Role[]) {
 				search: { redirect: pathname },
 			});
 		}
+	}
+
+	if (roles.length === 0) {
+		return;
 	}
 
 	if (!roles.includes(user.role)) {

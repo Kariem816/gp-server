@@ -11,6 +11,7 @@ import { cn, filterize } from "~/utils";
 import { PlusIcon, UpdateIcon } from "@radix-ui/react-icons";
 import { Button } from "~/components/ui/button";
 import { SignedInAs } from "~/components/auth";
+import { useSecurePage } from "~/hooks/use-secure-page";
 
 export const Route = createFileRoute("/courses/")({
 	component: CoursesList,
@@ -43,6 +44,7 @@ function CoursesList() {
 			initialLimit: 20,
 		},
 	});
+	useSecurePage("/");
 
 	return (
 		<div className="flex flex-col h-full">

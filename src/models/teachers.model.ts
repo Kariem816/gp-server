@@ -7,18 +7,32 @@ class TeacherStore {
 	async index({
 		page,
 		limit,
-		filters,
+		search,
 	}: {
 		page: number;
 		limit: number;
-		filters: any;
+		search: string;
 	}): Promise<PaginatedResponse> {
 		try {
 			const total = await prisma.teacher.count({
-				where: filters,
+				where: {
+					user: {
+						name: {
+							contains: search,
+							mode: "insensitive",
+						},
+					},
+				},
 			});
 			const teachers = await prisma.teacher.findMany({
-				where: filters,
+				where: {
+					user: {
+						name: {
+							contains: search,
+							mode: "insensitive",
+						},
+					},
+				},
 				skip: (page - 1) * limit,
 				take: limit,
 				select: {

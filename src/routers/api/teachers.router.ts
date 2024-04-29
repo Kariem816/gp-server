@@ -55,16 +55,20 @@ router.get("/:id/courses", async (req, res) => {
 	}
 });
 
-router.get("/", validateQuery(querySchema), parseFilters, async (req, res) => {
+router.get("/", validateQuery(querySchema), async (req, res) => {
 	try {
 		const page = Number(req.query.page) || 1;
 		const limit = Number(req.query.limit) || 50;
-		const filters = res.locals.filters;
+		const search = (req.query.search as string) ?? "";
+
+		if (search.length < 3) {
+			return res.json(formatResponse([]));
+		}
 
 		const teachers = await teacherStore.index({
 			page,
 			limit,
-			filters,
+			search,
 		});
 
 		res.json(formatResponse(teachers));

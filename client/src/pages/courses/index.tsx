@@ -1,5 +1,5 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
+import { ChangeEvent, useState } from "react";
 import { CourseListing } from "~/components/courses/course-listing";
 import { Spinner } from "~/components/loaders";
 import { Pagination } from "~/components/pagination";
@@ -15,11 +15,17 @@ import { useSecurePage } from "~/hooks/use-secure-page";
 
 export const Route = createFileRoute("/courses/")({
 	component: CoursesList,
+	validateSearch: (search: { page?: string; search?: string }) => ({
+		page: search.page ? Number(search.page) : 1,
+		search: search.search ?? "",
+	}),
 });
 
 function CoursesList() {
+	const { page: initialPage, search: initialSearch } = Route.useSearch();
+
 	const [filters, setFilters] = useState({
-		name: "",
+		name: initialSearch,
 	});
 	const debouncedFilters = useDebounce(filters, 1000);
 	const {
@@ -40,11 +46,32 @@ function CoursesList() {
 				...filterize(debouncedFilters, true),
 			}),
 		options: {
-			initialPage: 1,
+			initialPage,
 			initialLimit: 20,
 		},
 	});
 	useSecurePage("/");
+	const navigate = useNavigate({ from: Route.fullPath });
+
+	function updatePage(page: number) {
+		setPage(page);
+		navigate({
+			search: (prev) => ({ ...prev, page }),
+		});
+	}
+
+	function handleSearch(e: ChangeEvent<HTMLInputElement>) {
+		const search = e.target.value;
+
+		setFilters((prev) => ({
+			...prev,
+			name: search,
+		}));
+		setPage(1);
+		navigate({
+			search: () => ({ page: 1, search }),
+		});
+	}
 
 	return (
 		<div className="flex flex-col h-full">
@@ -76,17 +103,16 @@ function CoursesList() {
 						<Input
 							placeholder="Search by name"
 							value={filters.name}
-							onChange={(e) =>
-								setFilters((prev) => ({
-									...prev,
-									name: e.target.value,
-								}))
-							}
+							onChange={handleSearch}
 						/>
 					</div>
 				</div>
 				<div>
-					<Pagination page={page} pages={pages} onChange={setPage} />
+					<Pagination
+						page={page}
+						pages={pages}
+						onChange={updatePage}
+					/>
 				</div>
 			</div>
 			<div className="flex-grow overflow-auto p-2">

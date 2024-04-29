@@ -6,6 +6,7 @@ import type { UserRole } from "~/types/users";
 type Role = UserRole | "guest";
 
 // TODO: don't navigate while rendering
+// TODO: save search params in initial load
 export function useSecurePage(redirectTo: string | null, ...roles: Role[]) {
 	const { user, isLoggedIn } = useAuth();
 	const router = useRouter();

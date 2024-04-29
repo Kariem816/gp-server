@@ -112,8 +112,10 @@ function CourseTeachers() {
 					<div className="h-full flex justify-center items-center">
 						<Spinner />
 					</div>
-				) : teachers.length === 0 ? (
-					<div className="text-neutral-600 italic font-semibold h-full flex items-center justify-center">
+				) : teachers.filter(
+						(t) => !removedTeachers.some((rt) => rt.id === t.id)
+				  ).length === 0 ? (
+					<div className="text-neutral-600 italic font-semibold my-4 flex items-center justify-center">
 						{t("no_teachers")}
 					</div>
 				) : (

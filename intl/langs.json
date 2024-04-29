@@ -610,5 +610,9 @@
     "teachers_removed": {
         "en": "Teachers were removed successfully!",
         "ar": "تم إزالة الأساتذة بنجاح!"
+    },
+    "removed_teachers": {
+        "en": "Removed Teachers",
+        "ar": "الأساتذة المزالين"
     }
 }

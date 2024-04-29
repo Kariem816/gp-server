@@ -1,12 +1,6 @@
-import {
-	Link,
-	Navigate,
-	Outlet,
-	createFileRoute,
-} from "@tanstack/react-router";
-import Forbidden from "~/components/error/forbidden";
+import { Link, Outlet, createFileRoute } from "@tanstack/react-router";
 import { useTranslation } from "~/contexts/translation";
-import { useSecurePage } from "~/hooks/useSecurePage";
+import { useSecurePage } from "~/hooks/use-secure-page";
 
 export const Route = createFileRoute("/lectures/$id")({
 	component: Layout,
@@ -40,14 +34,8 @@ function generateDashboardRoutes(id: string): NavRoute[] {
 function Layout() {
 	const { id } = Route.useParams();
 	const { t } = useTranslation();
-	const showPage = useSecurePage("teacher", "admin");
-	if (showPage === "redirect") return <Navigate to="/login" replace />;
-	if (showPage === "deny")
-		return (
-			<div className="h-full flex flex-col justify-center items-center">
-				<Forbidden />
-			</div>
-		);
+
+	useSecurePage("/", "admin", "teacher");
 
 	return (
 		<div className="h-full flex flex-col divide-x-2 rtl:divide-x-reverse md:flex-row">

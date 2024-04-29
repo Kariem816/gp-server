@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useAuth } from "~/contexts/auth";
-import { useNavigate, Navigate } from "@tanstack/react-router";
-import { useSecurePage } from "~/hooks/useSecurePage";
+import { useNavigate } from "@tanstack/react-router";
+import { useSecurePage } from "~/hooks/use-secure-page";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -19,8 +19,15 @@ import {
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 
+import type { SearchSchemaInput } from "@tanstack/react-router";
+
 export const Route = createFileRoute("/login/")({
 	component: LoginPage,
+	validateSearch: (
+		search: {
+			redirect?: string;
+		} & SearchSchemaInput
+	) => ({ redirect: search.redirect ?? "/" }),
 });
 
 const loginSchema = z.object({
@@ -29,6 +36,7 @@ const loginSchema = z.object({
 });
 
 export function LoginPage() {
+	const { redirect } = Route.useSearch();
 	const { login } = useAuth();
 
 	const [isLoading, setIsLoading] = useState(false);
@@ -43,8 +51,7 @@ export function LoginPage() {
 
 	const navigate = useNavigate();
 
-	const showPage = useSecurePage("guest");
-	if (showPage === "deny") return <Navigate to="/" replace />;
+	useSecurePage(redirect, "guest");
 
 	async function handleSubmit(values: z.infer<typeof loginSchema>) {
 		if (isLoading) return;
@@ -53,7 +60,7 @@ export function LoginPage() {
 			await login(values.username, values.password);
 			form.reset();
 			navigate({
-				to: "/",
+				to: redirect as any,
 			});
 		} catch (err: any) {
 			if ("message" in err) setFormError(err.message);

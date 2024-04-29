@@ -1,6 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UpdateIcon } from "@radix-ui/react-icons";
-import { Navigate } from "@tanstack/react-router";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -19,7 +18,7 @@ import {
 import { Input } from "~/components/ui/input";
 import { Textarea } from "~/components/ui/textarea";
 import { useTranslation } from "~/contexts/translation";
-import { useSecurePage } from "~/hooks/useSecurePage";
+import { useSecurePage } from "~/hooks/use-secure-page";
 import { createCourse } from "~/services/courses";
 
 export const Route = createFileRoute("/courses/new")({
@@ -47,10 +46,8 @@ function CreateCoursePage() {
 			content: "",
 		},
 	});
+	useSecurePage("/", "admin");
 	const navigate = useNavigate();
-
-	const showPage = useSecurePage("admin");
-	if (showPage === "deny") return <Navigate to="/" replace />;
 
 	async function handleSubmit(values: CreateCourse) {
 		setIsSubmitting(true);

@@ -44,7 +44,10 @@ export function CourseStudents({ courseId }: { courseId: string }) {
 		<div className="space-y-4 py-2">
 			<div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
 				{students.map((student) => (
-					<Lecture key={student.id} registration={student} />
+					<StudentRegistration
+						key={student.id}
+						registration={student}
+					/>
 				))}
 			</div>
 
@@ -66,7 +69,11 @@ export function CourseStudents({ courseId }: { courseId: string }) {
 	);
 }
 
-function Lecture({ registration }: { registration: CourseStudent }) {
+export function StudentRegistration({
+	registration,
+}: {
+	registration: CourseStudent;
+}) {
 	return (
 		<Link to="/students/$id" params={{ id: registration.studentId }}>
 			<div className="rounded-xl p-4 bg-accent flex items-center justify-between gap-4">

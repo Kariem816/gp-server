@@ -574,5 +574,9 @@
     "no_students": {
         "en": "No students",
         "ar": "لا يوجد طلاب"
+    },
+    "search_name": {
+        "en": "Search by name",
+        "ar": "البحث بالاسم"
     }
 }

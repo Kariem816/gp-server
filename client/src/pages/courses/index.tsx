@@ -13,9 +13,13 @@ import { Button } from "~/components/ui/button";
 import { SignedInAs } from "~/components/auth";
 import { useSecurePage } from "~/hooks/use-secure-page";
 
+import type { SearchSchemaInput } from "@tanstack/react-router";
+
 export const Route = createFileRoute("/courses/")({
 	component: CoursesList,
-	validateSearch: (search: { page?: string; search?: string }) => ({
+	validateSearch: (
+		search: { page?: string; search?: string } & SearchSchemaInput
+	) => ({
 		page: search.page ? Number(search.page) : 1,
 		search: search.search ?? "",
 	}),
@@ -56,7 +60,7 @@ function CoursesList() {
 	function updatePage(page: number) {
 		setPage(page);
 		navigate({
-			search: (prev) => ({ ...prev, page }),
+			search: (prev) => ({ ...prev, page: page.toString() }),
 		});
 	}
 
@@ -69,7 +73,7 @@ function CoursesList() {
 		}));
 		setPage(1);
 		navigate({
-			search: () => ({ page: 1, search }),
+			search: () => ({ page: "1", search }),
 		});
 	}
 

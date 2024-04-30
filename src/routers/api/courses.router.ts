@@ -259,28 +259,28 @@ router.post("/:id/unregister", async (req, res) => {
 	}
 });
 
-router.get(
-	"/:id/lectures",
-	validateQuery(querySchema),
-	parseFilters,
-	async (req, res) => {
-		try {
-			const limit = Number(req.query.limit) || 50;
-			const page = Number(req.query.page) || 1;
+router.get("/:id/lectures", validateQuery(querySchema), async (req, res) => {
+	try {
+		const limit = Number(req.query.limit) || 50;
+		const page = Number(req.query.page) || 1;
+		const from = req.query.from
+			? new Date(req.query.from as string)
+			: undefined;
+		const to = req.query.to ? new Date(req.query.to as string) : undefined;
 
-			const lectures = await courseStore.getLectures(req.params.id, {
-				limit,
-				page,
-				filters: res.locals.filters,
-			});
+		const lectures = await courseStore.getLectures(req.params.id, {
+			limit,
+			page,
+			from,
+			to,
+		});
 
-			res.json(formatResponse(lectures));
-		} catch (err: any) {
-			const { status, error } = formatError(err);
-			res.status(status).json(error);
-		}
+		res.json(formatResponse(lectures));
+	} catch (err: any) {
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
-);
+});
 
 router.post(
 	"/:id/lectures",

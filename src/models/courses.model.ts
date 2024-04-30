@@ -370,13 +370,25 @@ class CoursesStore {
 		{
 			limit,
 			page,
-			filters,
-		}: { limit: number; page: number; filters: QueryFilters }
+			from,
+			to,
+		}: {
+			limit: number;
+			page: number;
+			from: Date | undefined;
+			to: Date | undefined;
+		}
 	): Promise<PaginatedResponse> {
 		try {
 			const qfilters = {
 				courseId: id,
-				...filters,
+				time:
+					from || to
+						? {
+								gt: from,
+								lt: to,
+						  }
+						: undefined,
 			};
 
 			const total = await prisma.lecture.count({

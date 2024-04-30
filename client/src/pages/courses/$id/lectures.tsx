@@ -1,10 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
-import useDebounce from "~/hooks/use-debounce";
+import { useState } from "react";
 import { usePaginatedQuery } from "~/hooks/use-paginated-query";
-import { getCourseLectures, getCourseStudents } from "~/services/courses";
-
-import type { SearchSchemaInput } from "@tanstack/react-router";
+import { getCourseLectures } from "~/services/courses";
 import { Button } from "~/components/ui/button";
 import { PlusIcon, UpdateIcon } from "@radix-ui/react-icons";
 import { Input } from "~/components/ui/input";
@@ -12,10 +9,12 @@ import { Pagination } from "~/components/pagination";
 import { Spinner } from "~/components/loaders";
 import { cn } from "~/utils";
 import { useTranslation } from "~/contexts/translation";
-import { StudentRegistration } from "~/components/courses/course-students";
 import { useSecurePage } from "~/hooks/use-secure-page";
 import { Label } from "~/components/ui/label";
 import { Lecture } from "~/components/courses/course-lectures";
+import { CreateLecture } from "~/components/courses/create-lecture";
+
+import type { SearchSchemaInput } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/courses/$id/lectures")({
 	component: CourseLectures,
@@ -97,13 +96,14 @@ function CourseLectures() {
 								)}
 							/>
 						</Button>
-						<Button
-							variant="ghost"
-							size="icon"
-							// onClick={() => refetch()}
-						>
-							<PlusIcon className="text-primary" />
-						</Button>
+						<CreateLecture
+							courseId={id}
+							Btn={
+								<Button variant="ghost" size="icon">
+									<PlusIcon className="text-primary" />
+								</Button>
+							}
+						/>
 					</div>
 					<div className="flex flex-grow justify-center sm:justify-end mb-2 gap-2 flex-wrap">
 						<div className="flex flex-col">

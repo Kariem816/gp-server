@@ -7,9 +7,16 @@ import LectureModal from "~/components/lectures/modal";
 import { Button } from "~/components/ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
 
+import type { ReactNode } from "react";
 import type { InternalLectureData } from "~/components/lectures/modal";
 
-export function CreateLecture({ courseId }: { courseId: string }) {
+export function CreateLecture({
+	courseId,
+	Btn,
+}: {
+	courseId: string;
+	Btn?: ReactNode;
+}) {
 	const [open, setOpen] = useState(false);
 	const { t } = useTranslation();
 	const queryClient = useQueryClient();
@@ -44,12 +51,14 @@ export function CreateLecture({ courseId }: { courseId: string }) {
 			open={open}
 			setOpen={setOpen}
 			Btn={
-				<Button variant="outline">
-					<PlusIcon className="text-primary xs:me-2" />
-					<span className="hidden xs:inline">
-						{t("create_lecture")}
-					</span>
-				</Button>
+				Btn ?? (
+					<Button variant="outline">
+						<PlusIcon className="text-primary xs:me-2" />
+						<span className="hidden xs:inline">
+							{t("create_lecture")}
+						</span>
+					</Button>
+				)
 			}
 			onSubmit={createLectureMutation.mutateAsync}
 			title={t("create_lecture")}

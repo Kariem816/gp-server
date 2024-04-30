@@ -23,8 +23,14 @@ export function CreateLecture({ courseId }: { courseId: string }) {
 		onSuccess: async () => {
 			toast.success(t("lecture_created"));
 			setOpen(false);
-			await queryClient.invalidateQueries({
+			queryClient.invalidateQueries({
 				queryKey: ["teacher-lectures"],
+			});
+			queryClient.invalidateQueries({
+				queryKey: ["course", courseId],
+			});
+			queryClient.invalidateQueries({
+				queryKey: ["course-lectures", courseId],
 			});
 		},
 		onError: (err: any) => {

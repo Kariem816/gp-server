@@ -68,7 +68,7 @@ export function CourseLectures({ courseId }: { courseId: string }) {
 	);
 }
 
-function Lecture({ lecture }: { lecture: CourseLecture }) {
+export function Lecture({ lecture }: { lecture: CourseLecture }) {
 	const { language, t } = useTranslation();
 
 	return (
@@ -101,9 +101,13 @@ function Lecture({ lecture }: { lecture: CourseLecture }) {
 						location: lecture.location,
 					}}
 					disabled={Date.now() > new Date(lecture.time).valueOf()}
+					courseId={lecture.courseId}
 				/>
-				<DeleteLectureModal id={lecture.id} />
-				<Link to="/lectures/$id" params={{ id: lecture.id }}>
+				<DeleteLectureModal
+					id={lecture.id}
+					courseId={lecture.courseId}
+				/>
+				<Link to="/lectures/$id/" params={{ id: lecture.id }}>
 					<Button variant="outline">{t("details")}</Button>
 				</Link>
 			</div>

@@ -76,10 +76,12 @@ export function EditLectureModal({
 	id,
 	initialData,
 	disabled,
+	courseId,
 }: {
 	id: string;
 	initialData: InternalLectureData;
 	disabled: boolean;
+	courseId: string;
 }) {
 	const [open, setOpen] = useState(false);
 	const { t } = useTranslation();
@@ -96,6 +98,12 @@ export function EditLectureModal({
 			setOpen(false);
 			queryClient.invalidateQueries({
 				queryKey: ["teacher-lectures"],
+			});
+			queryClient.invalidateQueries({
+				queryKey: ["course", courseId],
+			});
+			queryClient.invalidateQueries({
+				queryKey: ["course-lectures", courseId],
 			});
 		},
 		onError: (err: any) => {
@@ -124,7 +132,13 @@ export function EditLectureModal({
 	);
 }
 
-export function DeleteLectureModal({ id }: { id: string }) {
+export function DeleteLectureModal({
+	id,
+	courseId,
+}: {
+	id: string;
+	courseId: string;
+}) {
 	const { t } = useTranslation();
 	const queryClient = useQueryClient();
 
@@ -134,6 +148,12 @@ export function DeleteLectureModal({ id }: { id: string }) {
 			toast.success(t("lecture_deleted"));
 			queryClient.invalidateQueries({
 				queryKey: ["teacher-lectures"],
+			});
+			queryClient.invalidateQueries({
+				queryKey: ["course", courseId],
+			});
+			queryClient.invalidateQueries({
+				queryKey: ["course-lectures", courseId],
 			});
 		},
 		onError: () => {

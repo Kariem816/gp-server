@@ -34,7 +34,6 @@ export function Lecture({
 		const endTime = new Date(time);
 		endTime.setMinutes(endTime.getMinutes() + duration);
 
-		// endTime < new Date() ? endTime : null;
 		if (endTime < new Date()) {
 			return {
 				endTime,
@@ -109,8 +108,9 @@ export function Lecture({
 						location,
 					}}
 					disabled={Date.now() > new Date(time).valueOf()}
+					courseId={course.id}
 				/>
-				<DeleteLectureModal id={id} />
+				<DeleteLectureModal id={id} courseId={course.id} />
 				<Link to="/lectures/$id" params={{ id }}>
 					<Button variant="outline">{t("details")}</Button>
 				</Link>

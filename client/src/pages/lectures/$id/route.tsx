@@ -17,7 +17,7 @@ function generateDashboardRoutes(id: string): NavRoute[] {
 	return [
 		{
 			name: "general",
-			path: `/lectures/${id}`,
+			path: `/lectures/${id}/`,
 			exact: true,
 		},
 		{

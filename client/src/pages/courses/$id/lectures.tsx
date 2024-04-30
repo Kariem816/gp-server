@@ -165,7 +165,7 @@ function CourseLectures() {
 					</div>
 				) : lectures.length === 0 ? (
 					<div className="text-neutral-600 italic font-semibold h-full flex items-center justify-center">
-						{t("no_students")}
+						{t("no_lectures")}
 					</div>
 				) : (
 					<div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">

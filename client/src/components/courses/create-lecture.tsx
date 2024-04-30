@@ -27,9 +27,6 @@ export function CreateLecture({ courseId }: { courseId: string }) {
 				queryKey: ["teacher-lectures"],
 			});
 			queryClient.invalidateQueries({
-				queryKey: ["course", courseId],
-			});
-			queryClient.invalidateQueries({
 				queryKey: ["course-lectures", courseId],
 			});
 		},

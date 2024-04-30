@@ -100,9 +100,6 @@ export function EditLectureModal({
 				queryKey: ["teacher-lectures"],
 			});
 			queryClient.invalidateQueries({
-				queryKey: ["course", courseId],
-			});
-			queryClient.invalidateQueries({
 				queryKey: ["course-lectures", courseId],
 			});
 		},
@@ -148,9 +145,6 @@ export function DeleteLectureModal({
 			toast.success(t("lecture_deleted"));
 			queryClient.invalidateQueries({
 				queryKey: ["teacher-lectures"],
-			});
-			queryClient.invalidateQueries({
-				queryKey: ["course", courseId],
 			});
 			queryClient.invalidateQueries({
 				queryKey: ["course-lectures", courseId],

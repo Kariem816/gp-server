@@ -53,7 +53,7 @@ function CourseLectures() {
 		setPage,
 	} = usePaginatedQuery({
 		queryKey: [
-			"course-students",
+			"course-lectures",
 			id,
 			from?.toString() ?? "no-from",
 			to?.toString() ?? "no-to",

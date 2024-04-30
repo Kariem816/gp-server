@@ -614,5 +614,21 @@
     "removed_teachers": {
         "en": "Removed Teachers",
         "ar": "الأساتذة المزالين"
+    },
+    "from": {
+        "en": "From",
+        "ar": "منذ"
+    },
+    "to": {
+        "en": "To",
+        "ar": "حتى"
+    },
+    "lectures": {
+        "en": "Lectures",
+        "ar": "محاضرات"
+    },
+    "Lectures": {
+        "en": "Lectures",
+        "ar": "المحاضرات"
     }
 }

@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import "./style.css"
 
 export const Route = createFileRoute("/")({
 	component: Page,
@@ -6,15 +7,15 @@ export const Route = createFileRoute("/")({
 
 export function Page() {
 	return (
-		<div className="container">
-			<h1 className="bg-gradient-to-r from-primary to-red-400 inline-block text-transparent bg-clip-text">
+		<div className="  container">
+     		<h1 className="bg-gradient-to-r from-primary to-red-400 inline-block text-transparent bg-clip-text"  id='m1'>
 				IoT Smart Campus
 			</h1>
 			<p>
 				This is the website for the IoT Smart Campus project. The
 				project is part of courses{" "}
-				<code>ECE491 - Graduation Project I</code> and{" "}
-				<code>ECE492 - Graduation Project II</code> at Faculty of
+				ECE491 - Graduation Project I and{" "}
+				ECE492 - Graduation Project II  at Faculty of
 				Engineering, Ain Shams University.
 			</p>
 			<h2>Project Description</h2>

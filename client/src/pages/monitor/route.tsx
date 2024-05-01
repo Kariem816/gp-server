@@ -78,7 +78,7 @@ function  MonitorLayout() {
 					{permissions?.data.includes("lighting") ? <p>
 						<Link
 							className="hover:underline"
-							to="/monitor/irrigation"
+							to="/monitor/lighting"
 						>
 							Lighting
 						</Link>

@@ -630,5 +630,9 @@
     "Lectures": {
         "en": "Lectures",
         "ar": "المحاضرات"
+    },
+    "enter_spot_name": {
+        "en": "Please enter the location of the spot.",
+        "ar": "رجاء قم بإدخال موقع الموقف."
     }
 }

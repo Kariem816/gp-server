@@ -6,3 +6,8 @@ export const recognitionResponseSchema = z.object({
 });
 
 export const encodeImageResponseSchema = z.string();
+
+// export const LPSchema = z.tuple([
+// 	z.string().regex(/[٠-٩]{3,4}/),
+// 	z.string().regex(/[أبجدرسصطعفقلمنهوى]{3,4}/),
+// ]);

@@ -1,17 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "~/components/ui/button";
-
-import { CopyIcon, DownloadIcon, TrashIcon } from "@radix-ui/react-icons";
+import { CheckIcon, TrashIcon, UpdateIcon } from "@radix-ui/react-icons";
+import { useTranslation } from "~/contexts/translation";
+import { toast } from "sonner";
+import { saveParkingSpots } from "~/services/smart-parking";
 
 type Point = [number, number];
 type Polygon = Point[];
 export type ParkingSpot = {
-	name: string;
+	location: string;
 	poly: Polygon;
 };
 
 type SelectorCanvasProps = {
 	bg: string;
+	initialSpots: ParkingSpot[];
 };
 
 const POLY_COLOR = "#2563eb";
@@ -58,11 +61,22 @@ function checkInside(poly: Polygon, x: number, y: number) {
 	return segments % 2 === 1;
 }
 
-export function SelectorCanvas({ bg }: SelectorCanvasProps) {
-	const [polygons, setPolygons] = useState<Polygon[]>([]);
+// TODO: refactor this code
+export function SelectorCanvas({ bg, initialSpots }: SelectorCanvasProps) {
+	const [spots, setSpots] = useState<ParkingSpot[]>(initialSpots);
+	const [polygons, setPolygons] = useState<Polygon[]>(
+		initialSpots.map((s) => s.poly)
+	);
 	const [currentPoly, setCurrentPoly] = useState<Point[]>([]);
 
-	const [spots, setSpots] = useState<ParkingSpot[]>([]);
+	// TODO: refactor the useEffect especially
+	useEffect(() => {
+		setSpots(initialSpots);
+		setPolygons(initialSpots.map((s) => s.poly));
+	}, [initialSpots]);
+
+	const { t } = useTranslation();
+	const [saving, setSaving] = useState(false);
 
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const containerRef = useRef<HTMLDivElement>(null);
@@ -140,16 +154,34 @@ export function SelectorCanvas({ bg }: SelectorCanvasProps) {
 			setCurrentPoly((prev) => [...prev, [x, y]]);
 		} else if (button === 0) {
 			setCurrentPoly([]);
-			const name = prompt("Enter the name of the parking spot");
-			if (name) {
+			const location = prompt(t("enter_spot_name"));
+			if (location) {
 				setSpots([
 					...spots,
 					{
-						name,
+						location,
 						poly: currentPoly,
 					},
 				]);
 				setPolygons((prev) => [...prev, currentPoly]);
+			}
+		} else if (button === 1) {
+			e.preventDefault();
+			if (currentPoly.length > 0) {
+				setCurrentPoly((prev) => prev.slice(0, -1));
+			} else {
+				const insidePolyIdx = polygons.findIndex((poly) =>
+					checkInside(poly, x, y)
+				);
+				if (insidePolyIdx === -1) return;
+				const location = prompt(t("change_spot_name"));
+				if (location) {
+					setSpots((prev) =>
+						prev.map((p, i) =>
+							i === insidePolyIdx ? { ...p, location } : p
+						)
+					);
+				}
 			}
 		} else if (button === 2) {
 			if (currentPoly.length > 0) setCurrentPoly([]);
@@ -157,6 +189,7 @@ export function SelectorCanvas({ bg }: SelectorCanvasProps) {
 				const insidePolyIdx = polygons.findIndex((poly) =>
 					checkInside(poly, x, y)
 				);
+				if (insidePolyIdx === -1) return;
 				setPolygons((prev) =>
 					prev.filter((_p, i) => i !== insidePolyIdx)
 				);
@@ -171,19 +204,16 @@ export function SelectorCanvas({ bg }: SelectorCanvasProps) {
 		setSpots([]);
 	}
 
-	function handleCopy() {
-		navigator.clipboard.writeText(JSON.stringify(spots, null, 2));
-	}
-
-	function handleDownload() {
-		const json = JSON.stringify(spots, null, 2);
-		const file = new Blob([json]);
-		const anchor = document.createElement("a");
-		anchor.href = URL.createObjectURL(file);
-		anchor.download = "spots.json";
-		document.body.append(anchor);
-		anchor.click();
-		anchor.remove();
+	async function handleSave() {
+		setSaving(true);
+		try {
+			const resp = await saveParkingSpots(spots);
+			toast.success(resp.data.message);
+		} catch (err: any) {
+			toast.error(err.message);
+		} finally {
+			setSaving(false);
+		}
 	}
 
 	return (
@@ -204,14 +234,16 @@ export function SelectorCanvas({ bg }: SelectorCanvasProps) {
 					<TrashIcon />
 				</Button>
 				<Button
-					onClick={handleDownload}
-					variant="secondary"
+					onClick={handleSave}
 					size="icon"
+					variant="success"
+					disabled={saving}
 				>
-					<DownloadIcon />
-				</Button>
-				<Button onClick={handleCopy} variant="secondary" size="icon">
-					<CopyIcon />
+					{saving ? (
+						<UpdateIcon className="animate-spin" />
+					) : (
+						<CheckIcon />
+					)}
 				</Button>
 			</div>
 		</div>

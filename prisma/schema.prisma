@@ -173,9 +173,9 @@ enum ControlElement {
 }
 
 model ParkingSpot {
-  id      String  @id @default(uuid())
+  id String @id @default(uuid())
 
-  isEmpty Boolean @default(true)
+  isEmpty  Boolean @default(true)
   location String
 }
 
@@ -227,4 +227,12 @@ model ApiKey {
   controller Controller @relation(fields: [controllerId], references: [id], onDelete: Cascade)
 
   @@unique([name, controllerId])
+}
+
+// Ones that use image recognition
+model SmartSpot {
+  id       String  @id @default(uuid())
+  poly     Json
+  location String
+  isEmpty  Boolean @default(true)
 }

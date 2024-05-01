@@ -14,8 +14,7 @@ import lightingRouter from "./lighting.router";
 import uploadsRouter from "./uploads.router";
 import mobileRouter from "./mobile.router";
 import parkingRouter from "./parking.router";
-
-import adminRouter from "./admin.router";
+import smartParkingRouter from "./smart-parking.router";
 
 import { getCourseProfile, mustBe, mustLogin } from "@/middlewares";
 
@@ -48,12 +47,10 @@ router.use("/trash", trashRouter);
 router.use("/irrigation", irrigationRouter);
 router.use("/lighting", lightingRouter);
 router.use("/parking", parkingRouter);
+router.use("/smart-parking", smartParkingRouter);
 
 router.use("/uploads", uploadsRouter);
 router.use("/mobile", mobileRouter);
-
-// TODO: remove this
-router.use("/admin", adminRouter);
 
 router.use((_req, res) => {
 	res.status(404).json({

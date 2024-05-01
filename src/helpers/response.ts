@@ -1,5 +1,4 @@
 import { PrismaError } from "@/config/db";
-import { stat } from "fs";
 
 export function formatError(err: any) {
 	if (err instanceof PrismaError)

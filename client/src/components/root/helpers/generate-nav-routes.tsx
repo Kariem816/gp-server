@@ -8,7 +8,7 @@ type NavRoute = {
 
 const HOME_ROUTE: NavRoute = { name: "home", path: "/" };
 const COURSES_ROUTE: NavRoute = { name: "courses", path: "/courses" };
-const APP_MONITOR_TEMP_ROUTE: NavRoute = {
+const APP_MONITOR_ROUTE: NavRoute = {
 	name: "app_monitor",
 	path: "/monitor",
 };
@@ -35,7 +35,7 @@ export function generateNavRoutes(userRole: UserRole | "guest"): NavRoute[] {
 	const routes: NavRoute[] = [HOME_ROUTE];
 
 	if (userRole === "admin") {
-		routes.push(ADMIN_DASHBOARD_ROUTE, COURSES_ROUTE);
+		routes.push(ADMIN_DASHBOARD_ROUTE, COURSES_ROUTEو APP_MONITOR_ROUTE);
 	}
 
 	if (userRole === "teacher") {
@@ -51,10 +51,10 @@ export function generateNavRoutes(userRole: UserRole | "guest"): NavRoute[] {
 	}
 
 	if (userRole === "controller") {
-		routes.push(CONTROLLER_DASHBOARD_ROUTE, COURSES_ROUTE);
+		routes.push(CONTROLLER_DASHBOARD_ROUTE, COURSES_ROUTE, APP_MONITOR_ROUTE);
 	}
 
-	routes.push(APP_MONITOR_TEMP_ROUTE, MOBILE_ROUTE);
+	routes.push(MOBILE_ROUTE);
 
 	return routes;
 }

@@ -8,6 +8,6 @@ export type TrashCan = {
     location: string;
 }
 
-export async function getAllCans(query: APIQuery = {}): Promise<PaginatedResponse<TrashCan>> {
+export async function getAllCans(query: APIQuery = {}): Promise<PaginatedResponse<TrashCan[]>> {
     return get("/trash", query);
 }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import { useAuth } from "~/contexts/auth";
 import { useNavigate } from "@tanstack/react-router";
 import { useSecurePage } from "~/hooks/use-secure-page";
@@ -7,7 +7,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import {
+	Card,
+	CardContent,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+} from "~/components/ui/card";
 import {
 	Form,
 	FormControl,
@@ -118,40 +124,32 @@ export function LoginPage() {
 									</FormItem>
 								)}
 							/>
-							
-							
-							
+
 							<p className="text-red-500 text-sm">{formError}</p>
 							<div className="text-center mt-4">
 								<Button type="submit" disabled={isLoading}>
 									Log in
 								</Button>
 							</div>
-							<div>
-  								
-  								<hr className=" mt-4" style={{ width: '100%', borderTop: '1px solid #ddd' }} />
-  								
-							</div>
-
-							<p className="text-center mt-4 text-blue-600 " >
-								<a className="hover:underline"href="http://localhost:5173/password-reset" >
-									Forgotten password?
-								</a>
-								
-							</p>
-							<div className="text-center	 mt-4 ">
-								<Button className="bg-lime-700 hover:bg-lime-800">
-								<a type="submit"  href="http://localhost:5173/register" >
-									Create new account
-								</a>
-								</Button>
-							
-								
-							</div>
 						</form>
 					</Form>
+					<CardFooter className="border-t mt-4">
+						<div className="flex flex-col justify-center w-full">
+							<Button variant="link" asChild>
+								<Link to="/password-reset">
+									Forgot password?
+								</Link>
+							</Button>
+							<Button
+								className="bg-lime-700 hover:bg-lime-800"
+								asChild
+							>
+								<Link to="/register">Create new account</Link>
+							</Button>
+						</div>
+					</CardFooter>
 				</CardContent>
 			</Card>
 		</div>
 	);
-}	
+}

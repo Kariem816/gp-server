@@ -35,7 +35,7 @@ export function generateNavRoutes(userRole: UserRole | "guest"): NavRoute[] {
 	const routes: NavRoute[] = [HOME_ROUTE];
 
 	if (userRole === "admin") {
-		routes.push(ADMIN_DASHBOARD_ROUTE, COURSES_ROUTEو APP_MONITOR_ROUTE);
+		routes.push(ADMIN_DASHBOARD_ROUTE, COURSES_ROUTE, APP_MONITOR_ROUTE);
 	}
 
 	if (userRole === "teacher") {
@@ -51,7 +51,11 @@ export function generateNavRoutes(userRole: UserRole | "guest"): NavRoute[] {
 	}
 
 	if (userRole === "controller") {
-		routes.push(CONTROLLER_DASHBOARD_ROUTE, COURSES_ROUTE, APP_MONITOR_ROUTE);
+		routes.push(
+			CONTROLLER_DASHBOARD_ROUTE,
+			COURSES_ROUTE,
+			APP_MONITOR_ROUTE
+		);
 	}
 
 	routes.push(MOBILE_ROUTE);

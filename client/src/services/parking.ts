@@ -1,3 +1,4 @@
+
 import { get } from "./api";
 import type { APIQuery } from "~/types/query";
 export type ParkingSlot = {

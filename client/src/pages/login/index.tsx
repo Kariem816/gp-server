@@ -68,7 +68,7 @@ export function LoginPage() {
 	}
 
 	return (
-		<div className="container h-full flex flex-col justify-center items-center">
+		<div className="   container h-full flex flex-col justify-center items-center">
 			<Card className="max-w-2xl w-full">
 				<CardHeader>
 					<CardTitle className="text-center">Welcome back!</CardTitle>

@@ -5,6 +5,6 @@ export type LightSpot = {
     state: boolean;
     location: string;
 }
-export async function getAllLamps(query: APIQuery = {}): Promise<APIResponse<LightSpot[]>> {
+export async function getAllLamps(query: APIQuery = {}): Promise<PaginatedResponse<LightSpot>> {
     return get("/lighting", query);
 }

@@ -7,7 +7,7 @@ export type Plants = {
     isWatering: boolean;
     type:string;
 }
-export async function getAllPlants(query: APIQuery = {}): Promise<APIResponse<Plants[]>> {
+export async function getAllPlants(query: APIQuery = {}): Promise<PaginatedResponse<Plants>> {
     return get("/irrigation", query);
 }
 

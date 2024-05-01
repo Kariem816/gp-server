@@ -14,6 +14,7 @@ import { Route as rootRoute } from "./pages/__root"
 import { Route as MonitorRouteImport } from "./pages/monitor/route"
 import { Route as AdminRouteImport } from "./pages/admin/route"
 import { Route as IndexImport } from "./pages/index"
+import { Route as RegisterIndexImport } from "./pages/register/index"
 import { Route as PasswordResetIndexImport } from "./pages/password-reset/index"
 import { Route as MonitorIndexImport } from "./pages/monitor/index"
 import { Route as MobileIndexImport } from "./pages/mobile/index"
@@ -36,6 +37,9 @@ import { Route as ControllersMeRouteImport } from "./pages/controllers/me/route"
 import { Route as TeachersMeIndexImport } from "./pages/teachers/me/index"
 import { Route as StudentsMeIndexImport } from "./pages/students/me/index"
 import { Route as SecurityMeIndexImport } from "./pages/security/me/index"
+import { Route as MonitorParkingIndexImport } from "./pages/monitor/parking/index"
+import { Route as MonitorLightingIndexImport } from "./pages/monitor/lighting/index"
+import { Route as MonitorIrrigationIndexImport } from "./pages/monitor/irrigation/index"
 import { Route as MonitorGarbageIndexImport } from "./pages/monitor/garbage/index"
 import { Route as LecturesIdIndexImport } from "./pages/lectures/$id/index"
 import { Route as CoursesIdIndexImport } from "./pages/courses/$id/index"
@@ -67,6 +71,11 @@ const AdminRouteRoute = AdminRouteImport.update({
 
 const IndexRoute = IndexImport.update({
   path: "/",
+  getParentRoute: () => rootRoute,
+} as any)
+
+const RegisterIndexRoute = RegisterIndexImport.update({
+  path: "/register/",
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -178,6 +187,21 @@ const StudentsMeIndexRoute = StudentsMeIndexImport.update({
 const SecurityMeIndexRoute = SecurityMeIndexImport.update({
   path: "/security/me/",
   getParentRoute: () => rootRoute,
+} as any)
+
+const MonitorParkingIndexRoute = MonitorParkingIndexImport.update({
+  path: "/parking/",
+  getParentRoute: () => MonitorRouteRoute,
+} as any)
+
+const MonitorLightingIndexRoute = MonitorLightingIndexImport.update({
+  path: "/lighting/",
+  getParentRoute: () => MonitorRouteRoute,
+} as any)
+
+const MonitorIrrigationIndexRoute = MonitorIrrigationIndexImport.update({
+  path: "/irrigation/",
+  getParentRoute: () => MonitorRouteRoute,
 } as any)
 
 const MonitorGarbageIndexRoute = MonitorGarbageIndexImport.update({
@@ -352,6 +376,10 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof PasswordResetIndexImport
       parentRoute: typeof rootRoute
     }
+    "/register/": {
+      preLoaderRoute: typeof RegisterIndexImport
+      parentRoute: typeof rootRoute
+    }
     "/controllers/me/api-keys": {
       preLoaderRoute: typeof ControllersMeApiKeysImport
       parentRoute: typeof ControllersMeRouteImport
@@ -416,6 +444,18 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof MonitorGarbageIndexImport
       parentRoute: typeof MonitorRouteImport
     }
+    "/monitor/irrigation/": {
+      preLoaderRoute: typeof MonitorIrrigationIndexImport
+      parentRoute: typeof MonitorRouteImport
+    }
+    "/monitor/lighting/": {
+      preLoaderRoute: typeof MonitorLightingIndexImport
+      parentRoute: typeof MonitorRouteImport
+    }
+    "/monitor/parking/": {
+      preLoaderRoute: typeof MonitorParkingIndexImport
+      parentRoute: typeof MonitorRouteImport
+    }
     "/security/me/": {
       preLoaderRoute: typeof SecurityMeIndexImport
       parentRoute: typeof rootRoute
@@ -442,7 +482,13 @@ export const routeTree = rootRoute.addChildren([
     AdminUsersRoute,
     AdminIndexRoute,
   ]),
-  MonitorRouteRoute.addChildren([MonitorIndexRoute, MonitorGarbageIndexRoute]),
+  MonitorRouteRoute.addChildren([
+    MonitorIndexRoute,
+    MonitorGarbageIndexRoute,
+    MonitorIrrigationIndexRoute,
+    MonitorLightingIndexRoute,
+    MonitorParkingIndexRoute,
+  ]),
   ControllersMeRouteRoute.addChildren([
     ControllersMeApiKeysRoute,
     ControllersMeIndexRoute,
@@ -472,6 +518,7 @@ export const routeTree = rootRoute.addChildren([
   LoginIndexRoute,
   MobileIndexRoute,
   PasswordResetIndexRoute,
+  RegisterIndexRoute,
   CoursesIdEditRoute,
   CoursesIdLecturesRoute,
   CoursesIdStudentsRoute,

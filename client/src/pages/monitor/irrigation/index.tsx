@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { getAllPlants } from "~/services/irrigation.ts";
 import PlantCard from "../../../components/plantcard.tsx"
+ import {time} from "~/utils/formatters/time"
 export const Route = createFileRoute("/monitor/irrigation/")({
 	component: IrrigationList,
 });
@@ -33,7 +34,7 @@ function IrrigationList() {
 			  <div key={plant.id} className="rounded-lg bg-accent p-4 space-y-4 mb-8">
 				<PlantCard
 					id = {plant.id}
-				  lastUpdate={plant.lastUpdated}
+				  lastUpdate={ time(plant.lastUpdated)}
 				  isWatering={plant.isWatering}
 				  plantType={plant.type}
 				/>

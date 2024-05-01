@@ -7,6 +7,7 @@ export const Route = createFileRoute("/monitor/parking/")({
   component: ParkingList,
 });
 
+
 function ParkingList() {
   const {
     data: parking,
@@ -26,7 +27,7 @@ function ParkingList() {
   if (isError) {
     return <p>Error</p>;
   }
-
+  
   return (
     <>
       {parking.length === 0 ? (

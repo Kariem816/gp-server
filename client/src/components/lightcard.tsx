@@ -12,7 +12,7 @@ const LightingCard: React.FC<LightingCardProps> = ({ id, state, location }) => {
       <h2>Lighting {id}</h2>
       <div className="lighting-info">
         <p><strong>Location:</strong> {location}</p>
-        <p><strong>State:</strong> {state ? "On" : "Off"}</p>
+        <p><strong>State:</strong> <strong style={{ color: state ? "green" : "red" , fontSize: "15px" }}>{state ? "On" : "Off"} </strong></p>
       </div>
     </div>
   );

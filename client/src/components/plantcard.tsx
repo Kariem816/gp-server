@@ -6,7 +6,6 @@ interface PlantCardProps {
   isWatering: boolean;
   plantType: string;
 }
-
 const PlantCard: React.FC<PlantCardProps> = ({ id,lastUpdate, isWatering, plantType }) => {
     let formattedDate: string;
   
@@ -21,7 +20,8 @@ const PlantCard: React.FC<PlantCardProps> = ({ id,lastUpdate, isWatering, plantT
         <h2>Plant {id}</h2> 
         <div className="plant-info">
           <p><strong>Last Update:</strong> {formattedDate}</p>
-          <p><strong>Status:</strong> {isWatering ? "Watering" : "Not Watering"}</p>
+          <p><strong>Status:</strong> <strong style={{ color: isWatering ? "green" : "red", fontSize: "15px" }}>
+          {isWatering ? "Watering" : "Not Watering"} </strong> </p>
           <p><strong>Type:</strong> {plantType}</p>
         </div>
       </div>

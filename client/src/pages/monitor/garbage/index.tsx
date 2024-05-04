@@ -3,12 +3,14 @@ import { useQuery } from "@tanstack/react-query";
 import { getAllCans } from "~/services/garbage";
 
 import LoadingBar from "../../../components/loading-bar/loading-bar.tsx";
+import { useControllerPermission } from "~/hooks/controllers/use-controller-permission.ts";
 
 export const Route = createFileRoute("/monitor/garbage/")({
 	component: GarbageList,
 });
 
 function GarbageList() {
+	useControllerPermission("/", "garbage");
 	const {
 		data: garbage,
 		isLoading,

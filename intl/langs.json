@@ -634,5 +634,37 @@
     "enter_spot_name": {
         "en": "Please enter the location of the spot.",
         "ar": "رجاء قم بإدخال موقع الموقف."
+    },
+    "lighting": {
+        "en": "Lighting",
+        "ar": "إضاءة"
+    },
+    "Lighting": {
+        "en": "Lighting",
+        "ar": "الإضاءة"
+    },
+    "parking": {
+        "en": "Parking",
+        "ar": "موقف"
+    },
+    "Parking": {
+        "en": "Parking",
+        "ar": "الموقف"
+    },
+    "irrigation": {
+        "en": "Irrigation",
+        "ar": "ري"
+    },
+    "Irrigation": {
+        "en": "Irrigation",
+        "ar": "الري"
+    },
+    "garbage": {
+        "en": "Garbage",
+        "ar": "نفايات"
+    },
+    "Garbage": {
+        "en": "Garbage",
+        "ar": "النفايات"
     }
 }

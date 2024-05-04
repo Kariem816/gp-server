@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { PermissionLink } from "~/components/controllers/permissions/permission-link";
 import { Spinner } from "~/components/loaders";
 import { useTranslation } from "~/contexts/translation";
 import { getMyPermissions } from "~/services/controllers";
@@ -20,6 +21,7 @@ function MyControllerGeneral() {
 		queryKey: ["my-permissions"],
 		queryFn: getMyPermissions,
 		select: (data) => data.data,
+		staleTime: 1000 * 60 * 5,
 	});
 
 	if (isError) {
@@ -43,10 +45,7 @@ function MyControllerGeneral() {
 			<h3 className="text-2xl">{t("permissions")}</h3>
 			<div className="flex overflow-x-auto gap-4">
 				{permissions?.map((permission) => (
-					<span key={permission}>
-						{/* <PermissionLink permission={permission} /> */}
-						{permission}
-					</span>
+					<PermissionLink key={permission} permission={permission} />
 				))}
 			</div>
 		</div>

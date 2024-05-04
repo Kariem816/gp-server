@@ -18,7 +18,7 @@ function MonitorLayout() {
 		isError,
 		error,
 	} = useQuery({
-		queryKey: ["mypermissions"],
+		queryKey: ["my-permissions"],
 		queryFn: () => getMyPermissions(),
 		enabled: user.role === "controller",
 	});

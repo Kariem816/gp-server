@@ -13,14 +13,19 @@ export const addCameraSchema = z.object({
 	ip: z.string(),
 });
 
-export const newApiKeySchema = z
-	.object({
-		name: z.string().min(3).max(20),
-		expiresAt: z.string().datetime().optional(),
-	})
-	.refine((data) => {
-		if (data.expiresAt && new Date(data.expiresAt) < new Date()) {
-			throw new Error("expiresAt must be in the future");
-		}
-		return true;
-	});
+export const newApiKeySchema = z.object({
+	name: z.string().min(3).max(20),
+	expiresAt: z
+		.string()
+		.datetime()
+		.optional()
+		.refine(
+			(data) => {
+				if (data && new Date(data) < new Date()) {
+					return false;
+				}
+				return true;
+			},
+			{ message: "expiration time must be in the future" }
+		),
+});

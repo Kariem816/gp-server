@@ -1,6 +1,7 @@
 import { env } from "@/config/env";
 import {
 	// LPSchema,
+	bulkParkingStateSchema,
 	encodeImageResponseSchema,
 	recognitionResponseSchema,
 } from "@/schemas/recognizer.schema";
@@ -124,3 +125,35 @@ export async function encodeImage(
 // 		throw err.response.data;
 // 	}
 // }
+
+export async function readSmartParkingState(imgUrl: string, spots: any[]) {
+	try {
+		const response = await axios.post(
+			`${env.RECOGNIZER_URL}/parking?token=${env.RECOGNIZER_TOKEN}`,
+			{ img: imgUrl, spots }
+		);
+
+		if (response.status !== 200) {
+			throw response.data;
+		}
+
+		const data = await bulkParkingStateSchema.parseAsync(response.data);
+
+		return data;
+	} catch (err: any) {
+		if (err instanceof z.ZodError) {
+			throw {
+				error: "VALIDATION_ERROR",
+				messages: err.errors,
+			};
+		}
+		if (!err.response) {
+			throw {
+				error: "CONNECTION_ERROR",
+				message:
+					"Couldn't connect to the server. Please try again later",
+			};
+		}
+		throw err.response.data;
+	}
+}

@@ -6,7 +6,10 @@ import courseStore from "@/models/courses.model";
 import teacherStore from "@/models/teachers.model";
 import lectureStore from "@/models/lectures.model";
 
-import * as irapi from "@/controllers/recognize.controller";
+import {
+	encodeImage,
+	recognizeAttendance,
+} from "@/controllers/recognize.controller";
 import { UploadThingError } from "uploadthing/server";
 import { sendNotifications } from "@/helpers/notifications";
 import { z } from "zod";
@@ -46,7 +49,7 @@ const uploadRouter = {
 						metadata.userId
 					);
 					try {
-						const newEncoding = await irapi.encodeImage(
+						const newEncoding = await encodeImage(
 							file.url,
 							prevEncoding
 						);
@@ -174,7 +177,7 @@ const uploadRouter = {
 
 					// Send to recognition service
 					try {
-						const attendance = await irapi.recognizeAttendance(
+						const attendance = await recognizeAttendance(
 							file.url,
 							students
 						);

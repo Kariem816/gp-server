@@ -17,6 +17,21 @@ class parkingstore {
 		}
 	}
 
+	async indexForRecognition() {
+		try {
+			const spots = await prisma.smartSpot.findMany({
+				select: {
+					id: true,
+					poly: true,
+				},
+			});
+
+			return spots;
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
+	}
+
 	async save(data: ParkingSpot[]): Promise<number> {
 		try {
 			await prisma.smartSpot.deleteMany();
@@ -43,6 +58,25 @@ class parkingstore {
 			});
 
 			return isEmpty;
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
+	}
+
+	async update(data: { id: string; occupied: boolean }[]): Promise<void> {
+		try {
+			await prisma.$transaction(
+				data.map((spot) =>
+					prisma.smartSpot.update({
+						where: {
+							id: spot.id,
+						},
+						data: {
+							isEmpty: !spot.occupied,
+						},
+					})
+				)
+			);
 		} catch (err) {
 			throw new PrismaError(err as PrismaClientError);
 		}

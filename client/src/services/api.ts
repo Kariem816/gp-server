@@ -2,7 +2,7 @@ import axios from "axios";
 
 import type { APIQuery } from "~/types/query";
 
-const serverURL = import.meta.env.DEV
+export const serverURL = import.meta.env.DEV
 	? import.meta.env.VITE_APP_SERVER_URL
 	: "";
 
@@ -15,6 +15,13 @@ const api = axios.create({
 });
 
 export default api;
+
+export function getAPIToken(): string {
+	return (
+		(api.defaults.headers.common["Authorization"] as string | undefined) ??
+		""
+	);
+}
 
 export function setAPIToken(token: string) {
 	api.defaults.headers.common["Authorization"] = `Bearer ${token}`;

@@ -1,14 +1,14 @@
 import { createUploadthing } from "uploadthing/express";
 import { UTApi, UploadThingError } from "uploadthing/server";
 
-import type { UploadedFile } from "@uploadthing/shared";
+import type { UploadedFileData } from "uploadthing/types";
 
 export const ut = createUploadthing();
 export const utapi = new UTApi();
 
 type ResolverOptions = {
 	metadata: any;
-	file: UploadedFile;
+	file: UploadedFileData;
 };
 
 type ResolverFn = (opts: ResolverOptions) => Promise<any>;

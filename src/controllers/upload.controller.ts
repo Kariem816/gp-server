@@ -1,4 +1,4 @@
-import { createResolver, ut, utapi } from "@/config/ut";
+import { createResolver, ut } from "@/config/ut";
 import userStore from "@/models/users.model";
 import uploadStore from "@/models/uploads.model";
 import sessionStore from "@/models/sessions.model";

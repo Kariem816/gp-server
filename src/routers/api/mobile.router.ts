@@ -193,8 +193,8 @@ router.post(
 			});
 
 			if (resp?.data?.key) {
-				utapi.renameFile({
-					fileKey: resp?.data?.key,
+				utapi.renameFiles({
+					key: resp?.data?.key,
 					newName: `smart-campus-app-${version}.apk`,
 				});
 			} else {

@@ -21,7 +21,7 @@ type AuthContextValue = {
 	user: User;
 	register: (userData: User, accountType: UserRole) => Promise<User>;
 	login: (username: string, password: string) => Promise<void>;
-	refreshUser: (newUser: User) => Promise<void>;
+	refreshUser: () => Promise<void>;
 	logout: () => void;
 };
 
@@ -130,10 +130,10 @@ export default function AuthProvider({
 
 	async function refreshUser() {
 		stopRefreshTokenTimer();
-		refreshTokenInternal();
 		try {
-			const newUser = await getCurrentUser();
-			setUser(newUser);
+			await refreshTokenInternal();
+			const { data } = await getCurrentUser();
+			setUser(data);
 		} catch (err) {
 			logout();
 		}
@@ -142,7 +142,9 @@ export default function AuthProvider({
 	async function logout() {
 		try {
 			await logoutUser();
-		} catch {}
+		} catch {
+			// don't care if logout fails
+		}
 
 		removeAPIToken();
 		setUser(DEFAULT_USER);

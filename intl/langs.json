@@ -666,5 +666,201 @@
     "Garbage": {
         "en": "Garbage",
         "ar": "النفايات"
+    },
+    "account_type": {
+        "ar": "نوع الحساب",
+        "en": "Account Type"
+    },
+    "student": {
+        "ar": "طالب",
+        "en": "Student"
+    },
+    "teacher": {
+        "ar": "معلم",
+        "en": "Teacher"
+    },
+    "admin": {
+        "ar": "مسئول",
+        "en": "Admin"
+    },
+    "security": {
+        "ar": "فرد أمن",
+        "en": "Security"
+    },
+    "controller": {
+        "ar": "متحكم",
+        "en": "Controller"
+    },
+    "settings": {
+        "ar": "الإعدادات",
+        "en": "Settings"
+    },
+    "license_plate": {
+        "en": "License Plate",
+        "ar": "رقم اللوحة"
+    },
+    "license_plate_updated": {
+        "en": "License plate updated successfully!",
+        "ar": "تم تحديث لوحة السيارة بنجاح!"
+    },
+    "update_license_plate_err": {
+        "en": "There was an error updating the license plate!",
+        "ar": "حدث خطأ أثناء تحديث لوحة السيارة!"
+    },
+    "license_plate_deleted": {
+        "en": "License plate deleted successfully!",
+        "ar": "تم حذف لوحة السيارة بنجاح!"
+    },
+    "delete_license_plate_err": {
+        "en": "There was an error deleting the license plate!",
+        "ar": "حدث خطأ أثناء حذف لوحة السيارة!"
+    },
+    "new_plate": {
+        "en": "New Plate",
+        "ar": "لوحة جديدة"
+    },
+    "add_plate": {
+        "en": "Add Plate",
+        "ar": "إضافة لوحة"
+    },
+    "no_saved_plate": {
+        "en": "No saved plate",
+        "ar": "لا يوجد لوحة محفوظة"
+    },
+    "change_password": {
+        "en": "Change Password",
+        "ar": "تغيير كلمة المرور"
+    },
+    "confirm_password": {
+        "ar": "تأكيد كلمة المرور",
+        "en": "Password Confirm"
+    },
+    "password": {
+        "ar": "كلمة المرور",
+        "en": "Password"
+    },
+    "change_password_desc": {
+        "en": "Changing your password will log you out. You will need to login again with your new password.",
+        "ar": "سيؤدي تغيير كلمة المرور إلى تسجيل الخروج. ستحتاج إلى تسجيل الدخول مرة أخرى باستخدام كلمة المرور الجديدة."
+    },
+    "current_password": {
+        "en": "Current Password",
+        "ar": "كلمة المرور الحالية"
+    },
+    "new_password": {
+        "en": "New Password",
+        "ar": "كلمة المرور الجديدة"
+    },
+    "new_password_confirm": {
+        "en": "Confirm New Password",
+        "ar": "تأكيد كلمة المرور الجديدة"
+    },
+    "change_password_success": {
+        "en": "Password changed successfully! You will be logged out now.",
+        "ar": "تم تغيير كلمة المرور بنجاح! سيتم تسجيل الخروج الآن."
+    },
+    "change_password_error": {
+        "en": "There was an error changing your password!",
+        "ar": "حدث خطأ أثناء تغيير كلمة المرور!"
+    },
+    "send_notif": {
+        "en": "Send Notification",
+        "ar": "إرسال إشعار"
+    },
+    "send": {
+        "en": "Send",
+        "ar": "إرسال"
+    },
+    "title": {
+        "en": "Title",
+        "ar": "العنوان"
+    },
+    "body": {
+        "en": "Body",
+        "ar": "النص"
+    },
+    "notif_sent": {
+        "en": "Notification sent successfully!",
+        "ar": "تم إرسال الإشعار بنجاح!"
+    },
+    "notif_error": {
+        "en": "There was an error sending the notification!",
+        "ar": "حدث خطأ أثناء إرسال الإشعار!"
+    },
+    "notifications": {
+        "en": "Notifications",
+        "ar": "الإشعارات"
+    },
+    "notif_title": {
+        "en": "Hey There!",
+        "ar": "مرحبا!"
+    },
+    "notif_body": {
+        "en": "This is a notification from the Smart Campus app.",
+        "ar": "هذا إشعار من تطبيق الجامعة الذكية."
+    },
+    "danger_zone": {
+        "en": "Danger Zone",
+        "ar": "منطقة الخطر"
+    },
+    "delete_account": {
+        "en": "Delete Account",
+        "ar": "حذف الحساب"
+    },
+    "delete_account_desc": {
+        "en": "Deleting your account will delete all your data. This action cannot be undone.",
+        "ar": "سيؤدي حذف حسابك إلى حذف جميع بياناتك. لا يمكن التراجع عن هذا الإجراء."
+    },
+    "confirmation": {
+        "en": "Are you sure you want to proceed?",
+        "ar": "هل أنت متأكد أنك تريد المتابعة؟"
+    },
+    "affirmative": {
+        "en": "Yes, I'm sure",
+        "ar": "نعم، أنا متأكد"
+    },
+    "account_deleted": {
+        "en": "Account deleted successfully!",
+        "ar": "تم حذف الحساب بنجاح!"
+    },
+    "imgs": {
+        "en": "Images",
+        "ar": "صور"
+    },
+    "Imgs": {
+        "en": "Images",
+        "ar": "الصور"
+    },
+    "img": {
+        "en": "Image",
+        "ar": "صورة"
+    },
+    "Img": {
+        "en": "Image",
+        "ar": "الصورة"
+    },
+    "no_imgs": {
+        "en": "No images",
+        "ar": "لا يوجد صور"
+    },
+    "generic_error": {
+        "en": "An error occured!",
+        "ar": "حدث خطأ!"
+    },
+    "change_img": {
+        "en": "Change Profile Picture",
+        "ar": "تغيير الصورة الشخصية"
+    },
+    "change_img_success": {
+        "en": "Profile picture changed successfully!",
+        "ar": "تم تغيير الصورة الشخصية بنجاح!"
+    },
+    "change_img_info": {
+        "en": "Please choose a picture of yourself alone. Your face should be visible. Max file size is 8MB. Only image files are allowed.",
+        "ar": "يرجى اختيار صورة لنفسك وحدك. يجب أن يكون وجهك مرئيًا. الحجم الأقصى للملف هو 8 ميغابايت. يُسمح فقط بملفات الصور."
+    },
+    "imgs_load_err": {
+        "en": "There was an error loading the images!",
+        "ar": "حدث خطأ أثناء تحميل الصور!"
     }
 }

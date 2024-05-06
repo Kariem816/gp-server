@@ -6,10 +6,8 @@ import { useUploadThing } from "~/hooks/use-uploadthing";
 import { toast } from "sonner";
 import {
 	Dialog,
-	DialogClose,
 	DialogContent,
 	DialogDescription,
-	DialogFooter,
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
@@ -17,6 +15,7 @@ import {
 import { Button } from "~/components/ui/button";
 import { Pencil1Icon } from "@radix-ui/react-icons";
 import { Input } from "~/components/ui/input";
+import { Cropper } from "../cropper";
 
 export default function ProfilePic({
 	img,
@@ -27,37 +26,49 @@ export default function ProfilePic({
 	name: string;
 	isCurrentUser: boolean;
 }) {
-	const [viewImg, setViewImg] = useState(img);
-
 	return (
 		<div className="relative">
 			<Avatar className="size-36">
-				<AvatarImage src={viewImg} alt={name} />
+				<AvatarImage src={img} alt={name} />
 				<AvatarFallback>{name[0]}</AvatarFallback>
 			</Avatar>
-			{isCurrentUser && (
-				<ChangePic
-					update={(img) => setViewImg(img)}
-					reset={() => setViewImg(img)}
-				/>
-			)}
+			{isCurrentUser && <ChangePic />}
 		</div>
 	);
 }
 
-function ChangePic({
-	update,
-	reset,
-}: {
-	update: (img: string) => void;
-	reset: () => void;
-}) {
+type UploadData =
+	| {
+			populated: false;
+	  }
+	| {
+			populated: true;
+			file: File;
+			fileUrl: string;
+			fileDims: { w: number; h: number };
+			cropped?: File;
+	  };
+
+async function getImageDims(src: string) {
+	return new Promise<{ w: number; h: number }>((resolve, reject) => {
+		const img = new Image();
+		img.src = src;
+		img.onload = () => {
+			resolve({ w: img.naturalWidth, h: img.naturalHeight });
+		};
+		img.onerror = reject;
+	});
+}
+
+function ChangePic() {
 	const { refreshUser } = useAuth();
 	const { t } = useTranslation();
 	const [progress, setProgress] = useState(0);
 	const [open, setOpen] = useState(false);
 
-	const [file, setFile] = useState<File>();
+	const [uploadData, setUploadData] = useState<UploadData>({
+		populated: false,
+	});
 
 	const { isUploading, permittedFileInfo, startUpload } = useUploadThing(
 		"profilePics",
@@ -66,10 +77,13 @@ function ChangePic({
 				toast.success(t("change_img_success"));
 				refreshUser();
 				setOpen(false);
-				reset();
+				setProgress(0);
+				setUploadData({ populated: false });
+				document
+					.querySelector("input[type=file]")!
+					.setAttribute("value", "");
 			},
 			onUploadError: (err) => {
-				reset();
 				if (err.message.includes("UploadThing")) {
 					toast.error(t("generic_error"));
 				} else {
@@ -80,18 +94,14 @@ function ChangePic({
 		}
 	);
 
-	function start() {
-		if (!file) return;
-
-		update(URL.createObjectURL(file));
-		startUpload([file]);
-	}
-
 	function handleOpenChange(newOpen: boolean) {
 		if (isUploading) return;
 
 		if (!newOpen) {
-			reset();
+			setUploadData({ populated: false });
+			document
+				.querySelector("input[type=file]")!
+				.setAttribute("value", "");
 		}
 		setOpen(newOpen);
 	}
@@ -100,8 +110,39 @@ function ChangePic({
 		const files = e.target.files;
 		if (!files?.length) return;
 
-		// TODO: add image cropping
-		setFile(files[0]);
+		const file = files[0];
+		const fileUrl = URL.createObjectURL(file);
+
+		const img = new Image();
+		img.src = fileUrl;
+
+		getImageDims(fileUrl)
+			.then((dims) => {
+				setUploadData({
+					populated: true,
+					file,
+					fileUrl,
+					fileDims: dims,
+				});
+			})
+			.catch(() => {
+				document
+					.querySelector("input[type=file]")!
+					.setAttribute("value", "");
+			});
+	}
+
+	function start() {
+		if (!uploadData.populated) return;
+
+		const { cropped, file, fileDims } = uploadData;
+
+		if (!cropped && fileDims.w !== fileDims.h) {
+			toast.error(t("change_img_square"));
+			return;
+		}
+
+		startUpload([cropped ?? file]);
 	}
 
 	return (
@@ -128,6 +169,20 @@ function ChangePic({
 					onChange={handleFileChange}
 				/>
 
+				{uploadData.populated && (
+					<Cropper
+						img={uploadData.fileUrl}
+						// aspectRatio={1}
+						disabled={isUploading}
+						onCrop={(blob) => {
+							setUploadData({
+								...uploadData,
+								cropped: new File([blob], uploadData.file.name),
+							});
+						}}
+					/>
+				)}
+
 				{isUploading && (
 					<div className="flex items-center gap-2">
 						{/* TODO: add nicer progress bar */}
@@ -140,22 +195,16 @@ function ChangePic({
 					</div>
 				)}
 
-				<DialogFooter>
-					<div className="flex justify-end items-center gap-2">
-						<DialogClose asChild>
-							<Button
-								variant="outline"
-								onClick={reset}
-								disabled={isUploading}
-							>
-								{t("cancel")}
-							</Button>
-						</DialogClose>
-						<Button onClick={start} disabled={isUploading}>
-							{t("upload")}
-						</Button>
-					</div>
-				</DialogFooter>
+				<Button
+					onClick={start}
+					disabled={
+						!uploadData.populated ||
+						(!uploadData.cropped &&
+							uploadData.fileDims.h !== uploadData.fileDims.w)
+					}
+				>
+					{t("upload")}
+				</Button>
 			</DialogContent>
 		</Dialog>
 	);

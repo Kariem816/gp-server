@@ -862,5 +862,21 @@
     "imgs_load_err": {
         "en": "There was an error loading the images!",
         "ar": "حدث خطأ أثناء تحميل الصور!"
+    },
+    "change_img_square": {
+        "en": "Please choose a square image. Or crop the image to be square.",
+        "ar": "يرجى اختيار صورة مربعة. أو قم بتقطيع الصورة لتكون مربعة."
+    },
+    "crop": {
+        "en": "Crop",
+        "ar": "قص"
+    },
+    "cropped": {
+        "en": "Cropped",
+        "ar": "مقصوص"
+    },
+    "upload": {
+        "en": "Upload",
+        "ar": "تحميل"
     }
 }

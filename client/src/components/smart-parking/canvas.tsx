@@ -218,7 +218,7 @@ export function SelectorCanvas({ bg, initialSpots }: SelectorCanvasProps) {
 
 	return (
 		<div className="space-y-4">
-			<img src={bg} ref={imgRef} style={{ display: "none" }} />
+			<img src={bg} ref={imgRef} className="hidden" />
 			<div className="mx-auto max-w-7xl" ref={containerRef}>
 				<canvas
 					className="w-full border-2"

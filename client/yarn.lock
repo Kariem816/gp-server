@@ -1016,20 +1016,20 @@
   dependencies:
     file-selector "^0.6.0"
 
-"@uploadthing/react@^6.5.1":
-  version "6.5.1"
-  resolved "https://registry.yarnpkg.com/@uploadthing/react/-/react-6.5.1.tgz#bf72977fa8e33d81baa0479a724766986ad4b573"
-  integrity sha512-6ifqMO15RtryoL83oMJdglbTm2hsAcHKxrGUiVb/uecXIsjub8+BdanG/0IyKaaLmnZCa4cvFwE9MMkUnps3/A==
+"@uploadthing/react@^6.5.3":
+  version "6.5.3"
+  resolved "https://registry.yarnpkg.com/@uploadthing/react/-/react-6.5.3.tgz#dcd8dbfc9e17b305e6a685726553610f87a6e6c8"
+  integrity sha512-MdHoxS/G34pxmTl24HLEegd+Xu1WWjC1AOAI1a+joSGfnnAJTjanqhB7sTasUvT0PYdEZrshmEC7wYYDCun03g==
   dependencies:
     "@uploadthing/dropzone" "0.4.0"
-    "@uploadthing/shared" "6.7.1"
+    "@uploadthing/shared" "6.7.3"
     file-selector "^0.6.0"
     tailwind-merge "^2.2.1"
 
-"@uploadthing/shared@6.7.1":
-  version "6.7.1"
-  resolved "https://registry.yarnpkg.com/@uploadthing/shared/-/shared-6.7.1.tgz#ba4b0995a8676a8f7a8b9d1778b5bb2891dd640b"
-  integrity sha512-4Imk46n+rwFaobfDuDSclYcH/OcpJA048Ww0il6nqT7EoXQ7Pa9NJfGkoNkS8+K8rT71IVljdaiaLEapgRxj0Q==
+"@uploadthing/shared@6.7.3":
+  version "6.7.3"
+  resolved "https://registry.yarnpkg.com/@uploadthing/shared/-/shared-6.7.3.tgz#8f8afe7ebe73d145d7acebfda2b150cbe6ba2939"
+  integrity sha512-gyVnUDDxJMbTd8ojPvZ2eaBeGhjcVtQAbBTGOv7mOdnIFAIK2ggacK7lsG9SU5CnVSUgfUTvae/n5+HOp4uLew==
   dependencies:
     "@effect/schema" "^0.66.12"
     effect "^3.1.0"
@@ -2307,6 +2307,7 @@ std-env@^3.7.0:
   integrity sha512-JPbdCEQLj1w5GilpiHAx3qJvFndqybBysA3qUOnznweH4QbNYUsW/ea8QzSrnh0vNsezMMw5bcVool8lM0gwzg==
 
 "string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0:
+  name string-width-cjs
   version "4.2.3"
   resolved "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==

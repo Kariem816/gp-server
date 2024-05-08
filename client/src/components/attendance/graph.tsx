@@ -38,7 +38,7 @@ export function AttendanceGraph({
 
 	return (
 		<div className="border-2 rounded-md mx-1">
-			<div className="h-36 relative">
+			<div className="h-36 relative border-b">
 				<Periods
 					periods={periods}
 					start={timeline.start}

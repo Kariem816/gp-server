@@ -930,5 +930,33 @@
     "refresh": {
         "en": "Refresh",
         "ar": "تحديث"
+    },
+    "attendance_upload": {
+        "en": "Uploading attendance...",
+        "ar": "جاري تحميل الحضور..."
+    },
+    "attendance_upload_desc": {
+        "en": "Uploading attendance may take a while. You can close this and we will notify you when it's done.",
+        "ar": "قد يستغرق تحميل الحضور بعض الوقت. يمكنك إغلاق هذا وسنخطرك عند الانتهاء."
+    },
+    "attendance_uploaded": {
+        "en": "Attendance was updated successfully!",
+        "ar": "تم تحديث الحضور بنجاح!"
+    },
+    "attendance_uploaded_desc": {
+        "en": "{{1}} students have been marked as present",
+        "ar": "تم وضع علامة على {{1}} طالبًا كحاضر"
+    },
+    "auto": {
+        "en": "Auto",
+        "ar": "تلقائي"
+    },
+    "manual": {
+        "en": "Manual",
+        "ar": "يدوي"
+    },
+    "absent": {
+        "en": "Absent",
+        "ar": "غائب"
     }
 }

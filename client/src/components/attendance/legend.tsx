@@ -13,7 +13,7 @@ export function Legend({
 }) {
 	const { t } = useTranslation();
 	return (
-		<div className="flex justify-center gap-4 p-2">
+		<div className="flex justify-center gap-x-4 gap-y-2 p-2 flex-wrap">
 			{attended && (
 				<div className="flex items-center gap-2">
 					<div className="size-4 bg-gray-200"></div>

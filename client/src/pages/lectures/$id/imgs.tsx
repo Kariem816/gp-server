@@ -62,7 +62,7 @@ function LectureImages() {
 	return (
 		<>
 			<div className="flex justify-end container pt-2">
-				<Button variant="outline">
+				<Button variant="outline" onClick={() => refetch()}>
 					<UpdateIcon
 						className={cn(
 							isRefetching && "animate-spin",
@@ -106,19 +106,26 @@ function ImageItem({
 				loading="lazy"
 				src={img.img}
 				alt={img.capturedAt}
-				className="w-full object-cover"
+				className="w-full rounded-lg shadow-md border-2"
 			/>
 			<Dialog>
 				<DialogTrigger asChild>
 					<Button
-						className="absolute bottom-0 end-0 p-0 rounded-full"
+						className="absolute top-0 end-0 p-0 rounded-full shadow"
+						variant="ghost"
 						size="icon"
 					>
-						<InfoCircledIcon />
+						<InfoCircledIcon className="size-6" />
 					</Button>
 				</DialogTrigger>
 				<DialogContent>
 					<div className="container space-y-2">
+						<img
+							src={img.img}
+							alt={img.capturedAt}
+							className="w-full object-cover"
+						/>
+
 						<div className="flex items-center gap-x-4 flex-wrap xs:flex-nowrap">
 							<h4 className="text-lg text-primary font-semibold xs:text-end xs:min-w-28">
 								{t("captured_at")}

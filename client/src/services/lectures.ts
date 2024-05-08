@@ -6,6 +6,7 @@ import type { CreateLectureData } from "./courses";
 export type TLecture = {
 	id: string;
 	courseId: string;
+	location: string;
 	time: string;
 	duration: number;
 	ended: string | null;
@@ -52,7 +53,7 @@ export type TAbsentee = {
 export async function getLecture(
 	lectureId: string,
 	query: APIQuery = {}
-): Promise<{ data: TLecture }> {
+): Promise<APIResponse<TLecture>> {
 	return get(`/lectures/${lectureId}`, query);
 }
 

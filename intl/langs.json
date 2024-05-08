@@ -878,5 +878,57 @@
     "upload": {
         "en": "Upload",
         "ar": "تحميل"
+    },
+    "endtime": {
+        "en": "End Time",
+        "ar": "وقت الانتهاء"
+    },
+    "expected": {
+        "en": "Expected",
+        "ar": "متوقع"
+    },
+    "Expected": {
+        "en": "Expected",
+        "ar": "المتوقع"
+    },
+    "lecture_info": {
+        "en": "Lecture Information",
+        "ar": "معلومات المحاضرة"
+    },
+    "ended": {
+        "en": "Ended",
+        "ar": "انتهت"
+    },
+    "active": {
+        "en": "Active",
+        "ar": "نشط"
+    },
+    "captured_at": {
+        "en": "Captured at",
+        "ar": "التقطت في"
+    },
+    "faces": {
+        "en": "Faces",
+        "ar": "الوجوه"
+    },
+    "processed": {
+        "en": "Processed",
+        "ar": "تمت معالجته/ا"
+    },
+    "ok": {
+        "ar": "موافق",
+        "en": "Ok"
+    },
+    "yes": {
+        "ar": "نعم",
+        "en": "Yes"
+    },
+    "no": {
+        "ar": "لا",
+        "en": "No"
+    },
+    "refresh": {
+        "en": "Refresh",
+        "ar": "تحديث"
     }
 }

@@ -132,9 +132,11 @@ export function EditLectureModal({
 export function DeleteLectureModal({
 	id,
 	courseId,
+	onDelete,
 }: {
 	id: string;
 	courseId: string;
+	onDelete?: () => void;
 }) {
 	const { t } = useTranslation();
 	const queryClient = useQueryClient();
@@ -149,6 +151,7 @@ export function DeleteLectureModal({
 			queryClient.invalidateQueries({
 				queryKey: ["course-lectures", courseId],
 			});
+			onDelete?.();
 		},
 		onError: () => {
 			toast.error(t("delete_lecture_error"));

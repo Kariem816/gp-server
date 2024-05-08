@@ -27,9 +27,11 @@ const uploadRouter = {
 	})
 		.middleware(({ res }) => {
 			if (!res.locals.user) {
-				throw new UploadThingError(
-					"You must be logged in to upload a profile picture"
-				);
+				throw new UploadThingError({
+					message:
+						"You must be logged in to upload a profile picture",
+					code: "FORBIDDEN",
+				});
 			}
 			return { userId: res.locals.user.id };
 		})
@@ -91,25 +93,34 @@ const uploadRouter = {
 		.input(z.object({ lectureId: z.string() }))
 		.middleware(async ({ res, input }) => {
 			if (!res.locals.user) {
-				throw new UploadThingError(
-					"You must be logged in to upload attendance"
-				);
+				throw new UploadThingError({
+					message: "You must be logged in to upload attendance",
+					// why tf don't they have `UNAUTHORIZED` error
+					code: "FORBIDDEN",
+				});
 			}
 
 			if (res.locals.user.role !== "teacher") {
-				throw new UploadThingError(
-					"Only teachers can upload attendance"
-				);
+				throw new UploadThingError({
+					message: "Only teachers can upload attendance",
+					code: "FORBIDDEN",
+				});
 			}
 
 			const lecture = await lectureStore.getLecture(input.lectureId);
 
 			if (!lecture) {
-				throw new UploadThingError("Lecture not found");
+				throw new UploadThingError({
+					message: "Lecture not found",
+					code: "NOT_FOUND",
+				});
 			}
 
 			if (lecture.time > new Date()) {
-				throw new UploadThingError("Lecture has not started yet");
+				throw new UploadThingError({
+					message: "Lecture has not started yet",
+					code: "BAD_REQUEST",
+				});
 			} else {
 				const endTime =
 					lecture.ended ??
@@ -118,7 +129,10 @@ const uploadRouter = {
 					if (!lecture.ended) {
 						await lectureStore.finishLecture(lecture.id, endTime);
 					}
-					throw new UploadThingError("Lecture has ended");
+					throw new UploadThingError({
+						message: "Lecture has ended",
+						code: "BAD_REQUEST",
+					});
 				}
 			}
 
@@ -135,9 +149,10 @@ const uploadRouter = {
 				teacherId
 			);
 			if (!isTeacher) {
-				throw new UploadThingError(
-					"You are not a teacher of this course"
-				);
+				throw new UploadThingError({
+					message: "You are not a teacher of this course",
+					code: "FORBIDDEN",
+				});
 			}
 
 			return {

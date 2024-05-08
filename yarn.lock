@@ -306,10 +306,10 @@
   resolved "https://registry.yarnpkg.com/@uploadthing/mime-types/-/mime-types-0.2.9.tgz#9f0818bad21b5793d2b80051cf279d941316944f"
   integrity sha512-7Ap2evP+niXNSXoOck4DUZUAKYrMRRpJ85n+ZxCuRsnr3iziOgv/Rt6es5SnMVgE/aOObxddOxbrxyOhISQWHQ==
 
-"@uploadthing/shared@6.7.1":
-  version "6.7.1"
-  resolved "https://registry.yarnpkg.com/@uploadthing/shared/-/shared-6.7.1.tgz#ba4b0995a8676a8f7a8b9d1778b5bb2891dd640b"
-  integrity sha512-4Imk46n+rwFaobfDuDSclYcH/OcpJA048Ww0il6nqT7EoXQ7Pa9NJfGkoNkS8+K8rT71IVljdaiaLEapgRxj0Q==
+"@uploadthing/shared@6.7.3":
+  version "6.7.3"
+  resolved "https://registry.yarnpkg.com/@uploadthing/shared/-/shared-6.7.3.tgz#8f8afe7ebe73d145d7acebfda2b150cbe6ba2939"
+  integrity sha512-gyVnUDDxJMbTd8ojPvZ2eaBeGhjcVtQAbBTGOv7mOdnIFAIK2ggacK7lsG9SU5CnVSUgfUTvae/n5+HOp4uLew==
   dependencies:
     "@effect/schema" "^0.66.12"
     effect "^3.1.0"
@@ -1612,14 +1612,14 @@ unpipe@1.0.0, unpipe@~1.0.0:
   resolved "https://registry.yarnpkg.com/unpipe/-/unpipe-1.0.0.tgz#b2bf4ee8514aae6165b4817829d21b2ef49904ec"
   integrity sha512-pjy2bYhSsufwWlKwPc+l3cN7+wuJlK6uz0YdJEOlQDbl6jo/YlPi4mb8agUkVC8BF7V8NuzeyPNqRksA3hztKQ==
 
-uploadthing@^6.10.1:
-  version "6.10.1"
-  resolved "https://registry.yarnpkg.com/uploadthing/-/uploadthing-6.10.1.tgz#6e5a706d447106f8932a83e0c0ee269636c8e0c8"
-  integrity sha512-xqgEauaDYLlQ6NEsQWF+fpsUOuniWazd8ytSK2bCxcKFGakCkXO32GkFolW4iZZgkl7ATnHwN+JXG95FPdo74w==
+uploadthing@^6.10.3:
+  version "6.10.3"
+  resolved "https://registry.yarnpkg.com/uploadthing/-/uploadthing-6.10.3.tgz#bc3bbcba23686799e7db9cf7049146db62666bd4"
+  integrity sha512-0TvK8IvJbdCDYcRmDzZWeOZDLFDxU7Eoh+e0mJPeustsA9bXHZgozdBHGh0uLM//tNXB+iv4TqabT31YlU810g==
   dependencies:
     "@effect/schema" "^0.66.12"
     "@uploadthing/mime-types" "0.2.9"
-    "@uploadthing/shared" "6.7.1"
+    "@uploadthing/shared" "6.7.3"
     consola "^3.2.3"
     effect "^3.1.0"
     fast-check "^3.18.0"

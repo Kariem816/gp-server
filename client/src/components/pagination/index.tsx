@@ -77,9 +77,9 @@ export function Pagination({
 				{isRTL ? <ChevronRightIcon /> : <ChevronLeftIcon />}
 			</Button>
 			<div className="flex items-center gap-1">
-				<span>{page}</span>
+				<span>{pages === 0 ? "-" : page}</span>
 				<span>/</span>
-				<span>{pages}</span>
+				<span>{pages === 0 ? "-" : pages}</span>
 			</div>
 			<Button
 				disabled={nextDisabled}

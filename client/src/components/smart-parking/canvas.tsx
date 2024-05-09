@@ -142,8 +142,8 @@ export function SelectorCanvas({ bg, initialSpots }: SelectorCanvasProps) {
 
 	function handleMouseDown(e: React.MouseEvent<HTMLCanvasElement>) {
 		const rect = e.currentTarget.getBoundingClientRect();
-		const x = (e.clientX - rect.left) / scalingX.current;
-		const y = (e.clientY - rect.top) / scalingY.current;
+		const x = Math.round((e.clientX - rect.left) / scalingX.current);
+		const y = Math.round((e.clientY - rect.top) / scalingY.current);
 
 		const button = e.button;
 		const clicked = currentPoly.find(([px, py]) => {

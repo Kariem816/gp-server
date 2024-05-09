@@ -136,15 +136,13 @@ export function LoginPage() {
 					<CardFooter className="border-t mt-4">
 						<div className="flex flex-col justify-center w-full">
 							<Button variant="link" asChild>
-								<Link to="/password-reset">
-									Forgot password?
+								<Link  className="mt-8" to="/password-reset">
+								Forgotten password?
+
 								</Link>
 							</Button>
 							<Button
-								className="bg-lime-700 hover:bg-lime-800"
-								asChild
-							>
-								<Link to="/register">Create new account</Link>
+								className="bg-lime-700 hover:bg-lime-800" asChild>
 							</Button>
 						</div>
 					</CardFooter>

@@ -37,6 +37,7 @@ import { Route as ControllersMeRouteImport } from "./pages/controllers/me/route"
 import { Route as TeachersMeIndexImport } from "./pages/teachers/me/index"
 import { Route as StudentsMeIndexImport } from "./pages/students/me/index"
 import { Route as SecurityMeIndexImport } from "./pages/security/me/index"
+import { Route as MonitorSmartParkingIndexImport } from "./pages/monitor/smart-parking/index"
 import { Route as MonitorParkingIndexImport } from "./pages/monitor/parking/index"
 import { Route as MonitorLightingIndexImport } from "./pages/monitor/lighting/index"
 import { Route as MonitorIrrigationIndexImport } from "./pages/monitor/irrigation/index"
@@ -187,6 +188,11 @@ const StudentsMeIndexRoute = StudentsMeIndexImport.update({
 const SecurityMeIndexRoute = SecurityMeIndexImport.update({
   path: "/security/me/",
   getParentRoute: () => rootRoute,
+} as any)
+
+const MonitorSmartParkingIndexRoute = MonitorSmartParkingIndexImport.update({
+  path: "/smart-parking/",
+  getParentRoute: () => MonitorRouteRoute,
 } as any)
 
 const MonitorParkingIndexRoute = MonitorParkingIndexImport.update({
@@ -456,6 +462,10 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof MonitorParkingIndexImport
       parentRoute: typeof MonitorRouteImport
     }
+    "/monitor/smart-parking/": {
+      preLoaderRoute: typeof MonitorSmartParkingIndexImport
+      parentRoute: typeof MonitorRouteImport
+    }
     "/security/me/": {
       preLoaderRoute: typeof SecurityMeIndexImport
       parentRoute: typeof rootRoute
@@ -488,6 +498,7 @@ export const routeTree = rootRoute.addChildren([
     MonitorIrrigationIndexRoute,
     MonitorLightingIndexRoute,
     MonitorParkingIndexRoute,
+    MonitorSmartParkingIndexRoute,
   ]),
   ControllersMeRouteRoute.addChildren([
     ControllersMeApiKeysRoute,

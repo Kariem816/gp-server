@@ -58,6 +58,15 @@ function MonitorLayout() {
 							</Link>
 						) : null}
 						{user.role === "admin" ||
+						permissions?.data.includes("parking") ? (
+							<Link
+								className="hover:underline"
+								to="/monitor/smart-parking"
+							>
+								Smart Parking
+							</Link>
+						) : null}
+						{user.role === "admin" ||
 						permissions?.data.includes("irrigation") ? (
 							<Link
 								className="hover:underline"

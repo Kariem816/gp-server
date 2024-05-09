@@ -6,7 +6,7 @@ export type ParkingSpotCreate = {
 };
 
 export type ParkingSpot = {
-	id: string;
+	id: number;
 	location: string;
 	poly: [number, number][];
 	isEmpty: boolean;

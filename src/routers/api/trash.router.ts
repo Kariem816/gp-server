@@ -1,7 +1,7 @@
 import { Router } from "express";
 import trashStore from "@/models/trash.model";
 import { formatError, formatResponse } from "@/helpers";
-import { validateBody, validateQuery } from "@/middlewares";
+import { mustBe, validateBody, validateQuery } from "@/middlewares";
 import {
 	createTrashSchema,
 	editTrashBulkSchema,
@@ -11,6 +11,7 @@ import {
 } from "@/schemas/trash.schema";
 import { z } from "zod";
 import { querySchema } from "@/schemas/query.schema";
+import { notifyFilledTrash } from "@/helpers/trash";
 
 const router = Router();
 
@@ -53,7 +54,20 @@ router.post("/", validateBody(createTrashSchema), async (req, res) => {
 router.put("/", validateBody(updateTrashLevelBulkSchema), async (req, res) => {
 	try {
 		const body = req.body as z.infer<typeof updateTrashLevelBulkSchema>;
-		const trash = await trashStore.updateMany(body);
+		const oldTrash = await trashStore.showMany(body.map((t) => t.id));
+
+		const trash = await trashStore.updateMany(
+			body.map((t) => {
+				const oldLevel =
+					oldTrash.find((o) => o.id === t.id)?.level ?? 0;
+
+				return {
+					...t,
+					lastEmptied: t.level < oldLevel ? new Date() : undefined,
+				};
+			})
+		);
+
 		res.json(formatResponse(trash));
 	} catch (err) {
 		const { status, error } = formatError(err);
@@ -64,7 +78,11 @@ router.put("/", validateBody(updateTrashLevelBulkSchema), async (req, res) => {
 router.put("/:id", validateBody(updateTrashLevelSchema), async (req, res) => {
 	try {
 		const body = req.body as z.infer<typeof updateTrashLevelSchema>;
-		const trash = await trashStore.update(req.params.id, body);
+		const old = await trashStore.show(req.params.id);
+		const trash = await trashStore.update(req.params.id, {
+			...body,
+			lastEmptied: body.level < old.level ? new Date() : undefined,
+		});
 		res.json(formatResponse(trash));
 	} catch (err) {
 		const { status, error } = formatError(err);
@@ -89,6 +107,33 @@ router.patch("/:id", validateBody(editTrashSchema), async (req, res) => {
 		const trash = await trashStore.edit(req.params.id, body);
 		res.json(formatResponse(trash));
 	} catch (err) {
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
+	}
+});
+
+router.post("/notify", mustBe("controller"), async (_req, res) => {
+	try {
+		const trash = await trashStore.getFilledTrash();
+		if (trash.length === 0) {
+			return res.json(
+				formatResponse({ message: "No trash cans are filled" })
+			);
+		}
+
+		const luckyOnes = await notifyFilledTrash(trash);
+		res.json(
+			formatResponse({
+				message: `Notifications sent to ${
+					luckyOnes.length
+				} workers to empty
+					${trash.length} trash cans. ${
+					trash.filter((t) => t.level < 70).length || "None"
+				} of them were old.`,
+			})
+		);
+	} catch (err) {
+		console.error(err);
 		const { status, error } = formatError(err);
 		res.status(status).json(error);
 	}

@@ -180,9 +180,10 @@ model ParkingSpot {
 }
 
 model TrashCan {
-  id       String @id @default(uuid())
-  location String
-  level    Int    @default(0)
+  id          String   @id @default(uuid())
+  location    String
+  level       Int      @default(0)
+  lastEmptied DateTime @default(now())
 }
 
 model Plant {

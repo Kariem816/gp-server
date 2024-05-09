@@ -44,7 +44,27 @@ class TrashStore {
 		}
 	}
 
-	async create(data: PartialBy<Omit<TrashCan, "id">, "level">) {
+	async showMany(ids: string[]) {
+		try {
+			return await prisma.trashCan.findMany({
+				where: {
+					id: {
+						in: ids,
+					},
+				},
+				select: {
+					id: true,
+					level: true,
+				},
+			});
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
+	}
+
+	async create(
+		data: PartialBy<Omit<TrashCan, "id">, "level" | "lastEmptied">
+	) {
 		try {
 			return await prisma.trashCan.create({
 				data,
@@ -54,7 +74,7 @@ class TrashStore {
 		}
 	}
 
-	async update(id: string, data: Omit<Omit<TrashCan, "id">, "location">) {
+	async update(id: string, data: { level: number; lastEmptied?: Date }) {
 		try {
 			return await prisma.trashCan.update({
 				where: {
@@ -67,7 +87,9 @@ class TrashStore {
 		}
 	}
 
-	async updateMany(data: Array<{ id: string; level: number }>) {
+	async updateMany(
+		data: Array<{ id: string; level: number; lastEmptied?: Date }>
+	) {
 		try {
 			return await Promise.all(
 				data.map((item) => this.update(item.id, item))
@@ -111,6 +133,56 @@ class TrashStore {
 					id,
 				},
 			});
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
+	}
+
+	async getFilledTrash() {
+		try {
+			// TODO: adjust the period for real-world usage
+			const allowdPeriod = 30 * 1000; // 30 seconds
+			const lastAllowedEmptied = Date.now() - allowdPeriod;
+			return await prisma.trashCan.findMany({
+				where: {
+					OR: [
+						{
+							level: {
+								gte: 70,
+							},
+						},
+						{
+							lastEmptied: {
+								lt: new Date(lastAllowedEmptied),
+							},
+						},
+					],
+				},
+			});
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
+	}
+
+	async getSecurityNotifications() {
+		try {
+			const tokens = await prisma.session.findMany({
+				distinct: ["notificationToken"],
+				where: {
+					notificationToken: {
+						not: null,
+					},
+					active: true,
+					user: {
+						role: "security",
+					},
+				},
+				select: {
+					notificationToken: true,
+				},
+			});
+
+			return tokens.map((token) => token.notificationToken);
 		} catch (err) {
 			throw new PrismaError(err as PrismaClientError);
 		}

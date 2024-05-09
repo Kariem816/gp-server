@@ -5,21 +5,14 @@ export const createTrashSchema = z.object({
 	location: z.string(),
 });
 
-export const editTrashSchema = z
-	.object({
-		level: z.number().optional(),
-		location: z.string().optional(),
-	})
-	.refine(
-		(data) => data.level || data.location,
-		"At least one field is required to update trash can"
-	);
+export const editTrashSchema = z.object({
+	location: z.string().optional(),
+});
 
 export const editTrashBulkSchema = z
 	.array(
 		z.object({
 			id: z.string(),
-			level: z.number().optional(),
 			location: z.string().optional(),
 		})
 	)

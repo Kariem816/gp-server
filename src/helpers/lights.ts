@@ -1,7 +1,9 @@
-// import type { Light } from "@prisma/client";
 
-export function shouldTurnOn(/* light: Light */): boolean {
+
+
+
+
+export function shouldTurnOn(): boolean {
 	const now = new Date();
-
 	return now.getHours() < 6 || now.getHours() >= 19;
 }

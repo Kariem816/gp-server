@@ -27,6 +27,8 @@ import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 
 import type { SearchSchemaInput } from "@tanstack/react-router";
+import { useTranslation } from "~/contexts/translation";
+import { UpdateIcon } from "@radix-ui/react-icons";
 
 export const Route = createFileRoute("/login/")({
 	component: LoginPage,
@@ -45,6 +47,7 @@ const loginSchema = z.object({
 export function LoginPage() {
 	const { redirect } = Route.useSearch();
 	const { login } = useAuth();
+	const { t } = useTranslation();
 
 	const [isLoading, setIsLoading] = useState(false);
 	const [formError, setFormError] = useState("");
@@ -84,7 +87,9 @@ export function LoginPage() {
 		<div className="   container h-full flex flex-col justify-center items-center">
 			<Card className="max-w-2xl w-full">
 				<CardHeader>
-					<CardTitle className="text-center">Welcome back!</CardTitle>
+					<CardTitle className="text-center">
+						{t("login_phrase")}
+					</CardTitle>
 				</CardHeader>
 				<CardContent>
 					<Form {...form}>
@@ -94,10 +99,10 @@ export function LoginPage() {
 								name="username"
 								render={() => (
 									<FormItem>
-										<FormLabel>Username</FormLabel>
+										<FormLabel>{t("username")}</FormLabel>
 										<FormControl>
 											<Input
-												placeholder="Your username"
+												placeholder={t("username")}
 												{...form.register("username")}
 											/>
 										</FormControl>
@@ -111,10 +116,10 @@ export function LoginPage() {
 								name="password"
 								render={() => (
 									<FormItem>
-										<FormLabel>Password</FormLabel>
+										<FormLabel>{t("password")}</FormLabel>
 										<FormControl>
 											<Input
-												placeholder="Your password"
+												placeholder={t("password")}
 												type="password"
 												{...form.register("password")}
 											/>
@@ -128,21 +133,30 @@ export function LoginPage() {
 							<p className="text-red-500 text-sm">{formError}</p>
 							<div className="text-center mt-4">
 								<Button type="submit" disabled={isLoading}>
-									Log in
+									{isLoading && (
+										<UpdateIcon className="animate-spin me-2" />
+									)}
+									{t("login")}
 								</Button>
 							</div>
 						</form>
 					</Form>
 					<CardFooter className="border-t mt-4">
-						<div className="flex flex-col justify-center w-full">
+						<div className="flex flex-col justify-center gap-2 w-full">
 							<Button variant="link" asChild>
-								<Link  className="mt-8" to="/password-reset">
-								Forgotten password?
-
+								<Link to="/password-reset" replace>
+									{t("forgot_password")}
 								</Link>
 							</Button>
 							<Button
-								className="bg-lime-700 hover:bg-lime-800" asChild>
+								variant="success"
+								size="lg"
+								asChild
+								className="text-center text-wrap min-h-10 h-auto"
+							>
+								<Link to="/register">
+									{t("to_register_phrase")}
+								</Link>
 							</Button>
 						</div>
 					</CardFooter>

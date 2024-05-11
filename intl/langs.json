@@ -1022,5 +1022,37 @@
     "smart_parking": {
         "en": "Smart Parking",
         "ar": "الموقف الذكي"
+    },
+    "login_phrase": {
+        "en": "Welcome Back! Please login to your account",
+        "ar": "مرحبًا! يرجى تسجيل الدخول إلى حسابك"
+    },
+    "to_login_phrase": {
+        "en": "Already registered? Login",
+        "ar": "مسجل بالفعل؟ تسجيل الدخول"
+    },
+    "register_phrase": {
+        "en": "Register",
+        "ar": "التسجيل"
+    },
+    "to_register_phrase": {
+        "en": "Don't have an account? Join us!",
+        "ar": "ليس لديك حساب؟ انضم إلينا!"
+    },
+    "forgot_password": {
+        "en": "Forgot Password?",
+        "ar": "نسيت كلمة المرور؟"
+    },
+    "forgot_password_phrase": {
+        "en": "In case of forgetting your password, Please contact the system administrator",
+        "ar": "في حال نسيان كلمة المرور، يرجى الاتصال بمسئول النظام"
+    },
+    "back": {
+        "en": "Back",
+        "ar": "الرجوع"
+    },
+    "username": {
+        "en": "Username",
+        "ar": "اسم المستخدم"
     }
 }

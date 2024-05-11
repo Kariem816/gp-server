@@ -958,5 +958,61 @@
     "absent": {
         "en": "Absent",
         "ar": "غائب"
+    },
+    "no_cans": {
+        "en": "No Garbage Cans",
+        "ar": "لا توجد سلات نفايات"
+    },
+    "can_info": {
+        "en": "Garbage Can Information",
+        "ar": "معلومات سلة النفايات"
+    },
+    "id": {
+        "en": "ID",
+        "ar": "التعريف"
+    },
+    "copy_id": {
+        "en": "Copy ID",
+        "ar": "نسخ التعريف"
+    },
+    "id_copied": {
+        "en": "ID copied to clipboard!",
+        "ar": "تم نسخ التعريف إلى الحافظة!"
+    },
+    "delete_can": {
+        "en": "Delete Garbage Can",
+        "ar": "حذف سلة النفايات"
+    },
+    "delete_can_warning": {
+        "en": "Are you sure you want to delete this garbage can?",
+        "ar": "هل أنت متأكد أنك تريد حذف سلة النفايات هذه؟"
+    },
+    "can_deleted": {
+        "en": "Garbage can deleted successfully!",
+        "ar": "تم حذف سلة النفايات بنجاح!"
+    },
+    "edit": {
+        "en": "Edit",
+        "ar": "تعديل"
+    },
+    "level": {
+        "en": "Level",
+        "ar": "المستوى"
+    },
+    "can_updated": {
+        "en": "Garbage can updated successfully!",
+        "ar": "تم تحديث سلة النفايات بنجاح!"
+    },
+    "new": {
+        "en": "New",
+        "ar": "جديد"
+    },
+    "new_can": {
+        "en": "New Garbage Can",
+        "ar": "سلة نفايات جديدة"
+    },
+    "can_created": {
+        "en": "Garbage can created successfully!",
+        "ar": "تم إنشاء سلة النفايات بنجاح!"
     }
 }

@@ -1014,5 +1014,13 @@
     "can_created": {
         "en": "Garbage can created successfully!",
         "ar": "تم إنشاء سلة النفايات بنجاح!"
+    },
+    "monitor": {
+        "en": "Monitor",
+        "ar": "مراقبة"
+    },
+    "smart_parking": {
+        "en": "Smart Parking",
+        "ar": "الموقف الذكي"
     }
 }

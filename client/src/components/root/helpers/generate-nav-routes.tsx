@@ -1,3 +1,9 @@
+import {
+	BackpackIcon,
+	HomeIcon,
+	MixIcon,
+	MobileIcon,
+} from "@radix-ui/react-icons";
 import { UserRole } from "~/types/users";
 
 type NavRoute = {
@@ -6,13 +12,26 @@ type NavRoute = {
 	icon?: JSX.Element;
 };
 
-const HOME_ROUTE: NavRoute = { name: "home", path: "/" };
-const COURSES_ROUTE: NavRoute = { name: "courses", path: "/courses" };
+const HOME_ROUTE: NavRoute = {
+	name: "home",
+	path: "/",
+	icon: <HomeIcon className="size-6 me-2" />,
+};
+const COURSES_ROUTE: NavRoute = {
+	name: "courses",
+	path: "/courses",
+	icon: <BackpackIcon className="size-6 me-2" />,
+};
 const APP_MONITOR_ROUTE: NavRoute = {
 	name: "app_monitor",
 	path: "/monitor",
+	icon: <MixIcon className="size-6 me-2" />,
 };
-const MOBILE_ROUTE: NavRoute = { name: "mobile", path: "/mobile" };
+const MOBILE_ROUTE: NavRoute = {
+	name: "mobile",
+	path: "/mobile",
+	icon: <MobileIcon className="size-6 me-2" />,
+};
 const ADMIN_DASHBOARD_ROUTE: NavRoute = { name: "dashboard", path: "/admin" };
 const STUDENT_DASHBOARD_ROUTE: NavRoute = {
 	name: "dashboard",

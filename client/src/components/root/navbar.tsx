@@ -52,9 +52,13 @@ export function Navbar({ toggle }: { toggle: () => void }) {
 					))}
 				</nav>
 				<SignedOut>
-					<div className="flex items-center gap-4">
-						<Button>	<Link to="/login">{t("login")}</Link>  </Button>
-						
+					<div className="hidden xs:flex items-center gap-4">
+						<Button variant="link" asChild>
+							<Link to="/login">{t("login")}</Link>
+						</Button>
+						<Button asChild>
+							<Link to="/register">{t("register")}</Link>
+						</Button>
 					</div>
 				</SignedOut>
 				<SignedIn>

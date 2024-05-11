@@ -55,34 +55,28 @@ export function Sidebar({ opened, onClose }: SidebarProps) {
 						</div>
 					</SignedIn>
 					{navRoutes.map((route) => (
-						<Link
-							key={route.path}
-							className="font-medium text-lg"
-							to={route.path as any}
-						>
-							{t(route.name)}
-						</Link>
+						<Button key={route.path} asChild variant="ghost">
+							<Link to={route.path as any}>
+								{route.icon}
+								{t(route.name)}
+							</Link>
+						</Button>
 					))}
 				</nav>
+				<div className="flex-grow" />
 				<SignedOut>
 					<div className="flex items-center gap-4 p-4">
-						<Link to="/login">
-							<Button size="sm" variant="outline">
-								{t("login")}
-							</Button>
-						</Link>
-						<Link to={"/register" as any}>
-							<Button size="sm">{t("register")}</Button>
-						</Link>
+						<Button variant="outline" asChild className="flex-grow">
+							<Link to="/login">{t("login")}</Link>
+						</Button>
+						<Button asChild className="flex-grow">
+							<Link to={"/register"}>{t("register")}</Link>
+						</Button>
 					</div>
 				</SignedOut>
 				<SignedIn>
-					<div className="flex flex-grow flex-col justify-end gap-4 p-4">
-						<Button
-							size="sm"
-							onClick={logout}
-							className="rounded-xl"
-						>
+					<div className="p-4">
+						<Button onClick={logout} className="w-full">
 							{t("logout")}
 						</Button>
 					</div>

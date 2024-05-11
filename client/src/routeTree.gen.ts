@@ -27,9 +27,9 @@ import { Route as ProfileMeImport } from "./pages/profile/me"
 import { Route as ProfileIdImport } from "./pages/profile/$id"
 import { Route as CoursesNewImport } from "./pages/courses/new"
 import { Route as AdminUsersImport } from "./pages/admin/users"
+import { Route as AdminParkingImport } from "./pages/admin/parking"
 import { Route as AdminExtraImport } from "./pages/admin/extra"
 import { Route as AdminControllersImport } from "./pages/admin/controllers"
-import { Route as AdminCameraImport } from "./pages/admin/camera"
 import { Route as TeachersMeRouteImport } from "./pages/teachers/me/route"
 import { Route as StudentsMeRouteImport } from "./pages/students/me/route"
 import { Route as LecturesIdRouteImport } from "./pages/lectures/$id/route"
@@ -140,6 +140,11 @@ const AdminUsersRoute = AdminUsersImport.update({
   getParentRoute: () => AdminRouteRoute,
 } as any)
 
+const AdminParkingRoute = AdminParkingImport.update({
+  path: "/parking",
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+
 const AdminExtraRoute = AdminExtraImport.update({
   path: "/extra",
   getParentRoute: () => AdminRouteRoute,
@@ -147,11 +152,6 @@ const AdminExtraRoute = AdminExtraImport.update({
 
 const AdminControllersRoute = AdminControllersImport.update({
   path: "/controllers",
-  getParentRoute: () => AdminRouteRoute,
-} as any)
-
-const AdminCameraRoute = AdminCameraImport.update({
-  path: "/camera",
   getParentRoute: () => AdminRouteRoute,
 } as any)
 
@@ -322,16 +322,16 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof TeachersMeRouteImport
       parentRoute: typeof rootRoute
     }
-    "/admin/camera": {
-      preLoaderRoute: typeof AdminCameraImport
-      parentRoute: typeof AdminRouteImport
-    }
     "/admin/controllers": {
       preLoaderRoute: typeof AdminControllersImport
       parentRoute: typeof AdminRouteImport
     }
     "/admin/extra": {
       preLoaderRoute: typeof AdminExtraImport
+      parentRoute: typeof AdminRouteImport
+    }
+    "/admin/parking": {
+      preLoaderRoute: typeof AdminParkingImport
       parentRoute: typeof AdminRouteImport
     }
     "/admin/users": {
@@ -486,9 +486,9 @@ declare module "@tanstack/react-router" {
 export const routeTree = rootRoute.addChildren([
   IndexRoute,
   AdminRouteRoute.addChildren([
-    AdminCameraRoute,
     AdminControllersRoute,
     AdminExtraRoute,
+    AdminParkingRoute,
     AdminUsersRoute,
     AdminIndexRoute,
   ]),

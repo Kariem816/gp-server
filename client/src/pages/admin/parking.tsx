@@ -8,11 +8,11 @@ import { useTranslation } from "~/contexts/translation";
 import { getParkingOverview, getParkingSpots } from "~/services/smart-parking";
 import { cn } from "~/utils";
 
-export const Route = createFileRoute("/admin/camera")({
-	component: CameraConfigPage,
+export const Route = createFileRoute("/admin/parking")({
+	component: ParkingConfigPage,
 });
 
-function CameraConfigPage() {
+function ParkingConfigPage() {
 	const { t } = useTranslation();
 
 	const { data, isPending, isError, error, refetch, isRefetching } = useQuery(

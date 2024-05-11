@@ -235,6 +235,14 @@
         "en": "The key was rolled successfully. The key will no longer work.",
         "ar": "تم إزالة المفتاح بنجاح. لن يعمل المفتاح بعد الآن."
     },
+    "roll_key_warning": {
+        "en": "Are you sure you want to roll this key?",
+        "ar": "هل أنت متأكد أنك تريد إزالة هذا المفتاح؟"
+    },
+    "roll": {
+        "en": "Roll",
+        "ar": "إزالة"
+    },
     "valid": {
         "en": "Valid",
         "ar": "صالح"

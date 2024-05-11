@@ -11,6 +11,15 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
+import {
+	Dialog,
+	DialogClose,
+	DialogContent,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "~/components/ui/dialog";
 import { useTranslation } from "~/contexts/translation";
 import { rollApiKey, type TAPIKey } from "~/services/controllers";
 import { cn } from "~/utils";
@@ -83,18 +92,49 @@ export function APIKey({ apikey }: { apikey: TAPIKey }) {
 				{apikey.key}
 			</p>
 			<div className="flex justify-end gap-2">
-				<Button
-					onClick={roll}
-					size="icon"
-					variant="destructive"
-					title={t("roll_key")}
-				>
-					{rolling ? (
-						<UpdateIcon className="animate-spin" />
-					) : (
-						<TrashIcon />
-					)}
-				</Button>
+				<Dialog>
+					<DialogTrigger asChild>
+						<Button
+							size="icon"
+							variant="destructive"
+							title={t("roll_key")}
+						>
+							{rolling ? (
+								<UpdateIcon className="animate-spin" />
+							) : (
+								<TrashIcon />
+							)}
+						</Button>
+					</DialogTrigger>
+					<DialogContent>
+						<DialogHeader>
+							<DialogTitle>{t("roll_key")}</DialogTitle>
+						</DialogHeader>
+						<p>{t("roll_key_warning")}</p>
+						<DialogFooter>
+							<div className="flex justify-end items-center gap-2">
+								<DialogClose asChild>
+									<Button
+										variant="outline"
+										disabled={rolling}
+									>
+										{t("cancel")}
+									</Button>
+								</DialogClose>
+								<Button
+									onClick={roll}
+									variant="destructive"
+									disabled={rolling}
+								>
+									{rolling && (
+										<UpdateIcon className="animate-spin me-2" />
+									)}
+									{t("roll")}
+								</Button>
+							</div>
+						</DialogFooter>
+					</DialogContent>
+				</Dialog>
 				<Button onClick={copy} size="icon" title={t("copy")}>
 					{copied ? <CheckIcon /> : <CopyIcon />}
 				</Button>

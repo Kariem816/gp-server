@@ -5,9 +5,7 @@ import { mustBe, validateBody, validateQuery } from "@/middlewares";
 import {
 	createTrashSchema,
 	editTrashBulkSchema,
-	editTrashSchema,
 	updateTrashLevelBulkSchema,
-	updateTrashLevelSchema,
 } from "@/schemas/trash.schema";
 import { z } from "zod";
 import { querySchema } from "@/schemas/query.schema";
@@ -23,16 +21,6 @@ router.get("/", validateQuery(querySchema), async (req, res) => {
 		const limit = query.limit ? Number(query.limit) : 25;
 
 		const trash = await trashStore.index({ page, limit });
-		res.json(formatResponse(trash));
-	} catch (err) {
-		const { status, error } = formatError(err);
-		res.status(status).json(error);
-	}
-});
-
-router.get("/:id", async (req, res) => {
-	try {
-		const trash = await trashStore.show(req.params.id);
 		res.json(formatResponse(trash));
 	} catch (err) {
 		const { status, error } = formatError(err);
@@ -75,36 +63,10 @@ router.put("/", validateBody(updateTrashLevelBulkSchema), async (req, res) => {
 	}
 });
 
-router.put("/:id", validateBody(updateTrashLevelSchema), async (req, res) => {
-	try {
-		const body = req.body as z.infer<typeof updateTrashLevelSchema>;
-		const old = await trashStore.show(req.params.id);
-		const trash = await trashStore.update(req.params.id, {
-			...body,
-			lastEmptied: body.level < old.level ? new Date() : undefined,
-		});
-		res.json(formatResponse(trash));
-	} catch (err) {
-		const { status, error } = formatError(err);
-		res.status(status).json(error);
-	}
-});
-
 router.patch("/", validateBody(editTrashBulkSchema), async (req, res) => {
 	try {
 		const body = req.body as z.infer<typeof editTrashBulkSchema>;
 		const trash = await trashStore.editMany(body);
-		res.json(formatResponse(trash));
-	} catch (err) {
-		const { status, error } = formatError(err);
-		res.status(status).json(error);
-	}
-});
-
-router.patch("/:id", validateBody(editTrashSchema), async (req, res) => {
-	try {
-		const body = req.body as z.infer<typeof editTrashSchema>;
-		const trash = await trashStore.edit(req.params.id, body);
 		res.json(formatResponse(trash));
 	} catch (err) {
 		const { status, error } = formatError(err);

@@ -1,9 +1,5 @@
 import { z } from "zod";
 
-export const updateParkingSpotSchema = z.object({
-	isEmpty: z.boolean(),
-});
-
 export const updateManySpotsSchema = z
 	.array(
 		z.object({

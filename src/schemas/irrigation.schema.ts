@@ -14,10 +14,6 @@ export const checkManyPlantsSchema = z
 	)
 	.nonempty();
 
-export const updatePlantSchema = z.object({
-	isWatering: z.boolean(),
-});
-
 export const updateManyPlantsSchema = z.array(
 	z.object({
 		id: z.string(),

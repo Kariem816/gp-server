@@ -6,7 +6,6 @@ import {
 	checkManyPlantsSchema,
 	createPlantSchema,
 	updateManyPlantsSchema,
-	updatePlantSchema,
 } from "@/schemas/irrigation.schema";
 import { z } from "zod";
 import { shouldWater } from "@/helpers/plants";

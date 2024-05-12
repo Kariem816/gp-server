@@ -5,10 +5,6 @@ export const createTrashSchema = z.object({
 	location: z.string(),
 });
 
-export const editTrashSchema = z.object({
-	location: z.string().optional(),
-});
-
 export const editTrashBulkSchema = z
 	.array(
 		z.object({
@@ -17,10 +13,6 @@ export const editTrashBulkSchema = z
 		})
 	)
 	.nonempty();
-
-export const updateTrashLevelSchema = z.object({
-	level: z.number(),
-});
 
 export const updateTrashLevelBulkSchema = z
 	.array(z.object({ id: z.string(), level: z.number() }))

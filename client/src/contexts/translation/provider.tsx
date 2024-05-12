@@ -1,37 +1,15 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocalStorage } from "~/hooks/useStorage";
+import { TranslationContext, supportedLanguages } from "./context";
 
-const supportedLanguages = ["en", "ar"];
-type TLang = (typeof supportedLanguages)[number];
-
-interface TranslationContextValue {
-	language: TLang | "undefined";
-	setLanguage: (language: string) => void;
-	t: (key: string, ...values: string[]) => string;
-	isRTL: boolean;
-	languages: TLang[];
-}
-
-const defaultValue: TranslationContextValue = {
-	language: "undefined",
-	setLanguage: () => {},
-	t: (key) => key,
-	isRTL: false,
-	languages: supportedLanguages,
-};
-
-const TranslationContext = createContext<TranslationContextValue>(defaultValue);
-
-export function useTranslation() {
-	return useContext(TranslationContext);
-}
+import type { TLang } from "./context";
 
 export default function TranslationProvider({
 	children,
 }: {
 	children: React.ReactNode;
 }) {
-	const [language, setLanguage] = useLocalStorage("language", "en");
+	const [language, setLanguage] = useLocalStorage<TLang>("language", "en");
 	const [langData, setLangData] = useState<Record<string, string>>({});
 	const [isLoading, setIsLoading] = useState(true);
 
@@ -65,10 +43,8 @@ export default function TranslationProvider({
 			});
 	}
 
-	function changeLanguage(language: string) {
+	function changeLanguage(language: TLang) {
 		if (!language) throw new Error("Language is required");
-		if (!supportedLanguages.includes(language))
-			throw new Error("Language is not supported");
 		setLanguage(language);
 		setIsRTL(language === "ar");
 	}

@@ -1,10 +1,4 @@
-import React, {
-	createContext,
-	useContext,
-	useState,
-	useEffect,
-	useRef,
-} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
 	registerUser,
 	loginUser,
@@ -13,38 +7,11 @@ import {
 	getCurrentUser,
 } from "~/services/auth";
 import { removeAPIToken, setAPIToken } from "~/services/api";
+import { Dots } from "~/components/loaders";
+import { useTranslation } from "~/contexts/translation";
+import { DEFAULT_USER, authContext } from "./context";
 
 import type { User, UserRole } from "~/types/users";
-import { Dots } from "~/components/loaders";
-import { useTranslation } from "./translation";
-
-type AuthContextValue = {
-	isLoggedIn: boolean;
-	user: User;
-	register: (userData: User, accountType: UserRole) => Promise<User>;
-	login: (username: string, password: string) => Promise<void>;
-	refreshUser: () => Promise<void>;
-	logout: () => void;
-};
-
-const DEFAULT_USER: User = {
-	role: "guest",
-};
-
-const defaultValue: AuthContextValue = {
-	isLoggedIn: false,
-	user: DEFAULT_USER,
-	register: () => new Promise(() => {}),
-	login: () => new Promise(() => {}),
-	refreshUser: () => new Promise(() => {}),
-	logout: () => {},
-};
-
-const authContext = createContext<AuthContextValue>(defaultValue);
-
-export function useAuth() {
-	return useContext(authContext);
-}
 
 const REFRESH_TOKEN_INTERVAL = 1000 * 60 * 4.5; // 4.5 minutes
 

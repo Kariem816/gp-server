@@ -54,16 +54,7 @@ class parkingstore {
 	async updateMany(data: Array<{ id: string; isEmpty: boolean }>) {
 		try {
 			return await Promise.all(
-				data.map(async (spot) => {
-					return await prisma.parkingSpot.update({
-						where: {
-							id: spot.id,
-						},
-						data: {
-							isEmpty: spot.isEmpty,
-						},
-					});
-				})
+				data.map((spot) => this.update(spot.id, spot.isEmpty))
 			);
 		} catch (err) {
 			throw new PrismaError(err as PrismaClientError);

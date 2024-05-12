@@ -9,6 +9,7 @@ export const checkManyPlantsSchema = z
 		z.object({
 			id: z.string(),
 			moisture: z.number().int().min(0).max(100),
+			temperature: z.number().int(),
 		})
 	)
 	.nonempty();

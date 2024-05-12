@@ -29,16 +29,6 @@ router.get("/", validateQuery(querySchema), async (req, res) => {
 	}
 });
 
-router.get("/:id", async (req, res) => {
-	try {
-		const plant = await irrigationStore.show(req.params.id);
-		res.json(formatResponse(plant));
-	} catch (err) {
-		const { status, error } = formatError(err);
-		res.status(status).json(error);
-	}
-});
-
 router.post("/", validateBody(createPlantSchema), async (req, res) => {
 	try {
 		const { type } = req.body as z.infer<typeof createPlantSchema>;

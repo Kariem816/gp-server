@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
 	registerUser,
 	loginUser,
@@ -11,15 +11,12 @@ import { Dots } from "~/components/loaders";
 import { useTranslation } from "~/contexts/translation";
 import { DEFAULT_USER, authContext } from "./context";
 
+import type { ReactNode } from "react";
 import type { User, UserRole } from "~/types/users";
 
 const REFRESH_TOKEN_INTERVAL = 1000 * 60 * 4.5; // 4.5 minutes
 
-export default function AuthProvider({
-	children,
-}: {
-	children: React.ReactNode;
-}) {
+export default function AuthProvider({ children }: { children: ReactNode }) {
 	const { t } = useTranslation();
 
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -29,44 +26,32 @@ export default function AuthProvider({
 	const refreshTokenTimeout = useRef<number>();
 	const refreshTokenLastRefreshed = useRef<Date>();
 
-	// TODO: handle refresh when the app comes back from background
-	// const loggedInRef = useRef(false);
+	useEffect(() => {
+		function handleBlur() {
+			if (!isLoggedIn) return;
+			stopRefreshTokenTimer();
+		}
 
-	// AppState
-	// const appState = useRef(AppState.currentState);
-	// loggedInRef.current = isLoggedIn;
+		function handleFocus() {
+			if (!isLoggedIn) return;
+			const timePassed = refreshTokenLastRefreshed.current
+				? Date.now() - refreshTokenLastRefreshed.current.getTime()
+				: 0;
+			if (timePassed < REFRESH_TOKEN_INTERVAL) {
+				startRefreshTokenTimer(REFRESH_TOKEN_INTERVAL - timePassed);
+			} else {
+				refreshTokenInternal();
+			}
+		}
 
-	// useEffect(() => {
-	// 	const subscription = AppState.addEventListener(
-	// 		"change",
-	// 		(nextAppState) => {
-	// 			if (
-	// 				appState.current.match(/inactive|background/) &&
-	// 				nextAppState === "active"
-	// 			) {
-	// 				// check if token is expired, if so refresh it
-	// 				if (
-	// 					loggedInRef.current &&
-	// 					refreshTokenLastRefreshed.current
-	// 				) {
-	// 					const now = new Date();
-	// 					const diff =
-	// 						now.getTime() -
-	// 						refreshTokenLastRefreshed.current.getTime();
-	// 					if (diff > REFRESH_TOKEN_INTERVAL) {
-	// 						refreshTokenInternal();
-	// 					}
-	// 				}
-	// 			}
+		window.addEventListener("blur", handleBlur);
+		window.addEventListener("focus", handleFocus);
 
-	// 			appState.current = nextAppState;
-	// 		}
-	// 	);
-
-	// 	return () => {
-	// 		subscription.remove();
-	// 	};
-	// }, []);
+		return () => {
+			window.removeEventListener("blur", handleBlur);
+			window.removeEventListener("focus", handleFocus);
+		};
+	}, [isLoggedIn]);
 
 	useEffect(() => {
 		refreshUser().finally(() => {
@@ -134,7 +119,14 @@ export default function AuthProvider({
 		}
 	}
 
-	function startRefreshTokenTimer() {
+	function startRefreshTokenTimer(amount?: number) {
+		if (amount) {
+			refreshTokenTimeout.current = setTimeout(
+				refreshTokenInternal,
+				amount
+			);
+			return;
+		}
 		refreshTokenLastRefreshed.current = new Date();
 		refreshTokenTimeout.current = setTimeout(
 			refreshTokenInternal,

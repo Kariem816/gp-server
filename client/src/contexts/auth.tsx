@@ -15,6 +15,8 @@ import {
 import { removeAPIToken, setAPIToken } from "~/services/api";
 
 import type { User, UserRole } from "~/types/users";
+import { Dots } from "~/components/loaders";
+import { useTranslation } from "./translation";
 
 type AuthContextValue = {
 	isLoggedIn: boolean;
@@ -51,10 +53,15 @@ export default function AuthProvider({
 }: {
 	children: React.ReactNode;
 }) {
+	const { t } = useTranslation();
+
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [user, setUser] = useState<User>(DEFAULT_USER);
+	const [isUserKnown, setIsUserKnown] = useState(false);
+
 	const refreshTokenTimeout = useRef<number>();
 	const refreshTokenLastRefreshed = useRef<Date>();
+
 	// TODO: handle refresh when the app comes back from background
 	// const loggedInRef = useRef(false);
 
@@ -95,13 +102,9 @@ export default function AuthProvider({
 	// }, []);
 
 	useEffect(() => {
-		refreshTokenInternal()
-			.then(() => {
-				getCurrentUser()
-					.then(({ data: user }) => setUser(user))
-					.catch(logout);
-			})
-			.catch(() => {});
+		refreshUser().finally(() => {
+			setIsUserKnown(true);
+		});
 	}, []);
 
 	useEffect(() => {
@@ -151,7 +154,7 @@ export default function AuthProvider({
 		stopRefreshTokenTimer();
 	}
 
-	async function refreshTokenInternal(startup = false) {
+	async function refreshTokenInternal() {
 		try {
 			const {
 				data: { accessToken },
@@ -161,9 +164,6 @@ export default function AuthProvider({
 		} catch (err) {
 			stopRefreshTokenTimer();
 			setUser(DEFAULT_USER);
-			if (startup) {
-				throw err;
-			}
 		}
 	}
 
@@ -184,6 +184,17 @@ export default function AuthProvider({
 		if (refreshTokenLastRefreshed.current) {
 			refreshTokenLastRefreshed.current = undefined;
 		}
+	}
+
+	if (!isUserKnown) {
+		return (
+			<div className="h-screen grid place-items-center">
+				<div className="space-y-2">
+					<Dots />
+					<p className="text-center">{t("starting")}</p>
+				</div>
+			</div>
+		);
 	}
 
 	return (

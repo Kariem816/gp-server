@@ -1062,5 +1062,9 @@
     "username": {
         "en": "Username",
         "ar": "اسم المستخدم"
+    },
+    "startup": {
+        "en": "Starting up...",
+        "ar": "جاري التشغيل..."
     }
 }

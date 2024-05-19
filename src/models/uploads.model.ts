@@ -7,7 +7,7 @@ class UploadsStore {
 	async index(): Promise<Upload[]> {
 		try {
 			// TODO: pagination
-			return prisma.upload.findMany();
+			return await prisma.upload.findMany();
 		} catch (err) {
 			throw new PrismaError(err as PrismaClientError);
 		}
@@ -47,7 +47,7 @@ class UploadsStore {
 
 	async show(key: string): Promise<Upload> {
 		try {
-			return prisma.upload.findUniqueOrThrow({
+			return await prisma.upload.findUniqueOrThrow({
 				where: {
 					key,
 				},
@@ -59,7 +59,7 @@ class UploadsStore {
 
 	async delete(key: string): Promise<Upload> {
 		try {
-			return prisma.upload.delete({
+			return await prisma.upload.delete({
 				where: {
 					key,
 				},
@@ -71,7 +71,7 @@ class UploadsStore {
 
 	async showByURL(url: string): Promise<Upload> {
 		try {
-			return prisma.upload.findUniqueOrThrow({
+			return await prisma.upload.findUniqueOrThrow({
 				where: {
 					url,
 				},
@@ -83,7 +83,7 @@ class UploadsStore {
 
 	async showManyByURL(urls: string[]): Promise<Upload[]> {
 		try {
-			return prisma.upload.findMany({
+			return await prisma.upload.findMany({
 				where: {
 					url: {
 						in: urls,
@@ -97,7 +97,7 @@ class UploadsStore {
 
 	async deleteByURL(url: string): Promise<Upload> {
 		try {
-			return prisma.upload.delete({
+			return await prisma.upload.delete({
 				where: {
 					url,
 				},
@@ -109,7 +109,7 @@ class UploadsStore {
 
 	async showByName(name: string): Promise<Upload | null> {
 		try {
-			return prisma.upload.findFirst({
+			return await prisma.upload.findFirst({
 				where: {
 					name,
 				},
@@ -196,7 +196,7 @@ class UploadsStore {
 		name: string
 	): Promise<{ metadata: Upload["metadata"] }[]> {
 		try {
-			return prisma.upload.findMany({
+			return await prisma.upload.findMany({
 				where: {
 					name,
 				},

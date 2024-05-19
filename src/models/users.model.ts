@@ -45,25 +45,29 @@ class UserStore {
 		const hashedPassword = await hashPassword(userData.password);
 		userData.password = hashedPassword;
 
-		return prisma.user.create({
-			data: {
-				...userData,
-				role: "teacher",
-				teacher: {
-					create: {
-						courses: {
-							create: undefined,
+		try {
+			return await prisma.user.create({
+				data: {
+					...userData,
+					role: "teacher",
+					teacher: {
+						create: {
+							courses: {
+								create: undefined,
+							},
 						},
 					},
 				},
-			},
-			select: {
-				id: true,
-				username: true,
-				name: true,
-				role: true,
-			},
-		});
+				select: {
+					id: true,
+					username: true,
+					name: true,
+					role: true,
+				},
+			});
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
 	}
 
 	async createController(

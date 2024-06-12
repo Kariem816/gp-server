@@ -6,6 +6,7 @@ import { env } from "@/config/env";
 
 import appRouter from "@/routers/index.router";
 import { getUser, logger } from "@/middlewares";
+import { rateLimiter } from "./middlewares/rate";
 
 const app = express();
 const port = env.PORT || 3000;
@@ -37,6 +38,7 @@ app.use(
 );
 
 app.use(getUser);
+app.use(rateLimiter);
 app.use(appRouter);
 
 app.listen(port, () => {

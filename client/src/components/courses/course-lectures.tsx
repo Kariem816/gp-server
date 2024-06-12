@@ -107,7 +107,7 @@ export function Lecture({ lecture }: { lecture: CourseLecture }) {
 					id={lecture.id}
 					courseId={lecture.courseId}
 				/>
-				<Link to="/lectures/$id/" params={{ id: lecture.id }}>
+				<Link to="/lectures/$id" params={{ id: lecture.id }}>
 					<Button variant="outline">{t("details")}</Button>
 				</Link>
 			</div>

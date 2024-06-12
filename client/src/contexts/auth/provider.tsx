@@ -150,7 +150,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 			<div className="h-screen grid place-items-center">
 				<div className="space-y-2">
 					<Dots />
-					<p className="text-center">{t("starting")}</p>
+					<p className="text-center">{t("loading")}</p>
 				</div>
 			</div>
 		);

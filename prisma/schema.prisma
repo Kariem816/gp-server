@@ -177,6 +177,8 @@ model ParkingSpot {
 
   isEmpty  Boolean @default(true)
   location String
+  isSmart  Boolean @default(false)
+  poly     Json?
 }
 
 model TrashCan {
@@ -228,12 +230,4 @@ model ApiKey {
   controller Controller @relation(fields: [controllerId], references: [id], onDelete: Cascade)
 
   @@unique([name, controllerId])
-}
-
-// Ones that use image recognition
-model SmartSpot {
-  id       String  @id @default(uuid())
-  poly     Json
-  location String
-  isEmpty  Boolean @default(true)
 }

@@ -1,11 +1,22 @@
 import { prisma, PrismaError } from "@/config/db";
 import type { PrismaClientError } from "@/config/db.js";
-import type { ParkingSpot } from "@prisma/client";
+import { SmartParkingSpotSchema } from "@/schemas/smart-parking.schema";
+
+import type { z } from "zod";
+
+type ParkingSpot = z.infer<typeof SmartParkingSpotSchema>;
 
 class parkingstore {
 	async index() {
 		try {
-			const park = await prisma.parkingSpot.findMany();
+			const park = await prisma.parkingSpot.findMany({
+				select: {
+					id: true,
+					location: true,
+					isEmpty: true,
+					isSmart: true,
+				},
+			});
 			return park;
 		} catch (err) {
 			throw new PrismaError(err as PrismaClientError);
@@ -24,13 +35,51 @@ class parkingstore {
 		}
 	}
 
-	async create(location: string) {
+	async showSmart() {
+		try {
+			const park = await prisma.parkingSpot.findMany({
+				where: {
+					isSmart: true,
+				},
+			});
+			return park;
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
+	}
+
+	async createDumb(location: string) {
 		try {
 			return await prisma.parkingSpot.create({
 				data: {
 					location,
 				},
 			});
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
+	}
+
+	async createSmart(data: ParkingSpot[]) {
+		try {
+			await prisma.parkingSpot.deleteMany({
+				where: {
+					isSmart: true,
+				},
+			});
+
+			const smartSpots = await prisma.$transaction(
+				data.map((spot) =>
+					prisma.parkingSpot.create({
+						data: {
+							...spot,
+							isSmart: true,
+						},
+					})
+				)
+			);
+
+			return smartSpots.length;
 		} catch (err) {
 			throw new PrismaError(err as PrismaClientError);
 		}

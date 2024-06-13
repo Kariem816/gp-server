@@ -3,7 +3,7 @@ import { Button } from "~/components/ui/button";
 import { CheckIcon, TrashIcon, UpdateIcon } from "@radix-ui/react-icons";
 import { useTranslation } from "~/contexts/translation";
 import { toast } from "sonner";
-import { saveParkingSpots } from "~/services/smart-parking";
+import { saveParkingSpots } from "~/services/parking";
 
 type Point = [number, number];
 type Polygon = Point[];

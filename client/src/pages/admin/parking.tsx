@@ -5,7 +5,7 @@ import { Spinner } from "~/components/loaders";
 import { SelectorCanvas } from "~/components/smart-parking/canvas";
 import { Button } from "~/components/ui/button";
 import { useTranslation } from "~/contexts/translation";
-import { getParkingOverview, getParkingSpots } from "~/services/smart-parking";
+import { getParkingOverview, getSmartSpots } from "~/services/parking";
 import { cn } from "~/utils";
 
 export const Route = createFileRoute("/admin/parking")({
@@ -25,7 +25,7 @@ function ParkingConfigPage() {
 
 	const { data: spots, refetch: refetchSpots } = useQuery({
 		queryKey: ["parking-spots"],
-		queryFn: getParkingSpots,
+		queryFn: getSmartSpots,
 		select: (data) => data.data,
 	});
 

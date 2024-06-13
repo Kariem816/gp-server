@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import ParkingSpotCard from "../../../components/parkingcard.tsx"; // Import the ParkingSpotCard component
-import { getAllSlots } from "~/services/parking.ts";
+import { getAllSpots } from "~/services/parking.ts";
 import { useControllerPermission } from "~/hooks/controllers/use-controller-permission.ts";
 
 export const Route = createFileRoute("/monitor/parking/")({
@@ -16,7 +16,7 @@ function ParkingList() {
 		isError,
 	} = useQuery({
 		queryKey: ["parking"],
-		queryFn: () => getAllSlots(),
+		queryFn: () => getAllSpots(),
 		select: (data) => data.data,
 		refetchInterval: 3 * 1000, // 3 seconds
 	});
@@ -34,15 +34,16 @@ function ParkingList() {
 			{parking.length === 0 ? (
 				<p className="italic text-center">No data available</p>
 			) : (
-				parking.map((slot) => (
+				parking.map((spot) => (
 					<div
-						key={slot.id}
+						key={spot.id}
 						className="rounded-lg bg-accent p-4 space-y-4 mb-8 text-center"
 					>
 						<ParkingSpotCard
-							id={slot.id}
-							isEmpty={slot.isEmpty}
-							location={slot.location}
+							id={spot.id}
+							isEmpty={spot.isEmpty}
+							location={spot.location}
+							isSmart={spot.isSmart}
 						/>
 					</div>
 				))

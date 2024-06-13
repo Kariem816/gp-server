@@ -70,7 +70,11 @@ router.post("/collect", mustBe(["admin", "controller"]), async (req, res) => {
 
 				// Initiate RTSP stream
 				const cam = new RTSP(
-					`rtsp://${env.CAMERA_USERNAME}:${env.CAMERA_PASSWORD}@${camera[0].ip}/cam/realmonitor?channel=1&subtype=0`,
+					{
+						ip: camera[0].ip,
+						username: env.CAMERA_USERNAME,
+						password: env.CAMERA_PASSWORD,
+					},
 					camera[0].tcp,
 					id
 				);

@@ -15,6 +15,7 @@ import uploadsRouter from "./uploads.router";
 import mobileRouter from "./mobile.router";
 import parkingRouter from "./parking.router";
 import smartParkingRouter from "./smart-parking.router";
+import gateRouter from "./gate.router";
 
 import { getCourseProfile, mustBe, mustLogin } from "@/middlewares";
 
@@ -48,6 +49,7 @@ router.use("/irrigation", irrigationRouter);
 router.use("/lighting", lightingRouter);
 router.use("/parking", parkingRouter);
 router.use("/smart-parking", smartParkingRouter);
+router.use("/gate", gateRouter);
 
 router.use("/uploads", uploadsRouter);
 router.use("/mobile", mobileRouter);

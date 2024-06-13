@@ -1,7 +1,16 @@
 import { PrismaError } from "@/config/db";
+import { getErrorCodeFromHttpStatus } from "@/utils/http";
+
+export class RouteError extends Error {
+	httpStatus: number;
+	constructor(message: string, httpStatus: number) {
+		super(message);
+		this.httpStatus = httpStatus;
+	}
+}
 
 export function formatError(err: any) {
-	if (err instanceof PrismaError)
+	if (err instanceof PrismaError) {
 		return {
 			error: {
 				error: err.longMessage,
@@ -9,7 +18,17 @@ export function formatError(err: any) {
 			},
 			status: err.httpStatus,
 		};
-	else
+	} else if (err instanceof RouteError) {
+		return {
+			error: {
+				error:
+					getErrorCodeFromHttpStatus(err.httpStatus) ??
+					"UNKNOWN_ERROR",
+				message: err.message,
+			},
+			status: err.httpStatus,
+		};
+	} else {
 		return {
 			error: {
 				error: "INTERNAL_SERVER_ERROR",
@@ -17,6 +36,7 @@ export function formatError(err: any) {
 			},
 			status: 500,
 		};
+	}
 }
 
 const infoKeys = [

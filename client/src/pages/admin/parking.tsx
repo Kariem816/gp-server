@@ -20,6 +20,8 @@ function ParkingConfigPage() {
 			queryKey: ["parking-camera"],
 			queryFn: getParkingOverview,
 			select: (data) => data.data,
+			refetchOnWindowFocus: false,
+			refetchOnReconnect: false,
 		}
 	);
 

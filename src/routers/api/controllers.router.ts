@@ -26,7 +26,8 @@ router.post(
 	validateBody(addCameraSchema),
 	async (req, res) => {
 		try {
-			await controllerStore.addCamera(req.body);
+			const camera = req.body as z.infer<typeof addCameraSchema>;
+			await controllerStore.addCamera(camera);
 
 			res.json(formatResponse({ message: "Camera added" }));
 		} catch (err) {

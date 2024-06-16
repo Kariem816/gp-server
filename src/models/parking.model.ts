@@ -1,6 +1,6 @@
 import { prisma, PrismaError } from "@/config/db";
 import type { PrismaClientError } from "@/config/db.js";
-import { SmartParkingSpotSchema } from "@/schemas/smart-parking.schema";
+import { SmartParkingSpotSchema } from "@/schemas/parking.schema";
 
 import type { z } from "zod";
 

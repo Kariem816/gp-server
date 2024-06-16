@@ -11,6 +11,7 @@ export const updateReconizerURLSchema = z.object({
 export const addCameraSchema = z.object({
 	location: z.string(),
 	ip: z.string(),
+	tcp: z.boolean().optional(),
 });
 
 export const newApiKeySchema = z.object({

@@ -27,8 +27,8 @@ function generateDashboardRoutes(): NavRoute[] {
 			path: "/admin/parking",
 		},
 		{
-			name: "extra",
-			path: "/admin/extra",
+			name: "camera",
+			path: "/admin/camera",
 		},
 	];
 }
@@ -39,7 +39,7 @@ function Layout() {
 
 	return (
 		<div className="h-full flex flex-col divide-x-2 rtl:divide-x-reverse md:flex-row">
-			<div className="pt-2 md:p-4 md:w-[25%] md:h-full md:overflow-y-auto md:space-y-2 overflow-x-auto flex md:block border-b-2 md:border-none flex-shrink-0">
+			<div className="pt-2 md:p-4 md:w-[20%] md:h-full md:overflow-y-auto md:space-y-2 overflow-x-auto flex md:block border-b-2 md:border-none flex-shrink-0">
 				{generateDashboardRoutes().map((route) => (
 					<Link
 						key={route.path}

@@ -99,6 +99,14 @@ class ControllerStore {
 		}
 	}
 
+	async getCameras(): Promise<Camera[]> {
+		try {
+			return await prisma.camera.findMany();
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
+	}
+
 	async getCamerasByLocation(location: string): Promise<Camera[]> {
 		try {
 			return await prisma.camera.findMany({
@@ -117,6 +125,27 @@ class ControllerStore {
 		try {
 			return await prisma.camera.create({
 				data: camera,
+			});
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
+	}
+
+	async updateCamera(id: Camera["id"], data: Partial<Camera>) {
+		try {
+			return await prisma.camera.update({
+				where: { id },
+				data,
+			});
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
+	}
+
+	async deleteCamera(id: Camera["id"]) {
+		try {
+			return await prisma.camera.delete({
+				where: { id },
 			});
 		} catch (err) {
 			throw new PrismaError(err as PrismaClientError);

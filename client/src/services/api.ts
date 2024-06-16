@@ -42,9 +42,9 @@ export async function makeRequest(url: string, options: object) {
 				error: "Connection Error",
 				message:
 					"Couldn't connect to the server. Please try again later",
-			};
+			} as APIGenericError;
 		}
-		throw error.response.data;
+		throw error.response.data as APIError;
 	}
 }
 

@@ -1066,5 +1066,61 @@
     "startup": {
         "en": "Starting up...",
         "ar": "جاري التشغيل..."
+    },
+    "conn_url": {
+        "en": "Connection URL",
+        "ar": "رابط الاتصال"
+    },
+    "conn_proto": {
+        "en": "Connection Protocol",
+        "ar": "بروتوكول الاتصال"
+    },
+    "tcp": {
+        "en": "TCP",
+        "ar": "TCP"
+    },
+    "udp": {
+        "en": "UDP",
+        "ar": "UDP"
+    },
+    "location_empty": {
+        "en": "Location cannot be empty",
+        "ar": "الموقع لا يمكن أن يكون فارغًا"
+    },
+    "ip_empty": {
+        "en": "Connection URL cannot be empty",
+        "ar": "رابط الاتصال لا يمكن أن يكون فارغًا"
+    },
+    "camera": {
+        "en": "Camera",
+        "ar": "كاميرا"
+    },
+    "new_camera": {
+        "en": "New Camera",
+        "ar": "كاميرا جديدة"
+    },
+    "edit_camera": {
+        "en": "Edit Camera",
+        "ar": "تعديل الكاميرا"
+    },
+    "delete_camera": {
+        "en": "Delete Camera",
+        "ar": "حذف الكاميرا"
+    },
+    "delete_camera_warning": {
+        "en": "Are you sure you want to delete this camera?",
+        "ar": "هل أنت متأكد أنك تريد حذف هذه الكاميرا؟"
+    },
+    "camera_created": {
+        "en": "Camera created successfully!",
+        "ar": "تم إنشاء الكاميرا بنجاح!"
+    },
+    "camera_updated": {
+        "en": "Camera updated successfully!",
+        "ar": "تم تحديث الكاميرا بنجاح!"
+    },
+    "camera_deleted": {
+        "en": "Camera deleted successfully!",
+        "ar": "تم حذف الكاميرا بنجاح!"
     }
 }

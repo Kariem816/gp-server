@@ -9,8 +9,14 @@ export const updateReconizerURLSchema = z.object({
 });
 
 export const addCameraSchema = z.object({
-	location: z.string(),
-	ip: z.string(),
+	location: z.string().min(1, "location_empty"),
+	ip: z.string().min(1, "ip_empty"),
+	tcp: z.boolean().optional(),
+});
+
+export const updateCameraSchema = z.object({
+	location: z.string().optional(),
+	ip: z.string().optional(),
 	tcp: z.boolean().optional(),
 });
 

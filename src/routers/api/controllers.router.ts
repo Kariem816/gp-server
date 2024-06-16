@@ -1,6 +1,10 @@
 import { mustBe, validateBody } from "@/middlewares";
 import { Router } from "express";
-import { addCameraSchema, newApiKeySchema } from "@/schemas/controllers.schema";
+import {
+	addCameraSchema,
+	newApiKeySchema,
+	updateCameraSchema,
+} from "@/schemas/controllers.schema";
 import { formatError, formatResponse } from "@/helpers";
 import controllerStore from "@/models/controllers.model";
 import { randomBytes } from "crypto";
@@ -14,6 +18,17 @@ router.get("/controlling", mustBe("controller"), async (_req, res) => {
 		const controller = await controllerStore.getControllerByUserId(user.id);
 
 		res.json(formatResponse(controller.controls));
+	} catch (err) {
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
+	}
+});
+
+router.get("/camera", mustBe("admin"), async (_req, res) => {
+	try {
+		const cameras = await controllerStore.getCameras();
+
+		res.json(formatResponse(cameras));
 	} catch (err) {
 		const { status, error } = formatError(err);
 		res.status(status).json(error);
@@ -36,6 +51,34 @@ router.post(
 		}
 	}
 );
+
+router.put(
+	"/camera/:id",
+	mustBe("admin"),
+	validateBody(updateCameraSchema),
+	async (req, res) => {
+		try {
+			const cameraId = req.params.id;
+			await controllerStore.updateCamera(cameraId, req.body);
+
+			res.json(formatResponse({ message: "Camera updated" }));
+		} catch (err) {
+			const { status, error } = formatError(err);
+			res.status(status).json(error);
+		}
+	}
+);
+
+router.delete("/camera/:id", mustBe("admin"), async (req, res) => {
+	try {
+		await controllerStore.deleteCamera(req.params.id);
+
+		res.sendStatus(204);
+	} catch (err) {
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
+	}
+});
 
 router.get("/api-keys", mustBe("controller"), async (req, res) => {
 	try {

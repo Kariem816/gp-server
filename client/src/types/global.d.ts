@@ -13,3 +13,18 @@ declare type APIResponse<T = any> = {
 	data: T;
 	[key: string]: any;
 };
+
+declare type APIGenericError = {
+	error: Exclude<string, "FORM_ERROR">;
+	message: string;
+};
+
+declare type APIFormError = {
+	error: "FORM_ERROR";
+	messages: {
+		path: string;
+		message: string;
+	}[];
+};
+
+declare type APIError = APIFormError | APIGenericError;

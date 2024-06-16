@@ -39,7 +39,7 @@ function ParkingConfigPage() {
 		<div className="p-4">
 			<div className="flex justify-between items-center">
 				<h1 className="m-0">{t("parking_config")}</h1>
-				<Button variant="ghost" size="icon" onClick={handleRefetch}>
+				<Button variant="outline" size="icon" onClick={handleRefetch}>
 					<UpdateIcon
 						className={cn(
 							"text-primary",

@@ -1122,5 +1122,9 @@
     "camera_deleted": {
         "en": "Camera deleted successfully!",
         "ar": "تم حذف الكاميرا بنجاح!"
+    },
+    "change_spot_name": {
+        "en": "Change Spot Name",
+        "ar": "تغيير اسم الموقف"
     }
 }

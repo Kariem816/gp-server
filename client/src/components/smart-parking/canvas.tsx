@@ -130,7 +130,7 @@ export function SelectorCanvas({ bg, initialSpots }: SelectorCanvasProps) {
 			}
 
 			for (let i = 0; i < spots.length; i++) {
-				const { poly, location } = spots[i];
+				const { poly } = spots[i];
 				for (let j = 0; j < poly.length; j++) {
 					drawLine(
 						ctx,

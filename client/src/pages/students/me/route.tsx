@@ -35,12 +35,13 @@ function Layout() {
 
 	return (
 		<div className="h-full flex flex-col divide-x-2 rtl:divide-x-reverse md:flex-row">
-			<div className="pt-2 md:p-4 md:w-[25%] md:h-full md:overflow-y-auto md:space-y-2 overflow-x-auto flex md:block border-b-2 md:border-none flex-shrink-0">
+			<div className="pt-2 md:p-4 md:w-1/5 md:h-full md:overflow-y-auto md:space-y-2 overflow-x-auto flex md:block border-b-2 md:border-none flex-shrink-0">
 				{generateDashboardRoutes().map((route) => (
 					<Link
 						key={route.path}
 						to={route.path as any}
 						activeProps={{ className: "bg-primary/80 text-white" }}
+						activeOptions={{ exact: true }}
 						className="block p-2 md:px-4 hover:bg-primary hover:text-white md:rounded-md font-semibold"
 					>
 						{t(route.name)}

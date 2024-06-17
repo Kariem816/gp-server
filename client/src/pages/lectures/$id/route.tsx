@@ -18,6 +18,7 @@ function generateDashboardRoutes(id: string): NavRoute[] {
 		{
 			name: "general",
 			path: `/lectures/${id}/`,
+			exact: true,
 		},
 		{
 			name: "attendance",
@@ -45,6 +46,7 @@ function Layout() {
 						to={route.path as any}
 						replace
 						activeProps={{ className: "bg-primary text-white" }}
+						activeOptions={{ exact: route.exact }}
 						className="block p-2 md:px-4 hover:bg-primary/80 hover:text-white md:rounded-md font-semibold"
 					>
 						{t(route.name)}

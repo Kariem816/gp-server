@@ -1,8 +1,11 @@
 import { del, get, post, put } from "./api";
 
 import type { APIQuery } from "~/types/query";
+import type { LoggedUser } from "~/types/users";
 
-export async function getUsers(query: APIQuery = {}) {
+export async function getUsers(
+	query: APIQuery = {}
+): Promise<PaginatedResponse<LoggedUser>> {
 	return get("/users", query);
 }
 

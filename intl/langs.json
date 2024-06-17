@@ -1126,5 +1126,29 @@
     "change_spot_name": {
         "en": "Change Spot Name",
         "ar": "تغيير اسم الموقف"
+    },
+    "no_cameras": {
+        "en": "No cameras",
+        "ar": "لا توجد كاميرات"
+    },
+    "users": {
+        "en": "Users",
+        "ar": "مستخدمين"
+    },
+    "Users": {
+        "en": "Users",
+        "ar": "المستخدمين"
+    },
+    "search": {
+        "en": "Search",
+        "ar": "بحث"
+    },
+    "no_users": {
+        "en": "No users",
+        "ar": "لا يوجد مستخدمين"
+    },
+    "role": {
+        "en": "Role",
+        "ar": "الدور"
     }
 }

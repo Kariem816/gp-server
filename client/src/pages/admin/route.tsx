@@ -45,7 +45,7 @@ function Layout() {
 						key={route.path}
 						to={route.path as any}
 						activeProps={{ className: "bg-primary/80 text-white" }}
-						className="block p-2 md:px-4 hover:bg-primary hover:text-white md:rounded-md font-semibold"
+						className="block text-nowrap p-2 md:px-4 hover:bg-primary hover:text-white md:rounded-md font-semibold"
 					>
 						{t(route.name)}
 					</Link>

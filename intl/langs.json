@@ -1133,10 +1133,6 @@
     },
     "users": {
         "en": "Users",
-        "ar": "مستخدمين"
-    },
-    "Users": {
-        "en": "Users",
         "ar": "المستخدمين"
     },
     "search": {
@@ -1144,11 +1140,67 @@
         "ar": "بحث"
     },
     "no_users": {
-        "en": "No users",
-        "ar": "لا يوجد مستخدمين"
+        "en": "No users found",
+        "ar": "لم يتم العثور على مستخدمين"
     },
     "role": {
         "en": "Role",
         "ar": "الدور"
+    },
+    "no_controllers": {
+        "en": "No controllers found",
+        "ar": "لم يتم العثور على متحكمات"
+    },
+    "controllers": {
+        "en": "Controllers",
+        "ar": "المتحكمات"
+    },
+    "new_controller": {
+        "en": "New Controller",
+        "ar": "متحكم جديد"
+    },
+    "new_controller_desc": {
+        "en": "Create a new controller. You can edit the controller later.",
+        "ar": "إنشاء متحكم جديد. يمكنك تعديل المتحكم لاحقًا."
+    },
+    "gate": {
+        "en": "Gate",
+        "ar": "البوابة"
+    },
+    "image": {
+        "en": "Image",
+        "ar": "الصورة"
+    },
+    "optional": {
+        "en": "Optional",
+        "ar": "اختياري"
+    },
+    "controller_created": {
+        "en": "Controller created successfully!",
+        "ar": "تم إنشاء المتحكم بنجاح!"
+    },
+    "controller_updated": {
+        "en": "Controller updated successfully!",
+        "ar": "تم تحديث المتحكم بنجاح!"
+    },
+    "controller_deleted": {
+        "en": "Controller deleted successfully!",
+        "ar": "تم حذف المتحكم بنجاح!"
+    },
+    "edit_controller": {
+        "en": "Edit Controller",
+        "ar": "تعديل المتحكم"
+    },
+    "delete_controller": {
+        "en": "Delete Controller",
+        "ar": "حذف المتحكم"
+    },
+    "delete_controller_desc": {
+        "en": "Are you sure you want to delete this controller ({{1}})?",
+        "ar": "هل أنت متأكد أنك تريد حذف هذا المتحكم ({{1}})؟"
+    },
+    "name": {
+        "en": "Name",
+        "ar": "الاسم"
     }
 }

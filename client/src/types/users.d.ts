@@ -1,3 +1,5 @@
+import { ControlElement } from "~/services/controllers";
+
 type BaseUser = {
 	id: string;
 	username: string;
@@ -35,7 +37,7 @@ export type Controller = BaseUser & {
 	role: "controller";
 	controller: MetaUser & {
 		location: string;
-		controls: string[];
+		controls: ControlElement[];
 	};
 };
 

@@ -1,5 +1,17 @@
 import { z } from "zod";
 
+import { ControlElement } from "@prisma/client";
+
+export const updateControllerSchema = z.object({
+	controls: z
+		.nativeEnum(ControlElement, {
+			required_error: "Invalid Control Element",
+		})
+		.array()
+		.nonempty("There must be at least one control element"),
+	location: z.string().optional(),
+});
+
 export const addCameraSchema = z.object({
 	location: z.string().min(1, "location_empty"),
 	ip: z.string().min(1, "ip_empty"),

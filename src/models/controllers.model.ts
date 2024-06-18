@@ -24,6 +24,19 @@ class ControllerStore {
 		}
 	}
 
+	async updateController(userId: User["id"], data: Partial<Controller>) {
+		try {
+			return await prisma.controller.update({
+				where: {
+					userId,
+				},
+				data,
+			});
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
+	}
+
 	async createApiKey(
 		id: Controller["id"],
 		data: { key: string; name: string; expiresAt?: Date }

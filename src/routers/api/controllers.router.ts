@@ -4,6 +4,7 @@ import {
 	addCameraSchema,
 	newApiKeySchema,
 	updateCameraSchema,
+	updateControllerSchema,
 } from "@/schemas/controllers.schema";
 import { formatError, formatResponse } from "@/helpers";
 import controllerStore from "@/models/controllers.model";
@@ -23,6 +24,36 @@ router.get("/controlling", mustBe("controller"), async (_req, res) => {
 		res.status(status).json(error);
 	}
 });
+
+router.get("/:id/controlling", mustBe("admin"), async (req, res) => {
+	try {
+		const controller = await controllerStore.getControllerByUserId(
+			req.params.id
+		);
+
+		res.json(formatResponse(controller.controls));
+	} catch (err) {
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
+	}
+});
+
+router.put(
+	"/:id",
+	mustBe("admin"),
+	validateBody(updateControllerSchema),
+	async (req, res) => {
+		try {
+			const body = req.body as z.infer<typeof updateControllerSchema>;
+			await controllerStore.updateController(req.params.id, body);
+
+			res.json(formatResponse({ message: "Controller updated" }));
+		} catch (err) {
+			const { status, error } = formatError(err);
+			res.status(status).json(error);
+		}
+	}
+);
 
 router.get("/camera", mustBe("admin"), async (_req, res) => {
 	try {

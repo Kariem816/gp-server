@@ -1,10 +1,16 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { useAuth } from "~/contexts/auth";
 import { useTranslation } from "~/contexts/translation";
 import { LoggedUser } from "~/types/users";
 
 export const Route = createFileRoute("/students/me/")({
 	component: Welcome,
+	beforeLoad: () => {
+		throw redirect({
+			to: "/students/me/courses",
+			replace: true,
+		});
+	},
 });
 
 function Welcome() {

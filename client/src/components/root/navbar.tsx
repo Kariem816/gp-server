@@ -25,7 +25,7 @@ export function Navbar({ toggle }: { toggle: () => void }) {
 	const navRoutes = useMemo(() => generateNavRoutes(user.role), [user.role]);
 
 	return (
-		<div className="w-full mx-auto px-2">
+		<div className="w-full mx-auto px-2 shadow-sm">
 			<div className="flex justify-between h-14 items-center">
 				<div className="flex gap-4 items-center">
 					<Button

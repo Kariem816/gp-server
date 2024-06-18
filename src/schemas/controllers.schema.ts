@@ -1,13 +1,5 @@
 import { z } from "zod";
 
-export const updateReconizerTokenSchema = z.object({
-	token: z.string(),
-});
-
-export const updateReconizerURLSchema = z.object({
-	url: z.string(),
-});
-
 export const addCameraSchema = z.object({
 	location: z.string().min(1, "location_empty"),
 	ip: z.string().min(1, "ip_empty"),

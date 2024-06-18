@@ -183,10 +183,6 @@
         "en": "Are you sure you want to delete the lecture?",
         "ar": "هل أنت متأكد أنك تريد حذف المحاضرة؟"
     },
-    "parking_config": {
-        "en": "Parking Configuration",
-        "ar": "تكوين المواقف"
-    },
     "permission": {
         "en": "Permission",
         "ar": "إذن"

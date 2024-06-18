@@ -10,6 +10,8 @@ import { Toaster } from "~/components/ui/sonner";
 export const Route = createRootRoute({
 	component: RootComponent,
 	notFoundComponent: NotFound,
+	// TODO: do not commit this in production
+	errorComponent: NotFound,
 });
 
 function RootComponent() {

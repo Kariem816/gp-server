@@ -1198,5 +1198,21 @@
     "name": {
         "en": "Name",
         "ar": "الاسم"
+    },
+    "notify_all": {
+        "en": "Notify All",
+        "ar": "إشعار الجميع"
+    },
+    "notify_all_desc": {
+        "en": "Send a notification to all users of the app.",
+        "ar": "إرسال إشعار إلى جميع مستخدمي التطبيق."
+    },
+    "extras": {
+        "en": "Extras",
+        "ar": "إضافات"
+    },
+    "parking_config": {
+        "en": "Parking Configuration",
+        "ar": "تكوين الموقف"
     }
 }

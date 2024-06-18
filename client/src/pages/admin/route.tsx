@@ -30,6 +30,10 @@ function generateDashboardRoutes(): NavRoute[] {
 			name: "camera",
 			path: "/admin/camera",
 		},
+		{
+			name: "extras",
+			path: "/admin/extra",
+		},
 	];
 }
 

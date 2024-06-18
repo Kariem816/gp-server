@@ -28,6 +28,7 @@ import { Route as ProfileIdImport } from "./pages/profile/$id"
 import { Route as CoursesNewImport } from "./pages/courses/new"
 import { Route as AdminUsersImport } from "./pages/admin/users"
 import { Route as AdminParkingImport } from "./pages/admin/parking"
+import { Route as AdminExtraImport } from "./pages/admin/extra"
 import { Route as AdminControllersImport } from "./pages/admin/controllers"
 import { Route as AdminCameraImport } from "./pages/admin/camera"
 import { Route as TeachersMeRouteImport } from "./pages/teachers/me/route"
@@ -141,6 +142,11 @@ const AdminUsersRoute = AdminUsersImport.update({
 
 const AdminParkingRoute = AdminParkingImport.update({
   path: "/parking",
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+
+const AdminExtraRoute = AdminExtraImport.update({
+  path: "/extra",
   getParentRoute: () => AdminRouteRoute,
 } as any)
 
@@ -349,6 +355,13 @@ declare module "@tanstack/react-router" {
       path: "/controllers"
       fullPath: "/admin/controllers"
       preLoaderRoute: typeof AdminControllersImport
+      parentRoute: typeof AdminRouteImport
+    }
+    "/admin/extra": {
+      id: "/admin/extra"
+      path: "/extra"
+      fullPath: "/admin/extra"
+      preLoaderRoute: typeof AdminExtraImport
       parentRoute: typeof AdminRouteImport
     }
     "/admin/parking": {
@@ -613,6 +626,7 @@ export const routeTree = rootRoute.addChildren({
   AdminRouteRoute: AdminRouteRoute.addChildren({
     AdminCameraRoute,
     AdminControllersRoute,
+    AdminExtraRoute,
     AdminParkingRoute,
     AdminUsersRoute,
     AdminIndexRoute,
@@ -703,6 +717,7 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/admin/camera",
         "/admin/controllers",
+        "/admin/extra",
         "/admin/parking",
         "/admin/users",
         "/admin/"
@@ -756,6 +771,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/admin/controllers": {
       "filePath": "admin/controllers.tsx",
+      "parent": "/admin"
+    },
+    "/admin/extra": {
+      "filePath": "admin/extra.tsx",
       "parent": "/admin"
     },
     "/admin/parking": {

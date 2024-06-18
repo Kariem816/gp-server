@@ -2,6 +2,7 @@ import {
 	BackpackIcon,
 	HomeIcon,
 	MixIcon,
+	MixerVerticalIcon,
 	MobileIcon,
 } from "@radix-ui/react-icons";
 import { UserRole } from "~/types/users";
@@ -32,22 +33,30 @@ const MOBILE_ROUTE: NavRoute = {
 	path: "/mobile",
 	icon: <MobileIcon className="size-6 me-2" />,
 };
-const ADMIN_DASHBOARD_ROUTE: NavRoute = { name: "dashboard", path: "/admin" };
+const ADMIN_DASHBOARD_ROUTE: NavRoute = {
+	name: "dashboard",
+	path: "/admin",
+	icon: <MixerVerticalIcon className="size-6 me-2" />,
+};
 const STUDENT_DASHBOARD_ROUTE: NavRoute = {
 	name: "dashboard",
 	path: "/students/me/",
+	icon: <MixerVerticalIcon className="size-6 me-2" />,
 };
 const TEACHER_DASHBOARD_ROUTE: NavRoute = {
 	name: "dashboard",
 	path: "/teachers/me/",
+	icon: <MixerVerticalIcon className="size-6 me-2" />,
 };
 const SECURITY_DASHBOARD_ROUTE: NavRoute = {
 	name: "dashboard",
 	path: "/security/me/",
+	icon: <MixerVerticalIcon className="size-6 me-2" />,
 };
 const CONTROLLER_DASHBOARD_ROUTE: NavRoute = {
 	name: "dashboard",
 	path: "/controllers/me/",
+	icon: <MixerVerticalIcon className="size-6 me-2" />,
 };
 
 export function generateNavRoutes(userRole: UserRole | "guest"): NavRoute[] {

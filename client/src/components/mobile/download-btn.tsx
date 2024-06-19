@@ -27,7 +27,7 @@ export function DownloadBtn({ disabled }: DownloadBtnProps) {
 				link.remove();
 			});
 		} catch (err) {
-			console.log(err);
+			console.error(err);
 		} finally {
 			close();
 			setIsLoading(false);

@@ -48,8 +48,8 @@ export function AutoAttendance({
 				});
 			},
 			onUploadError: (err) => {
-				console.log(err);
-				toast.error(err.message);
+				// @ts-expect-error we cannot do proper types on ut because of reasons
+				toast.error(err.cause?.message);
 			},
 		});
 

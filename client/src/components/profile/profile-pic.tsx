@@ -16,6 +16,9 @@ import { Button } from "~/components/ui/button";
 import { Pencil1Icon } from "@radix-ui/react-icons";
 import { Input } from "~/components/ui/input";
 import { Cropper } from "../cropper";
+import { crop } from "~/utils/images";
+
+import type { CropData } from "~/utils/images";
 
 export default function ProfilePic({
 	img,
@@ -37,40 +40,16 @@ export default function ProfilePic({
 	);
 }
 
-type UploadData =
-	| {
-			populated: false;
-	  }
-	| {
-			populated: true;
-			file: File;
-			fileUrl: string;
-			fileDims: { w: number; h: number };
-			cropped?: File;
-	  };
-
-async function getImageDims(src: string) {
-	return new Promise<{ w: number; h: number }>((resolve, reject) => {
-		const img = new Image();
-		img.src = src;
-		img.onload = () => {
-			resolve({ w: img.naturalWidth, h: img.naturalHeight });
-		};
-		img.onerror = reject;
-	});
-}
-
 function ChangePic() {
 	const { refreshUser } = useAuth();
 	const { t } = useTranslation();
 	const [progress, setProgress] = useState(0);
 	const [open, setOpen] = useState(false);
 
-	const [uploadData, setUploadData] = useState<UploadData>({
-		populated: false,
-	});
+	const [cropData, setCropData] = useState<CropData>();
+	const [file, setFile] = useState<string>();
 
-	const { isUploading, permittedFileInfo, startUpload } = useUploadThing(
+	const { isUploading, routeConfig, startUpload } = useUploadThing(
 		"profilePics",
 		{
 			onClientUploadComplete: () => {
@@ -78,17 +57,14 @@ function ChangePic() {
 				refreshUser();
 				setOpen(false);
 				setProgress(0);
-				setUploadData({ populated: false });
+				setFile(undefined);
 				document
 					.querySelector("input[type=file]")!
 					.setAttribute("value", "");
 			},
 			onUploadError: (err) => {
-				if (err.message.includes("UploadThing")) {
-					toast.error(t("generic_error"));
-				} else {
-					toast.error(err.message);
-				}
+				// @ts-expect-error we cannot do proper types on ut because of reasons
+				toast.error(err.cause?.message);
 			},
 			onUploadProgress: setProgress,
 		}
@@ -98,7 +74,7 @@ function ChangePic() {
 		if (isUploading) return;
 
 		if (!newOpen) {
-			setUploadData({ populated: false });
+			setFile(undefined);
 			document
 				.querySelector("input[type=file]")!
 				.setAttribute("value", "");
@@ -112,37 +88,22 @@ function ChangePic() {
 
 		const file = files[0];
 		const fileUrl = URL.createObjectURL(file);
-
-		const img = new Image();
-		img.src = fileUrl;
-
-		getImageDims(fileUrl)
-			.then((dims) => {
-				setUploadData({
-					populated: true,
-					file,
-					fileUrl,
-					fileDims: dims,
-				});
-			})
-			.catch(() => {
-				document
-					.querySelector("input[type=file]")!
-					.setAttribute("value", "");
-			});
+		setFile(fileUrl);
 	}
 
 	function start() {
-		if (!uploadData.populated) return;
+		if (!file || !cropData) return;
 
-		const { cropped, file, fileDims } = uploadData;
-
-		if (!cropped && fileDims.w !== fileDims.h) {
-			toast.error(t("change_img_square"));
-			return;
-		}
-
-		startUpload([cropped ?? file]);
+		const dims = { w: 1600, h: 900 };
+		crop(file, dims, cropData)
+			.then((cropped) => fetch(cropped))
+			.then((res) => res.blob())
+			.then((blob) => {
+				startUpload([new File([blob], "profilePic.png")]);
+			})
+			.catch((err) => {
+				toast.error(err.message);
+			});
 	}
 
 	return (
@@ -165,21 +126,16 @@ function ChangePic() {
 
 				<Input
 					type="file"
-					accept={accept(permittedFileInfo)}
+					accept={accept(routeConfig)}
 					onChange={handleFileChange}
 				/>
 
-				{uploadData.populated && (
+				{file && (
 					<Cropper
-						img={uploadData.fileUrl}
+						img={file}
 						// aspectRatio={1}
 						disabled={isUploading}
-						onCrop={(blob) => {
-							setUploadData({
-								...uploadData,
-								cropped: new File([blob], uploadData.file.name),
-							});
-						}}
+						onChange={setCropData}
 					/>
 				)}
 
@@ -195,14 +151,7 @@ function ChangePic() {
 					</div>
 				)}
 
-				<Button
-					onClick={start}
-					disabled={
-						!uploadData.populated ||
-						(!uploadData.cropped &&
-							uploadData.fileDims.h !== uploadData.fileDims.w)
-					}
-				>
+				<Button onClick={start} disabled={isUploading || !file}>
 					{t("upload")}
 				</Button>
 			</DialogContent>
@@ -210,13 +159,12 @@ function ChangePic() {
 	);
 }
 
-// TODO: calculate all input attributes
 function accept(
-	permittedFileInfo: ReturnType<typeof useUploadThing>["permittedFileInfo"]
+	permittedFileInfo: ReturnType<typeof useUploadThing>["routeConfig"]
 ) {
 	if (!permittedFileInfo) return "";
 
-	return Object.keys(permittedFileInfo.config)
+	return Object.keys(permittedFileInfo)
 		.map((key) => {
 			if (key.includes("/")) return key;
 			return key + "/*";

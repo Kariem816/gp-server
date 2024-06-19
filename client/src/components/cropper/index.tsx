@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from "react";
-import { Button } from "../ui/button";
-import { useTranslation } from "~/contexts/translation";
+import { useEffect, useRef } from "react";
+
+import type { CropData } from "~/utils/images";
 
 type CropperProps = {
 	img: string;
-	onCrop: (croppedImg: Blob) => void;
+	onChange: (croppedImg: CropData) => void;
 	disabled?: boolean;
 };
 
@@ -15,13 +15,10 @@ const height = 900;
 function euclideanDistance(p1: [number, number], p2: [number, number]) {
 	const [x1, y1] = p1;
 	const [x2, y2] = p2;
-	return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+	return Math.hypot(x2 - x1, y2 - y1);
 }
 
-export function Cropper({ img, onCrop, disabled = false }: CropperProps) {
-	const { t } = useTranslation();
-	const [cropped, setCropped] = useState(false);
-
+export function Cropper({ img, onChange, disabled = false }: CropperProps) {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 	const containerRef = useRef<HTMLDivElement>(null);
 	const imgRef = useRef<HTMLImageElement>(null);
@@ -34,15 +31,15 @@ export function Cropper({ img, onCrop, disabled = false }: CropperProps) {
 	const cropper = useRef({
 		x: (width - CROPPER_SIZE) / 2,
 		y: (height - CROPPER_SIZE) / 2,
-	});
-	const imgDims = useRef({
+	}).current;
+	const imgLoc = useRef({
 		x: 0,
 		y: 0,
 		w: 0,
 		h: 0,
 		ex: 0,
 		ey: 0,
-	});
+	}).current;
 	const isDragging = useRef(false);
 	const touchDist = useRef(0);
 
@@ -63,10 +60,10 @@ export function Cropper({ img, onCrop, disabled = false }: CropperProps) {
 			if (imgRef.current) {
 				ctx.drawImage(
 					imgRef.current,
-					imgDims.current.x,
-					imgDims.current.y,
-					imgDims.current.w,
-					imgDims.current.h
+					imgLoc.x,
+					imgLoc.y,
+					imgLoc.w,
+					imgLoc.h
 				);
 			}
 
@@ -74,8 +71,8 @@ export function Cropper({ img, onCrop, disabled = false }: CropperProps) {
 			ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
 			ctx.beginPath();
 			ctx.rect(
-				cropper.current.x,
-				cropper.current.y,
+				cropper.x,
+				cropper.y,
 				CROPPER_SIZE * zoom.current,
 				CROPPER_SIZE * zoom.current
 			);
@@ -86,8 +83,8 @@ export function Cropper({ img, onCrop, disabled = false }: CropperProps) {
 			ctx.strokeStyle = "white";
 			ctx.lineWidth = 5;
 			ctx.strokeRect(
-				cropper.current.x,
-				cropper.current.y,
+				cropper.x,
+				cropper.y,
 				CROPPER_SIZE * zoom.current,
 				CROPPER_SIZE * zoom.current
 			);
@@ -96,20 +93,20 @@ export function Cropper({ img, onCrop, disabled = false }: CropperProps) {
 			ctx.lineWidth = 2;
 			ctx.beginPath();
 			ctx.moveTo(
-				cropper.current.x,
-				cropper.current.y + (CROPPER_SIZE * zoom.current) / 2
+				cropper.x,
+				cropper.y + (CROPPER_SIZE * zoom.current) / 2
 			);
 			ctx.lineTo(
-				cropper.current.x + CROPPER_SIZE * zoom.current,
-				cropper.current.y + (CROPPER_SIZE * zoom.current) / 2
+				cropper.x + CROPPER_SIZE * zoom.current,
+				cropper.y + (CROPPER_SIZE * zoom.current) / 2
 			);
 			ctx.moveTo(
-				cropper.current.x + (CROPPER_SIZE * zoom.current) / 2,
-				cropper.current.y
+				cropper.x + (CROPPER_SIZE * zoom.current) / 2,
+				cropper.y
 			);
 			ctx.lineTo(
-				cropper.current.x + (CROPPER_SIZE * zoom.current) / 2,
-				cropper.current.y + CROPPER_SIZE * zoom.current
+				cropper.x + (CROPPER_SIZE * zoom.current) / 2,
+				cropper.y + CROPPER_SIZE * zoom.current
 			);
 			ctx.stroke();
 
@@ -133,10 +130,13 @@ export function Cropper({ img, onCrop, disabled = false }: CropperProps) {
 
 		canvas.addEventListener("touchend", handleTouchEnd, { passive: false });
 
+		canvas.addEventListener("wheel", handleWheel, { passive: false });
+
 		return () => {
 			canvas.removeEventListener("touchstart", handleTouchStart);
 			canvas.removeEventListener("touchmove", handleTouchMove);
 			canvas.removeEventListener("touchend", handleTouchEnd);
+			canvas.removeEventListener("wheel", handleWheel);
 		};
 	}, [canvasRef]);
 
@@ -146,21 +146,41 @@ export function Cropper({ img, onCrop, disabled = false }: CropperProps) {
 
 		const wScale = width / iw;
 		const hScale = height / ih;
-		if (wScale < hScale) {
-			imgDims.current.w = width;
-			imgDims.current.h = ih * wScale;
-			imgDims.current.x = 0;
-			imgDims.current.y = (height - ih * wScale) / 2;
-			imgDims.current.ex = width;
-			imgDims.current.ey = imgDims.current.y + ih * wScale;
-		} else {
-			imgDims.current.w = iw * hScale;
-			imgDims.current.h = height;
-			imgDims.current.x = (width - iw * hScale) / 2;
-			imgDims.current.y = 0;
-			imgDims.current.ex = imgDims.current.x + iw * hScale;
-			imgDims.current.ey = height;
+
+		let branch = wScale < hScale; // great variable naming skills
+		if (Math.abs(wScale - hScale) < 1e-3) {
+			branch = width > height;
 		}
+
+		if (branch) {
+			imgLoc.w = width;
+			imgLoc.h = ih * wScale;
+			imgLoc.x = 0;
+			imgLoc.y = (height - ih * wScale) / 2;
+			imgLoc.ex = width;
+			imgLoc.ey = imgLoc.y + ih * wScale;
+
+			zoom.current = imgLoc.h / CROPPER_SIZE;
+			cropper.x = (width - imgLoc.h) / 2;
+			cropper.y = (height - CROPPER_SIZE * zoom.current) / 2;
+		} else {
+			imgLoc.w = iw * hScale;
+			imgLoc.h = height;
+			imgLoc.x = (width - iw * hScale) / 2;
+			imgLoc.y = 0;
+			imgLoc.ex = imgLoc.x + iw * hScale;
+			imgLoc.ey = height;
+
+			zoom.current = imgLoc.w / CROPPER_SIZE;
+			cropper.x = (width - CROPPER_SIZE * zoom.current) / 2;
+			cropper.y = (height - imgLoc.w) / 2;
+		}
+		onChange({
+			x: cropper.x,
+			y: cropper.y,
+			w: CROPPER_SIZE * zoom.current,
+			h: CROPPER_SIZE * zoom.current,
+		});
 	}
 
 	function handleMouseMove(e: React.MouseEvent<HTMLCanvasElement>) {
@@ -171,20 +191,25 @@ export function Cropper({ img, onCrop, disabled = false }: CropperProps) {
 		if (isDragging.current) {
 			const newX = mousePos.current.x - (CROPPER_SIZE / 2) * zoom.current;
 			const newY = mousePos.current.y - (CROPPER_SIZE / 2) * zoom.current;
-			cropper.current.x =
-				newX < imgDims.current.x
-					? imgDims.current.x
-					: newX > imgDims.current.ex - CROPPER_SIZE * zoom.current
-						? imgDims.current.ex - CROPPER_SIZE * zoom.current
+			cropper.x =
+				newX < imgLoc.x
+					? imgLoc.x
+					: newX > imgLoc.ex - CROPPER_SIZE * zoom.current
+						? imgLoc.ex - CROPPER_SIZE * zoom.current
 						: newX;
 
-			cropper.current.y =
-				newY < imgDims.current.y
-					? imgDims.current.y
-					: newY > imgDims.current.ey - CROPPER_SIZE * zoom.current
-						? imgDims.current.ey - CROPPER_SIZE * zoom.current
+			cropper.y =
+				newY < imgLoc.y
+					? imgLoc.y
+					: newY > imgLoc.ey - CROPPER_SIZE * zoom.current
+						? imgLoc.ey - CROPPER_SIZE * zoom.current
 						: newY;
-			setCropped(false);
+			onChange({
+				x: cropper.x,
+				y: cropper.y,
+				w: CROPPER_SIZE * zoom.current,
+				h: CROPPER_SIZE * zoom.current,
+			});
 		}
 	}
 
@@ -198,14 +223,21 @@ export function Cropper({ img, onCrop, disabled = false }: CropperProps) {
 		isDragging.current = false;
 	}
 
-	function handleWheel(e: React.WheelEvent<HTMLCanvasElement>) {
+	function handleWheel(e: WheelEvent) {
 		if (disabled) return;
-		setCropped(false);
+		e.preventDefault();
+
 		const { deltaY } = e;
 		const newZoom = zoom.current + deltaY * -0.001;
 
 		if (newZoom < 0.1) {
 			zoom.current = 0.1;
+			onChange({
+				x: cropper.x,
+				y: cropper.y,
+				w: CROPPER_SIZE * zoom.current,
+				h: CROPPER_SIZE * zoom.current,
+			});
 			return;
 		}
 
@@ -216,41 +248,42 @@ export function Cropper({ img, onCrop, disabled = false }: CropperProps) {
 			const oldSize = CROPPER_SIZE * zoom.current;
 			const newSize = CROPPER_SIZE * newZoom;
 
-			if (newSize > imgDims.current.w || newSize > imgDims.current.h) {
-				if (
-					oldSize < imgDims.current.w &&
-					oldSize < imgDims.current.h
-				) {
+			if (newSize > imgLoc.w || newSize > imgLoc.h) {
+				if (oldSize < imgLoc.w && oldSize < imgLoc.h) {
 					zoom.current = Math.min(
-						imgDims.current.w / CROPPER_SIZE,
-						imgDims.current.h / CROPPER_SIZE
+						imgLoc.w / CROPPER_SIZE,
+						imgLoc.h / CROPPER_SIZE
 					);
-					cropper.current.x = imgDims.current.x;
-					cropper.current.y = imgDims.current.y;
-					return;
+					cropper.x = imgLoc.x;
+					cropper.y = imgLoc.y;
 				}
+				onChange({
+					x: cropper.x,
+					y: cropper.y,
+					w: CROPPER_SIZE * zoom.current,
+					h: CROPPER_SIZE * zoom.current,
+				});
 				return;
 			}
 
 			// check x bounds
-			if (cropper.current.x + newSize > imgDims.current.ex) {
+			if (cropper.x + newSize > imgLoc.ex) {
 				// new zoom pushes through the right edge
-				if (cropper.current.x + oldSize < imgDims.current.ex) {
+				if (cropper.x + oldSize < imgLoc.ex) {
 					// but we still have some space
 					// so we zoom in to the right edge exactly
-					xZoom =
-						(imgDims.current.ex - cropper.current.x) / CROPPER_SIZE;
-				} else if (cropper.current.x > imgDims.current.x) {
+					xZoom = (imgLoc.ex - cropper.x) / CROPPER_SIZE;
+				} else if (cropper.x > imgLoc.x) {
 					// we don't have space to the right, check if we have space to the left
 					// yes we do, so we zoom in to the left edge
-					if (newSize < imgDims.current.w) {
+					if (newSize < imgLoc.w) {
 						// we have space to the left
-						cropper.current.x = imgDims.current.ex - newSize;
+						cropper.x = imgLoc.ex - newSize;
 					} else {
 						// if we zoom in more, we will push through the left edge
 						// so we zoom in to the left edge exactly
-						xZoom = imgDims.current.w / CROPPER_SIZE;
-						cropper.current.x = imgDims.current.x;
+						xZoom = imgLoc.w / CROPPER_SIZE;
+						cropper.x = imgLoc.x;
 					}
 				} else {
 					// we don't have space to the left either
@@ -259,27 +292,23 @@ export function Cropper({ img, onCrop, disabled = false }: CropperProps) {
 			}
 
 			// check y bounds
-			if (
-				cropper.current.y + newSize >
-				imgDims.current.y + imgDims.current.h
-			) {
+			if (cropper.y + newSize > imgLoc.y + imgLoc.h) {
 				// new zoom pushes through the bottom edge
-				if (cropper.current.y + oldSize < imgDims.current.ey) {
+				if (cropper.y + oldSize < imgLoc.ey) {
 					// but we still have some space
 					// so we zoom in to the bottom edge exactly
-					yZoom =
-						(imgDims.current.ey - cropper.current.y) / CROPPER_SIZE;
-				} else if (cropper.current.y > imgDims.current.y) {
+					yZoom = (imgLoc.ey - cropper.y) / CROPPER_SIZE;
+				} else if (cropper.y > imgLoc.y) {
 					// we don't have space to the bottom, check if we have space to the top
 					// yes we do, so we zoom in to the top edge
-					if (newSize < imgDims.current.h) {
+					if (newSize < imgLoc.h) {
 						// we have space to the top
-						cropper.current.y = imgDims.current.ey - newSize;
+						cropper.y = imgLoc.ey - newSize;
 					} else {
 						// if we zoom in more, we will push through the top edge
 						// so we zoom in to the top edge exactly
-						yZoom = imgDims.current.h / CROPPER_SIZE;
-						cropper.current.y = imgDims.current.y;
+						yZoom = imgLoc.h / CROPPER_SIZE;
+						cropper.y = imgLoc.y;
 					}
 				} else {
 					// we don't have space to the top either
@@ -289,6 +318,12 @@ export function Cropper({ img, onCrop, disabled = false }: CropperProps) {
 		}
 
 		zoom.current = Math.min(xZoom, yZoom);
+		onChange({
+			x: cropper.x,
+			y: cropper.y,
+			w: CROPPER_SIZE * zoom.current,
+			h: CROPPER_SIZE * zoom.current,
+		});
 	}
 
 	function handleTouchStart(e: TouchEvent) {
@@ -308,7 +343,6 @@ export function Cropper({ img, onCrop, disabled = false }: CropperProps) {
 	function handleTouchMove(e: TouchEvent) {
 		if (disabled) return;
 		e.preventDefault();
-		setCropped(false);
 		if (e.touches.length === 2) {
 			const t1 = e.touches[0];
 			const t2 = e.touches[1];
@@ -318,7 +352,7 @@ export function Cropper({ img, onCrop, disabled = false }: CropperProps) {
 			);
 			const deltaY = (touchDist.current - newDist) * 20; // arbitrary multiplier
 			touchDist.current = newDist;
-			handleWheel({ deltaY } as React.WheelEvent<HTMLCanvasElement>);
+			handleWheel({ deltaY } as WheelEvent);
 		} else if (e.touches.length === 1) {
 			const rect = containerRef.current!.getBoundingClientRect();
 			const t = e.touches[0];
@@ -330,21 +364,26 @@ export function Cropper({ img, onCrop, disabled = false }: CropperProps) {
 				const newY =
 					mousePos.current.y - (CROPPER_SIZE / 2) * zoom.current;
 
-				cropper.current.x =
-					newX < imgDims.current.x
-						? imgDims.current.x
-						: newX >
-							  imgDims.current.ex - CROPPER_SIZE * zoom.current
-							? imgDims.current.ex - CROPPER_SIZE * zoom.current
+				cropper.x =
+					newX < imgLoc.x
+						? imgLoc.x
+						: newX > imgLoc.ex - CROPPER_SIZE * zoom.current
+							? imgLoc.ex - CROPPER_SIZE * zoom.current
 							: newX;
 
-				cropper.current.y =
-					newY < imgDims.current.y
-						? imgDims.current.y
-						: newY >
-							  imgDims.current.ey - CROPPER_SIZE * zoom.current
-							? imgDims.current.ey - CROPPER_SIZE * zoom.current
+				cropper.y =
+					newY < imgLoc.y
+						? imgLoc.y
+						: newY > imgLoc.ey - CROPPER_SIZE * zoom.current
+							? imgLoc.ey - CROPPER_SIZE * zoom.current
 							: newY;
+
+				onChange({
+					x: cropper.x,
+					y: cropper.y,
+					w: CROPPER_SIZE * zoom.current,
+					h: CROPPER_SIZE * zoom.current,
+				});
 			}
 		}
 	}
@@ -352,52 +391,6 @@ export function Cropper({ img, onCrop, disabled = false }: CropperProps) {
 	function handleTouchEnd(e: TouchEvent) {
 		if (disabled) return;
 		if (e.touches.length === 0) handleMouseUp();
-	}
-
-	function handleCrop() {
-		if (disabled) return;
-		const canvas = canvasRef.current;
-		if (!canvas) return;
-		const ctx = canvas.getContext("2d");
-		if (!ctx) return;
-
-		const c = document.createElement("canvas");
-		const cctx = c.getContext("2d");
-		if (!cctx) {
-			return;
-		}
-
-		if (!imgRef.current) return;
-		c.width = canvas.width;
-		c.height = canvas.height;
-
-		cctx.drawImage(
-			imgRef.current,
-			imgDims.current.x,
-			imgDims.current.y,
-			imgDims.current.w,
-			imgDims.current.h
-		);
-
-		const image = cctx.getImageData(
-			cropper.current.x,
-			cropper.current.y,
-			CROPPER_SIZE * zoom.current,
-			CROPPER_SIZE * zoom.current
-		);
-
-		c.width = image.width;
-		c.height = image.height;
-
-		cctx.clearRect(0, 0, c.width, c.height);
-		cctx.putImageData(image, 0, 0);
-
-		c.toBlob((blob) => {
-			if (!blob) return;
-			onCrop(blob);
-		});
-
-		setCropped(true);
 	}
 
 	return (
@@ -418,18 +411,8 @@ export function Cropper({ img, onCrop, disabled = false }: CropperProps) {
 					onMouseDown={handleMouseDown}
 					onMouseUp={handleMouseUp}
 					onMouseLeave={handleMouseUp}
-					onWheel={handleWheel}
 					onContextMenu={(e) => e.preventDefault()}
 				/>
-			</div>
-
-			<div className="flex justify-end">
-				<Button
-					onClick={handleCrop}
-					variant={cropped ? "success" : "default"}
-				>
-					{t(cropped ? "cropped" : "crop")}
-				</Button>
 			</div>
 		</div>
 	);

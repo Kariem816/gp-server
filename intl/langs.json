@@ -547,6 +547,10 @@
         "en": "Edit Course",
         "ar": "تعديل الدورة"
     },
+    "update_course_success": {
+        "en": "Course updated successfully!",
+        "ar": "تم تحديث الدورة بنجاح!"
+    },
     "delete_course": {
         "en": "Delete Course",
         "ar": "حذف الدورة"

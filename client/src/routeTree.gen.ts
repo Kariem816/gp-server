@@ -55,7 +55,6 @@ import { Route as LecturesIdAttendanceImport } from "./pages/lectures/$id/attend
 import { Route as CoursesIdTeachersImport } from "./pages/courses/$id/teachers"
 import { Route as CoursesIdStudentsImport } from "./pages/courses/$id/students"
 import { Route as CoursesIdLecturesImport } from "./pages/courses/$id/lectures"
-import { Route as CoursesIdEditImport } from "./pages/courses/$id/edit"
 import { Route as ControllersMeApiKeysImport } from "./pages/controllers/me/api-keys"
 
 // Create/Update Routes
@@ -280,11 +279,6 @@ const CoursesIdLecturesRoute = CoursesIdLecturesImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const CoursesIdEditRoute = CoursesIdEditImport.update({
-  path: "/courses/$id/edit",
-  getParentRoute: () => rootRoute,
-} as any)
-
 const ControllersMeApiKeysRoute = ControllersMeApiKeysImport.update({
   path: "/api-keys",
   getParentRoute: () => ControllersMeRouteRoute,
@@ -468,13 +462,6 @@ declare module "@tanstack/react-router" {
       fullPath: "/controllers/me/api-keys"
       preLoaderRoute: typeof ControllersMeApiKeysImport
       parentRoute: typeof ControllersMeRouteImport
-    }
-    "/courses/$id/edit": {
-      id: "/courses/$id/edit"
-      path: "/courses/$id/edit"
-      fullPath: "/courses/$id/edit"
-      preLoaderRoute: typeof CoursesIdEditImport
-      parentRoute: typeof rootRoute
     }
     "/courses/$id/lectures": {
       id: "/courses/$id/lectures"
@@ -668,7 +655,6 @@ export const routeTree = rootRoute.addChildren({
   MobileIndexRoute,
   PasswordResetIndexRoute,
   RegisterIndexRoute,
-  CoursesIdEditRoute,
   CoursesIdLecturesRoute,
   CoursesIdStudentsRoute,
   CoursesIdTeachersRoute,
@@ -701,7 +687,6 @@ export const routeTree = rootRoute.addChildren({
         "/mobile/",
         "/password-reset/",
         "/register/",
-        "/courses/$id/edit",
         "/courses/$id/lectures",
         "/courses/$id/students",
         "/courses/$id/teachers",
@@ -826,9 +811,6 @@ export const routeTree = rootRoute.addChildren({
     "/controllers/me/api-keys": {
       "filePath": "controllers/me/api-keys.tsx",
       "parent": "/controllers/me"
-    },
-    "/courses/$id/edit": {
-      "filePath": "courses/$id/edit.tsx"
     },
     "/courses/$id/lectures": {
       "filePath": "courses/$id/lectures.tsx"

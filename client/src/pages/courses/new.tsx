@@ -25,14 +25,14 @@ export const Route = createFileRoute("/courses/new")({
 	component: CreateCoursePage,
 });
 
-const createCourseSchema = z.object({
+export const createCourseSchema = z.object({
 	name: z.string().min(3).max(255),
 	code: z.string().regex(/^[A-Z]{3}[0-9]{3}s?$/),
 	creditHours: z.number().int().min(0).max(6),
 	content: z.string().optional(),
 });
 
-type CreateCourse = z.infer<typeof createCourseSchema>;
+export type CreateCourse = z.infer<typeof createCourseSchema>;
 
 function CreateCoursePage() {
 	const [isSubmitting, setIsSubmitting] = useState(false);
@@ -60,11 +60,8 @@ function CreateCoursePage() {
 			});
 		} catch (err: any) {
 			if ("messages" in err) {
-				for (const message of err.messages) {
-					form.setError(message.path, {
-						type: "validate",
-						message: message.message,
-					});
+				for (const { path, message } of err.messages) {
+					form.setError(path, { message });
 				}
 			}
 			if ("message" in err) {

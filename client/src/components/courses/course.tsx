@@ -1,9 +1,9 @@
-import { Pencil2Icon } from "@radix-ui/react-icons";
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "~/contexts/translation";
 import { SignedInAs } from "~/components/auth";
 import { Button } from "~/components/ui/button";
 import { CourseTeachers } from "./course-teachers";
+import { EditCourse } from "./edit-course";
 import { DeleteCourse } from "./delete-course";
 import { RegisterButton } from "./register-btn";
 import { CreateLecture } from "./create-lecture";
@@ -87,13 +87,8 @@ export function Course({ course }: { course: TCourse }) {
 			</SignedInAs>
 
 			<SignedInAs role="admin">
-				<div className="flex gap-2 justify-end">
-					<Link to="/courses/$id/edit" params={{ id: course.id }}>
-						<Button variant="outline">
-							<Pencil2Icon className="size-5 me-2" />
-							{t("edit_course")}
-						</Button>
-					</Link>
+				<div className="flex gap-2 justify-end flex-wrap">
+					<EditCourse course={course} />
 					<DeleteCourse course={course} />
 				</div>
 			</SignedInAs>

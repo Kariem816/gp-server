@@ -1222,5 +1222,13 @@
     "clear": {
         "en": "Clear",
         "ar": "مسح"
+    },
+    "registration": {
+        "en": "Registration",
+        "ar": "دورة مسجلة"
+    },
+    "registrations": {
+        "en": "Registrations",
+        "ar": "الدورات المسجلة"
     }
 }

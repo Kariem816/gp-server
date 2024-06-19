@@ -29,7 +29,7 @@ export type TStudentAttendance = {
 	}[];
 }[];
 
-export type TCourseProfile = {
+export type TRegistration = {
 	student: {
 		user: {
 			id: string;
@@ -91,6 +91,24 @@ export type TScheduleClass = {
 	};
 };
 
+export type TStudent = {
+	id: string;
+	user: {
+		id: string;
+		name: string;
+		img: string;
+	};
+	registerations: {
+		id: string;
+		semester: string;
+		course: {
+			id: string;
+			name: string;
+			code: string;
+		};
+	}[];
+};
+
 export async function getMyCourses(
 	query: APIQuery = {},
 	page: number
@@ -139,12 +157,12 @@ export async function getStudentAttendance(
 	});
 }
 
-export async function getStudent(id: string) {
+export async function getStudent(id: string): Promise<APIResponse<TStudent>> {
 	return get(`/students/${id}`);
 }
 
 export async function getCourseProfile(
 	profileId: string
-): Promise<APIResponse<TCourseProfile>> {
+): Promise<APIResponse<TRegistration>> {
 	return get(`/students/profile/${profileId}`);
 }

@@ -6,12 +6,12 @@ import { Sidebar } from "~/components/root/sidebar";
 import { NotFound } from "~/not-found";
 import { Navbar } from "~/components/root/navbar";
 import { Toaster } from "~/components/ui/sonner";
+import { ErrorComponent } from "~/error";
 
 export const Route = createRootRoute({
 	component: RootComponent,
 	notFoundComponent: NotFound,
-	// TODO: do not commit this in production
-	errorComponent: NotFound,
+	errorComponent: ErrorComponent,
 });
 
 function RootComponent() {

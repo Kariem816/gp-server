@@ -817,23 +817,6 @@
     aria-hidden "^1.1.1"
     react-remove-scroll "2.5.5"
 
-"@radix-ui/react-menubar@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.npmjs.org/@radix-ui/react-menubar/-/react-menubar-1.0.4.tgz"
-  integrity sha512-bHgUo9gayKZfaQcWSSLr++LyS0rgh+MvD89DE4fJ6TkGHvjHgPaBZf44hdka7ogOxIOdj9163J+5xL2Dn4qzzg==
-  dependencies:
-    "@babel/runtime" "^7.13.10"
-    "@radix-ui/primitive" "1.0.1"
-    "@radix-ui/react-collection" "1.0.3"
-    "@radix-ui/react-compose-refs" "1.0.1"
-    "@radix-ui/react-context" "1.0.1"
-    "@radix-ui/react-direction" "1.0.1"
-    "@radix-ui/react-id" "1.0.1"
-    "@radix-ui/react-menu" "2.0.6"
-    "@radix-ui/react-primitive" "1.0.3"
-    "@radix-ui/react-roving-focus" "1.0.4"
-    "@radix-ui/react-use-controllable-state" "1.0.1"
-
 "@radix-ui/react-popper@1.1.3":
   version "1.1.3"
   resolved "https://registry.npmjs.org/@radix-ui/react-popper/-/react-popper-1.1.3.tgz"
@@ -2587,11 +2570,6 @@ react-hook-form@^7.51.5:
   version "7.51.5"
   resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.51.5.tgz#4afbfb819312db9fea23e8237a3a0d097e128b43"
   integrity sha512-J2ILT5gWx1XUIJRETiA7M19iXHlG74+6O3KApzvqB/w8S5NQR7AbU8HVZrMALdmDgWpRPYiZJl0zx8Z4L2mP6Q==
-
-react-loading-skeleton@^3.4.0:
-  version "3.4.0"
-  resolved "https://registry.npmjs.org/react-loading-skeleton/-/react-loading-skeleton-3.4.0.tgz"
-  integrity sha512-1oJEBc9+wn7BbkQQk7YodlYEIjgeR+GrRjD+QXkVjwZN7LGIcAFHrx4NhT7UHGBxNY1+zax3c+Fo6XQM4R7CgA==
 
 react-refresh@^0.14.2:
   version "0.14.2"

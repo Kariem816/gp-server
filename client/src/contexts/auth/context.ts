@@ -5,7 +5,10 @@ import type { User, UserRole } from "~/types/users";
 type AuthContextValue = {
 	isLoggedIn: boolean;
 	user: User;
-	register: (userData: User, accountType: UserRole) => Promise<User>;
+	register: (
+		userData: { name: string; username: string; password: string },
+		accountType: UserRole
+	) => Promise<User>;
 	login: (username: string, password: string) => Promise<void>;
 	refreshUser: () => Promise<void>;
 	logout: () => void;

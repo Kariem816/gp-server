@@ -65,7 +65,11 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 	}, [user]);
 
 	async function register(
-		userData: User,
+		userData: {
+			username: string;
+			password: string;
+			name: string;
+		},
 		accountType: UserRole
 	): Promise<User> {
 		const {

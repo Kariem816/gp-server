@@ -44,7 +44,7 @@ const loginSchema = z.object({
 	password: z.string().min(1),
 });
 
-export function LoginPage() {
+function LoginPage() {
 	const { redirect } = Route.useSearch();
 	const { login } = useAuth();
 	const { t } = useTranslation();

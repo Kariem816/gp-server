@@ -1032,16 +1032,16 @@
         "ar": "مرحبًا! يرجى تسجيل الدخول إلى حسابك"
     },
     "to_login_phrase": {
-        "en": "Already registered? Login",
-        "ar": "مسجل بالفعل؟ تسجيل الدخول"
+        "en": "Have an account? Login",
+        "ar": "هل لديك حساب؟ قم بتسجيل الدخول"
     },
     "register_phrase": {
-        "en": "Register",
-        "ar": "التسجيل"
+        "en": "Register a new account to access the system",
+        "ar": "سجل حساب جديد للوصول إلى النظام"
     },
     "to_register_phrase": {
-        "en": "Don't have an account? Join us!",
-        "ar": "ليس لديك حساب؟ انضم إلينا!"
+        "en": "Create an account!",
+        "ar": "أنشئ حسابًا!"
     },
     "forgot_password": {
         "en": "Forgot Password?",

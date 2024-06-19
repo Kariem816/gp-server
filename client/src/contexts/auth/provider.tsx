@@ -81,6 +81,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 		setAPIToken(accessToken);
 		setUser(user);
 		startRefreshTokenTimer();
+		refreshTokenLastRefreshed.current = new Date();
 	}
 
 	async function refreshUser() {
@@ -104,6 +105,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 		removeAPIToken();
 		setUser(DEFAULT_USER);
 		stopRefreshTokenTimer();
+		refreshTokenLastRefreshed.current = undefined;
 	}
 
 	async function refreshTokenInternal() {
@@ -112,6 +114,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 				data: { accessToken },
 			} = await refreshToken();
 			setAPIToken(accessToken);
+			refreshTokenLastRefreshed.current = new Date();
 			startRefreshTokenTimer();
 		} catch (err) {
 			stopRefreshTokenTimer();
@@ -119,29 +122,14 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
 		}
 	}
 
-	function startRefreshTokenTimer(amount?: number) {
-		if (amount) {
-			refreshTokenTimeout.current = setTimeout(
-				refreshTokenInternal,
-				amount
-			);
-			return;
-		}
-		refreshTokenLastRefreshed.current = new Date();
-		refreshTokenTimeout.current = setTimeout(
-			refreshTokenInternal,
-			REFRESH_TOKEN_INTERVAL
-		);
+	function startRefreshTokenTimer(amount: number = REFRESH_TOKEN_INTERVAL) {
+		refreshTokenTimeout.current = setTimeout(refreshTokenInternal, amount);
 	}
 
 	function stopRefreshTokenTimer() {
 		if (refreshTokenTimeout.current) {
 			clearTimeout(refreshTokenTimeout.current);
 			refreshTokenTimeout.current = undefined;
-		}
-
-		if (refreshTokenLastRefreshed.current) {
-			refreshTokenLastRefreshed.current = undefined;
 		}
 	}
 

@@ -14,8 +14,6 @@ export const usernameSchema = z
 		"Username can only contain letters, numbers and underscores"
 	);
 
-export const imgSchema = z.string().url().optional();
-
 export const nameSchema = z
 	.string({
 		invalid_type_error: "You must provide first and last name",
@@ -23,6 +21,7 @@ export const nameSchema = z
 	})
 	.min(5, "Name must be at least 5 characters long")
 	.max(25, "Name must be at most 25 characters long")
+	.regex(/^[A-Za-z ]+$/, "Name can only contain english letters and spaces")
 	.regex(
 		/^[A-Z][a-zA-Z]+ [A-Z][a-zA-Z]+$/,
 		"Name must be in the format: First Last"
@@ -56,7 +55,6 @@ export const licensePlateSchema = z
 
 export const newUserSchema = z.object({
 	name: nameSchema,
-	img: imgSchema,
 	username: usernameSchema,
 	password: passwordSchema,
 });

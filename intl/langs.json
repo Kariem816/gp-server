@@ -1214,5 +1214,9 @@
     "parking_config": {
         "en": "Parking Configuration",
         "ar": "تكوين الموقف"
+    },
+    "clear": {
+        "en": "Clear",
+        "ar": "مسح"
     }
 }

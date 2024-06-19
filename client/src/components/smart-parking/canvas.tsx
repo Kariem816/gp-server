@@ -49,9 +49,10 @@ function drawLine(
 	ctx.stroke();
 }
 
-function checkInside(poly: Polygon, x: number, y: number) {
+function checkInside(poly: Polygon, point: Point) {
 	let segments = 0;
 	const len = poly.length;
+	const [x, y] = point;
 	for (let i = 0; i < len; i++) {
 		const [x1, y1] = poly[i];
 		const [x2, y2] = poly[(i + 1) % len];
@@ -67,7 +68,11 @@ function checkInside(poly: Polygon, x: number, y: number) {
 		}
 	}
 
-	return segments % 2 === 1;
+	return (segments & 1) === 1;
+}
+
+function distance(a: Point, b: Point) {
+	return Math.hypot(a[0] - b[0], a[1] - b[1]);
 }
 
 export function SelectorCanvas({ bg, initialSpots }: SelectorCanvasProps) {
@@ -148,21 +153,29 @@ export function SelectorCanvas({ bg, initialSpots }: SelectorCanvasProps) {
 				}
 			}
 
-			for (const spot of spots) {
-				const { poly, location } = spot;
-				if (checkInside(poly, mouse[0], mouse[1])) {
-					const midX =
-						poly.reduce((acc, [x]) => acc + x, 0) / poly.length;
-					const midY =
-						poly.reduce((acc, [, y]) => acc + y, 0) / poly.length;
+			if (mouseHolding.current[0] === -1 && currentPoly.length === 0) {
+				for (const spot of spots) {
+					const { poly, location } = spot;
+					if (checkInside(poly, mouse)) {
+						const midX =
+							poly.reduce((acc, [x]) => acc + x, 0) / poly.length;
+						const midY =
+							poly.reduce((acc, [, y]) => acc + y, 0) /
+							poly.length;
 
-					const { width: tw } = ctx.measureText(location);
-					ctx.fillStyle = POLY_COLOR;
-					ctx.fillRect(midX - 10 - tw / 2, midY - 30, 20 + tw, 40);
-					ctx.font = "20px sans-serif";
-					ctx.fillStyle = "white";
-					ctx.fillText(location, midX - tw / 2, midY);
-					break;
+						const { width: tw } = ctx.measureText(location);
+						ctx.fillStyle = POLY_COLOR;
+						ctx.fillRect(
+							midX - 10 - tw / 2,
+							midY - 30,
+							20 + tw,
+							40
+						);
+						ctx.font = "20px sans-serif";
+						ctx.fillStyle = "white";
+						ctx.fillText(location, midX - tw / 2, midY);
+						break;
+					}
 				}
 			}
 
@@ -186,10 +199,7 @@ export function SelectorCanvas({ bg, initialSpots }: SelectorCanvasProps) {
 
 			if (currentPoly.length > 0) {
 				if (
-					Math.hypot(
-						mouse[0] - currentPoly[0][0],
-						mouse[1] - currentPoly[0][1]
-					) >
+					distance(mouse, currentPoly[0]) >
 					(RADIUS * 2) / scalingR.current
 				) {
 					drawPoint(
@@ -230,17 +240,15 @@ export function SelectorCanvas({ bg, initialSpots }: SelectorCanvasProps) {
 		const rect = e.currentTarget.getBoundingClientRect();
 		const x = Math.round((e.clientX - rect.left) / scalingX.current);
 		const y = Math.round((e.clientY - rect.top) / scalingY.current);
+		const pos: Point = [x, y];
 
 		const button = e.button;
-		const clicked = currentPoly.find(([px, py]) => {
-			return (
-				Math.abs(px - x) < (RADIUS * 2) / scalingR.current &&
-				Math.abs(py - y) < (RADIUS * 2) / scalingR.current
-			);
+		const clicked = currentPoly.find((p) => {
+			return distance(p, pos) < (RADIUS * 2) / scalingR.current;
 		});
 
 		if (button === 0 && !clicked) {
-			currentPoly.push([x, y]);
+			currentPoly.push(pos);
 		} else if (button === 0) {
 			if (
 				currentPoly[0][0] === clicked![0] &&
@@ -263,11 +271,9 @@ export function SelectorCanvas({ bg, initialSpots }: SelectorCanvasProps) {
 			} else {
 				for (let i = 0; i < polygons.length; i++) {
 					for (let j = 0; j < polygons[i].length; j++) {
-						const [px, py] = polygons[i][j];
 						if (
-							Math.abs(px - x) <
-								(RADIUS * 2) / scalingR.current &&
-							Math.abs(py - y) < (RADIUS * 2) / scalingR.current
+							distance(polygons[i][j], pos) <
+							(RADIUS * 2) / scalingR.current
 						) {
 							mouseHolding.current = [i, j];
 							return;
@@ -275,7 +281,7 @@ export function SelectorCanvas({ bg, initialSpots }: SelectorCanvasProps) {
 					}
 				}
 				const insidePolyIdx = polygons.findIndex((poly) =>
-					checkInside(poly, x, y)
+					checkInside(poly, pos)
 				);
 				if (insidePolyIdx === -1) return;
 				const location = prompt(t("change_spot_name"));
@@ -287,7 +293,7 @@ export function SelectorCanvas({ bg, initialSpots }: SelectorCanvasProps) {
 			if (currentPoly.length > 0) currentPoly.length = 0;
 			else {
 				const insidePolyIdx = polygons.findIndex((poly) =>
-					checkInside(poly, x, y)
+					checkInside(poly, pos)
 				);
 				if (insidePolyIdx === -1) return;
 				polygons.splice(insidePolyIdx, 1);
@@ -354,20 +360,22 @@ export function SelectorCanvas({ bg, initialSpots }: SelectorCanvasProps) {
 				/>
 			</div>
 			<div className="flex justify-end gap-2">
-				<Button onClick={handleClear} variant="destructive" size="icon">
-					<TrashIcon />
+				<Button onClick={handleClear} variant="destructive" size="sm">
+					<TrashIcon className="me-2" />
+					{t("clear")}
 				</Button>
 				<Button
 					onClick={handleSave}
-					size="icon"
+					size="sm"
 					variant="success"
 					disabled={saving}
 				>
 					{saving ? (
-						<UpdateIcon className="animate-spin" />
+						<UpdateIcon className="animate-spin me-2" />
 					) : (
-						<CheckIcon />
+						<CheckIcon className="me-2" />
 					)}
+					{t("save")}
 				</Button>
 			</div>
 		</div>

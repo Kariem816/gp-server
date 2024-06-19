@@ -1234,5 +1234,9 @@
     "registrations": {
         "en": "Registrations",
         "ar": "الدورات المسجلة"
+    },
+    "last_emptied": {
+        "en": "Last Emptied",
+        "ar": "آخر تفريغ"
     }
 }

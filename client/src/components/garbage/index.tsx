@@ -22,11 +22,12 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { Input } from "~/components/ui/input";
 import { useQueryClient } from "@tanstack/react-query";
+import { dateTime, time } from "~/utils/formatters/time";
 
 import type { TrashCan } from "~/services/garbage";
 
 export function GarbageCan({ can }: { can: TrashCan }) {
-	const { t } = useTranslation();
+	const { t, language } = useTranslation();
 	const [open, setOpen] = useState(false);
 
 	function handleCopy() {
@@ -40,7 +41,12 @@ export function GarbageCan({ can }: { can: TrashCan }) {
 
 	return (
 		<div className="rounded-lg bg-accent p-4 space-y-4 shadow-lg relative">
-			<p className="text-center">{can.location}</p>
+			<div className="flex justify-between items-end gap-4 flex-wrap">
+				<p className="text-center font-semibold">{can.location}</p>
+				<p className="text-center text-sm">
+					{time(can.lastEmptied, language)}
+				</p>
+			</div>
 			<LoadingBar value={can.level} />
 
 			<div className="absolute -top-6 -end-3">
@@ -120,31 +126,38 @@ function EditCan({ can, close }: { can: TrashCan; close: () => void }) {
 	}
 
 	return (
-		<div className="flex gap-4">
-			<div className="flex-grow space-y-2">
-				<h4 className="text-lg text-primary font-semibold">
-					{t("location")}
-				</h4>
-				{editing ? (
-					<Input
-						value={location}
-						onChange={(e) => setLocation(e.target.value)}
-						placeholder={t("location")}
-						disabled={loading}
-					/>
-				) : (
-					<p>{can.location}</p>
-				)}
-			</div>
+		<div className="space-y-4">
+			<div className="flex gap-4">
+				<div className="flex-1 space-y-2">
+					<h4 className="text-lg text-primary font-semibold">
+						{t("location")}
+					</h4>
+					{editing ? (
+						<Input
+							value={location}
+							onChange={(e) => setLocation(e.target.value)}
+							placeholder={t("location")}
+							disabled={loading}
+						/>
+					) : (
+						<p>{can.location}</p>
+					)}
+				</div>
+				<div className="flex-1 space-y-2">
+					<h4 className="text-lg text-primary font-semibold">
+						{t("level")}
+					</h4>
+					<p>{can.level} %</p>
+				</div>
 
-			<div className="flex-grow space-y-2">
-				<h4 className="text-lg text-primary font-semibold">
-					{t("level")}
-				</h4>
-				<p>{can.level} %</p>
+				<div className="flex-1 space-y-2">
+					<h4 className="text-lg text-primary font-semibold">
+						{t("last_emptied")}
+					</h4>
+					<p className="text-sm">{dateTime(can.lastEmptied, "en")}</p>
+				</div>
 			</div>
-
-			<div className="flex gap-2 flex-wrap self-center">
+			<div className="flex justify-end gap-2">
 				{editing ? (
 					<>
 						<Button

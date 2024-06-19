@@ -22,6 +22,7 @@ function CoursePage() {
 		queryKey: ["course", id],
 		queryFn: () => getCourse(id),
 		select: (data) => data.data,
+		staleTime: 1000 * 60,
 	});
 
 	if (isError) {

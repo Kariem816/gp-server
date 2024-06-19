@@ -483,6 +483,10 @@
         "en": "Teachers",
         "ar": "المعلمين"
     },
+    "teachers_c": {
+        "en": "{{1}} teachers",
+        "ar": "معلمو {{1}} "
+    },
     "credit_hours": {
         "en": "Credit Hours",
         "ar": "الساعات المعتمدة"

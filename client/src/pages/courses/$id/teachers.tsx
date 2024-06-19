@@ -1,6 +1,6 @@
 import { PlusIcon, UpdateIcon } from "@radix-ui/react-icons";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 import { SignedInAs } from "~/components/auth";
@@ -22,6 +22,7 @@ import { useSecurePage } from "~/hooks/use-secure-page";
 import {
 	Teacher,
 	addTeachersToCourse,
+	getCourse,
 	getCourseTeachers,
 	removeTeachersFromCourse,
 } from "~/services/courses";
@@ -49,6 +50,13 @@ function CourseTeachers() {
 		queryKey: ["course-teachers", id],
 		queryFn: () => getCourseTeachers(id),
 		select: (data) => data.data,
+	});
+
+	const { data: courseName } = useQuery({
+		queryKey: ["course", id],
+		queryFn: () => getCourse(id),
+		select: (data) => data.data.name,
+		staleTime: 1000 * 60,
 	});
 
 	const [removedTeachers, setRemovedTeachers] = useState<Teacher[]>([]);
@@ -81,7 +89,11 @@ function CourseTeachers() {
 			<div className="flex flex-col justify-center border-b-2 py-4 container">
 				<div className="flex items-center justify-between flex-wrap gap-2">
 					<div className="flex gap-2 items-end">
-						<h1 className="my-1">{t("teachers")}</h1>
+						<h1 className="my-1">
+							{courseName
+								? t("teachers_c", courseName)
+								: t("teachers")}
+						</h1>
 						<Button
 							variant="ghost"
 							size="icon"
@@ -119,7 +131,7 @@ function CourseTeachers() {
 						{t("no_teachers")}
 					</div>
 				) : (
-					<div className="flex gap-4 flex-wrap">
+					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 						{teachers
 							.filter(
 								(t) =>
@@ -142,7 +154,13 @@ function CourseTeachers() {
 												{teacher.user.name[0]}
 											</AvatarFallback>
 										</Avatar>
-										<span>{teacher.user.name}</span>
+										<Link
+											to="/teachers/$id"
+											params={{ id: teacher.id }}
+											className="hover:underline"
+										>
+											{teacher.user.name}
+										</Link>
 									</div>
 									<Button
 										variant="destructive"
@@ -163,7 +181,7 @@ function CourseTeachers() {
 				{removedTeachers.length > 0 && (
 					<>
 						<h2>{t("removed_teachers")}</h2>
-						<div className="flex gap-4 flex-wrap pb-10">
+						<div className="pb-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 							{removedTeachers.map((teacher) => (
 								<div
 									key={teacher.id}
@@ -179,7 +197,13 @@ function CourseTeachers() {
 												{teacher.user.name[0]}
 											</AvatarFallback>
 										</Avatar>
-										<span>{teacher.user.name}</span>
+										<Link
+											to="/teachers/$id"
+											params={{ id: teacher.id }}
+											className="hover:underline"
+										>
+											{teacher.user.name}
+										</Link>
 									</div>
 									<Button
 										onClick={() =>
@@ -195,7 +219,7 @@ function CourseTeachers() {
 								</div>
 							))}
 						</div>
-						<div className="flex p-2 rounded-md justify-end gap-2 absolute left-4 bottom-4 right-4 shadow-lg border">
+						<div className="flex py-4 px-6 rounded-md justify-end gap-2 absolute bottom-4 right-4 shadow-lg border">
 							<Button
 								variant="outline"
 								onClick={() => setRemovedTeachers([])}

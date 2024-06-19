@@ -6,7 +6,7 @@ import { useTranslation } from "~/contexts/translation";
 export function CourseTeachers({ teachers }: { teachers: Course["teachers"] }) {
 	const { t } = useTranslation();
 	return (
-		<div className="flex gap-4 flex-wrap">
+		<div className="grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
 			{teachers.map((teacher) => (
 				<Link
 					to="/teachers/$id"

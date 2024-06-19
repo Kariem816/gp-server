@@ -76,7 +76,7 @@ export function StudentRegistration({
 }) {
 	return (
 		<Link to="/students/$id" params={{ id: registration.studentId }}>
-			<div className="rounded-xl p-4 bg-accent flex items-center justify-between gap-4">
+			<div className="rounded-xl p-4 bg-accent flex items-center justify-between gap-4 flex-wrap">
 				<div className="flex gap-4 items-center">
 					<Avatar>
 						<AvatarImage

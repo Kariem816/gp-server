@@ -95,7 +95,7 @@ function CourseStudents() {
 						</Button>
 						<SignedInAs role="admin">
 							{/* TODO: Manually add or remove students */}
-							Someday
+							<></>
 						</SignedInAs>
 					</div>
 					<div className="flex flex-grow xs:flex-grow-0 mb-2 xs:mb-0">

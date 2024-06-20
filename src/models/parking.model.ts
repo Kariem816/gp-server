@@ -7,17 +7,35 @@ import type { z } from "zod";
 type ParkingSpot = z.infer<typeof SmartParkingSpotSchema>;
 
 class parkingstore {
-	async index() {
+	async index({
+		page,
+		limit,
+	}: {
+		page: number;
+		limit: number;
+	}): Promise<PaginatedResponse<Omit<ParkingSpot, "poly">>> {
 		try {
-			const park = await prisma.parkingSpot.findMany({
+			const take = limit;
+			const skip = (page - 1) * limit;
+
+			const total = await prisma.parkingSpot.count();
+			const spots = await prisma.parkingSpot.findMany({
 				select: {
 					id: true,
 					location: true,
 					isEmpty: true,
 					isSmart: true,
 				},
+				take,
+				skip,
 			});
-			return park;
+
+			return {
+				data: spots,
+				page: 1,
+				limit: total,
+				total,
+			};
 		} catch (err) {
 			throw new PrismaError(err as PrismaClientError);
 		}

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import parkingstore from "@/models/parking.model.js";
 import { formatError, formatResponse } from "@/helpers";
-import { mustBe, validateBody } from "@/middlewares";
+import { mustBe, validateBody, validateQuery } from "@/middlewares";
 import {
 	createParkingSpotSchema,
 	updateManySpotsSchema,
@@ -10,20 +10,31 @@ import { z } from "zod";
 import { SmartSpotsUpdateSchema } from "@/schemas/parking.schema";
 import { readSmartParkingState } from "@/controllers/recognize.controller";
 import ParkingImage from "@/helpers/parking";
+import { querySchema } from "@/schemas/query.schema";
 
 const router = Router();
 
 const ParkingImg = new ParkingImage(30 * 1000);
 
-router.get("/", mustBe(["admin", "controller"]), async (_req, res) => {
-	try {
-		const park = await parkingstore.index();
-		res.json(formatResponse(park));
-	} catch (err) {
-		const { status, error } = formatError(err);
-		res.status(status).json(error);
+router.get(
+	"/",
+	mustBe(["admin", "controller"]),
+	validateQuery(querySchema),
+	async (req, res) => {
+		try {
+			const query = req.query;
+
+			const page = query.page ? Number(query.page) : 1;
+			const limit = query.limit ? Number(query.limit) : 25;
+
+			const spots = await parkingstore.index({ page, limit });
+			res.json(formatResponse(spots));
+		} catch (err) {
+			const { status, error } = formatError(err);
+			res.status(status).json(error);
+		}
 	}
-});
+);
 
 router.get("/smart", mustBe(["admin", "controller"]), async (_req, res) => {
 	try {

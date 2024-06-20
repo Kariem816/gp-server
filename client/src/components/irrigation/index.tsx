@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface PlantCardProps {
-    id: number  ;
+    id: string  ;
   lastUpdate: string;
   isWatering: boolean;
   plantType: string;

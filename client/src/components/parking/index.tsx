@@ -1,7 +1,7 @@
 import React from "react";
 
 interface ParkingSpotCardProps {
-	id: number;
+	id: string;
 	isEmpty: boolean;
 	location: string;
 	isSmart: boolean;

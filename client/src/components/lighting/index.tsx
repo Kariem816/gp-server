@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface LightingCardProps {
-  id: number;
+  id: string;
   state: boolean;
   location: string;
 }

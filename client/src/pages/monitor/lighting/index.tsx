@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import LightingCard from "../../../components/lightcard";
+import LightingCard from "../../../components/lighting/index.tsx";
+import { NewLampSpot } from "~/components/lighting/new.tsx";
+
 import { getAllLamps } from "~/services/lighting.ts";
 import { useControllerPermission } from "~/hooks/controllers/use-controller-permission";
 
@@ -31,6 +33,10 @@ function LightingList() {
 
 	return (
 		<>
+		<div>
+		<div className="flex justify-end mb-2">
+				<NewLampSpot />
+			</div>
 			{lighting.length === 0 ? (
 				<p className="italic text-center">No data available</p>
 			) : (
@@ -47,6 +53,7 @@ function LightingList() {
 					</div>
 				))
 			)}
+			</div>
 		</>
 	);
 }

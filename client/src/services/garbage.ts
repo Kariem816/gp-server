@@ -17,6 +17,7 @@ export async function getAllCans(
 
 export async function createCan(data: {
 	location: string;
+	level: number;
 }): Promise<APIResponse<TrashCan>> {
 	return post("/trash", data);
 }

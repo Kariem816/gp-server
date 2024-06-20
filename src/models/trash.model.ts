@@ -141,7 +141,7 @@ class TrashStore {
 	async getFilledTrash() {
 		try {
 			// TODO: adjust the period for real-world usage
-			const allowdPeriod = 30 * 1000; // 30 seconds
+			const allowdPeriod = 60 * 1000; // 1 minute
 			const lastAllowedEmptied = Date.now() - allowdPeriod;
 			return await prisma.trashCan.findMany({
 				where: {
@@ -152,6 +152,9 @@ class TrashStore {
 							},
 						},
 						{
+							level: {
+								gte: 0,
+							},
 							lastEmptied: {
 								lt: new Date(lastAllowedEmptied),
 							},

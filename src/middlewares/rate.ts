@@ -7,6 +7,9 @@ const ONE_MINUTE = 60 * 1000;
 const guestLimiter = rateLimit({
 	windowMs: ONE_MINUTE,
 	limit: 60,
+	validate: {
+		trustProxy: true,
+	},
 	message: {
 		error: "TOO_MANY_REQUESTS",
 		message: "You have exceeded your request limit!",
@@ -16,6 +19,9 @@ const guestLimiter = rateLimit({
 const userLimiter = rateLimit({
 	windowMs: ONE_MINUTE,
 	limit: 100,
+	validate: {
+		trustProxy: true,
+	},
 	message: {
 		error: "TOO_MANY_REQUESTS",
 		message: "You have exceeded your request limit!",
@@ -25,6 +31,9 @@ const userLimiter = rateLimit({
 const controllerLimiter = rateLimit({
 	windowMs: ONE_MINUTE,
 	limit: 200,
+	validate: {
+		trustProxy: true,
+	},
 	message: {
 		error: "TOO_MANY_REQUESTS",
 		message:

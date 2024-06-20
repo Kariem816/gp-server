@@ -1032,11 +1032,11 @@
         "ar": "تم حذف وحدة الاإنارة بنجاح!"
     },
     "delete_parkSpot_warning": {
-        "en": "Are you sure you want to delete this park spot?",
+        "en": "Are you sure you want to delete this parking spot?",
         "ar": "هل أنت متأكد أنك تريد حذف موقع الأنتظار هذه؟"
     },
     "parkSpot_deleted": {
-        "en": "park spot deleted successfully!",
+        "en": "parking spot deleted successfully!",
         "ar": "تم حذف موقع الأنتظار بنجاح!"
     },
     "edit": {
@@ -1068,7 +1068,7 @@
         "ar": "وحدة إنارة جديدة"
     },
     "new_parking": {
-        "en": "New Lamp Spot",
+        "en": "New Parking Spot",
         "ar": "وحدة إنارة جديدة"
     },
     "can_created": {
@@ -1076,8 +1076,8 @@
         "ar": "تم إنشاء سلة النفايات بنجاح!"
     },
     "parking_created": {
-        "en": "Garbage can created successfully!",
-        "ar": "تم إنشاء سلة النفايات بنجاح!"
+        "en": "Parking Spot created successfully!",
+        "ar": "تم إنشاء موقع الأنتظار بنجاح!"
     },
     "planet_created": {
         "en": "Planet Spot created successfully!",

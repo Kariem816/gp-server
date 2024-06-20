@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import LightingCard from "../../../components/lighting/index.tsx";
 import { NewLampSpot } from "~/components/lighting/new.tsx";
+import { LampSpot } from "~/components/lighting/delete.tsx";
 
 import { getAllLamps } from "~/services/lighting.ts";
 import { useControllerPermission } from "~/hooks/controllers/use-controller-permission";
@@ -45,6 +46,10 @@ function LightingList() {
 						key={light.id}
 						className="rounded-lg bg-accent p-4 space-y-4 mb-8 text-center"
 					>
+						<div className="flex justify-end">
+							<LampSpot key={light.id} lamp={light}/>
+							
+						</div>
 						<LightingCard
 							id={light.id}
 							state={light.state}

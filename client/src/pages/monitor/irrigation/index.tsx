@@ -9,7 +9,6 @@ import { useControllerPermission } from "~/hooks/controllers/use-controller-perm
 import { NewPlanetSpot } from "~/components/irrigation/new.tsx";
 import { PlanetSpot } from "~/components/irrigation/delete.tsx";
 
-
 export const Route = createFileRoute("/monitor/irrigation/")({
 	component: IrrigationList,
 });

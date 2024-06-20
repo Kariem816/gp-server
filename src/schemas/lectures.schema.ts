@@ -10,17 +10,21 @@ export const lectureTimeSchema = z
 		"Time must be within 90 days"
 	);
 
-export const createLectureSchema = z.object({
-	time: lectureTimeSchema,
-	duration: z.number().int().positive(),
-	location: z.string().min(1, "Location is required"),
-});
+export const createLectureSchema = z
+	.object({
+		time: lectureTimeSchema,
+		duration: z.number().int().positive(),
+		location: z.string().min(1, "Location is required"),
+	})
+	.strict();
 
-export const updateLectureSchema = z.object({
-	time: lectureTimeSchema.optional(),
-	duration: z.number().int().positive().optional(),
-	location: z.string().optional(),
-});
+export const updateLectureSchema = z
+	.object({
+		time: lectureTimeSchema.optional(),
+		duration: z.number().int().positive().optional(),
+		location: z.string().optional(),
+	})
+	.strict();
 
 export const addLectureAttendeesSchema = z.array(z.string().uuid());
 

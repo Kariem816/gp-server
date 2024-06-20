@@ -53,62 +53,73 @@ export const licensePlateSchema = z
 	.max(7)
 	.regex(/^[1-9]{3,4}[أبجدرسصطعفقلمنهوى]{2,3}$/);
 
-export const newUserSchema = z.object({
-	name: nameSchema,
-	username: usernameSchema,
-	password: passwordSchema,
-});
-
-export const newControllerSchema = z.object({
-	user: z.object({
+export const newUserSchema = z
+	.object({
 		name: nameSchema,
 		username: usernameSchema,
 		password: passwordSchema,
-	}),
-	controller: z.object({
-		location: z.string().optional(),
-		controls: z
-			.nativeEnum(ControlElement, {
-				required_error: "Invalid Control Element",
-			})
-			.array()
-			.nonempty("There must be at least one control element"),
-	}),
-});
+	})
+	.strict();
 
-export const loginSchema = z.object({
-	username: z
-		.string({ required_error: "Username is required" })
-		.min(1, "Username is required"),
-	password: z
-		.string({ required_error: "Password is required" })
-		.min(1, "Password is required"),
-});
+export const newControllerSchema = z
+	.object({
+		user: newUserSchema,
+		controller: z
+			.object({
+				location: z.string().optional(),
+				controls: z
+					.nativeEnum(ControlElement, {
+						required_error: "Invalid Control Element",
+					})
+					.array()
+					.nonempty("There must be at least one control element"),
+			})
+			.strict(),
+	})
+	.strict();
+
+export const loginSchema = z
+	.object({
+		username: z
+			.string({ required_error: "Username is required" })
+			.min(1, "Username is required"),
+		password: z
+			.string({ required_error: "Password is required" })
+			.min(1, "Password is required"),
+	})
+	.strict();
 
 export const updatePasswordSchema = z
 	.object({
 		oldPassword: passwordSchema,
 		newPassword: passwordSchema,
 	})
+	.strict()
 	.refine((data) => {
 		if (!data.oldPassword) return true;
 		return data.oldPassword !== data.newPassword;
 	}, "New password must be different from old password");
 
-export const updatelicensePlateSchema = z.object({
-	licensePlate: licensePlateSchema,
-});
+export const updatelicensePlateSchema = z
+	.object({
+		licensePlate: licensePlateSchema,
+	})
+	.strict();
 
-export const updateNotificationTokenSchema = z.object({
-	token: z.string().refine((token) => {
-		return Expo.isExpoPushToken(token);
-	}, "Invalid notification token"),
-});
+export const updateNotificationTokenSchema = z
+	.object({
+		token: z.string().refine((token) => {
+			return Expo.isExpoPushToken(token);
+		}, "Invalid notification token"),
+	})
+	.strict();
 
-export const notifyUserSchema = z.object({
-	title: z.string(),
-	body: z.string(),
-});
+export const notifyUserSchema = z
+	.object({
+		title: z.string(),
+		body: z.string(),
+	})
+	.strict();
 
 export const notifyUsersSchema = z
 	.object({
@@ -117,6 +128,7 @@ export const notifyUsersSchema = z
 		userIds: z.array(z.string().uuid()).optional(),
 		all: z.boolean().optional(),
 	})
+	.strict()
 	.refine((data) => {
 		return data.userIds?.length || data.all;
 	}, "You must provide either userIds or all");

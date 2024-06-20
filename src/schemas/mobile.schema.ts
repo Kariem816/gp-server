@@ -6,19 +6,25 @@ const versionSchema = z
 	})
 	.regex(/^\d+\.\d+\.\d+$/, "Invalid version number");
 
-export const updateURLSchema = z.object({
-	url: z
-		.string({
-			required_error: "URL is required",
-		})
-		.url("Invalid URL"),
-	version: versionSchema,
-});
+export const updateURLSchema = z
+	.object({
+		url: z
+			.string({
+				required_error: "URL is required",
+			})
+			.url("Invalid URL"),
+		version: versionSchema,
+	})
+	.strict();
 
-export const downloadAPKSchema = z.object({
-	version: versionSchema.optional(),
-});
+export const downloadAPKSchema = z
+	.object({
+		version: versionSchema.optional(),
+	})
+	.strict();
 
-export const updateAPKSchema = z.object({
-	version: versionSchema,
-});
+export const updateAPKSchema = z
+	.object({
+		version: versionSchema,
+	})
+	.strict();

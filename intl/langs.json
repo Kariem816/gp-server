@@ -87,6 +87,10 @@
         "en": "Location",
         "ar": "الموقع"
     },
+    "type": {
+        "en": "type",
+        "ar": "النوع"
+    },
     "mins": {
         "en": "minutes",
         "ar": "دقائق"
@@ -975,6 +979,10 @@
         "en": "Garbage Can Information",
         "ar": "معلومات سلة النفايات"
     },
+    "plant_info": {
+        "en": "Plant Spot Information",
+        "ar": "معلومات وحدة الإنارة"
+    },
     "id": {
         "en": "ID",
         "ar": "التعريف"
@@ -999,6 +1007,14 @@
         "en": "Garbage can deleted successfully!",
         "ar": "تم حذف سلة النفايات بنجاح!"
     },
+    "delete_plant_warning": {
+        "en": "Are you sure you want to delete this Plant Spot?",
+        "ar": "هل أنت متأكد أنك تريد حذف وحدة النبات هذه؟"
+    },
+    "plant_deleted": {
+        "en": "plant spot deleted successfully!",
+        "ar": "تم حذف وحدة النبات النفايات بنجاح!"
+    },
     "edit": {
         "en": "Edit",
         "ar": "تعديل"
@@ -1019,9 +1035,33 @@
         "en": "New Garbage Can",
         "ar": "سلة نفايات جديدة"
     },
+    "new_planet": {
+        "en": "New Planet Spot",
+        "ar": "سلة نفايات جديدة"
+    },
+    "new_lamp": {
+        "en": "New Lamp Spot",
+        "ar": "وحدة إنارة جديدة"
+    },
+    "new_parking": {
+        "en": "New Lamp Spot",
+        "ar": "وحدة إنارة جديدة"
+    },
     "can_created": {
         "en": "Garbage can created successfully!",
         "ar": "تم إنشاء سلة النفايات بنجاح!"
+    },
+    "parking_created": {
+        "en": "Garbage can created successfully!",
+        "ar": "تم إنشاء سلة النفايات بنجاح!"
+    },
+    "planet_created": {
+        "en": "Planet Spot created successfully!",
+        "ar": "تم إنشاء النبات بنجاح!"
+    },
+    "lamp_created": {
+        "en": "Lamp Spot created successfully!",
+        "ar": "تم إنشاء سلة وحدة اللإنارة بنجاح!"
     },
     "monitor": {
         "en": "Monitor",

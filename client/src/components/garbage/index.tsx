@@ -12,6 +12,7 @@ import {
 import { Button } from "~/components/ui/button";
 import {
 	CheckIcon,
+	
 	CopyIcon,
 	InfoCircledIcon,
 	Pencil2Icon,
@@ -46,7 +47,7 @@ export function GarbageCan({ can }: { can: TrashCan }) {
 			<div className="absolute -top-6 -end-3">
 				<Dialog open={open} onOpenChange={setOpen}>
 					<DialogTrigger asChild>
-						<Button
+						<Button 
 							variant="outline"
 							size="icon"
 							className="size-6 rounded-full"

@@ -12,11 +12,11 @@ import { useTranslation } from "~/contexts/translation";
 import { PlusIcon, UpdateIcon } from "@radix-ui/react-icons";
 import { Button } from "~/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";
-import { createCan } from "~/services/garbage";
+import { createPlant } from "~/services/irrigation";
 import { toast } from "sonner";
 import { Input } from "~/components/ui/input";
 
-export function NewGarbageCan() {
+export function NewPlanetSpot() {
 	const { t } = useTranslation();
 
 	const [open, setOpen] = useState(false);
@@ -31,19 +31,19 @@ export function NewGarbageCan() {
 			</DialogTrigger>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>{t("new_can")}</DialogTitle>
+					<DialogTitle>{t("new_planet")}</DialogTitle>
 				</DialogHeader>
 
-				<NewCanForm close={() => setOpen(false)} />
+				<NewPlanetForm close={() => setOpen(false)} />
 			</DialogContent>
 		</Dialog>
 	);
 }
 
-function NewCanForm({ close }: { close: () => void }) {
+function NewPlanetForm({ close }: { close: () => void }) {
 	const { t } = useTranslation();
 
-	const [location, setLocation] = useState("");
+	const [type, setType] = useState("");
 	const [loading, setLoading] = useState(false);
 
 	const queryClient = useQueryClient();
@@ -51,13 +51,13 @@ function NewCanForm({ close }: { close: () => void }) {
 	async function handleSubmit() {
 		setLoading(true);
 		try {
-			const newCan = await createCan({ location,level:0});
-			await navigator.clipboard.writeText(newCan.data.id);
-			toast.success(t("can_created"), {
+			const newPlanet = await createPlant({type});
+			await navigator.clipboard.writeText(newPlanet.data.id);
+			toast.success(t("planet_created"), {
 				description: t("id_copied"),
 			});
 			queryClient.invalidateQueries({
-				queryKey: ["garbage"],
+				queryKey: ["irrigation"],
 			});
 			close();
 		} catch (err: any) {
@@ -72,12 +72,12 @@ function NewCanForm({ close }: { close: () => void }) {
 		<>
 			<div className="space-y-2">
 				<h4 className="text-lg text-primary font-semibold">
-					{t("location")}
+					{t("type")}
 				</h4>
 				<Input
-					value={location}
-					onChange={(e) => setLocation(e.target.value)}
-					placeholder={t("location")}
+					type={type}
+					onChange={(e) => setType(e.target.value)}
+					placeholder={t("type")}
 					disabled={loading}
 				/>
 			</div>

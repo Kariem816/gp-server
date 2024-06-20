@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { getAllCans } from "~/services/garbage";
-
 import { useControllerPermission } from "~/hooks/controllers/use-controller-permission.ts";
 import { Spinner } from "~/components/loaders";
 import { useTranslation } from "~/contexts/translation";

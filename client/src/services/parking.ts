@@ -1,9 +1,9 @@
-import { get, post } from "./api";
+import { del, get,  post } from "./api";
 
 import type { APIQuery } from "~/types/query";
 
 export type ParkingSpot = {
-	id: number;
+	id: string;
 	isEmpty: boolean;
 	location: string;
 	isSmart: boolean;
@@ -16,6 +16,14 @@ export type SmartSpot = ParkingSpot & {
 export type ParkingSpotCreate = {
 	location: string;
 };
+export async function createParkingSpot(data: {
+	location: string;
+}): Promise<APIResponse<ParkingSpot>> {
+	return post("/parking", data);
+}
+export async function deleteParkingSpot(id: string): Promise<void> {
+	return del(`/parking/${id}`);
+}
 
 export type SmartSpotCreate = {
 	location: string;

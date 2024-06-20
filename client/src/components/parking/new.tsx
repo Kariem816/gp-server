@@ -12,11 +12,11 @@ import { useTranslation } from "~/contexts/translation";
 import { PlusIcon, UpdateIcon } from "@radix-ui/react-icons";
 import { Button } from "~/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";
-import { createCan } from "~/services/garbage";
+import { createParkingSpot } from "~/services/parking";
 import { toast } from "sonner";
 import { Input } from "~/components/ui/input";
 
-export function NewGarbageCan() {
+export function NewParkigSpot() {
 	const { t } = useTranslation();
 
 	const [open, setOpen] = useState(false);
@@ -31,16 +31,16 @@ export function NewGarbageCan() {
 			</DialogTrigger>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>{t("new_can")}</DialogTitle>
+					<DialogTitle>{t("new_parking")}</DialogTitle>
 				</DialogHeader>
 
-				<NewCanForm close={() => setOpen(false)} />
+				<NewParkingForm close={() => setOpen(false)} />
 			</DialogContent>
 		</Dialog>
 	);
 }
 
-function NewCanForm({ close }: { close: () => void }) {
+function NewParkingForm({ close }: { close: () => void }) {
 	const { t } = useTranslation();
 
 	const [location, setLocation] = useState("");
@@ -51,13 +51,13 @@ function NewCanForm({ close }: { close: () => void }) {
 	async function handleSubmit() {
 		setLoading(true);
 		try {
-			const newCan = await createCan({ location,level:0});
-			await navigator.clipboard.writeText(newCan.data.id);
-			toast.success(t("can_created"), {
+			const newParkSpot = await createParkingSpot({location});
+			await navigator.clipboard.writeText(newParkSpot.data.id);
+			toast.success(t("parking_created"), {
 				description: t("id_copied"),
 			});
 			queryClient.invalidateQueries({
-				queryKey: ["garbage"],
+				queryKey: ["parking"],
 			});
 			close();
 		} catch (err: any) {

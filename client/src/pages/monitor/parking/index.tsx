@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import ParkingSpotCard from "../../../components/parkingcard.tsx"; // Import the ParkingSpotCard component
+import ParkingSpotCard from "../../../components/parking/index"; 
+import { NewParkigSpot } from "~/components/parking/new.tsx";
 import { getAllSpots } from "~/services/parking.ts";
 import { useControllerPermission } from "~/hooks/controllers/use-controller-permission.ts";
 
@@ -31,6 +32,10 @@ function ParkingList() {
 
 	return (
 		<>
+		<div>
+		<div className="flex justify-end mb-2">
+				<NewParkigSpot  />
+			</div>
 			{parking.length === 0 ? (
 				<p className="italic text-center">No data available</p>
 			) : (
@@ -48,6 +53,7 @@ function ParkingList() {
 					</div>
 				))
 			)}
+			</div>
 		</>
 	);
 }

@@ -5,6 +5,7 @@ import { Course } from "~/components/courses/course";
 import { Spinner } from "~/components/loaders";
 import { useTranslation } from "~/contexts/translation";
 import { getCourse } from "~/services/courses";
+import { cn } from "~/utils";
 
 export const Route = createFileRoute("/courses/$id/")({
 	component: CoursePage,
@@ -12,7 +13,7 @@ export const Route = createFileRoute("/courses/$id/")({
 
 function CoursePage() {
 	const { id } = Route.useParams();
-	const { t } = useTranslation();
+	const { t, isRTL } = useTranslation();
 	const {
 		data: course,
 		isLoading,
@@ -46,7 +47,7 @@ function CoursePage() {
 			<div className="mt-4 container text-primary">
 				<Link to="/courses" className="inline-block">
 					<span className="flex gap-2 items-center hover:border-b border-primary">
-						<ArrowLeftIcon />
+						<ArrowLeftIcon className={cn(isRTL && "rotate-180")} />
 						{t("back_courses")}
 					</span>
 				</Link>

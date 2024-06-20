@@ -28,7 +28,7 @@ function MonitorLayout() {
 	useSecurePage("/", "admin", "controller");
 
 	return (
-		<div className="h-full flex flex-col divide-x-2 md:flex-row">
+		<div className="h-full flex flex-col divide-x-2 rtl:divide-x-reverse md:flex-row">
 			<div className="p-4 md:w-[25%] md:h-full md:overflow-auto">
 				<h2>{t("monitor")}</h2>
 				{isError ? (

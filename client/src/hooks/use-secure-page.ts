@@ -12,7 +12,7 @@ export function useSecurePage(redirectTo: string | null, ...roles: Role[]) {
 
 	redirectTo ??= "/";
 
-	const pathname = location.href;
+	const { pathname } = location;
 
 	if (user.role === "guest") {
 		if (roles.includes("guest")) {

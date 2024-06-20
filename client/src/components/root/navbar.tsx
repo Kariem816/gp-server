@@ -3,12 +3,19 @@ import { useAuth } from "~/contexts/auth";
 import Logo from "~/components/logo";
 import { SignedIn, SignedOut } from "~/components/auth";
 import { Button } from "~/components/ui/button";
-import { HamburgerMenuIcon } from "@radix-ui/react-icons";
+import {
+	ChevronDownIcon,
+	GlobeIcon,
+	HamburgerMenuIcon,
+} from "@radix-ui/react-icons";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuSeparator,
+	DropdownMenuSub,
+	DropdownMenuSubContent,
+	DropdownMenuSubTrigger,
 	DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
@@ -17,6 +24,7 @@ import type { LoggedUser } from "~/types/users";
 import { useMemo } from "react";
 import { generateNavRoutes } from "./helpers/generate-nav-routes";
 import { useTranslation } from "~/contexts/translation";
+import { cn } from "~/utils";
 
 export function Navbar({ toggle }: { toggle: () => void }) {
 	const { user, logout } = useAuth();
@@ -52,13 +60,16 @@ export function Navbar({ toggle }: { toggle: () => void }) {
 					))}
 				</nav>
 				<SignedOut>
-					<div className="hidden xs:flex items-center gap-4">
-						<Button variant="link" asChild>
-							<Link to="/login">{t("login")}</Link>
-						</Button>
-						<Button asChild>
-							<Link to="/register">{t("register")}</Link>
-						</Button>
+					<div className="flex gap-1">
+						<LanguageSwitcher />
+						<div className="hidden xs:flex items-center gap-4">
+							<Button variant="link" asChild>
+								<Link to="/login">{t("login")}</Link>
+							</Button>
+							<Button asChild>
+								<Link to="/register">{t("register")}</Link>
+							</Button>
+						</div>
 					</div>
 				</SignedOut>
 				<SignedIn>
@@ -84,6 +95,8 @@ export function Navbar({ toggle }: { toggle: () => void }) {
 								</Link>
 							</DropdownMenuItem>
 							<DropdownMenuSeparator />
+							<LanguageSwitcherInMenu />
+							<DropdownMenuSeparator />
 							<Button
 								size="sm"
 								onClick={logout}
@@ -96,5 +109,58 @@ export function Navbar({ toggle }: { toggle: () => void }) {
 				</SignedIn>
 			</div>
 		</div>
+	);
+}
+
+function LanguageSwitcherInMenu() {
+	const { t, setLanguage, language, languages } = useTranslation();
+
+	return (
+		<DropdownMenuSub>
+			<DropdownMenuSubTrigger>{t("language")}</DropdownMenuSubTrigger>
+			<DropdownMenuSubContent>
+				{languages.map((lang) => (
+					<DropdownMenuItem
+						key={lang}
+						onClick={() => setLanguage(lang)}
+						className={cn(
+							"hover:bg-muted text-center",
+							lang === language && "text-primary"
+						)}
+					>
+						{t(lang)}
+					</DropdownMenuItem>
+				))}
+			</DropdownMenuSubContent>
+		</DropdownMenuSub>
+	);
+}
+
+function LanguageSwitcher() {
+	const { t, setLanguage, language, languages } = useTranslation();
+
+	return (
+		<DropdownMenu modal={false}>
+			<DropdownMenuTrigger>
+				<div className="flex items-center gap-1 hover:bg-muted p-2 rounded-md">
+					<GlobeIcon className="size-6" />
+					<ChevronDownIcon className="size-4" />
+				</div>
+			</DropdownMenuTrigger>
+			<DropdownMenuContent>
+				{languages.map((lang) => (
+					<DropdownMenuItem
+						key={lang}
+						onClick={() => setLanguage(lang)}
+						className={cn(
+							"hover:bg-muted text-center",
+							lang === language && "text-primary"
+						)}
+					>
+						{t(lang)}
+					</DropdownMenuItem>
+				))}
+			</DropdownMenuContent>
+		</DropdownMenu>
 	);
 }

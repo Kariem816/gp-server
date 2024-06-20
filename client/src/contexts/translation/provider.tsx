@@ -19,6 +19,7 @@ export default function TranslationProvider({
 	useEffect(() => {
 		// reflect the language change in the layout direction
 		document.dir = isRTL ? "rtl" : "ltr";
+		document.documentElement.lang = language;
 	}, [isRTL]);
 
 	// language
@@ -69,7 +70,7 @@ export default function TranslationProvider({
 	return (
 		<TranslationContext.Provider
 			value={{
-				language: language ? language : "undefined",
+				language,
 				setLanguage: changeLanguage,
 				t: translate,
 				isRTL,
@@ -79,7 +80,7 @@ export default function TranslationProvider({
 			{children}
 			{isLoading && (
 				<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-					<div className="animate-spin rounded-full h-32 w-32 border-8 border-muted border-t-primary"></div>
+					<div className="animate-spin rounded-full h-32 w-32 border-8 border-muted border-t-primary" />
 				</div>
 			)}
 		</TranslationContext.Provider>

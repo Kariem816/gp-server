@@ -13,7 +13,7 @@ import { CourseStudents } from "./course-students";
 import type { Course as TCourse } from "~/services/courses";
 
 export function Course({ course }: { course: TCourse }) {
-	const { t } = useTranslation();
+	const { t, isRTL } = useTranslation();
 
 	return (
 		<div className="container space-y-4 pb-12">
@@ -22,8 +22,21 @@ export function Course({ course }: { course: TCourse }) {
 					<div>
 						<h1 className="mb-0">{course.name}</h1>
 						<p className="opacity-50">
-							{course.code} - {course.creditHours}{" "}
-							{t("credit_hours")}
+							<span>{course.code}</span>
+							<span> - </span>
+							{isRTL ? (
+								<>
+									<span>
+										{t("credit_hours")} {course.creditHours}
+									</span>
+								</>
+							) : (
+								<>
+									<span>
+										{course.creditHours} {t("credit_hours")}
+									</span>
+								</>
+							)}
 						</p>
 					</div>
 					<SignedInAs role="student">

@@ -1,7 +1,10 @@
 import { Link } from "@tanstack/react-router";
+import { useTranslation } from "~/contexts/translation";
 import { TCourseListing } from "~/services/courses";
 
 export function CourseListing(course: TCourseListing) {
+	const { t } = useTranslation();
+
 	return (
 		<div className="bg-muted rounded-md p-2 space-y-4">
 			<div className="flex justify-between items-end gap-2 flex-wrap">
@@ -11,12 +14,16 @@ export function CourseListing(course: TCourseListing) {
 				<span className="font-bold">{course.code}</span>
 			</div>
 			<div className="flex justify-between items-center">
-				<span>{course.creditHours} Credit Hours</span>
-				<span>{course._count.students} Students</span>
+				<span>
+					{course.creditHours} {t("credit_hour")}
+				</span>
+				<span>
+					{course._count.students} {t("students")}
+				</span>
 			</div>
 			{course.teachers.length > 0 && (
 				<div className="flex gap-2 flex-wrap">
-					<span>Teachers:</span>
+					<span>{t("Teachers")}:</span>
 					<span className="space-y-2">
 						{course.teachers.map((teacher) => (
 							<div

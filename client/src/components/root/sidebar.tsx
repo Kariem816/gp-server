@@ -1,7 +1,7 @@
 import { cn } from "~/utils";
 import Logo from "~/components/logo";
 import { Button } from "~/components/ui/button";
-import { Cross1Icon } from "@radix-ui/react-icons";
+import { Cross1Icon, GlobeIcon } from "@radix-ui/react-icons";
 import { Link } from "@tanstack/react-router";
 import { SignedIn, SignedOut } from "~/components/auth";
 import { useAuth } from "~/contexts/auth";
@@ -10,6 +10,13 @@ import type { LoggedUser } from "~/types/users";
 import { useMemo } from "react";
 import { generateNavRoutes } from "./helpers/generate-nav-routes";
 import { useTranslation } from "~/contexts/translation";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuRadioGroup,
+	DropdownMenuRadioItem,
+	DropdownMenuTrigger,
+} from "~/components/ui/dropdown-menu";
 
 type SidebarProps = {
 	opened: boolean;
@@ -24,8 +31,8 @@ export function Sidebar({ opened, onClose }: SidebarProps) {
 	return (
 		<div
 			className={cn(
-				"fixed inset-y-0 w-full bg-black bg-opacity-50 z-50 transition-[left] duration-500",
-				opened ? "left-0" : "left-[-100%]"
+				"fixed inset-y-0 w-full bg-black bg-opacity-50 z-50 transition-[inset-inline-start] duration-500",
+				opened ? "start-0" : "start-[-100%]"
 			)}
 			onClick={onClose}
 		>
@@ -57,11 +64,12 @@ export function Sidebar({ opened, onClose }: SidebarProps) {
 					{navRoutes.map((route) => (
 						<Button key={route.path} asChild variant="ghost">
 							<Link to={route.path as any}>
-								{route.icon}
+								{route.Icon}
 								{t(route.name)}
 							</Link>
 						</Button>
 					))}
+					<LanguageSwitcher />
 				</nav>
 				<div className="flex-grow" />
 				<SignedOut>
@@ -83,5 +91,31 @@ export function Sidebar({ opened, onClose }: SidebarProps) {
 				</SignedIn>
 			</div>
 		</div>
+	);
+}
+
+function LanguageSwitcher() {
+	const { t, language, languages, setLanguage } = useTranslation();
+	return (
+		<DropdownMenu>
+			<DropdownMenuTrigger asChild>
+				<Button variant="ghost">
+					<GlobeIcon className="size-6 me-2" />
+					{t("language")}
+				</Button>
+			</DropdownMenuTrigger>
+			<DropdownMenuContent>
+				<DropdownMenuRadioGroup
+					value={language}
+					onValueChange={(l) => setLanguage(l as typeof language)}
+				>
+					{languages.map((lang) => (
+						<DropdownMenuRadioItem key={lang} value={lang}>
+							{t(lang)}
+						</DropdownMenuRadioItem>
+					))}
+				</DropdownMenuRadioGroup>
+			</DropdownMenuContent>
+		</DropdownMenu>
 	);
 }

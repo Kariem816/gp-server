@@ -14,6 +14,7 @@ import { SignedInAs } from "~/components/auth";
 import { useSecurePage } from "~/hooks/use-secure-page";
 
 import type { SearchSchemaInput } from "@tanstack/react-router";
+import { useTranslation } from "~/contexts/translation";
 
 export const Route = createFileRoute("/courses/")({
 	component: CoursesList,
@@ -27,6 +28,7 @@ export const Route = createFileRoute("/courses/")({
 
 function CoursesList() {
 	const { page: initialPage, search: initialSearch } = Route.useSearch();
+	const { t } = useTranslation();
 
 	const [filters, setFilters] = useState({
 		name: initialSearch,
@@ -82,7 +84,7 @@ function CoursesList() {
 			<div className="flex flex-col justify-center border-b-2 py-4 container">
 				<div className="flex items-center justify-between flex-wrap gap-2">
 					<div className="flex gap-2 items-end">
-						<h1 className="my-1">Courses</h1>
+						<h1 className="my-1">{t("courses")}</h1>
 						<Button
 							variant="ghost"
 							size="icon"
@@ -105,7 +107,7 @@ function CoursesList() {
 					</div>
 					<div className="flex flex-grow xs:flex-grow-0 mb-2 xs:mb-0">
 						<Input
-							placeholder="Search by name"
+							placeholder={t("search_name")}
 							value={filters.name}
 							onChange={handleSearch}
 						/>

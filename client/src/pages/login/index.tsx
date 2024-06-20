@@ -69,9 +69,16 @@ function LoginPage() {
 			setIsLoading(true);
 			await login(values.username, values.password);
 			form.reset();
-			navigate({
-				to: redirect as any,
-			});
+			console.log(redirect);
+			if (redirect.startsWith("http")) {
+				navigate({
+					to: "/",
+				});
+			} else {
+				navigate({
+					to: redirect as any,
+				});
+			}
 		} catch (err: any) {
 			if ("message" in err) setFormError(err.message);
 			else if ("messages" in err)

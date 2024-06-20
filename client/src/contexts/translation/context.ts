@@ -4,7 +4,7 @@ export const supportedLanguages = ["en", "ar"] as const;
 export type TLang = (typeof supportedLanguages)[number];
 
 interface TranslationContextValue {
-	language: TLang | "undefined";
+	language: TLang;
 	setLanguage: (language: TLang) => void;
 	t: (key: string, ...values: string[]) => string;
 	isRTL: boolean;
@@ -12,7 +12,7 @@ interface TranslationContextValue {
 }
 
 const defaultValue: TranslationContextValue = {
-	language: "undefined",
+	language: "en",
 	setLanguage: () => {},
 	t: (key) => key,
 	isRTL: false,

@@ -491,6 +491,10 @@
         "en": "Credit Hours",
         "ar": "الساعات المعتمدة"
     },
+    "credit_hour": {
+        "en": "Credit Hours",
+        "ar": "ساعات معتمدة"
+    },
     "course_code": {
         "en": "Course Code",
         "ar": "كود الدورة"

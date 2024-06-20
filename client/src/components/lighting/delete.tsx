@@ -16,16 +16,16 @@ import {
 	UpdateIcon,
 } from "@radix-ui/react-icons";
 import { useQueryClient } from "@tanstack/react-query";
-import { deletePlant,Plants } from "~/services/irrigation";
+import { deleteLamp,LightSpot } from "~/services/lighting";
 import { toast } from "sonner";
 
-export function PlanetSpot({ plant }: { plant: Plants }) {
+export function LampSpot({ lamp }: { lamp: LightSpot }) {
 	const { t } = useTranslation();
 	const [open, setOpen] = useState(false);
 
 	function handleCopy() {
 		navigator.clipboard
-			.writeText(plant.id)
+			.writeText(lamp.id)
 			.then(() => {
 				toast.success(t("id_copied"));
 			})
@@ -47,7 +47,7 @@ export function PlanetSpot({ plant }: { plant: Plants }) {
 					</DialogTrigger>
 					<DialogContent>
 						<DialogHeader>
-							<DialogTitle>{t("plant_info")}</DialogTitle>
+							<DialogTitle>{t("planet_info")}</DialogTitle>
 						</DialogHeader>
 
 						<div className="space-y-4">
@@ -65,8 +65,8 @@ export function PlanetSpot({ plant }: { plant: Plants }) {
 									{t("danger_zone")}
 								</h4>
 
-								<DeletePlanet
-									plant={plant}
+								<DeleteLamp
+									lamp={lamp}
 									close={() => setOpen(false)}
 								/>
 							</div>
@@ -77,7 +77,7 @@ export function PlanetSpot({ plant }: { plant: Plants }) {
 		</div>
 	);
 }
-function DeletePlanet({ plant, close }: { plant: Plants; close: () => void }) {
+function DeleteLamp({ lamp, close }: { lamp: LightSpot; close: () => void }) {
 	const { t } = useTranslation();
 	const [isDeleting, setIsDeleting] = useState(false);
 
@@ -87,11 +87,11 @@ function DeletePlanet({ plant, close }: { plant: Plants; close: () => void }) {
 		setIsDeleting(true);
 
 		try {
-			await deletePlant(plant.id);
+			await deleteLamp(lamp.id);
 			close();
-			toast.success(t("plant_deleted"));
+			toast.success(t("lamp_deleted"));
 			queryClient.invalidateQueries({
-				queryKey: ["irrigation"],
+				queryKey: ["lighting"],
 			});
 		} catch (err: any) {
 			toast.error(err.message);
@@ -114,7 +114,7 @@ function DeletePlanet({ plant, close }: { plant: Plants; close: () => void }) {
 					<DialogTitle>{<p>Warning </p>}</DialogTitle>
 				</DialogHeader>
 				<div className="space-y-4">
-					<p>{t("delete_plant_warning")}</p>
+					<p>{t("delete_lamp_warning")}</p>
 					<div className="flex justify-end gap-4">
 						<DialogClose asChild>
 							<Button variant="outline" disabled={isDeleting}>

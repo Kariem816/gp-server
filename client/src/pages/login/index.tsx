@@ -67,9 +67,8 @@ function LoginPage() {
 		if (isLoading) return;
 		try {
 			setIsLoading(true);
-			await login(values.username, values.password);
+			await login(values.username.trim(), values.password);
 			form.reset();
-			console.log(redirect);
 			if (redirect.startsWith("http")) {
 				navigate({
 					to: "/",

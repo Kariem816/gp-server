@@ -190,6 +190,7 @@ function RegisterPage() {
 
 	function handleSubmit(values: TRegisterSchema) {
 		values.name = capitalize(values.name.trim());
+		values.username = capitalize(values.username.trim());
 		// @ts-expect-error ts is dumb
 		delete values.passwordRepeat;
 		registerMutation.mutateAsync(values);

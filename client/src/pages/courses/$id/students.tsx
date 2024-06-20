@@ -3,8 +3,6 @@ import { useMemo, useState } from "react";
 import useDebounce from "~/hooks/use-debounce";
 import { usePaginatedQuery } from "~/hooks/use-paginated-query";
 import { getCourseStudents } from "~/services/courses";
-
-import type { SearchSchemaInput } from "@tanstack/react-router";
 import { Button } from "~/components/ui/button";
 import { UpdateIcon } from "@radix-ui/react-icons";
 import { Input } from "~/components/ui/input";
@@ -15,6 +13,8 @@ import { useTranslation } from "~/contexts/translation";
 import { StudentRegistration } from "~/components/courses/course-students";
 import { SignedInAs } from "~/components/auth";
 import { useSecurePage } from "~/hooks/use-secure-page";
+
+import type { SearchSchemaInput } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/courses/$id/students")({
 	component: CourseStudents,
@@ -133,6 +133,7 @@ function CourseStudents() {
 							<StudentRegistration
 								key={student.id}
 								registration={student}
+								courseName={courseName}
 							/>
 						))}
 					</div>

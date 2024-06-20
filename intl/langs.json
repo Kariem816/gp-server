@@ -1306,5 +1306,9 @@
     "last_emptied": {
         "en": "Last Emptied",
         "ar": "آخر تفريغ"
+    },
+    "student_info": {
+        "en": "Student Information",
+        "ar": "معلومات الطالب"
     }
 }

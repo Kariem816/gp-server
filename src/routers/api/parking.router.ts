@@ -8,7 +8,7 @@ import {
 } from "@/schemas/parking.schema";
 import { z } from "zod";
 import { SmartSpotsUpdateSchema } from "@/schemas/parking.schema";
-import { readSmartParkingState } from "@/controllers/recognize.controller";
+import { readSmartParkingState } from "@/services/recognizer";
 import ParkingImage from "@/helpers/parking";
 import { querySchema } from "@/schemas/query.schema";
 
@@ -58,7 +58,7 @@ router.get("/camera", mustBe("admin"), async (_req, res) => {
 
 router.post(
 	"/",
-	mustBe("controller"),
+	mustBe(["admin", "controller"]),
 	validateBody(createParkingSpotSchema),
 	async (req, res) => {
 		try {
@@ -94,7 +94,7 @@ router.post(
 
 router.put(
 	"/",
-	mustBe("controller"),
+	mustBe(["admin", "controller"]),
 	validateBody(updateManySpotsSchema),
 	async (req, res) => {
 		try {

@@ -6,15 +6,12 @@ import courseStore from "@/models/courses.model";
 import teacherStore from "@/models/teachers.model";
 import lectureStore from "@/models/lectures.model";
 
-import {
-	encodeImage,
-	recognizeAttendance,
-} from "@/controllers/recognize.controller";
 import { UploadThingError } from "uploadthing/server";
 import { sendNotifications } from "@/helpers/notifications";
 import { z } from "zod";
 
 import { createRouteHandler, type FileRouter } from "uploadthing/express";
+import { encodeAndUpdate, recognize } from "./recognizer.controller";
 
 // Define endpoints for UploadThing
 // "endpoint": ut({ options }).middleware(middleware).onUploadComplete(onUploadComplete)
@@ -37,9 +34,6 @@ const uploadRouter = {
 		})
 		.onUploadComplete(
 			createResolver(async ({ file, metadata }) => {
-				// save upload data to database
-				// update user profile pic
-				// delete old profile pic
 				try {
 					await uploadStore.create({
 						...file,
@@ -47,23 +41,8 @@ const uploadRouter = {
 					});
 					await userStore.updateProfilePic(metadata.userId, file.url);
 
-					const prevEncoding = await userStore.getImgEncoding(
-						metadata.userId
-					);
-					try {
-						const newEncoding = await encodeImage(
-							file.url,
-							prevEncoding
-						);
-
-						await userStore.updateImgEncoding(
-							metadata.userId,
-							newEncoding
-						);
-					} catch (err) {
-						// TODO: add to queue to retry
-						console.error(err);
-					}
+					// don't await this, let it run in the background
+					encodeAndUpdate(metadata.userId, file.url);
 
 					const tokens =
 						await sessionStore.getNotificationTokensByUser(
@@ -163,8 +142,6 @@ const uploadRouter = {
 		})
 		.onUploadComplete(
 			createResolver(async ({ file, metadata }) => {
-				let tokens: string[] = [];
-				let imageSaved = false;
 				try {
 					// save upload data to database
 					const { id: imgId } = await lectureStore.addAttendanceImage(
@@ -178,62 +155,26 @@ const uploadRouter = {
 							time: Date.now(),
 						},
 					});
-					imageSaved = true;
 
 					// Get teacher notification tokens
-					tokens = await sessionStore.getNotificationTokensByUser(
-						metadata.userId
-					);
-
-					// Get possible attendees
-					const students = await lectureStore.getPossibleAttendees(
-						metadata.lectureId
-					);
-
-					// Send to recognition service
-					try {
-						const attendance = await recognizeAttendance(
-							file.url,
-							students
+					const tokens =
+						await sessionStore.getNotificationTokensByUser(
+							metadata.userId
 						);
 
-						await Promise.all([
-							lectureStore.addLectureAttendees(
-								metadata.lectureId,
-								attendance.students,
-								new Date()
-							),
-							lectureStore.updateLectureImg(
-								imgId,
-								attendance.students.length,
-								attendance.faces
-							),
-						]);
+					// don't await this, let it run in the background
+					recognize(metadata.lectureId, imgId, file.url, tokens);
 
-						sendNotifications(tokens, {
+					if (tokens.length > 0) {
+						await sendNotifications(tokens, {
 							title: "Attendance uploaded",
-							body:
-								attendance.students.length +
-								" students have been marked present",
+							body: "Your attendance has been uploaded and is being processed by the system",
 						});
-
-						return { attendance: attendance.students.length };
-					} catch (err) {
-						// TODO: add to queue to retry
-						throw err;
 					}
 				} catch (err) {
-					console.error(err);
-					// Send error notification to teacher
-					if (tokens.length > 0)
-						await sendNotifications(tokens, {
-							title: "Attendance upload failed",
-							body: "An error occurred while processing attendance",
-						});
-
 					// Throw error to client
 					throw new Error(
-						"An error occurred while processing attendance"
+						"An error occurred while uploading attendance"
 					);
 				}
 			})

@@ -5,7 +5,7 @@ import controllerStore from "@/models/controllers.model";
 import { env } from "@/config/env";
 import fs from "fs/promises";
 import path from "path";
-import { readLP } from "@/controllers/recognize.controller";
+import { readLP } from "@/services/recognizer";
 import { RouteError } from "@/helpers/response";
 import { utapi } from "@/config/ut";
 

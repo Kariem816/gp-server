@@ -21,7 +21,7 @@ import {
 import { querySchema } from "@/schemas/query.schema";
 import { env } from "@/config/env";
 import path from "path";
-import * as re from "@/controllers/recognize.controller";
+import * as re from "@/services/recognizer";
 import { z } from "zod";
 
 const router = Router();
@@ -48,6 +48,7 @@ router.post("/collect", mustBe(["admin", "controller"]), async (req, res) => {
 		const promises: Promise<void>[] = []; // Array of promises to wait for
 		const errors: string[] = []; // Array of errors to return
 
+		// TODO: refactor this
 		async function getAttendanceForLecture(
 			lecture: Awaited<(typeof lectures)[number]>
 		) {

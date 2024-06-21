@@ -45,6 +45,7 @@ function ChangePic() {
 	const { t } = useTranslation();
 	const [progress, setProgress] = useState(0);
 	const [open, setOpen] = useState(false);
+	const [cropping, setCropping] = useState(false);
 
 	const [cropData, setCropData] = useState<CropData>();
 	const [file, setFile] = useState<string>();
@@ -94,16 +95,20 @@ function ChangePic() {
 	function start() {
 		if (!file || !cropData) return;
 
+		setCropping(true);
 		const dims = { w: 1600, h: 900 };
-		crop(file, dims, cropData)
-			.then((cropped) => fetch(cropped))
-			.then((res) => res.blob())
-			.then((blob) => {
+		(async () => {
+			try {
+				const cropped = await crop(file, dims, cropData);
+				const res = await fetch(cropped);
+				const blob = await res.blob();
+				setFile(cropped);
+				setCropping(false);
 				startUpload([new File([blob], "profilePic.png")]);
-			})
-			.catch((err) => {
+			} catch (err: any) {
 				toast.error(err.message);
-			});
+			}
+		})();
 	}
 
 	return (
@@ -130,14 +135,17 @@ function ChangePic() {
 					onChange={handleFileChange}
 				/>
 
-				{file && (
-					<Cropper
-						img={file}
-						// aspectRatio={1}
-						disabled={isUploading}
-						onChange={setCropData}
-					/>
-				)}
+				{file &&
+					(isUploading ? (
+						<img src={file} alt="cropped" />
+					) : (
+						<Cropper
+							img={file}
+							// aspectRatio={1}
+							disabled={isUploading}
+							onChange={setCropData}
+						/>
+					))}
 
 				{isUploading && (
 					<div className="flex items-center gap-2">
@@ -151,7 +159,10 @@ function ChangePic() {
 					</div>
 				)}
 
-				<Button onClick={start} disabled={isUploading || !file}>
+				<Button
+					onClick={start}
+					disabled={isUploading || cropping || !file}
+				>
 					{t("upload")}
 				</Button>
 			</DialogContent>

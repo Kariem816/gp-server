@@ -14,7 +14,7 @@ const router = Router();
 router.post("/", async (req, res) => {
 	let imgPath = "";
 	let uploadedKey = "";
-	let lp = "";
+	let lp: string[];
 
 	try {
 		const camera = await controllerStore.getCamerasByLocation("gate");

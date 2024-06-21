@@ -9,10 +9,13 @@ export const recognitionResponseSchema = z
 
 export const encodeImageResponseSchema = z.string();
 
-export const LPSchema = z.tuple([
-	z.string().regex(/[٠-٩]{3,4}/),
-	z.string().regex(/[أبجدرسصطعفقلمنهوى]{2,3}/),
-]);
+export const LPSchema = z
+	.tuple([
+		z.string().regex(/[٠-٩]{3,4}/),
+		z.string().regex(/[أبجدرسصطعفقلمنهوى]{2,3}/),
+	])
+	.array()
+	.nonempty();
 
 export const parkingStateSchema = z
 	.object({

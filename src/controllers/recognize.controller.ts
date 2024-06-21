@@ -101,12 +101,14 @@ export async function readLP(imgUrl: string) {
 
 		const data = await LPSchema.parseAsync(response.data);
 
-		const numbers = data[0]
-			.split("")
-			.map((c) => String.fromCharCode(c.charCodeAt(0) - 1584))
-			.join("");
+		return data.map((d) => {
+			const numbers = d[0]
+				.split("")
+				.map((c) => String.fromCharCode(c.charCodeAt(0) - 1584))
+				.join("");
 
-		return `${numbers}${data[1]}`;
+			return `${numbers}${data[1]}`;
+		});
 	} catch (err: any) {
 		if (err instanceof z.ZodError) {
 			throw {

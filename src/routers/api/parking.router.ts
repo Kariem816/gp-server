@@ -16,27 +16,22 @@ const router = Router();
 
 const ParkingImg = new ParkingImage(30 * 1000);
 
-router.get(
-	"/",
-	mustBe(["admin", "controller"]),
-	validateQuery(querySchema),
-	async (req, res) => {
-		try {
-			const query = req.query;
+router.get("/", validateQuery(querySchema), async (req, res) => {
+	try {
+		const query = req.query;
 
-			const page = query.page ? Number(query.page) : 1;
-			const limit = query.limit ? Number(query.limit) : 25;
+		const page = query.page ? Number(query.page) : 1;
+		const limit = query.limit ? Number(query.limit) : 25;
 
-			const spots = await parkingstore.index({ page, limit });
-			res.json(formatResponse(spots));
-		} catch (err) {
-			const { status, error } = formatError(err);
-			res.status(status).json(error);
-		}
+		const spots = await parkingstore.index({ page, limit });
+		res.json(formatResponse(spots));
+	} catch (err) {
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
-);
+});
 
-router.get("/smart", mustBe(["admin", "controller"]), async (_req, res) => {
+router.get("/smart", async (_req, res) => {
 	try {
 		const park = await parkingstore.showSmart();
 		res.json(formatResponse(park));
@@ -56,21 +51,16 @@ router.get("/camera", mustBe("admin"), async (_req, res) => {
 	}
 });
 
-router.post(
-	"/",
-	mustBe(["admin", "controller"]),
-	validateBody(createParkingSpotSchema),
-	async (req, res) => {
-		try {
-			const body = req.body as z.infer<typeof createParkingSpotSchema>;
-			const park = await parkingstore.createDumb(body.location);
-			res.json(formatResponse(park));
-		} catch (err) {
-			const { status, error } = formatError(err);
-			res.status(status).json(error);
-		}
+router.post("/", validateBody(createParkingSpotSchema), async (req, res) => {
+	try {
+		const body = req.body as z.infer<typeof createParkingSpotSchema>;
+		const park = await parkingstore.createDumb(body.location);
+		res.json(formatResponse(park));
+	} catch (err) {
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
-);
+});
 
 router.post(
 	"/smart",
@@ -92,23 +82,18 @@ router.post(
 	}
 );
 
-router.put(
-	"/",
-	mustBe(["admin", "controller"]),
-	validateBody(updateManySpotsSchema),
-	async (req, res) => {
-		try {
-			const body = req.body as z.infer<typeof updateManySpotsSchema>;
-			const park = await parkingstore.updateMany(body);
-			res.json(formatResponse(park));
-		} catch (err) {
-			const { status, error } = formatError(err);
-			res.status(status).json(error);
-		}
+router.put("/", validateBody(updateManySpotsSchema), async (req, res) => {
+	try {
+		const body = req.body as z.infer<typeof updateManySpotsSchema>;
+		const park = await parkingstore.updateMany(body);
+		res.json(formatResponse(park));
+	} catch (err) {
+		const { status, error } = formatError(err);
+		res.status(status).json(error);
 	}
-);
+});
 
-router.put("/smart", mustBe(["admin", "controller"]), async (_req, res) => {
+router.put("/smart", async (_req, res) => {
 	try {
 		const spots = await parkingstore.showSmart();
 		const parkingImg = await ParkingImg.get();
@@ -123,7 +108,7 @@ router.put("/smart", mustBe(["admin", "controller"]), async (_req, res) => {
 	}
 });
 
-router.delete("/:id", mustBe(["admin", "controller"]), async (req, res) => {
+router.delete("/:id", async (req, res) => {
 	try {
 		const park = await parkingstore.delete(req.params.id);
 		res.json(formatResponse(park));

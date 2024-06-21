@@ -74,7 +74,7 @@ router.patch("/", validateBody(editTrashBulkSchema), async (req, res) => {
 	}
 });
 
-router.post("/notify", mustBe("controller"), async (_req, res) => {
+router.post("/notify", async (_req, res) => {
 	try {
 		const trash = await trashStore.getFilledTrash();
 		if (trash.length === 0) {

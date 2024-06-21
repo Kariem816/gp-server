@@ -16,7 +16,12 @@ import mobileRouter from "./mobile.router";
 import parkingRouter from "./parking.router";
 import gateRouter from "./gate.router";
 
-import { getCourseProfile, mustBe, mustLogin } from "@/middlewares";
+import {
+	getCourseProfile,
+	mustBe,
+	mustLogin,
+	allowedController,
+} from "@/middlewares";
 
 const router = Router();
 
@@ -43,11 +48,11 @@ router.use("/students", getCourseProfile, studentRouter);
 router.use("/teachers", mustLogin, teachersRouter);
 
 router.use("/controllers", controllersRouter);
-router.use("/trash", trashRouter);
-router.use("/irrigation", irrigationRouter);
-router.use("/lighting", lightingRouter);
-router.use("/parking", parkingRouter);
-router.use("/gate", gateRouter);
+router.use("/trash", allowedController("garbage"), trashRouter);
+router.use("/irrigation", allowedController("irrigation"), irrigationRouter);
+router.use("/lighting", allowedController("lighting"), lightingRouter);
+router.use("/parking", allowedController("parking"), parkingRouter);
+router.use("/gate", allowedController("gate"), gateRouter);
 
 router.use("/uploads", uploadsRouter);
 router.use("/mobile", mobileRouter);

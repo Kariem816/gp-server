@@ -5,6 +5,7 @@ import { getCourseProfile, mustBeCourseTeacher } from "./courses";
 export { canModifyLecture } from "./lectures";
 export { validateBody, validateQuery } from "./validate";
 export { logger } from "./logger";
+export { allowedController } from "./controllers";
 
 export {
 	getUser,

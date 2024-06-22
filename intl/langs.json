@@ -1068,11 +1068,11 @@
         "ar": "سلة نفايات جديدة"
     },
     "new_planet": {
-        "en": "New Planet Spot",
-        "ar": "سلة نفايات جديدة"
+        "en": "New Plant",
+        "ar": "نبات جديد"
     },
     "new_lamp": {
-        "en": "New Lamp Spot",
+        "en": "New Lamp",
         "ar": "وحدة إنارة جديدة"
     },
     "new_parking": {
@@ -1088,12 +1088,12 @@
         "ar": "تم إنشاء موقع الأنتظار بنجاح!"
     },
     "planet_created": {
-        "en": "Planet Spot created successfully!",
+        "en": "Plant created successfully!",
         "ar": "تم إنشاء النبات بنجاح!"
     },
     "lamp_created": {
-        "en": "Lamp Spot created successfully!",
-        "ar": "تم إنشاء سلة وحدة اللإنارة بنجاح!"
+        "en": "Lamp created successfully!",
+        "ar": "تم إنشاء وحدة اللإنارة بنجاح!"
     },
     "monitor": {
         "en": "Monitor",

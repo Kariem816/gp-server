@@ -17,7 +17,7 @@ const teams = [
 			},
 			{
 				name: "MS",
-				avatar: "",
+				avatar: "https://cdn.discordapp.com/attachments/1067863167075631176/1254070030342160494/WhatsApp_Image_2024-06-22_at_16.44.51_c768f173.jpg?ex=6678273a&is=6676d5ba&hm=037a7672bc27d14a02ec8fce72bb4bce00805e8d4be59e4558a82eef272284a3&",
 			},
 			{
 				name: "RA",
@@ -35,15 +35,15 @@ const teams = [
 		members: [
 			{
 				name: "EH",
-				avatar: "",
+				avatar: "https://cdn.discordapp.com/attachments/1067863167075631176/1254068793567875193/EH.jpg?ex=66782613&is=6676d493&hm=0a65ffc5fbba40efd9c7f168894332e60bd0803be28dda84bcdc4e194dc726ff&",
 			},
 			{
 				name: "KY",
-				avatar: "",
+				avatar: "https://cdn.discordapp.com/attachments/1067863167075631176/1254069555119259708/WhatsApp_Image_2024-06-22_at_16.43.29_63ff2c6e.jpg?ex=667826c9&is=6676d549&hm=43f5fe10e45c8a789f99e84bd3e5077afaeb318cb4f1d3809c5c6c8375c9873e&",
 			},
 			{
 				name: "OG",
-				avatar: "",
+				avatar: "https://cdn.discordapp.com/attachments/1067863167075631176/1254068793265754113/og.png?ex=66782613&is=6676d493&hm=5f5bb04d50b04ac21456f8788d8a13b8b5b0411b905f0b98a5eb61e6739f1b09&",
 			},
 		],
 	},
@@ -53,11 +53,11 @@ const teams = [
 		members: [
 			{
 				name: "KM",
-				avatar: "",
+				avatar: "https://cdn.discordapp.com/attachments/1067863167075631176/1254070510812266546/image.png?ex=667827ad&is=6676d62d&hm=6c0090d293e400bc90e46b3ccce3e5880f7021cfe077df28c472271af10f24ae&",
 			},
 			{
-				name: "Ms",
-				avatar: "",
+				name: "MZ",
+				avatar: "https://cdn.discordapp.com/attachments/1067863167075631176/1254074695557578832/WhatsApp_Image_2024-06-22_at_16.59.45_6f548728.jpg?ex=66782b93&is=6676da13&hm=0daa2f203a6cff3db19550142d505b2a917ab2efdae71df016dd4469a85223c7&",
 			},
 			{
 				name: "YM",
@@ -68,7 +68,7 @@ const teams = [
 ];
 
 const supervisor = {
-	avatar: "",
+	avatar: "https://cdn.discordapp.com/attachments/1067863167075631176/1254070533486678097/WhatsApp_Image_2024-01-30_at_22.59.22_1036c2a5.jpg?ex=667827b2&is=6676d632&hm=a3a41e276f2b173226c652026819bedafee6d09899c8d2bed593739963bb83f3&",
 	title: "prof",
 	name: "HS",
 };

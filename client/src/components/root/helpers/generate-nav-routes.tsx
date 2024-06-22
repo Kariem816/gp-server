@@ -79,11 +79,7 @@ export function generateNavRoutes(userRole: UserRole | "guest"): NavRoute[] {
 	}
 
 	if (userRole === "controller") {
-		routes.push(
-			CONTROLLER_DASHBOARD_ROUTE,
-			COURSES_ROUTE,
-			APP_MONITOR_ROUTE
-		);
+		routes.push(CONTROLLER_DASHBOARD_ROUTE, APP_MONITOR_ROUTE);
 	}
 
 	routes.push(MOBILE_ROUTE);

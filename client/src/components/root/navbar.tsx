@@ -57,7 +57,7 @@ export function Navbar({ toggle }: { toggle: () => void }) {
 							activeProps={{
 								className: "text-primary",
 							}}
-							activeOptions={{ exact: true }}
+							activeOptions={{ exact: route.exact }}
 						>
 							{t(route.name)}
 						</Link>

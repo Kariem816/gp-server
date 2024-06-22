@@ -7,7 +7,7 @@ import fs from "fs/promises";
 import path from "path";
 
 const FALLBACK_LINK =
-	"https://utfs.io/f/436eb844-bc86-4a0c-b62e-cb0f7d0524f3-sh5vlw.jpg";
+	"https://cdn.discordapp.com/attachments/1067863167075631176/1254081572240621579/f0665122-e5ec-4fce-b526-03eb363f143e.png?ex=667831fa&is=6676e07a&hm=349dfd5ed757511fe9790864b458042fca88d9bd48dc47e56a9a39d3ff0f8538&";
 
 async function getParkingImg(): Promise<string> {
 	try {

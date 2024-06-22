@@ -61,14 +61,21 @@ export function Sidebar({ opened, onClose }: SidebarProps) {
 							</Link>
 						</div>
 					</SignedIn>
-					{navRoutes.map((route) => (
-						<Button key={route.path} asChild variant="ghost">
-							<Link to={route.path as any}>
-								{route.Icon}
-								{t(route.name)}
-							</Link>
-						</Button>
-					))}
+					<div className="grid space-y-2">
+						{navRoutes.map((route) => (
+							<Button
+								key={route.path}
+								asChild
+								variant="ghost"
+								className="justify-start px-12"
+							>
+								<Link to={route.path as any}>
+									{route.Icon}
+									{t(route.name)}
+								</Link>
+							</Button>
+						))}
+					</div>
 					<LanguageSwitcher />
 				</nav>
 				<div className="flex-grow" />
@@ -99,12 +106,12 @@ function LanguageSwitcher() {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<Button variant="ghost">
+				<Button variant="ghost" className="justify-start px-12">
 					<GlobeIcon className="size-6 me-2" />
 					{t("language")}
 				</Button>
 			</DropdownMenuTrigger>
-			<DropdownMenuContent>
+			<DropdownMenuContent align={"start"} alignOffset={45}>
 				<DropdownMenuRadioGroup
 					value={language}
 					onValueChange={(l) => setLanguage(l as typeof language)}

@@ -1310,5 +1310,169 @@
     "student_info": {
         "en": "Student Information",
         "ar": "معلومات الطالب"
+    },
+    "welcome": {
+        "en": "Welcome to Smart Campus System",
+        "ar": "مرحبًا بك في نظام الجامعة الذكية"
+    },
+    "motto": {
+        "en": "Transforming the way you experience campus life with cutting-edge IoT technology.",
+        "ar": "تغيير تجربتك للحياة الجامعية بتقنية الإنترنت الذكية الحديثة."
+    },
+    "app_cfa": {
+        "en": "Download Mobile App",
+        "ar": "تحميل التطبيق"
+    },
+    "proj_overview": {
+        "en": "Project Overview",
+        "ar": "نظرة عامة على المشروع"
+    },
+    "proj_overview_desc": {
+        "en": "The Smart Campus project is divided into three main parts:",
+        "ar": "ينقسم مشروع الجامعة الذكية إلى ثلاثة أجزاء رئيسية:"
+    },
+    "embedded": {
+        "en": "Embedded System",
+        "ar": "نظام مضمن"
+    },
+    "embedded_desc": {
+        "en": "The embedded part is responsible for collecting data from the sensors and sending it to the server. The embedded part is built using Arduino and ESP8266.",
+        "ar": "الجزء المضمن مسؤول عن جمع البيانات من الحساسات وإرسالها إلى الخادم. يتم بناء الجزء المضمن باستخدام Arduino و ESP8266."
+    },
+    "ips": {
+        "en": "Image Processing System",
+        "ar": "نظام معالجة الصور"
+    },
+    "ips_desc": {
+        "en": "The image processing part is responsible for processing the images received from the server and detecting the number of people in the image. The image processing part is built using Python and OpenCV.",
+        "ar": "الجزء المتعلق بمعالجة الصور مسؤول عن معالجة الصور المستلمة من الخادم وكشف عدد الأشخاص في الصورة. يتم بناء الجزء المتعلق بمعالجة الصور باستخدام Python و OpenCV."
+    },
+    "ss": {
+        "en": "Server System",
+        "ar": "نظام الخادم"
+    },
+    "ss_desc": {
+        "en": "The server is responsible for receiving data from the embedded part and storing it in a database. The server is also responsible for providing the data to the image processing part and the web/mobile application.",
+        "ar": "الخادم مسؤول عن استقبال البيانات من الجزء المضمن وتخزينها في قاعدة بيانات. الخادم مسؤول أيضًا عن توفير البيانات للجزء المتعلق بمعالجة الصور وتطبيق الويب/الجوال."
+    },
+    "another_motto": {
+        "en": "Transforming Campus Life",
+        "ar": "تغيير الحياة الجامعية"
+    },
+    "another_motto_desc": {
+        "en": "The project aims to build a smart campus that can be used to monitor the campus and provide useful information to the students and staff. The project is divided into five main parts:",
+        "ar": "يهدف المشروع إلى بناء جامعة ذكية يمكن استخدامها لمراقبة الحرم الجامعي وتوفير معلومات مفيدة للطلاب والموظفين. ينقسم المشروع إلى خمسة أجزاء رئيسية:"
+    },
+    "s_light": {
+        "en": "Smart Lighting System",
+        "ar": "نظام الإضاءة الذكية"
+    },
+    "s_light_desc": {
+        "en": "Intelligent lighting systems that adapt to occupancy and environmental conditions, saving energy and enhancing safety.",
+        "ar": "أنظمة إضاءة ذكية تتكيف مع الاحتلال والظروف البيئية، مما يوفر الطاقة ويعزز السلامة."
+    },
+    "s_parking": {
+        "en": "Smart Parking System",
+        "ar": "نظام الموقف الذكي"
+    },
+    "s_parking_desc": {
+        "en": "Automated parking management system that optimizes space utilization and provides real-time availability information to users.",
+        "ar": "نظام إدارة مواقف السيارات الآلي الذي يحسن استخدام المساحة ويوفر معلومات عن توفر الوقت الحقيقي للمستخدمين."
+    },
+    "s_gate": {
+        "en": "Smart Gate System",
+        "ar": "نظام البوابة الذكية"
+    },
+    "s_gate_desc": {
+        "en": "Intelligent access control system that utilizes license plate recognition and embedded technology to streamline campus entry and exit.",
+        "ar": "نظام التحكم في الوصول الذكي الذي يستخدم تقنية التعرف على لوحة الترخيص والتكنولوجيا المضمنة لتبسيط دخول وخروج الحرم الجامعي."
+    },
+    "s_attendance": {
+        "en": "Smart Auto Attendance System",
+        "ar": "نظام الحضور الذكي التلقائي"
+    },
+    "s_attendance_desc": {
+        "en": "Automated attendance tracking system that leverages image processing to accurately monitor student and faculty presence on campus.",
+        "ar": "نظام تتبع الحضور الآلي الذي يستفيد من معالجة الصور لمراقبة حضور الطلاب وأعضاء هيئة التدريس بدقة على الحرم الجامعي."
+    },
+    "s_irrigation": {
+        "en": "Smart Irrigation System",
+        "ar": "نظام الري الذكي"
+    },
+    "s_irrigation_desc": {
+        "en": "Intelligent irrigation system that optimizes water usage based on environmental factors and campus needs.",
+        "ar": "نظام الري الذكي الذي يحسن استخدام المياه استنادًا إلى العوامل البيئية واحتياجات الحرم الجامعي."
+    },
+    "meet_team": {
+        "en": "Meet the Team",
+        "ar": "تعرف على الفريق"
+    },
+    "meet_team_desc": {
+        "en": "The talented individuals behind the Smart Campus project.",
+        "ar": "الأفراد الموهوبين وراء مشروع الجامعة الذكية."
+    },
+    "t_embedded": {
+        "en": "Embedded Team",
+        "ar": "فريق الأنظمة المدمجة"
+    },
+    "AG": {
+        "en": "Abdelrahman Elgohary",
+        "ar": "عبد الرحمن الجوهري"
+    },
+    "MS": {
+        "en": "Mohamed Sayed Farouk",
+        "ar": "محمد سيد فاروق"
+    },
+    "RA": {
+        "en": "Raghda Ahmed Ahmed",
+        "ar": "رغدة أحمد أحمد"
+    },
+    "SA": {
+        "en": "Salah Adel Mohamed",
+        "ar": "صلاح عادل محمد"
+    },
+    "t_ips": {
+        "en": "Image Processing Team",
+        "ar": "فريق معالجة الصور"
+    },
+    "EH": {
+        "en": "Eslam Mohamed Ahmed Hekal",
+        "ar": "اسلام محمد أحمد هيكل"
+    },
+    "KY": {
+        "en": "Kareem Youssry Abdelaziz",
+        "ar": "كريم يسري عبد العزيز"
+    },
+    "OG": {
+        "en": "Omar Gamal Eldin Abdelghaffar",
+        "ar": "عمر جمال الدين عبد الغفار"
+    },
+    "t_ss": {
+        "en": "Server Team",
+        "ar": "فريق الخادم"
+    },
+    "KM": {
+        "en": "Kareem Mostafa ElSawah",
+        "ar": "كريم مصطفى السواح"
+    },
+    "Ms": {
+        "en": "Mostafa Sabry",
+        "ar": "مصطفى صبري"
+    },
+    "YM": {
+        "en": "Youssef Mohammed Ebrahim",
+        "ar": "يوسف محمد إبراهيم"
+    },
+    "supervisor": {
+        "en": "Supervised By",
+        "ar": "تم الإشراف عليه من قبل"
+    },
+    "prof": {
+        "en": "Prof. Dr.",
+        "ar": "أ.د."
+    },
+    "HS": {
+        "en": "Hussein A. Elsayed",
+        "ar": "حسين السيد"
     }
 }

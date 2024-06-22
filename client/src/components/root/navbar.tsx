@@ -33,7 +33,7 @@ export function Navbar({ toggle }: { toggle: () => void }) {
 	const navRoutes = useMemo(() => generateNavRoutes(user.role), [user.role]);
 
 	return (
-		<div className="w-full mx-auto px-2 shadow-sm">
+		<div className="mx-auto px-2 shadow-sm">
 			<div className="flex justify-between h-14 items-center">
 				<div className="flex gap-4 items-center">
 					<Button
@@ -42,36 +42,40 @@ export function Navbar({ toggle }: { toggle: () => void }) {
 						className="sm:hidden"
 						onClick={toggle}
 					>
-						<HamburgerMenuIcon className="w-8 h-8 " />
+						<HamburgerMenuIcon className="size-8" />
 					</Button>
 					<Link to="/" className="hover:no-underline">
 						<Logo size={40} titleClassName="hidden sm:block" />
 					</Link>
 				</div>
-				<nav className="hidden sm:flex gap-4">
+				<nav className="hidden sm:flex gap-4 items-center">
 					{navRoutes.map((route) => (
 						<Link
 							key={route.path}
-							className="font-medium flex items-center text-sm transition-colors hover:underline"
+							className="flex items-center p-2 hover:bg-muted rounded-md transition-colors duration-300 ease-in-out"
 							to={route.path as any}
+							activeProps={{
+								className: "text-primary",
+							}}
+							activeOptions={{ exact: true }}
 						>
 							{t(route.name)}
 						</Link>
 					))}
-				</nav>
-				<SignedOut>
-					<div className="flex gap-1">
+					<SignedOut>
 						<LanguageSwitcher />
 						<div className="hidden xs:flex items-center gap-4">
-							<Button variant="link" asChild>
-								<Link to="/login">{t("login")}</Link>
-							</Button>
-							<Button asChild>
-								<Link to="/register">{t("register")}</Link>
-							</Button>
+							{(["login", "register"] as const).map((l) => (
+								<Link
+									to={`/${l}`}
+									className="px-4 py-2 rounded-md bg-primary-foreground text-primary hover:bg-primary-foreground/90 transition-colors duration-300 ease-in-out"
+								>
+									{t(l)}
+								</Link>
+							))}
 						</div>
-					</div>
-				</SignedOut>
+					</SignedOut>
+				</nav>
 				<SignedIn>
 					<DropdownMenu modal={false}>
 						<DropdownMenuTrigger asChild>
@@ -141,11 +145,11 @@ function LanguageSwitcher() {
 
 	return (
 		<DropdownMenu modal={false}>
-			<DropdownMenuTrigger>
-				<div className="flex items-center gap-1 hover:bg-muted p-2 rounded-md">
+			<DropdownMenuTrigger asChild>
+				<Button variant="ghost">
 					<GlobeIcon className="size-6" />
-					<ChevronDownIcon className="size-4" />
-				</div>
+					<ChevronDownIcon className="ms-2 size-4" />
+				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent>
 				{languages.map((lang) => (

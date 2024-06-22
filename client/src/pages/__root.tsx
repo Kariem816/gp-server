@@ -28,11 +28,11 @@ function RootComponent() {
 
 	return (
 		<>
-			<nav className="fixed inset-x-0 top-0 z-50 bg-white shadow-sm dark:bg-gray-950/90">
+			<header className="fixed inset-x-0 top-0 z-50 bg-white shadow-sm dark:bg-gray-950/90">
 				<Navbar toggle={toggle} />
-			</nav>
+			</header>
 			<Sidebar opened={opened} onClose={close} />
-			<main className="h-screen pt-14">
+			<main className="h-screen pt-14 overflow-y-auto">
 				<Outlet />
 			</main>
 			<Toaster richColors toastOptions={{}} />

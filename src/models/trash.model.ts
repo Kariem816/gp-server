@@ -148,7 +148,7 @@ class TrashStore {
 					OR: [
 						{
 							level: {
-								gte: 70,
+								gte: 75,
 							},
 						},
 						{

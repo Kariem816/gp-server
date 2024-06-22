@@ -1,7 +1,7 @@
 import { Router } from "express";
 import trashStore from "@/models/trash.model";
 import { formatError, formatResponse } from "@/helpers";
-import { mustBe, validateBody, validateQuery } from "@/middlewares";
+import { validateBody, validateQuery } from "@/middlewares";
 import {
 	createTrashSchema,
 	editTrashBulkSchema,

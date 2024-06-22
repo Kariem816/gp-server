@@ -350,6 +350,7 @@ export function Cropper({ img, onChange, disabled = false }: CropperProps) {
 				[t1.clientX, t1.clientY],
 				[t2.clientX, t2.clientY]
 			);
+			// TODO: find a better multiplier
 			const deltaY = (touchDist.current - newDist) * 20; // arbitrary multiplier
 			touchDist.current = newDist;
 			handleWheel({ deltaY } as WheelEvent);

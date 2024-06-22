@@ -136,7 +136,7 @@ function LectureGeneral() {
 						onDelete={() =>
 							navigate({
 								to: "/courses/$id",
-								params: { id: lectureId },
+								params: { id: lecture.courseId },
 							})
 						}
 					/>

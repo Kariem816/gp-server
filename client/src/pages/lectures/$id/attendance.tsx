@@ -1,6 +1,7 @@
-import { CameraIcon, PlusCircledIcon } from "@radix-ui/react-icons";
+import { CameraIcon, PlusCircledIcon, UpdateIcon } from "@radix-ui/react-icons";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import { LectureAttendance } from "~/components/lectures/attendance";
 import { AutoAttendance } from "~/components/lectures/auto-attendance";
 import { ManualAttendance } from "~/components/lectures/manual-attendance";
@@ -26,6 +27,7 @@ export const Route = createFileRoute("/lectures/$id/attendance")({
 function LectureAttendancePage() {
 	const { id: lectureId } = Route.useParams();
 	const { t } = useTranslation();
+	const [open, setOpen] = useState(false);
 
 	const {
 		data: lecture,
@@ -43,7 +45,8 @@ function LectureAttendancePage() {
 		pages,
 		page,
 		setPage,
-		// refetch,
+		refetch,
+		isRefetching,
 		isLoading: isAttendeesLoading,
 		isError: isAttendeesError,
 		error: attendeesError,
@@ -83,7 +86,7 @@ function LectureAttendancePage() {
 					<Pagination page={page} pages={pages} onChange={setPage} />
 
 					<div className="flex justify-end items-center gap-2">
-						<Dialog>
+						<Dialog open={open} onOpenChange={setOpen}>
 							<DialogTrigger asChild>
 								<Button size="icon" title={t("auto")}>
 									<CameraIcon />
@@ -96,7 +99,7 @@ function LectureAttendancePage() {
 
 								<AutoAttendance
 									lectureId={lectureId}
-									close={() => console.log("closing auto")}
+									close={() => setOpen(false)}
 								/>
 							</DialogContent>
 						</Dialog>
@@ -119,6 +122,16 @@ function LectureAttendancePage() {
 								<ManualAttendance />
 							</DialogContent>
 						</Dialog>
+
+						<Button
+							variant="ghost"
+							size="icon"
+							onClick={() => refetch()}
+						>
+							<UpdateIcon
+								className={isRefetching ? "animate-spin" : ""}
+							/>
+						</Button>
 					</div>
 				</div>
 			</div>

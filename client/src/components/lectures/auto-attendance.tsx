@@ -1,4 +1,3 @@
-import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useTranslation } from "~/contexts/translation";
 import { useUploadThing } from "~/hooks/use-uploadthing";
@@ -16,7 +15,6 @@ export function AutoAttendance({
 	close: () => void;
 }) {
 	const { t } = useTranslation();
-	const queryClient = useQueryClient();
 	const [file, setFile] = useState<File>();
 
 	const { isUploading, /* permittedFileInfo, */ startUpload } =
@@ -27,25 +25,25 @@ export function AutoAttendance({
 				});
 				close();
 			},
-			onClientUploadComplete: (res) => {
-				const count = res[0]!.serverData.attendance;
-				toast.success(t("attendance_uploaded"), {
-					description: t("attendance_uploaded_desc", count),
-				});
-
-				// Invalidate queries
-				queryClient.invalidateQueries({
-					queryKey: ["lecture", lectureId],
-				});
-				queryClient.invalidateQueries({
-					queryKey: ["lecture-attendance", lectureId],
-				});
-				queryClient.invalidateQueries({
-					queryKey: ["lecture-absents", lectureId],
-				});
-				queryClient.invalidateQueries({
-					queryKey: ["lecture-imgs", lectureId],
-				});
+			onClientUploadComplete: (/* res */) => {
+				// TODO: do something anything
+				// const count = res[0]!.serverData.attendance;
+				// toast.success(t("attendance_uploaded"), {
+				// 	description: t("attendance_uploaded_desc", count),
+				// });
+				// // Invalidate queries
+				// queryClient.invalidateQueries({
+				// 	queryKey: ["lecture", lectureId],
+				// });
+				// queryClient.invalidateQueries({
+				// 	queryKey: ["lecture-attendance", lectureId],
+				// });
+				// queryClient.invalidateQueries({
+				// 	queryKey: ["lecture-absents", lectureId],
+				// });
+				// queryClient.invalidateQueries({
+				// 	queryKey: ["lecture-imgs", lectureId],
+				// });
 			},
 			onUploadError: (err) => {
 				// @ts-expect-error we cannot do proper types on ut because of reasons

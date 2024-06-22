@@ -7,7 +7,7 @@ export function allowedController(...allowed: ControlElement[]) {
 	return async (_req: Request, res: Response, next: NextFunction) => {
 		if (res.locals.user?.role === "admin") return next();
 		if (res.locals.user?.role === "controller") {
-			let perms = res.locals.controller.controls;
+			let perms = res.locals.controller?.controls;
 			if (!perms) {
 				perms = (
 					await controllersModel.getControllerByUserId(

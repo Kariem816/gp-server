@@ -5,7 +5,6 @@ import { validateBody, validateQuery } from "@/middlewares";
 import {
 	checkManyLightsSchema,
 	createLightSchema,
-	updateManyLightsSchema,
 } from "@/schemas/lighting.schema";
 import { z } from "zod";
 import { shouldTurnOn } from "@/helpers/lights";
@@ -52,27 +51,13 @@ router.post("/check", validateBody(checkManyLightsSchema), async (req, res) => {
 			}
 			return { id: light.id, state: decision };
 		});
+		await lightingStore.updateMany(state);
 		res.json(formatResponse(state));
 	} catch (err) {
 		const { status, error } = formatError(err);
 		res.status(status).json(error);
 	}
 });
-
-router.post(
-	"/state",
-	validateBody(updateManyLightsSchema),
-	async (req, res) => {
-		try {
-			const body = req.body as z.infer<typeof updateManyLightsSchema>;
-			const lights = await lightingStore.updateMany(body);
-			res.json(formatResponse(lights));
-		} catch (err) {
-			const { status, error } = formatError(err);
-			res.status(status).json(error);
-		}
-	}
-);
 
 router.delete("/:id", async (req, res) => {
 	try {

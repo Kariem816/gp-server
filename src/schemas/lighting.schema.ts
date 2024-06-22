@@ -9,12 +9,3 @@ export const createLightSchema = z
 export const checkManyLightsSchema = z
 	.array(z.object({ id: z.string(), body: z.boolean() }).strict())
 	.nonempty();
-
-export const updateManyLightsSchema = z.array(
-	z
-		.object({
-			id: z.string(),
-			state: z.boolean(),
-		})
-		.strict()
-);

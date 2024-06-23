@@ -44,3 +44,13 @@ export class RTSP {
 		return actualFileName;
 	}
 }
+
+const FakeImgs: string[] = [];
+
+export class FakeRTSP {
+	constructor() {}
+
+	async capture(): Promise<string> {
+		return FakeImgs[Math.floor(Math.random() * FakeImgs.length)];
+	}
+}

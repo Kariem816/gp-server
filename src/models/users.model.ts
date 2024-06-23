@@ -343,6 +343,22 @@ class UserStore {
 		}
 	}
 
+	async getByLicensePlates(lps: string[]): Promise<User[]> {
+		try {
+			const users = await prisma.user.findMany({
+				where: {
+					licensePlate: {
+						in: lps,
+					},
+				},
+			});
+
+			return users;
+		} catch (err) {
+			throw new PrismaError(err as PrismaClientError);
+		}
+	}
+
 	async updatelicensePlate(
 		userId: string,
 		licensePlate: string

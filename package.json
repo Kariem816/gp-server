@@ -6,7 +6,7 @@
   "type": "commonjs",
   "scripts": {
     "dev": "concurrently \"nodemon -x tsx ./src/index.ts --ignore ./client\" \"cd client && yarn dev\"",
-    "prebuild": "yarn db:up",
+    "prebuild": "echo 'We used to migrate the database here'",
     "build:translations": "node intl/build.js",
     "build:frontend": "cd client && yarn build && cd ..",
     "build:backend": "tsc && tsc-alias",
